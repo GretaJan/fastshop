@@ -26,7 +26,7 @@ class CategoryController extends Controller
         return response()->json($response, 200);
     }
 
-    public function indexSingle(Category $category)
+    public function show(Category $category)
     {
         $category = Category::findOrFail($category);
         $response = [
@@ -65,13 +65,17 @@ class CategoryController extends Controller
         return response()->json($response, 201);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        $category = Category::findOrFail($category);
+        $category = Category::findOrFail($id);
+
         
-        if(!$category) {
+        
+        if(!$id) {
             return response()->json(['Category not found'], 404);
         }
+
+        var_dump($id);
 
         $request->validate([
             'name' => 'min:3|max:100',
@@ -79,38 +83,30 @@ class CategoryController extends Controller
         ]);
 
         $category->name = $request->name;
+       
+        if ($request->hasfile('image')){
 
-        // if(!$request->hasFile('image'))
-        // {
-        //     return response()->json(['Uploaded file not found'], 400);
-        // }
-
-        // $file = $request->hasFile('image');
-
-        if ($request->hasfile('image')) {
             $file = $request ->file('image');
-            if($file->isValid()) {
-                $path = public_path('/uploads/categories');
-                $path2 = asset('/uploads/categories');
+                $path = public_path('/uploads/categories/');
+                $path2 = asset('/uploads/categories/');
                 $file->move($path, $file->getClientOriginalName());
                 $category->image = $path2 . '/' . $file->getClientOriginalName();
-
-                    var_dump("file image: ".  $file->getClientOriginalName());
-            }  else {
-                return respone()->json(['invalid file format'], 400);
-                var_dump("invalid format image: ".  $file);
-            }
-        } else if(is_string($file)) {
+               
+        } else if ($request->hasfile('image') == false) {
+            $category->image = $request->image;
+        } else {
+            return $request;
             $category->image = '';
-            var_dump("invalid format image is Strng: ".  $file);
         }
-        
-        $category->save();
 
+        $category->save();
+       
         $response = ["category" => $category];
 
         return response()->json($response, 201);
         
+        // return new CategoryResource($category);
+
     }
 
     public function destroy(Category $category)

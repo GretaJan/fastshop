@@ -3,84 +3,113 @@
 namespace App\Http\Controllers;
 
 use App\Subcategory;
+use App\Category;
+use App\Product;
 use Illuminate\Http\Request;
 
 
 class SubcategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function index()
     {
-        //
+        $subcategories = Subcategories::all();
+        $response = [
+            'subcategories' => $subcategories
+        ];
+
+        return response()->json($response, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $subcategory = new Subcategory();
+
+        $request->validate([
+            'name' => 'required|min:3|max:100',
+            'image' => 'image',
+        ]);
+
+        $subcategory->category_id = $request->subcategory_id;
+        $subcategory->name = $request->name; 
+
+        $file = $request->file('image');
+        if($request->hasFile('image')) {
+            if($file->isValid()) {
+                $path = public_path('/uploads/subcategories');
+                $path2 = asset('/uploads/subcategories');
+                $file->move($path, $file . '/' . $file->getClientOriginalName());
+                $subcategory->image = $path2 . '/' . $file->getClientOriginalName();
+            } else {
+                return response()->json(['file format is invalid'], 400);
+            }
+        } else {
+            $subcategory->image = '';
+        }
+
+        if($subcategory->save()) {
+            $response = [
+                'subcategory' => $subcategory
+            ];
+        }
+
+        return response()->json()($response, 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Subcategories  $subcategories
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Subcategories $subcategories)
+    public function show(Subcategory $subcategory, $category_id)
     {
-        //
+        $subcategory = Subcategory::findOrFail($subcategory, $category_id);
+
+        return response()->json(['subcategory' => $subcategory], 201);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Subcategories  $subcategories
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Subcategories $subcategories)
+
+    public function update(Request $request, $id, $category_id)
     {
-        //
+        $subcategory = Subcategory::findOrFail($id, $category_id);
+
+        $request->validate([
+            'name' => 'min:3|max:100',
+            'image' => 'image',
+        ]);
+
+        if(!$id) {
+            return response()->json(['subcategory not found'], 400);
+        }
+
+        $subcategory->category_id = $request->subcategory_id;
+        $subcategory->name = $request->name; 
+
+        $file = $request->file('image');
+        if($request->hasFile('image')) {
+            if($file->isValid()) {
+                $path = public_path('/uploads/subcategories');
+                $path2 = asset('/uploads/subcategories');
+                $file->move($path, $file . '/' . $file->getClientOriginalName());
+                $subcategory->image = $path2 . '/' . $file->getClientOriginalName();
+            } else {
+                return response()->json(['file format is invalid'], 400);
+            }
+        } else {
+            $subcategory->image = '';
+        }
+
+        if($subcategory->save()) {
+            $response = [
+                'subcategory' => $subcategory
+            ];
+        }
+
+        return response()->json()($response, 201);
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Subcategories  $subcategories
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Subcategories $subcategories)
+    public function destroy(Subcategory $subcategory, $category_id)
     {
-        //
-    }
+        $subcategory->delete();
+        $subcategories = Subcategory::all();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Subcategories  $subcategories
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Subcategories $subcategories)
-    {
-        //
+        return response()->json(['Product Deleted'], 200);
     }
 }
