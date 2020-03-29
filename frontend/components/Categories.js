@@ -6,19 +6,18 @@ import { getCategories } from '../src/actions/categoryActions';
 
 class Categories extends Component {
 
-  componentDidMount() {
-    this.props.getCategories();
-  }
+    componentDidMount() {
+       this.props.getCategories();
+    }
 
     render() {
+
         return (
             <View>
-                <Text> hello </Text>
-                <FlatList data={this.props.categories} renderItem={({item}) =>(
-                 <Text> {item} </Text>
-                )}>
-                    
-                </FlatList>
+               <FlatList data={this.props.categories} renderItem={({item}) => (
+                   <Text>{item.name}</Text>
+               )}>
+               </FlatList>
             </View>
         )
     }
@@ -30,7 +29,6 @@ Categories.propTypes = {
 
 const mapStateToProps = state => ({
     categories: state.categories.categoriesArray
-  
 });
 
 export default connect(mapStateToProps, { getCategories })(Categories);

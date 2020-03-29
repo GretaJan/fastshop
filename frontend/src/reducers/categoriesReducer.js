@@ -1,7 +1,7 @@
 import { GET_CATEGORIES } from '../actions/types';
 
 const initialState = {
-   categoriesArray: [],
+   categoriesArray: []
 }
 
 export default function(state = initialState, action) {
@@ -11,7 +11,6 @@ export default function(state = initialState, action) {
                 ...state,
                 categoriesArray: action.payload
             }
-    
         default:
             return state; 
     }
