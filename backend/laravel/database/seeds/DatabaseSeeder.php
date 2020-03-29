@@ -21,5 +21,13 @@ class DatabaseSeeder extends Seeder
         $user->email_verified_at = now(); 
         $user->password = 'qwerty';
         $user->save();
+
+        $category = new Category();
+        $category->name = "Beverage";
+        $category->save();
+
+        $category2 = new Category();
+        $category2->name = "Food";
+        $category2->save();
     }
 }
