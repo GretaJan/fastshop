@@ -13,13 +13,9 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $products = Product::all();
-        $subcategories = Subcategory::all();
         $categories = Category::all();
 
         $response = [
-            'products' => $products,
-            'subcategories' => $subcategories,
             'categories' => $categories
         ];
 

@@ -1,15 +1,16 @@
 import { GET_CATEGORIES } from '../actions/types';
 
 const initialState = {
-   categoriesArray: []
+       categories:[]
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
         case GET_CATEGORIES:
+            console.log("action.payload: ", action.payload)
             return {
                 ...state,
-                categoriesArray: action.payload
+                categories: action.payload
             }
         default:
             return state; 

@@ -30,6 +30,6 @@ class ProductResource extends JsonResource
             'protein' => $this->protein,
             'salt' => $this->salt,
             'vitamins' => $this->vitamins
-        ]
+        ];
     }
 }

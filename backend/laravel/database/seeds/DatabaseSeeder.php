@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User;
 use App\Category;
+use App\Subcategory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,12 +23,10 @@ class DatabaseSeeder extends Seeder
         $user->password = 'qwerty';
         $user->save();
 
-        $category = new Category();
-        $category->name = "Beverage";
-        $category->save();
-
-        $category2 = new Category();
-        $category2->name = "Food";
-        $category2->save();
+        $sub = new Subcategory();
+        $sub->name = 'Administratorius';
+        $sub->category_id = 1;
+        $sub->image = ''; 
+        $sub->save();
     }
 }
