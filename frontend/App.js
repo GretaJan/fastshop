@@ -1,43 +1,27 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Provider } from 'react-redux';
-import store from './store';
+import { NativeRouter, Switch, Route } from 'react-router-native';
+
 
 // Components:
-import Categories from './components/Categories';
+import Home from './components/Home';
+import Subcategories from './components/subcategories/Subcategories';
 
 class App extends Component {
 
 
   render() {
 
-    const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: 'navajowhite'
-      },
-      title: {
-        // color: 'darkorange',
-        // color: '#57D900',
-        // Food-font-color:  '#00FF9A',
-        color: '#D2691E',
-        fontSize: 40,
-        fontWeight: "700"
-      }
-    });
-
     return (
-
-      <Provider store={store}>
-        <View style={styles.container}>
-          <Text style={styles.title}>SpeedShop</Text>
-          <Categories />
-        </View>
-      </Provider>
+      <NativeRouter>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/subcategories" component={Subcategories} />
+        </Switch>
+      </NativeRouter>
     )
   }
 }
 
 export default App
+

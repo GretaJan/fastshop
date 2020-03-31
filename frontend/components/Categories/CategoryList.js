@@ -5,9 +5,7 @@ class CategoryList extends Component {
 
     render() {
         return (
-            <View>
-                <Text>{this.props.item}</Text>
-            </View>
+            <Text key={this.props.item.id}>{this.props.item.name}</Text>
         )
     }
 }

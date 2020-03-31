@@ -1,17 +1,5 @@
-import { GET_CATEGORIES } from './types';
+import { GET_CATEGORIES, FRW_TO_CATEGORIES } from './types';
 import axios from 'axios';
-
-// export const fetchPosts = () => dispatch => {
-//     fetch('https://jsonplaceholder.typicode.com/posts')
-//         .then(res => res.json())
-//         .then(posts => 
-
-//             dispatch({
-//                 type: FETCH_POSTS,
-//                 payload: posts
-//         })
-//     );
-// }
 
 export const getCategories = () => (dispatch) => {
     // fetch('http://192.168.0.101:80/2019%20Reproduction/fastshop/backend/laravel/public/api/categories')
@@ -24,6 +12,7 @@ export const getCategories = () => (dispatch) => {
                 })
         )
 }
+
   
 // export const getCategories = () => (dispatch) => {
 //     axios.get('http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/categories')
@@ -34,3 +23,4 @@ export const getCategories = () => (dispatch) => {
 //             })
 //         )
 // }
+
