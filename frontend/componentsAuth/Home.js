@@ -4,9 +4,9 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 // import store from '../store';
 
 // Components:
-import Categories from './Categories/Categories';
 
-class Home extends Component {
+
+class HomeAuth extends Component {
 
 
   render() {
@@ -31,11 +31,10 @@ class Home extends Component {
 
     return (
         <View style={styles.container}>
-          <Text style={styles.title}>SpeedShop</Text>
-          <Categories />
+          <Text style={styles.title}>SpeedShop Dashboard</Text>
         </View>
     )
   }
 }
 
-export default Home
+export default HomeAuth

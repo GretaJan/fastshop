@@ -20,7 +20,6 @@ class Categories extends Component {
                 <CategoryList key={item} item={item} />
                )} >
                </FlatList>
-             
             </View>
         )
     }
