@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { withRouter } from "react-router-native";
+import { logOut } from '../../src/actions/authActions';
 
 
 const styles = StyleSheet.create({
     container: {
-
+        margin: 0
     },
     button: {
         paddingTop: 15,
@@ -23,9 +24,13 @@ const styles = StyleSheet.create({
 
 class Header extends Component {
 
+    logOut = () => {
+        logOut(this.props.token, this.props.history)
+    }
+
     headerLinks = () => {
 
-        if(this.props.isAuthorized) {
+        if(this.props.token !== null) {
             return [
                 <TouchableOpacity style={styles.button} onPress={() => this.props.history.push("/" )} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
             ]
@@ -55,7 +60,7 @@ Header.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-    isAuthorized: state.auth.authorized
+    token: state.auth.token
 })
 
-export default withRouter(connect(mapStateToProps, {})(Header))
+export default withRouter(connect(mapStateToProps, {logOut})(Header))

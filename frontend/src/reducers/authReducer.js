@@ -1,15 +1,13 @@
-import { TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED } from '../actions/types';
-import { supportsGoWithoutReloadUsingHash } from 'history/DOMUtils';
-import { Actions } from 'react-native-router-flux';
+import { TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED, LOG_OUT_FAILED, LOG_OUT } from '../actions/types';
 
 const initialState = {
     admin_name: '',
     admin_email: '',
     admin_pass: '',
     admin: {},
-    authorized: false,
     logErrorMsg: null,
-    isLoading: true
+    isLoading: true,
+    token: null
 }
 
 export default function(state = initialState, action) {
@@ -24,14 +22,28 @@ export default function(state = initialState, action) {
                     ...state,
                     isLoading: action.payload,
                     admin: action.admin,
-                    authorized: action.payload
+                    token: action.token
                 }
             case LOG_IN_FAILED:
                 return {
                     ...state,
                     logErrorMsg: action.payload,
-                    authorized: false
+                    admin: action.admin,
+                    token: action.token
                 }
+            case LOG_OUT:
+            return {
+                ...state,
+                admin: action.admin,
+                // token: action.token
+            }
+            case LOG_OUT_FAILED:
+            return {
+                ...state,
+                logErrorMsg: action.payload,
+                // admin: action.admin,
+                // token: action.token
+            }
         default:
            return state;
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Input, Button, Form } from 'react-native-elements';
 import { withRouter } from 'react-router-native';
 import { tryLogin } from '../../src/actions/authActions';
@@ -9,7 +9,7 @@ import { tryLogin } from '../../src/actions/authActions';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirections: 'column',
+        flexDirection: 'column',
         padding: 20
     },
     button: {
@@ -35,13 +35,6 @@ class Login extends Component {
         }
     }
 
-        onChange = (e) => {
-            this.setState({ 
-                [e.target.name]: e.target.value
-            });
-            console.log(e.target.value)
-        }
-
         loginAdmin = (e) => {
             e.preventDefault();
 
@@ -50,6 +43,7 @@ class Login extends Component {
                 email: this.state.email,
                 password: this.state.password
             }
+            console.log("admin data:", data);
 
             this.props.tryLogin(data, this.props.history);
 
@@ -59,9 +53,9 @@ class Login extends Component {
             return (
                 <View style={styles.container}>
                     <Text>Loggin Page</Text>
-                        <Input type="text" name="admin_name" placeholder="username" onChange={this.onChange} value={this.state.admin_name.value} />
-                        <Input type="text" name="email" placeholder="email" onChange={this.onChange} value={this.state.password.value} />
-                        <Input type="text" name="password" placeholder="password" onChange={this.onChange} value={this.state.email.value} />
+                        <TextInput type="text" placeholder="name" onChangeText={value => { this.setState({admin_name: value})}} value={this.state.admin_name} />
+                        <TextInput type="email" placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} />
+                        <TextInput type="text" secureTextEntry={true} placeholder="password" onChange={value => { this.setState({password: value})}} value={this.state.password} />
                         <Button className="btn btn-primary" onPress={this.loginAdmin} >Login</Button>
                         <Button className="btn btn-primary" >Cancel</Button>
                 </View>

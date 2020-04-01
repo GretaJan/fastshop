@@ -10,3 +10,5 @@ export const FRW_TO_CATEGORIES = 'FRW_TO_CATEGORIES';
 export const TRY_LOG_IN = 'TRY_LOG_IN';
 export const LOGGED_IN = 'LOGGED_IN';
 export const LOG_IN_FAILED = 'LOG_IN_FAILED';
+export const LOG_OUT = 'LOG_OUT';
+export const LOG_OUT_FAILED = 'LOG_OUT_FAILED';
