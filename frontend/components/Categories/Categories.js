@@ -29,9 +29,8 @@ Categories.propTypes = {
     categories: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     categories: state.categories.categories,
-    category: state.categories.category
 });
 
 export default connect(mapStateToProps, { getCategories })(Categories);

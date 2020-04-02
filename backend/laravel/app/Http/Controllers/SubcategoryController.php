@@ -17,7 +17,10 @@ class SubcategoryController extends Controller
 
         // }))
         $category = Category::findOrFail($category_id);
-        $subcategories = Subcategories::where('category_id', $category->id);
+        // $subcategories = Subcategory::where('category_id', $category->id);
+        $subcategories = $category->subcategories;
+        // $subcategories = Subcategory::with('category')->where('category_id', $category_id);
+
         $response = [
             'subcategories' => $subcategories,
             'category' => $category

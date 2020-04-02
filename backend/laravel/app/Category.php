@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    public function products()
+    public function subcategories()
     {
-        return $this->hasManyThrough('App\Product', 'App\Subcategory');
+        return $this->hasMany('App\Subcategory');
     }
 }
