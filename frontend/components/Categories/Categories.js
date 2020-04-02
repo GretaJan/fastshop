@@ -9,7 +9,7 @@ import CategoryList from './CategoryList';
 class Categories extends Component {
   
     componentDidMount() {
-        this.props.getCategories()
+        this.props.getCategories();
     }
 
     render() {

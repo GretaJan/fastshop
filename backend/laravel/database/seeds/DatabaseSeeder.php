@@ -15,18 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
-
-        $user = new User();
-        $user->name = 'Administratorius';
-        $user->email = 'administratorius@info.lt';
-        $user->email_verified_at = now(); 
-        $user->password = 'qwerty';
-        $user->save();
-
-        $sub = new Subcategory();
-        $sub->name = 'Administratorius';
-        $sub->category_id = 1;
-        $sub->image = ''; 
-        $sub->save();
+        $this->call(CategoriesTableDataSeeder::class);
+        $this->call(SubcategoriesTableSeeder::class);
+        $this->call(UsersTableDataSeeder::class);
     }
 }

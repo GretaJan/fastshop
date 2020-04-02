@@ -2,8 +2,8 @@ import { TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED, LOG_OUT_FAILED, LOG_OUT } from '.
 
 const initialState = {
     admin_name: '',
-    admin_email: '',
-    admin_pass: '',
+    email: '',
+    password: '',
     admin: {},
     logErrorMsg: null,
     isLoading: true,
@@ -28,7 +28,7 @@ export default function(state = initialState, action) {
                 return {
                     ...state,
                     logErrorMsg: action.payload,
-                    admin: action.admin,
+                    admin: null,
                     token: action.token
                 }
             case LOG_OUT:

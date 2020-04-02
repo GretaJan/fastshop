@@ -25,7 +25,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/login" component={LoginPage} />
+            {/* <Route path="/login" component={LoginPage} /> */}
             <Route path="/subcategories" component={Subcategories} />
           </Switch>
         </NativeRouter>

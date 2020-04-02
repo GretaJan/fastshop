@@ -32,7 +32,7 @@ class Header extends Component {
 
         if(this.props.token !== null) {
             return [
-                <TouchableOpacity style={styles.button} onPress={() => this.props.history.push("/" )} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
+                <TouchableOpacity style={styles.button} onPress={() => this.props.history.push("/login" )} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
             ]
         } else {
             return [

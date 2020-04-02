@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -28,15 +30,13 @@ class UserController extends Controller
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
 
-        if ($token->save())
-        {
-            $response = [
-                'access_token' => $tokenResult->accessToken,
-                'token_type' => "Bearer",
-            ];
-        }
-
-        return response()->json($response, 201);
+        return response()->json([
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => "Bearer",
+            "expires_at" => Carbon::parse(
+                $tokenResult->token->expires_at
+            )->toDateTimeString()
+        ]);
     }
 
     public function user()

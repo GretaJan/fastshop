@@ -1,28 +1,22 @@
-import { TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED, LOG_OUT, LOG_OUT_FAILED } from '../actions/types';
+import { TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED, LOG_OUT, LOG_OUT_FAILED, URL } from '../actions/types';
 import axios from 'axios';
 
 export const tryLogin = (data, history) => (dispatch) => {
+    console.log("CAT URL: ", URL)
     axios.post(URL + '/login', data, {withCredentials: true})
-        .then(user => console.log("GOT user: ", user),
-        AsyncStorage.setItem('admin_token', admin),
+        .then(admin => console.log("GOT user: ", admin.data.access_token),
         dispatch({
             type: LOGGED_IN,
-            admin: admin,
-            authorized: true,
-            token: AsyncStorage.getItem('admin_token')
-        }), 
+            admin: {},
+            token: ''
+        }),
         history.push('/dashboard'))
-        .catch(err => console.log(err),
+        .catch(err => console.log("CANNOT LOGIN:", err),
             dispatch({
                 type: LOG_IN_FAILED,
                 payload: 'Loggin failed. Please try again.'
             })
         );
-        // dispatch({
-        //     type: LOGGED_IN,
-        //     payload: false
-        // }), 
-        // history.push('/dashboard')
 } 
 
 export const logOut = (token, history) => (dispatch) => {
@@ -30,10 +24,9 @@ export const logOut = (token, history) => (dispatch) => {
         .then(user => console.log(user),
         dispatch({
             type: LOGGED_OUT,
-            authorized: false,
+            token: AsyncStorage.removeItem('admin_token'),
             admin: {}
         }), 
-        // AsyncStorage.removeItem('admin_token'),
         history.push('/'))
         .catch(err => console.log(err),
             dispatch({

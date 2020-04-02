@@ -35,27 +35,30 @@ class Login extends Component {
         }
     }
 
-        loginAdmin = (e) => {
-            e.preventDefault();
+    clearInputs = () => {
+        this.textInputRef.clear();
+    } 
 
-            const data = {
-                admin_name: this.state.admin_name,
-                email: this.state.email,
-                password: this.state.password
-            }
-            console.log("admin data:", data);
+    loginAdmin = (e) => {
+        e.preventDefault();
 
-            this.props.tryLogin(data, this.props.history);
-
+        const data = {
+            name: this.state.admin_name,
+            email: this.state.email,
+            password: this.state.password
         }
+     
+        this.props.tryLogin(data, this.props.history);
+        this.clearInputs();
+    }
 
         render() {
             return (
                 <View style={styles.container}>
                     <Text>Loggin Page</Text>
-                        <TextInput type="text" placeholder="name" onChangeText={value => { this.setState({admin_name: value})}} value={this.state.admin_name} />
-                        <TextInput type="email" placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} />
-                        <TextInput type="text" secureTextEntry={true} placeholder="password" onChange={value => { this.setState({password: value})}} value={this.state.password} />
+                        <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({admin_name: value})}} value={this.state.admin_name} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="email" autoCorrect={false}  placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} ref={ref => this.textInputRef = ref}/>
+                        <TextInput type="text" autoCorrect={false}  secureTextEntry={true} placeholder="password" onChange={value => { this.setState({password: value})}} value={this.state.password} ref={ref => this.textInputRef = ref} />
                         <Button className="btn btn-primary" onPress={this.loginAdmin} >Login</Button>
                         <Button className="btn btn-primary" >Cancel</Button>
                 </View>

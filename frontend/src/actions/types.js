@@ -1,4 +1,5 @@
 export const URL = 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api';
+// export const URL = 'http://192.168.0.102/2019%20Reproduction/fastshop/backend/laravel/public/api';
 
 // FOR CATEGORIES
 

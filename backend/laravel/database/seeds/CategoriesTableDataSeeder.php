@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Category;
+use App\Subcategory;
 
 class CategoriesTableDataSeeder extends Seeder
 {
@@ -14,12 +15,12 @@ class CategoriesTableDataSeeder extends Seeder
     {
         Category::create([
             'name' => 'Beverage',
-            'image' => '',
+            'image' => ''
+        ]);
+        Category::create([
             'name' => 'Food',
             'image' => ''
         ]);
-
-        
     }
 
 }
