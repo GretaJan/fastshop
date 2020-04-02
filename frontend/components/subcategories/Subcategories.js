@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import { getSubcategories, getCategory } from '../../src/reducers';
+import { getSubcategories } from '../../src/actions/subcategoryActions';
+import { getCategory } from '../../src/actions/categoryActions';
 
 //Components
 import Subcategory from './SubcategoryList';

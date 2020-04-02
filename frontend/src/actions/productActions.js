@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, FRW_TO_PRODUCTS, URL } from '../actions/types';
+import { GET_PRODUCTS, FRW_TO_PRODUCTS, URL } from './types';
 
 export const getProducts = (product) => dispatch => {
     fetch( URL + '/products/' + product, {method: 'GET'})

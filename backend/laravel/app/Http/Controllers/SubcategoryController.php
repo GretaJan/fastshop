@@ -13,17 +13,14 @@ class SubcategoryController extends Controller
   
     public function index($category_id)
     {
-        // $subcategories = Subcategory::(whereHas('category', function($query) {
-
-        // }))
         $category = Category::findOrFail($category_id);
         // $subcategories = Subcategory::where('category_id', $category->id);
         $subcategories = $category->subcategories;
-        // $subcategories = Subcategory::with('category')->where('category_id', $category_id);
+        // $subcategories=Subcategory::all();
 
         $response = [
             'subcategories' => $subcategories,
-            'category' => $category
+            // 'category' => $category
         ];
 
         return response()->json($response, 200);
