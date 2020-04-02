@@ -30,7 +30,8 @@ Categories.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    categories: state.categories.categories
+    categories: state.categories.categories,
+    category: state.categories.category
 });
 
 export default connect(mapStateToProps, { getCategories })(Categories);

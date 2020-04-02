@@ -29,7 +29,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/login" component={LoginPage} />
-            <Route path="/subcategories" component={Subcategories_Auth} />
+            <Route path="/subcategories/{categoryId}" component={Subcategories_Auth} />
             <Route path="/products" component={Products_Auth} />
           </Switch>
         </NativeRouter>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import { getSubcategories } from '../../src/reducers';
+import { getSubcategories, getCategories } from '../../src/reducers';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -27,7 +27,8 @@ class Subcategories extends Component {
 }
 
 const mapStateToProps = state => ({
-    subcategories: state.subcategories.subcategories
+    subcategories: state.subcategories.subcategories,
+    categories: state.categories.categories
 })
 
-export default connect(mapStateToProps, {getSubcategories})(Subcategories)
+export default connect(mapStateToProps, {getSubcategories, getCategories})(Subcategories)

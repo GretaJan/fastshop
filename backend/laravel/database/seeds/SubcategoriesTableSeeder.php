@@ -13,8 +13,14 @@ class SubcategoriesTableSeeder extends Seeder
     public function run()
     {
         Subcategory::create([
-            'name' =>  'Subkategorija',
+            'name' =>  'Subkategorija-Vanduo',
             'category_id' => '1',
+            'image' => '',
+        ]);
+
+        Subcategory::create([
+            'name' =>  'Subkategorija-Maistas',
+            'category_id' => '2',
             'image' => '',
         ]);
     }

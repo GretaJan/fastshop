@@ -1,7 +1,7 @@
 import { GET_SUBCATEGORIES, FRW_TO_SUBCATEGORIES, URL } from '../actions/types';
 
-export const getSubcategories = () => dispatch => {
-    fetch( URL + '/subcategories', {method: 'GET'})
+export const getSubcategories = (category) => dispatch => {
+    fetch( URL + '/subcategories/' + category, {method: 'GET'})
     .then(res => res.json())
     .then(subcategories => 
             dispatch({

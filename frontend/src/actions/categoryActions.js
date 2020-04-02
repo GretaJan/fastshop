@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, FRW_TO_CATEGORIES, URL } from './types';
+import { GET_CATEGORIES, GET_CATEGORY, URL } from './types';
 import axios from 'axios';
 
 export const getCategories = () => (dispatch) => {
@@ -25,3 +25,14 @@ export const getCategories = () => (dispatch) => {
 //         )
 // }
 
+export const getCategory = (category) => (dispatch) => {
+    fetch(URL + '/category' + category)
+        .then(data => data.json())
+        .then(category => console.log(category)
+            // dispatch({
+            //     type: GET_CATEGORY,
+            //     payload: category
+            // })
+            ).catch(err =>
+                console.log("Error:", err))
+}

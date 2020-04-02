@@ -1,7 +1,8 @@
-import { GET_CATEGORIES, FRW_TO_CATEGORIES } from '../actions/types';
+import { GET_CATEGORIES, GET_CATEGORY } from '../actions/types';
 
 const initialState = {
-       categories:[]
+       categories:[],
+       category:{}
 }
 
 export default function(state = initialState, action) {
@@ -11,9 +12,10 @@ export default function(state = initialState, action) {
                 ...state,
                 categories: action.payload
             }
-        case FRW_TO_CATEGORIES:
+        case GET_CATEGORY:
             return {
                 ...state,
+                category:action.payload
                 
             }
         default:

@@ -2,7 +2,7 @@ import { GET_SUBCATEGORIES, FRW_TO_SUBCATEGORIES } from '../actions/types';
 
 const initialState = {
     subcategories: [],
-    subcategory: {}
+    subcategory: {},
 }
 
 export default function(state = initialState, action) {

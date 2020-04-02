@@ -1,7 +1,7 @@
 import { GET_PRODUCTS, FRW_TO_PRODUCTS, URL } from '../actions/types';
 
-export const getProducts = () => dispatch => {
-    fetch( URL + '/products', {method: 'GET'})
+export const getProducts = (product) => dispatch => {
+    fetch( URL + '/products/' + product, {method: 'GET'})
     .then(res => res.json())
     .then(products => 
             dispatch({

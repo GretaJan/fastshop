@@ -11,16 +11,14 @@ use App\Html\Resources\ProductResource;
 class ProductController extends Controller
 {
 
-    public function index()
+    public function index($subcategory_id)
     {
-        $products = Product::all();
-        $categories = Category::all();
-        $subcategories = Subcategory::all();
-
+        $subcategory = Subcategory::findOrFail($subcategory_id);
+        $products = Product::where('subcategory_id', $subcategory->id);
+        
         $response = [
             'products' => $products,
-            'categories' => $categories,
-            'subcategories' => $subcategories
+            'subcategory' => $subcategory
         ];
 
         return response()->json($response, 200);

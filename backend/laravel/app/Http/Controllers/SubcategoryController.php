@@ -11,11 +11,16 @@ use Illuminate\Http\Request;
 class SubcategoryController extends Controller
 {
   
-    public function index()
+    public function index($category_id)
     {
-        $subcategories = Subcategories::all();
+        // $subcategories = Subcategory::(whereHas('category', function($query) {
+
+        // }))
+        $category = Category::findOrFail($category_id);
+        $subcategories = Subcategories::where('category_id', $category->id);
         $response = [
-            'subcategories' => $subcategories
+            'subcategories' => $subcategories,
+            'category' => $category
         ];
 
         return response()->json($response, 200);
