@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 // import store from '../store';
 
 // Components:
-import Categories from './auth_Categories/Categories';
+import Categories from './auth_categories/Categories';
 
 class HomeAuth extends Component {
 
