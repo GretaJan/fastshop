@@ -7,7 +7,6 @@ const initialState = {
     admin: {},
     logErrorMsg: null,
     isLoading: true,
-    token: null
 }
 
 export default function(state = initialState, action) {
@@ -22,27 +21,22 @@ export default function(state = initialState, action) {
                     ...state,
                     isLoading: action.payload,
                     admin: action.admin,
-                    token: action.token
                 }
             case LOG_IN_FAILED:
                 return {
                     ...state,
                     logErrorMsg: action.payload,
-                    admin: null,
-                    token: action.token
+                    admin: action.admin,
                 }
             case LOG_OUT:
             return {
                 ...state,
                 admin: action.admin,
-                // token: action.token
             }
             case LOG_OUT_FAILED:
             return {
                 ...state,
                 logErrorMsg: action.payload,
-                // admin: action.admin,
-                // token: action.token
             }
         default:
            return state;

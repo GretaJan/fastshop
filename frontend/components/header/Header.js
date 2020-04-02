@@ -25,14 +25,14 @@ const styles = StyleSheet.create({
 class Header extends Component {
 
     logOut = () => {
-        logOut(this.props.token, this.props.history)
+        logOut(this.props.admin, this.props.history)
     }
 
     headerLinks = () => {
 
-        if(this.props.token !== null) {
+        if(this.props.admin.length) {
             return [
-                <TouchableOpacity style={styles.button} onPress={() => this.props.history.push("/login" )} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
+                <TouchableOpacity style={styles.button} onPress={() => this.props.history.push("/logout" )} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
             ]
         } else {
             return [
@@ -60,7 +60,7 @@ Header.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-    token: state.auth.token
+    admin: state.auth.admin
 })
 
 export default withRouter(connect(mapStateToProps, {logOut})(Header))

@@ -6,6 +6,16 @@ export const URL = 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/lara
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const FRW_TO_CATEGORIES = 'FRW_TO_CATEGORIES';
 
+// FOR SUBCATEGORIES
+
+export const GET_SUBCATEGORIES = 'GET_SUBCATEGORIES';
+export const FRW_TO_SUBCATEGORIES = 'FRW_TO_SUBCATEGORIES';
+
+// FOR PRODUCTS
+
+export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const FRW_TO_PRODUCTS = 'FRW_TO_PRODUCTS';
+
 // FOR AUTHENTICATION
 
 export const TRY_LOG_IN = 'TRY_LOG_IN';
