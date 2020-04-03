@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
-import { Input, Button, Label } from 'react-native-elements';
+import { View, Text, StyleSheet, TextInput, Image } from 'react-native';
+import { Input, Button } from 'react-native-elements';
 import { withRouter } from 'react-router-native';
+import ImagePicker from 'react-native-image-picker';
 import { addCategory } from '../../src/actions/categoryActions';
+
 
 
 const styles = StyleSheet.create({
@@ -39,6 +41,13 @@ class AddCategory extends Component {
         this.textInputRef.clear();
     } 
 
+    handleChoosePhoto = () => {
+        const options= {};
+        ImagePicker.launchImageLibrary(options, response => {
+            console.log(" image response: ", response)
+        })
+    }
+
     addCategory = () => {
         const data = {
             name: this.state.name,
@@ -54,10 +63,10 @@ class AddCategory extends Component {
                 <View>
                     <Text>Add New Category</Text>
                         <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
-                        <Label>Add image</Label>
-                      
-                        <Button className="btn btn-primary" onPress={this.addCategory} >Login</Button>
-                        <Button className="btn btn-primary" >Cancel</Button>
+                        {/* <Label>Add image</Label> */}
+                        <Button title="Choose image" onPress={this.handleChoosePhoto} />
+                        <Button title="Login" className="btn btn-primary" onPress={this.addCategory} />
+                        <Button title="Cancel" className="btn btn-primary" />
                 </View>
             )
 

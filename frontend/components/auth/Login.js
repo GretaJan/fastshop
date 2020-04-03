@@ -59,7 +59,7 @@ class Login extends Component {
                         <TextInput type="email" autoCorrect={false}  placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} ref={ref => this.textInputRef = ref}/>
                         <TextInput type="text" autoCorrect={false}  secureTextEntry={true} placeholder="password" onChangeText={value => { this.setState({password: value})}} value={this.state.password} ref={ref => this.textInputRef = ref} />
                         <Button title="LOGIN" className="btn btn-primary" onPress={this.loginAdmin} />
-                        <Button className="btn btn-primary" >Cancel</Button>
+                        <Button title="CANCEL" className="btn btn-primary" />
                 </View>
             )
 
