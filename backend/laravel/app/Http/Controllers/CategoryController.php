@@ -44,14 +44,27 @@ class CategoryController extends Controller
         if($file == null) {
             $category->image = null;
         } else if($file->isValid()) {
-            // $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION)
-            $path = public_path('/uploads/categories');
-            $path2 = asset('/uploads/categories');
-            $file->move($path, $file->getClientOriginalName());
-            $category->image = $path2 . '/' . $file->getClientOriginalName();
-        } else {
-           return $response()->json(["Message" => "Image must be a file"])
-        }
+            // $path_info = pathinfo($file->getClientOriginalName());
+            // $extension =  $path_info['extension'];
+            $has_ext = 0;
+            $get_file_type = mime_conent_type($file->getClientOriginalName());
+            $type_array = ['image/gif', 'image/jpeg', 'image/png', 'image/jp2'];
+
+            foreach($type_array as $type) {
+                if($get_file_type == $type) {
+                    $has_ext++;
+                }
+            }
+
+            if($has_ext > 0) {
+                $path = public_path('/uploads/categories');
+                $path2 = asset('/uploads/categories');
+                $file->move($path, $file->getClientOriginalName());
+                $category->image = $path2 . '/' . $file->getClientOriginalName();
+            } else {
+                return $response()->json(["Message" => "Image must be a file"]);
+             }
+        } 
         
         if($category->save())
         {

@@ -14,6 +14,14 @@ class Categories extends Component {
         this.props.getCategories();
     }
 
+    componentDidUpdate(prevProps) {
+        return this.props.didUpdate == true
+    }
+
+    componentWillUnmount() {
+
+    }
+
     render() {
 
         return (
@@ -22,7 +30,7 @@ class Categories extends Component {
                 <CategoryList key={item} item={item} />
                )} >
                </FlatList>
-               <Button title="Add category" onPress={() => this.props.history.push('/addCategory')}></Button>
+               <Button title="Add category" onPress={() => this.props.history.push('/addCategory')} ></Button>
             </View>
         )
     }

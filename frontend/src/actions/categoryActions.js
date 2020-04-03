@@ -26,7 +26,7 @@ export const getCategories = () => (dispatch) => {
 //         )
 // }
 
-export const addCategory = (data, history) => (dispatch) => {
+export const addCategory = (data) => (dispatch) => {
     // fetch(URL + '/addCategory', {method: 'POST'})
     //     .then(data => data.json())
     //     .then(category => {console.log("newCategory", category)
@@ -39,13 +39,9 @@ export const addCategory = (data, history) => (dispatch) => {
     //         ).catch(err =>
     //             console.log("Error:", err))
     axios.post(URL + '/addCategory', data)
-    .then(newCategory => {console.log("newCategory", newCategory.data)
-        dispatch({
-            type: POST_CATEGORY,
-            payload: newCategory.data.category
-        })
-        history.push('/dashboard')
-    }
-        ).catch(err =>
-            console.log("Error:", err))
+    .then(newCategory => 
+            dispatch({
+                type: POST_CATEGORY,
+                payload: newCategory.data.category,
+            })).catch(err =>console.log("Error:", err.response))
 }

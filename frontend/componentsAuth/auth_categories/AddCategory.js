@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
-import { Input, Button, Form } from 'react-native-elements';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+import { Input, Button, Label } from 'react-native-elements';
 import { withRouter } from 'react-router-native';
 import { addCategory } from '../../src/actions/categoryActions';
+
 
 const styles = StyleSheet.create({
     container: {
@@ -34,24 +35,18 @@ class AddCategory extends Component {
         }
     }
 
-    componentDidMount(){
-        console.log('cat2!');
-    }
-
     clearInputs = () => {
         this.textInputRef.clear();
     } 
 
-    addCategory = (e) => {
-        e.preventDefault();
-
+    addCategory = () => {
         const data = {
             name: this.state.name,
             image: this.state.image,
         }
         console.log('name: ', this.state.name);
-        this.props.addCategory(data, this.props.history);
-        this.clearInputs();
+        this.props.addCategory(data);
+        this.props.history.push('/dashboard')
     }
 
         render() {
@@ -59,7 +54,8 @@ class AddCategory extends Component {
                 <View>
                     <Text>Add New Category</Text>
                         <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
-                        {/* <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({_name: value})}} value={this.state._name} ref={ref => this.textInputRef = ref} /> */}
+                        <Label>Add image</Label>
+                      
                         <Button className="btn btn-primary" onPress={this.addCategory} >Login</Button>
                         <Button className="btn btn-primary" >Cancel</Button>
                 </View>
@@ -68,5 +64,6 @@ class AddCategory extends Component {
     }
 
 }
+
 
 export default withRouter(connect(null, { addCategory })(AddCategory))

@@ -2,7 +2,8 @@ import { GET_CATEGORIES, GET_CATEGORY, POST_CATEGORY } from '../actions/types';
 
 const initialState = {
        categories:[],
-       category:{}
+       category:{},
+       didUpdate: false
 }
 
 export default function(state = initialState, action) {
