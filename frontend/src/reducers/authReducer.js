@@ -5,6 +5,7 @@ const initialState = {
     email: '',
     password: '',
     admin: {},
+    isAuthorized: false,
     logErrorMsg: null,
     isLoading: true,
 }
@@ -21,17 +22,20 @@ export default function(state = initialState, action) {
                     ...state,
                     isLoading: action.payload,
                     admin: action.admin,
+                    isAuthorized: action.isAuthorized
                 }
             case LOG_IN_FAILED:
                 return {
                     ...state,
                     logErrorMsg: action.payload,
                     admin: action.admin,
+                    isAuthorized: action.isAuthorized
                 }
             case LOG_OUT:
             return {
                 ...state,
                 admin: action.admin,
+                isAuthorized: action.isAuthorized
             }
             case LOG_OUT_FAILED:
             return {

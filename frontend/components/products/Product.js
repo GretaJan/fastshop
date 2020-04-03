@@ -18,8 +18,6 @@ class Product extends Component {
         this.props.getProduct( this.state.subcategoryId, this.state.productId);
     }
 
-    static 
-
     render() {
         return (
             <View>

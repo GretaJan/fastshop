@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import { getSubcategories } from '../../src/reducers';
+import { getSubcategories } from '../../src/actions/subcategoryActions';
+import { getCategory } from '../../src/actions/categoryActions';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -9,8 +10,18 @@ import Subcategory from './SubcategoryList';
 
 class Subcategories extends Component {
 
+    state = {
+        id: this.props.match.params.categoryId
+    }
+    
+    static getDerivedStateFromProps(props, state) {
+        // console.log("GET DERIVED:" + props.subcategories.name)
+    }
+
     componentDidMount() {
-        this.props.getSubcategories();
+
+        this.props.getSubcategories(this.state.id);
+        // this.props.getCategory(this.props.subcategories.id);
     }
 
     render() {
@@ -26,8 +37,10 @@ class Subcategories extends Component {
 
 }
 
-const mapStateToProps = state => ({
-    subcategories: state.subcategories.subcategories
-})
+const mapStateToProps = (state, ownProps ) => {
+   return {
+    subcategories:state.subcategories.subcategories,
+   }
+}
 
-export default connect(mapStateToProps, {getSubcategories})(Subcategories)
+export default connect(mapStateToProps, {getSubcategories, getCategory})(Subcategories)

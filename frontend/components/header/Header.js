@@ -30,13 +30,13 @@ class Header extends Component {
 
     headerLinks = () => {
 
-        if(this.props.admin.length) {
+        if(this.props.isAuthorized) {
             return [
                 <TouchableOpacity style={styles.button} onPress={() => this.props.history.push("/logout" )} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
             ]
         } else {
             return [
-                <TouchableOpacity style={styles.button} onPress={() => this.props.history.push("/login" )} ><Text  style={styles.text}>LOGIN</Text></TouchableOpacity >
+                <TouchableOpacity style={styles.button} onPress={() =>{ this.props.history.push("/login" ), console.log("Admin: " , this.props.admin.length)}} ><Text  style={styles.text}>LOGIN</Text></TouchableOpacity >
             ]
         }
     }
@@ -60,7 +60,8 @@ Header.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-    admin: state.auth.admin
+    admin: state.auth.admin,
+    isAuthorized: state.auth.isAuthorized
 })
 
 export default withRouter(connect(mapStateToProps, {logOut})(Header))

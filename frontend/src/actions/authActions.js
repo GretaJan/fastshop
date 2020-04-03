@@ -26,6 +26,7 @@ export const logOut = (admin, history) => (dispatch) => {
         dispatch({
             type: LOGGED_OUT,
             admin: {},
+            isAuthorized: false
         }), 
         history.push('/'))
         .catch(err => console.log(err),

@@ -35,10 +35,9 @@ export const getProduct = (subcategory, product) => dispatch => {
     // ).catch(err => console.log("Fetch Categories error: ", err))
     axios.get( URL + '/product/' + subcategory + '/' + product)
     .then(product => {
-        console.log("PRODUCT IS: ", product.data.product)
             dispatch({
                 type: GET_PRODUCT,
-                payload: {}
+                payload: product.data.product[0]
             })
         }
     ).catch(err => console.log("Fetch Categories error: ", err))

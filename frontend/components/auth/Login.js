@@ -53,11 +53,11 @@ class Login extends Component {
 
         render() {
             return (
-                <View style={styles.container}>
+                <View>
                     <Text>Loggin Page</Text>
                         <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({admin_name: value})}} value={this.state.admin_name} ref={ref => this.textInputRef = ref} />
                         <TextInput type="email" autoCorrect={false}  placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} ref={ref => this.textInputRef = ref}/>
-                        <TextInput type="text" autoCorrect={false}  secureTextEntry={false} placeholder="password" onChangeText={value => { this.setState({password: value})}} value={this.state.password} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="text" autoCorrect={false}  secureTextEntry={true} placeholder="password" onChangeText={value => { this.setState({password: value})}} value={this.state.password} ref={ref => this.textInputRef = ref} />
                         <Button className="btn btn-primary" onPress={this.loginAdmin} >Login</Button>
                         <Button className="btn btn-primary" >Cancel</Button>
                 </View>

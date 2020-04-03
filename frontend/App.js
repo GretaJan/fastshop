@@ -17,6 +17,8 @@ import Dashboard from './componentsAuth/Dashboard';
 import Subcategories_Auth from './componentsAuth/auth_subcategories/Subcategories';
 import Products_Auth from './componentsAuth/auth_products/Products';
 import Product_Auth from './componentsAuth/auth_products/Product';
+import Authorized from './componentsAuth/auth/requireAuth';
+import ifAuthorized from './componentsAuth/auth/notAuthorized';
 
 class App extends Component {
 
@@ -30,13 +32,13 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/login" component={LoginPage} />
+            <Route path="/login" component={ifAuthorized(LoginPage)} />
             <Route path="/subcategories/:categoryId" component={Subcategories} />
-            <Route path="/subcategories_auth/:categoryId" component={Subcategories_Auth} />
+            <Route path="/subcategories_auth/:categoryId" component={Authorized(Subcategories_Auth)} />
             <Route path="/products/:subcategoryId" component={Products} />
-            <Route path="/products_auth/:subcategoryId" component={Products_Auth} />
+            <Route path="/products_auth/:subcategoryId" component={Authorized(Products_Auth)} />
             <Route path="/product/:subcategoryId/:productId" component={Product} />
-            <Route path="/product_auth/:productId" component={Product_Auth} />
+            <Route path="/product_auth/:subcategoryId/:productId" component={Authorized(Product_Auth)} />
           </Switch>
         </NativeRouter>
       </Provider>
