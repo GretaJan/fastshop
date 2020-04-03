@@ -37,21 +37,20 @@ class CategoryController extends Controller
         $category = new Category();
         $request->validate([
             'name' => 'required|min:3|max:100',
-            'image' => 'image'
         ]);
         $category->name = $request->name;
-
-        if(!$request->hasFile('image')) {
-            return response()->json(['uploaded file not found'], 400);
-        }
+            // IMAGE
         $file = $request->image;
-        if(!$file->isValid()) {
-            return response()->json(['uploaded file is not in valid format']);
-        } else {
+        if($file == null) {
+            $category->image = null;
+        } else if($file->isValid()) {
+            // $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION)
             $path = public_path('/uploads/categories');
             $path2 = asset('/uploads/categories');
             $file->move($path, $file->getClientOriginalName());
             $category->image = $path2 . '/' . $file->getClientOriginalName();
+        } else {
+           return $response()->json(["Message" => "Image must be a file"])
         }
         
         if($category->save())
@@ -75,7 +74,6 @@ class CategoryController extends Controller
 
         $request->validate([
             'name' => 'min:3|max:100',
-            'image' => 'image'
         ]);
 
         $category->name = $request->name;

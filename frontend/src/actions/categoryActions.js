@@ -42,7 +42,7 @@ export const addCategory = (data, history) => (dispatch) => {
     .then(newCategory => {console.log("newCategory", newCategory.data)
         dispatch({
             type: POST_CATEGORY,
-            payload: newCategory.data
+            payload: newCategory.data.category
         })
         history.push('/dashboard')
     }
