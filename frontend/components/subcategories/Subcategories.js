@@ -15,7 +15,7 @@ class Subcategories extends Component {
     }
     
     static getDerivedStateFromProps(props, state) {
-        console.log("GET DERIVED:" + props.subcategories.id)
+        // console.log("GET DERIVED:" + props.subcategories.name)
     }
 
     componentDidMount() {
@@ -40,7 +40,8 @@ class Subcategories extends Component {
 const mapStateToProps = (state, ownProps ) => {
    let categoryId = ownProps.match.params.categoryId;
    return {
-    subcategories: state.subcategories.subcategories,
+    // subcategories: JSON.parse(state.subcategories.subcategories),
+    subcategories:state.subcategories.subcategories,
     // id: state.subcategories.subcategories.find(subcategories => {subcategories === categoryId; console.log('what is subcategories' + subcategories)})
    }
 }

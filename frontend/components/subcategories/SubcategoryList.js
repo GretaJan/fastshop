@@ -5,7 +5,7 @@ class SubcategoryList extends Component {
 
     render() {
         return (
-            <Text key={this.props.item.id}>{this.props.item.name}</Text>
+            <Text key={this.props.item.id} onPress={() => this.props.history.push(`/products/${this.props.item.id}`)}>{this.props.item.name}</Text>
         )
     }
 }

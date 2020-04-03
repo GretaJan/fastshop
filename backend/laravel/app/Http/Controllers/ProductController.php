@@ -14,8 +14,8 @@ class ProductController extends Controller
     public function index($subcategory_id)
     {
         $subcategory = Subcategory::findOrFail($subcategory_id);
-        $products = Product::where('subcategory_id', $subcategory->id);
-        
+        // $products = Product::where('subcategory_id', $subcategory->id);
+        $products=$subcategory->product;
         $response = [
             'products' => $products,
             'subcategory' => $subcategory
