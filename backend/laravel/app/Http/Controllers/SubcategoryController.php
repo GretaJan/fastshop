@@ -17,7 +17,7 @@ class SubcategoryController extends Controller
         // $subcategories = Subcategory::where('category_id', $category->id);
         $subcategories = $category->subcategories;
         // $subcategories=Subcategory::all();
-
+        
         $response = [
             'subcategories' => $subcategories,
             // 'category' => $category

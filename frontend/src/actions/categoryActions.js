@@ -6,11 +6,13 @@ export const getCategories = () => (dispatch) => {
     // console.log("Categories URL: ", 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/categories' );
     fetch( URL + '/categories', {method: 'GET'})
         .then(res => res.json())
-        .then(categories => 
+        .then(categories => {
+            console.log("categories", categories)
                 dispatch({
                     type: GET_CATEGORIES,
                     payload: categories.categories
                 })
+            }
         ).catch(err => console.log("Fetch Categories error: ", err))
 }
 

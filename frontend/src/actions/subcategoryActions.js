@@ -4,8 +4,8 @@ import axios from 'axios';
 // export const getSubcategories = (category) => dispatch => {
 //     console.log("URL:" + URL + '/subcategories/' + category)
 //     fetch(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/subcategories/${category}`, {method: 'GET'})
-//     .then(res => res.json(), console.log(res.data))
-//     .then(subcategories => console.log(subcategories),
+//     .then(res => res.json(), console.log(JSON.stringify(res)))
+//     .then(subcategories => console.log(subcategories.data),
 //             dispatch({
 //                 type: GET_SUBCATEGORIES,
 //                 payload: {}
@@ -13,13 +13,15 @@ import axios from 'axios';
 //     ).catch(err => console.log("Fetch Categories error: ", err))
 // } 
 
-export const getSubcategories = (category) => dispatch => {
-    console.log("URL:" + URL + '/subcategories/' + category)
+export const getSubcategories = (category) => (dispatch) => {
+    // var subcategories;
     axios.get(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/subcategories/${category}`)
-    .then(resp => console.log("response:" + resp),
+    .then(resp => {
+            // JSON.stringify(resp.data),
+            console.log("resp:" +  typeof(resp.data.subcategories))
             dispatch({
                 type: GET_SUBCATEGORIES,
-                payload: {}
-            })
-    ).catch(err => console.log("Fetch Categories error: ", err))
+                payload:  JSON.stringify(resp.data.subcategories)
+            })   
+        }).catch(err => console.log("Fetch Categories error: ", err))
 } 
