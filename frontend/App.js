@@ -35,7 +35,7 @@ class App extends Component {
             <Route path="/subcategories_auth/:categoryId" component={Subcategories_Auth} />
             <Route path="/products/:subcategoryId" component={Products} />
             <Route path="/products_auth/:subcategoryId" component={Products_Auth} />
-            <Route path="/product/:productId" component={Product} />
+            <Route path="/product/:subcategoryId/:productId" component={Product} />
             <Route path="/product_auth/:productId" component={Product_Auth} />
           </Switch>
         </NativeRouter>

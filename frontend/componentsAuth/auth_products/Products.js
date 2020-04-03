@@ -9,9 +9,12 @@ import Product from './ProductList';
 
 
 class Products extends Component {
+    state = {
+        id: this.props.match.params.subcategoryId
+    }
 
     componendDidMount() {
-        this.props.getProducts();
+        this.props.getProducts(this.state.id);
     }
 
     render() {

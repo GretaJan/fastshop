@@ -10,7 +10,7 @@ export default function(state = initialState, action) {
         case GET_PRODUCTS:
             return {
                 ...state,
-                subcategories: action.payload
+                products: action.payload
             }
         case GET_PRODUCT:
             return {

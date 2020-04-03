@@ -25,7 +25,7 @@ Route::put('/updateCategory/{id}', 'CategoryController@update');
 Route::delete('/deleteCategory/{category}', 'CategoryController@delete');
 
 Route::get('/subcategories/{category_id}', 'SubcategoryController@index');
-Route::get('/subcategory/{category_id}/{subcategory}/{category_id}', 'SubcategoryController@show');
+Route::get('/subcategory/{category_id}/{subcategory}', 'SubcategoryController@show');
 Route::post('/addSubcategory/{category_id}', 'SubcategoryController@store');
 Route::put('/updateSubcategory/{category_id}/{id}', 'SubcategoryController@update');
 Route::delete('/deleteSubcategory/{category_id}/{subcategory}', 'SubcategoryController@delete');

@@ -5,22 +5,26 @@ import { getProduct } from '../../src/actions/productActions';
 
 class Product extends Component {
     state = {
-        id: this.props.match.params.productId
+        productId: this.props.match.params.productId,
+        subcategoryId: this.props.match.params.subcategoryId
     }
+
+    // static getDerivedStateFromProps(props) {
+    //     console.log("Product is: ", props.product.name)
+    // }
 
     componentDidMount() {
 
-        const subcategory_id = this.props.product.subcategory_id
-        
-        this.props.getProduct(subcategory_id, this.state.id);
+        this.props.getProduct( this.state.subcategoryId, this.state.productId);
     }
+
+    static 
 
     render() {
         return (
             <View>
                 <Text>{ this.props.product.id }</Text>
-                <Text>{ this.props.product.id }</Text>
-                <Text></Text>
+                <Text>{ this.props.product.name }</Text>
             </View>
         )
     }

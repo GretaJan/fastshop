@@ -38,11 +38,8 @@ class Subcategories extends Component {
 }
 
 const mapStateToProps = (state, ownProps ) => {
-   let categoryId = ownProps.match.params.categoryId;
    return {
-    // subcategories: JSON.parse(state.subcategories.subcategories),
     subcategories:state.subcategories.subcategories,
-    // id: state.subcategories.subcategories.find(subcategories => {subcategories === categoryId; console.log('what is subcategories' + subcategories)})
    }
 }
 

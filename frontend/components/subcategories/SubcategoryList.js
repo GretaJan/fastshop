@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { withRouter } from 'react-router-native';
 
 class SubcategoryList extends Component {
 
@@ -10,4 +11,4 @@ class SubcategoryList extends Component {
     }
 }
 
-export default SubcategoryList
+export default withRouter(SubcategoryList)

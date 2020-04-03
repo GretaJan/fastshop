@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Products;
+use App\Product;
 use App\Category;
 use App\Subcategory;
 use Illuminate\Http\Request;
@@ -15,10 +15,11 @@ class ProductController extends Controller
     {
         $subcategory = Subcategory::findOrFail($subcategory_id);
         // $products = Product::where('subcategory_id', $subcategory->id);
-        $products=$subcategory->product;
+        $products=$subcategory->products;
+        // var_dump($products);
         $response = [
             'products' => $products,
-            'subcategory' => $subcategory
+            // 'subcategory' => $subcategory
         ];
 
         return response()->json($response, 200);
@@ -77,9 +78,9 @@ class ProductController extends Controller
         return response()->json($request, 201);
     }
 
-    public function show(Product $product, $subcategory_id)
+    public function show($subcategory_id, Product $product )
     {
-        $product = Product::findOrFail($product, $subcategory_id);
+        $product = Product::findOrFail($product);
 
         return response()->json(["product" => $product], 200);
     }

@@ -6,7 +6,7 @@ class ProductList extends Component {
 
     render() {
         return (
-            <Text key={this.props.item.id} onPress={() => this.props.history.push(`/product/${this.props.item.id}`)}>{this.props.item.name}</Text>
+            <Text key={this.props.item.id} onPress={() => this.props.history.push(`/product/${this.props.item.subcategory_id}/${this.props.item.id}`)}>{this.props.item.name}</Text>
         )
     }
 }

@@ -21,5 +21,14 @@ class ProductsTableSeeder extends Seeder
             'subcategory_id' => '1',
             'name' => 'maisto produktas'
         ]);
+        Product::create([
+            'subcategory_id' => '2',
+            'name' => 'vandens produktas'
+        ]);
+
+        Product::create([
+            'subcategory_id' => '2',
+            'name' => 'maisto produktas'
+        ]);
     }
 }
