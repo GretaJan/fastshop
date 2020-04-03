@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_CATEGORY } from '../actions/types';
+import { GET_CATEGORIES, GET_CATEGORY, POST_CATEGORY } from '../actions/types';
 
 const initialState = {
        categories:[],
@@ -16,7 +16,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 category:action.payload
-                
+            }
+        case POST_CATEGORY:
+            return {
+                ...state,
+                category: category.concat(action.payload)
             }
         default:
             return state; 

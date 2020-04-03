@@ -5,6 +5,7 @@ export const URL = 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/lara
 
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORY = 'GET_CATEGORY';
+export const POST_CATEGORY = 'POST_CATEGORY';
 
 // FOR SUBCATEGORIES
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, requireNativeComponent } from 'react-native';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
@@ -24,15 +24,20 @@ const styles = StyleSheet.create({
 
 class Header extends Component {
 
+    componentDidUpdate(nextProps) {
+        return nextProps.isAuthorized !== this.props.isAuthorized
+    } 
+
     logOut = () => {
-        logOut(this.props.admin, this.props.history)
+        this.props.logOut(this.props.admin, this.props.history)
     }
 
     headerLinks = () => {
 
         if(this.props.isAuthorized) {
+            console.log("Is auth: ", this.props.admin)
             return [
-                <TouchableOpacity style={styles.button} onPress={() => this.props.history.push("/logout" )} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
+                <TouchableOpacity style={styles.button} onPress={this.logOut} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
             ]
         } else {
             return [

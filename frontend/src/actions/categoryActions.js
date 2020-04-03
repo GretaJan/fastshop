@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_CATEGORY, URL } from './types';
+import { GET_CATEGORIES, GET_CATEGORY, POST_CATEGORY, URL } from './types';
 import axios from 'axios';
 
 export const getCategories = () => (dispatch) => {
@@ -26,14 +26,26 @@ export const getCategories = () => (dispatch) => {
 //         )
 // }
 
-export const getCategory = (category) => (dispatch) => {
-    fetch(URL + '/category' + category)
-        .then(data => data.json())
-        .then(category => console.log(category)
-            // dispatch({
-            //     type: GET_CATEGORY,
-            //     payload: category
-            // })
-            ).catch(err =>
-                console.log("Error:", err))
+export const addCategory = (data, history) => (dispatch) => {
+    // fetch(URL + '/addCategory', {method: 'POST'})
+    //     .then(data => data.json())
+    //     .then(category => {console.log("newCategory", category)
+    //         dispatch({
+    //             type: POST_CATEGORY,
+    //             payload: {}
+    //         })
+    //         history.push('/dashboard')
+    //     }
+    //         ).catch(err =>
+    //             console.log("Error:", err))
+    axios.post(URL + '/addCategory', data)
+    .then(newCategory => {console.log("newCategory", newCategory.data)
+        dispatch({
+            type: POST_CATEGORY,
+            payload: newCategory.data
+        })
+        history.push('/dashboard')
+    }
+        ).catch(err =>
+            console.log("Error:", err))
 }

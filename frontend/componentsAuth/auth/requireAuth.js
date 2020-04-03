@@ -8,6 +8,7 @@ function HOC (ComposedComponent) {
 
         componentDidMount() {
             if(!this.props.isAuthorized) {
+                console.log("is not Athroized")
                 this.props.history.push('/login');
             }
         }

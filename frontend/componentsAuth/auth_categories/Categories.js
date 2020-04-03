@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { getCategories } from '../../src/actions/categoryActions';
+import { withRouter } from 'react-router-native';
 
 import CategoryList from './CategoryList';
 
 class Categories extends Component {
   
     componentDidMount() {
+        console.log('cat!');
         this.props.getCategories();
     }
 
@@ -20,6 +22,7 @@ class Categories extends Component {
                 <CategoryList key={item} item={item} />
                )} >
                </FlatList>
+               <Button title="Add category" onPress={() => this.props.history.push('/addCategory')}></Button>
             </View>
         )
     }
@@ -33,4 +36,4 @@ const mapStateToProps = (state) => ({
     categories: state.categories.categories,
 });
 
-export default connect(mapStateToProps, { getCategories })(Categories);
+export default withRouter(connect(mapStateToProps, { getCategories })(Categories))

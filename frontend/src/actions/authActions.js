@@ -3,14 +3,14 @@ import axios from 'axios';
 
 export const tryLogin = (data, history) => (dispatch) => {
     axios.post('http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/login', data, {withCredentials: true})
-        .then(admin => 
-        dispatch({
-            type: LOGGED_IN,
-            admin: admin.data,
-            isAuthorized: true
-        }),
-        history.push('/dashboard'))
-        .catch(err => console.log("CANNOT LOGIN:", err),
+        .then(admin => { console.log("admin: ", admin , "ACCESS TOKEN: ", admin.response),
+            dispatch({
+                type: LOGGED_IN,
+                admin: admin.data,
+                isAuthorized: true
+            }),
+            history.push('/dashboard')
+        }).catch(err => console.log("CANNOT LOGIN:", err),
             dispatch({
                 type: LOG_IN_FAILED,
                 payload: 'Loggin failed. Please try again.',
@@ -21,10 +21,11 @@ export const tryLogin = (data, history) => (dispatch) => {
 } 
 
 export const logOut = (admin, history) => (dispatch) => {
-    axios.get(URL + '/logout', admin, {withCredentials: true})
+    console.log("admin start: ", admin);
+    axios.get(URL + '/logout/' + admin, {withCredentials: true})
         .then(admin => console.log(admin),
         dispatch({
-            type: LOGGED_OUT,
+            type: LOG_OUT,
             admin: {},
             isAuthorized: false
         }), 

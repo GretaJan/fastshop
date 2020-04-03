@@ -27,7 +27,7 @@ class Subcategories extends Component {
     render() {
         return (
             <View>
-                 <Text>Subcategories folder</Text>
+                 <Text>Subcategories folder Auth</Text>
                 <FlatList data={this.props.subcategories} renderItem={({item}) => (
                     <Subcategory item={item} />
                 )} />

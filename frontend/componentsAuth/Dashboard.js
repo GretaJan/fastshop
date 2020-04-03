@@ -13,11 +13,11 @@ class HomeAuth extends Component {
 
     const styles = StyleSheet.create({
       container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: 'navajowhite',
-        paddingTop: 70
+        // flex: 1,
+        // justifyContent: "center",
+        // alignItems: "center",
+        // backgroundColor: 'navajowhite',
+        // paddingTop: 70
       },
       title: {
         // color: 'darkorange',

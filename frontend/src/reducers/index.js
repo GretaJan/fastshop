@@ -4,18 +4,30 @@ import subcategoriesReducer from './subcategoriesReducer';
 import productsReducer from './productsReducer';
 import authReducer from './authReducer';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import AsyncStorage from '@react-native-community/async-storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 const authPersistConfig = {
     key: 'root',
-    storage: storage,
-    whitelst: ['rootReducer']
+    storage: AsyncStorage,
+    whitelist: ['authReducer'],
+    stateReconciler: autoMergeLevel2,
 }
+
+// const pReducer = persistReducer(persistConfig, auth);
 
 
 export default combineReducers({
     categories: categoriesReducer,
     subcategories: subcategoriesReducer,
     products: productsReducer,
-    auth: authReducer
+    auth: persistReducer(authPersistConfig, authReducer)
 })
+
+
+// export default combineReducers({
+//     categories: categoriesReducer,
+//     subcategories: subcategoriesReducer,
+//     products: productsReducer,
+//     auth: authReducer
+// })
