@@ -8,7 +8,6 @@ function HOC(WrapperComponent) {
 
         componentDidMount() {
             if(this.props.isAuthorized) {
-                console.log("is Athroized")
                 this.props.history.push('/dashboard')
             }
         }

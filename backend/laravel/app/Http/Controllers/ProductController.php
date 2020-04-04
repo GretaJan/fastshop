@@ -91,7 +91,7 @@ class ProductController extends Controller
 
         $request->validation([
             'name' => 'min:3|max:100',
-            'image' => 'image',
+            // 'image' => 'image',
             'energy' => 'numeric|min:2|max:7',
             'fat' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
             'saturated' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
@@ -115,17 +115,44 @@ class ProductController extends Controller
         $product->vitamins = $request->vitamins;
         $product->subcategory_id = $request->subcategory_id;
 
-        $file = $request->file('image');
-        if($request->hasFile('image')) {
-            if($file->isValid()){
+        // $file = $request->file('image');
+        // if($request->hasFile('image')) {
+        //     if($file->isValid()){
+        //         $path = public_path('/uploads/products');
+        //         $path2 = asset('/uploads/products');
+        //         $file->move($path, $file . '/' . $file->getClientOriginalName());
+        //         $product->image = $path2 . '/' . $file->getClientOriginalName();
+        //     } else {
+        //         $product->image = '';
+        //     }
+        // }
+
+        // IMAGE
+        $file = $request->image;
+        if($file == null) {
+            $product->image = null;
+        } else if($file->isValid()) {
+            // $path_info = pathinfo($file->getClientOriginalName());
+            // $extension =  $path_info['extension'];
+            $has_ext = 0;
+            $get_file_type = mime_content_type($file->getClientOriginalName());
+            $type_array = ['image/gif', 'image/jpeg', 'image/png', 'image/jp2'];
+
+            foreach($type_array as $type) {
+                if($get_file_type == $type) {
+                    $has_ext++;
+                }
+            }
+
+            if($has_ext > 0) {
                 $path = public_path('/uploads/products');
                 $path2 = asset('/uploads/products');
-                $file->move($path, $file . '/' . $file->getClientOriginalName());
+                $file->move($path, $file->getClientOriginalName());
                 $product->image = $path2 . '/' . $file->getClientOriginalName();
             } else {
-                $product->image = '';
-            }
-        }
+                return $response()->json(["Message" => "Image must be a file"]);
+             }
+        } 
 
         if($product->save()) {
             $response = [

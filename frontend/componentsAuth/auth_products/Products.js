@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { getProducts } from '../../src/actions/productActions';
 
@@ -25,10 +25,10 @@ class Products extends Component {
                 <FlatList data={this.props.products} renderItem={({item}) => (
                     <Product item={item} />
                 )} />
+                <Button title="Add product" onPress={() => {this.props.history.push(`/addProduct/${this.state.id}`) }} ></Button>
             </View>
         )
     }
-
 }
 
 const mapStateToProps = state => ({

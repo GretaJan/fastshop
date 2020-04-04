@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
         case POST_CATEGORY:
             return {
                 ...state,
-                category: category.concat(action.payload)
+                categories: category.concat(action.payload)
             }
         default:
             return state; 

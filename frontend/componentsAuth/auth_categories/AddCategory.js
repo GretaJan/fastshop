@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, PushNotificationIOS } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { withRouter } from 'react-router-native';
 import ImagePicker from 'react-native-image-picker';
@@ -42,9 +42,15 @@ class AddCategory extends Component {
     } 
 
     handleChoosePhoto = () => {
-        const options= {};
+        const options = {
+            noData: true
+        };
         ImagePicker.launchImageLibrary(options, response => {
-            console.log(" image response: ", response)
+            console.log("image response: ", response);
+
+            if (response.uri) {
+                this.setState({image: response.uri})
+            }   
         })
     }
 
@@ -53,17 +59,20 @@ class AddCategory extends Component {
             name: this.state.name,
             image: this.state.image,
         }
-        console.log('name: ', this.state.name);
         this.props.addCategory(data);
         this.props.history.push('/dashboard')
     }
 
         render() {
+            const { image } = this.state;
             return (
                 <View>
                     <Text>Add New Category</Text>
                         <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
                         {/* <Label>Add image</Label> */}
+                        {image && (
+                            <Image source={{ uri: image.uri }} />
+                        )}
                         <Button title="Choose image" onPress={this.handleChoosePhoto} />
                         <Button title="Login" className="btn btn-primary" onPress={this.addCategory} />
                         <Button title="Cancel" className="btn btn-primary" />
@@ -73,6 +82,5 @@ class AddCategory extends Component {
     }
 
 }
-
 
 export default withRouter(connect(null, { addCategory })(AddCategory))

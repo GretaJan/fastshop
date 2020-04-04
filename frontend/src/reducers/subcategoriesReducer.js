@@ -1,4 +1,4 @@
-import { GET_SUBCATEGORIES, FRW_TO_SUBCATEGORIES } from '../actions/types';
+import { GET_SUBCATEGORIES, FRW_TO_SUBCATEGORIES, POST_SUBCATEGORY } from '../actions/types';
 
 const initialState = {
     subcategories: [],
@@ -12,9 +12,10 @@ export default function(state = initialState, action) {
                 ...state,
                 subcategories: action.payload
             }
-        case FRW_TO_SUBCATEGORIES:
+        case POST_SUBCATEGORY:
             return {
                 ...state,
+                subcategories: subcategories.concat(action.payload)
             }
         default:
             return state

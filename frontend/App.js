@@ -24,6 +24,8 @@ import Authorized from './componentsAuth/auth/requireAuth';
 import ifAuthorized from './componentsAuth/auth/notAuthorized';
 //CRUD
 import AddCategory from './componentsAuth/auth_categories/AddCategory';
+import AddSubcategory from './componentsAuth/auth_subcategories/AddSubcategory';
+import AddProduct from './componentsAuth/auth_products/AddProduct';
 
 
 class App extends Component {
@@ -48,6 +50,8 @@ class App extends Component {
               <Route path="/product_auth/:subcategoryId/:productId" component={Authorized(Product_Auth)} />
               {/* CRUD */}
               <Route path="/addCategory" component={Authorized(AddCategory)} />
+              <Route path="/addSubcategory/:categoryId" component={Authorized(AddSubcategory)} />
+              <Route path="/addProduct/:subcategoryId" component={Authorized(AddProduct)} />
             </Switch>
           </NativeRouter>
           {/* </PersistGate> */}

@@ -47,7 +47,7 @@ class CategoryController extends Controller
             // $path_info = pathinfo($file->getClientOriginalName());
             // $extension =  $path_info['extension'];
             $has_ext = 0;
-            $get_file_type = mime_conent_type($file->getClientOriginalName());
+            $get_file_type = mime_content_type($file->getClientOriginalName());
             $type_array = ['image/gif', 'image/jpeg', 'image/png', 'image/jp2'];
 
             foreach($type_array as $type) {

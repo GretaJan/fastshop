@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const tryLogin = (data, history) => (dispatch) => {
     axios.post('http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/login', data, {withCredentials: true})
-        .then(admin => { console.log("admin: ", admin , "ACCESS TOKEN: ", admin.response),
+        .then(admin => { 
             dispatch({
                 type: LOGGED_IN,
                 admin: admin.data,
@@ -21,7 +21,6 @@ export const tryLogin = (data, history) => (dispatch) => {
 } 
 
 export const logOut = (admin, history) => (dispatch) => {
-    console.log("admin start: ", admin);
     axios.get(URL + '/logout/' + admin, {withCredentials: true})
         .then(admin => console.log(admin),
         dispatch({

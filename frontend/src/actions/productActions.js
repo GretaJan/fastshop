@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, GET_PRODUCT, URL } from './types';
+import { GET_PRODUCTS, GET_PRODUCT, POST_PRODUCT, URL } from './types';
 import axios from 'axios';
 
 export const getProducts = (subcategory) => dispatch => {
@@ -42,3 +42,16 @@ export const getProduct = (subcategory, product) => dispatch => {
         }
     ).catch(err => console.log("Fetch Categories error: ", err))
 } 
+
+export default addProduct = (product, subcategory) => dispatch => {
+    axios.post( URL + '/addProduct/' + subcategory, product )
+        .then(response => {
+            console.log("Product response: ", response),
+            dispatch({
+                action: POST_PRODUCT,
+                dispatch: {}
+            })
+        }).catch(err => 
+            console.log("POST PRODUCT ERROR: ", err.response
+        ))
+}

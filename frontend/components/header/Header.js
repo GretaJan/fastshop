@@ -35,7 +35,6 @@ class Header extends Component {
     headerLinks = () => {
 
         if(this.props.isAuthorized) {
-            console.log("Is auth: ", this.props.admin)
             return [
                 <TouchableOpacity style={styles.button} onPress={this.logOut} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
             ]
