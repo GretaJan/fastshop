@@ -32,6 +32,7 @@ class AddSubcategory extends Component {
         super(props);
 
         this.state = {
+            id: this.props.match.params.categoryId,
             name: '',
             image: null
         }
@@ -54,15 +55,18 @@ class AddSubcategory extends Component {
         })
     }
 
+    goBack = () => {
+        this.props.history.push(`/subcategories_auth/${this.state.id}`);
+    }
+
     addSubcategory = () => {
         const data = {
             name: this.state.name,
             image: this.state.image,
         }
-
-        
-        this.props.addSubcategory(data, this.props.match.params.categoryId);
-        this.props.history.push(`/subcategories_auth/${this.props.match.params.categoryId}`);
+        var id = this.props.match.params.categoryId
+        this.props.addSubcategory(data, id);
+        this.props.history.push(`/subcategories_auth/${this.state.id}`);
     }
 
         render() {
@@ -77,7 +81,7 @@ class AddSubcategory extends Component {
                         )}
                         <Button title="Choose image" onPress={this.handleChoosePhoto} />
                         <Button title="Save" className="btn btn-primary" onPress={this.addSubcategory} />
-                        <Button title="Cancel" className="btn btn-primary" />
+                        <Button title="Cancel" onPress={this.goBack} className="btn btn-primary" />
                 </View>
             )
 

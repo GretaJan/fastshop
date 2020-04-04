@@ -30,9 +30,17 @@ class AddProduct extends Component {
     
     constructor(props) {
         super(props);
-
         this.state = {
             name: '',
+            energy: '',
+            fat: '',
+            saturated: '',
+            carbs: '',
+            sugar: '',
+            fiber: '',
+            protein: '',
+            salt: '',
+            vitamins: '',
             image: null
         }
     }
@@ -57,12 +65,19 @@ class AddProduct extends Component {
     addProduct = () => {
         const data = {
             name: this.state.name,
+            energy: this.state.energy,
+            fat: this.state.fat,
+            saturated: this.state.saturated,
+            carbs: this.state.carbs,
+            sugar: this.state.sugar,
+            fiber: this.state.fiber,
+            protein: this.state.protein,
+            salt: this.state.salt,
+            vitamins: this.state.vitamins,
             image: this.state.image,
         }
-
-        console.log("name: ",  this.props.match.params.subcategoryId);
-        
-        this.props.addProduct(data, this.props.match.params.subcategoryId);
+        var id = this.props.match.params.subcategoryId
+        this.props.addProduct(data, id);
         this.props.history.push(`/products_auth/${this.props.match.params.subcategoryId}`);
     }
 
@@ -72,7 +87,15 @@ class AddProduct extends Component {
                 <View>
                     <Text>Add New Product</Text>
                         <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
-                        {/* <Label>Add image</Label> */}
+                        <TextInput type="text" autoCorrect={false}  placeholder="energy" onChangeText={value => { this.setState({energy: value})}} value={this.state.energy} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="text" autoCorrect={false}  placeholder="fat" onChangeText={value => { this.setState({fat: value})}} value={this.state.fat} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="text" autoCorrect={false}  placeholder="saturated" onChangeText={value => { this.setState({saturated: value})}} value={this.state.saturated} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="text" autoCorrect={false}  placeholder="carbs" onChangeText={value => { this.setState({carbs: value})}} value={this.state.carbs} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="text" autoCorrect={false}  placeholder="sugar" onChangeText={value => { this.setState({sugar: value})}} value={this.state.sugar} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="text" autoCorrect={false}  placeholder="fiber" onChangeText={value => { this.setState({fiber: value})}} value={this.state.fiber} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="text" autoCorrect={false}  placeholder="protein" onChangeText={value => { this.setState({protein: value})}} value={this.state.protein} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="text" autoCorrect={false}  placeholder="salt" onChangeText={value => { this.setState({salt: value})}} value={this.state.salt} ref={ref => this.textInputRef = ref} />
+                        <TextInput type="text" autoCorrect={false}  placeholder="vitamins" onChangeText={value => { this.setState({vitamins: value})}} value={this.state.vitamins} ref={ref => this.textInputRef = ref} />
                         {image && (
                             <Image source={{ uri: image.uri }} />
                         )}
@@ -81,9 +104,14 @@ class AddProduct extends Component {
                         <Button title="Cancel" className="btn btn-primary" />
                 </View>
             )
-
     }
-
 }
 
-export default withRouter(connect(null, { addProduct })(AddProduct))
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addProduct: (product, id) => {
+            dispatch(addProduct(product, id));
+        }
+    }
+}
+export default withRouter(connect(null, mapDispatchToProps)(AddProduct))

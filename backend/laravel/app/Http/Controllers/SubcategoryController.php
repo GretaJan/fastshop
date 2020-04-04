@@ -80,8 +80,6 @@ class SubcategoryController extends Controller
              }
         } 
 
-        var_dump("var sub:" . $subcategory->name);
-
         if($subcategory->save()) {
             $response = [
                 'subcategory' => $subcategory

@@ -43,15 +43,13 @@ export const getProduct = (subcategory, product) => dispatch => {
     ).catch(err => console.log("Fetch Categories error: ", err))
 } 
 
-export default addProduct = (product, subcategory) => dispatch => {
+export const addProduct = (product, subcategory) => dispatch => {
     axios.post( URL + '/addProduct/' + subcategory, product )
-        .then(response => {
-            console.log("Product response: ", response),
+        .then(product => {
             dispatch({
                 action: POST_PRODUCT,
-                dispatch: {}
+                dispatch: product.data
             })
         }).catch(err => 
-            console.log("POST PRODUCT ERROR: ", err.response
-        ))
+            console.log("POST PRODUCT ERROR: ", err.response))
 }
