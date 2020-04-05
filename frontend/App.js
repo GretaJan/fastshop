@@ -26,6 +26,9 @@ import ifAuthorized from './componentsAuth/auth/notAuthorized';
 import AddCategory from './componentsAuth/auth_categories/AddCategory';
 import AddSubcategory from './componentsAuth/auth_subcategories/AddSubcategory';
 import AddProduct from './componentsAuth/auth_products/AddProduct';
+import EditCategory from './componentsAuth/auth_categories/EditCategory';
+import EditSubcategory from './componentsAuth/auth_subcategories/EditSubcategory';
+import EditProduct from './componentsAuth/auth_products/EditProduct';
 
 
 class App extends Component {
@@ -52,6 +55,9 @@ class App extends Component {
               <Route path="/addCategory" component={Authorized(AddCategory)} />
               <Route path="/addSubcategory/:categoryId" component={Authorized(AddSubcategory)} />
               <Route path="/addProduct/:subcategoryId" component={Authorized(AddProduct)} />
+              <Route path="/editCategory/:categoryId" component={Authorized(EditCategory)} />
+              <Route path="/editSubcategory/:categoryId/:subcategoryId" component={Authorized(EditSubcategory)} />
+              <Route path="/editProduct/:subcategoryId/:productId" component={Authorized(EditProduct)} />
             </Switch>
           </NativeRouter>
           {/* </PersistGate> */}

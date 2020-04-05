@@ -6,18 +6,21 @@ export const URL = 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/lara
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORY = 'GET_CATEGORY';
 export const POST_CATEGORY = 'POST_CATEGORY';
+export const EDIT_CATEGORY = 'EDIT_CATEGORY';
 
 // FOR SUBCATEGORIES
 
 export const GET_SUBCATEGORIES = 'GET_SUBCATEGORIES';
 export const FRW_TO_SUBCATEGORIES = 'FRW_TO_SUBCATEGORIES';
 export const POST_SUBCATEGORY = 'POST_SUBCATEGORY';
+export const EDIT_SUBCATEGORY = 'EDIT_SUBCATEGORY';
 
 // FOR PRODUCTS
 
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const GET_PRODUCT = 'FRW_TO_PRODUCTS';
 export const POST_PRODUCT = 'POST_PRODUCT';
+export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
 // FOR AUTHENTICATION
 

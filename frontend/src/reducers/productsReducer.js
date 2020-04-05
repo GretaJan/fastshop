@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, GET_PRODUCT, POST_PRODUCT } from '../actions/types';
+import { GET_PRODUCTS, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT } from '../actions/types';
 
 const initialState = {
     products: [],
@@ -21,6 +21,10 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 products: products.concat(action.payload)
+            }
+        case EDIT_PRODUCT:
+            return {
+                ...state,
             }
         default:
             return state

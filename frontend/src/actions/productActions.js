@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, GET_PRODUCT, POST_PRODUCT, URL } from './types';
+import { GET_PRODUCTS, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, URL } from './types';
 import axios from 'axios';
 
 export const getProducts = (subcategory) => dispatch => {
@@ -52,4 +52,14 @@ export const addProduct = (product, subcategory) => dispatch => {
             })
         }).catch(err => 
             console.log("POST PRODUCT ERROR: ", err.response))
+}
+
+export const editProduct = (product, subcategory, data) => dispatch => {
+    axios.post( URL + `/updateProduct/${subcategory}/${product}`, data )
+        .then(product => {
+            dispatch({
+                action: EDIT_PRODUCT,
+            })
+        }).catch(err => 
+            console.log("EDIT PRODUCT ERROR: ", err.response))
 }

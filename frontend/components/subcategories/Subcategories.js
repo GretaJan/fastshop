@@ -15,12 +15,14 @@ class Subcategories extends Component {
     }
     
     static getDerivedStateFromProps(props, state) {
-        // console.log("GET DERIVED:" + props.subcategories.name)
+        console.log("SUBCATEGORIES", props.subcategories)
     }
 
     componentDidMount() {
 
         this.props.getSubcategories(this.state.id);
+
+  
         // this.props.getCategory(this.props.subcategories.id);
     }
 

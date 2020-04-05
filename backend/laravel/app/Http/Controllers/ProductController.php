@@ -31,15 +31,16 @@ class ProductController extends Controller
         $product = new Product();
         $request->validate([
             'name' => 'required|min:3|max:100',
-            'energy' => 'numeric|min:2|max:7',
-            'fat' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'saturated' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'carbs' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'sugar' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'fiber' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'protein' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'salt' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'vitamins' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
+            'image' => 'nullable|image',
+            // 'energy' => 'nullable|numeric',
+            // 'fat' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'saturated' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'carbs' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'sugar' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'fiber' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'protein' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'salt' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'vitamins' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
         ]);
         $product->subcategory_id = $subcategory_id;
         $product->name = $request->name;
@@ -112,22 +113,21 @@ class ProductController extends Controller
 
     public function update(Request $request, $id, $subcategory_id)
     {
-        $product = Product::findOrFail($id, $subcategory_id);
+        $product = Product::findOrFail($id);
 
         $request->validate([
-            'name' => 'min:3|max:100',
-            // 'image' => 'image',
-            'energy' => 'numeric|min:2|max:7',
-            'fat' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'saturated' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'carbs' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'sugar' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'fiber' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'protein' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'salt' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            'vitamins' => 'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
+            'name' => 'sometimes|nullable|min:3|max:100',
+            'image' => 'nullable|image',
+            // 'energy' => 'nullable|numeric|min:2',
+            // 'fat' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'saturated' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'carbs' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'sugar' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'fiber' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'protein' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'salt' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+            // 'vitamins' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
         ]);
-
         $product->name = $request->name;
         $product->energy = $request->energy;
         $product->fat = $request->fat;
@@ -138,7 +138,9 @@ class ProductController extends Controller
         $product->protein = $request->protein;
         $product->salt = $request->salt;
         $product->vitamins = $request->vitamins;
-        $product->subcategory_id = $request->subcategory_id;
+
+
+        var_dump($product);
 
         // $file = $request->file('image');
         // if($request->hasFile('image')) {
