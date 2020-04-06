@@ -55,10 +55,12 @@ export const addProduct = (product, subcategory) => dispatch => {
 }
 
 export const editProduct = (product, subcategory, data) => dispatch => {
+    console.log("URL: ", URL + `/updateProduct/${subcategory}/${product}` );
     axios.post( URL + `/updateProduct/${subcategory}/${product}`, data )
-        .then(product => {
+        .then(product => { console.log("show: ", product)
             dispatch({
                 action: EDIT_PRODUCT,
+                // payload: product
             })
         }).catch(err => 
             console.log("EDIT PRODUCT ERROR: ", err.response))

@@ -116,7 +116,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $request->validate([
-            'name' => 'sometimes|nullable|min:3|max:100',
+            'name' => 'nullable|min:3|max:100',
             'image' => 'nullable|image',
             // 'energy' => 'nullable|numeric|min:2',
             // 'fat' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
