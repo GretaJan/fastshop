@@ -22,9 +22,9 @@ class CategoryController extends Controller
         return response()->json($response, 200);
     }
 
-    public function show(Category $category)
+    public function show($id)
     {
-        $category = Category::findOrFail($category);
+        $category = Category::findOrFail($id);
         $response = [
             'category' => $category
         ];
@@ -116,7 +116,7 @@ class CategoryController extends Controller
 
     }
 
-    public function destroy(Category $category)
+    public function destroy($id)
     {
         $category->delete();
 

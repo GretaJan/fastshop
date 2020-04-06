@@ -1,9 +1,8 @@
-import { GET_CATEGORIES, GET_CATEGORY, POST_CATEGORY } from '../actions/types';
+import { GET_CATEGORIES, GET_CATEGORY, POST_CATEGORY, EDIT_CATEGORY } from '../actions/types';
 
 const initialState = {
        categories:[],
        category:{},
-       didUpdate: false
 }
 
 export default function(state = initialState, action) {
@@ -16,13 +15,53 @@ export default function(state = initialState, action) {
         case GET_CATEGORY:
             return {
                 ...state,
-                category:action.payload
+                category: action.payload,
             }
         case POST_CATEGORY:
             return {
                 ...state,
-                categories: category.concat(action.payload)
+                categories: state.categories.concat(action.payload)
             }
+            // return Object.assign({}, state, {
+            //     categories: [...state.categories, action.payload]
+            // })
+      
+            // return Object.assign({}, state, {
+            //         categories: [...state.categories, action.payload]
+            //     })
+            
+        case EDIT_CATEGORY:
+            return state.categories.map((item) => {
+                if (item.id === action.id) {
+                    return {
+                        ...state, 
+                        categories: state.categories.concat(action.payload),
+                    }
+                } else {
+                    return item
+                }
+            })
+
+            // return {
+            //     ...state,
+            //     categories: categories.map(item => {
+            //         if(item.id !== action.id) {
+            //             return item
+            //         } else {
+            //             return action.payload
+            //         }
+            //     })
+            // }
+                // return {
+                //     categories: state.categories.map(item => {
+                //                 if(item.name !== action.payload.name) {
+                //                     return item
+                //                 } else {
+                //                     return action.payload
+                //                 }
+                //             }
+                //     } 
+                
         default:
             return state; 
     }

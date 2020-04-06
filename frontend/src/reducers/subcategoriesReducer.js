@@ -1,8 +1,9 @@
-import { GET_SUBCATEGORIES, FRW_TO_SUBCATEGORIES, POST_SUBCATEGORY } from '../actions/types';
+import { GET_SUBCATEGORIES, FRW_TO_SUBCATEGORIES, POST_SUBCATEGORY, EDIT_SUBCATEGORY } from '../actions/types';
 
 const initialState = {
     subcategories: [],
     subcategory: {},
+    edited: false
 }
 
 export default function(state = initialState, action) {
@@ -15,8 +16,19 @@ export default function(state = initialState, action) {
         case POST_SUBCATEGORY:
             return {
                 ...state,
-                subcategories: subcategories.concat(action.payload)
+                subcategories: state.subcategories.concat(action.payload)
             }
+        case EDIT_SUBCATEGORY:
+            return state.subcategories.map(item => {
+                if(item.id === action.id) {
+                    return {
+                        ...state,
+                        subcategories: state.subcategories.concat(action.payload) 
+                    }
+                } else {
+                    item
+                }
+            })
         default:
             return state
     }

@@ -16,12 +16,10 @@ class ProductController extends Controller
         $subcategory = Subcategory::findOrFail($subcategory_id);
         // $products = Product::where('subcategory_id', $subcategory->id);
         $products=$subcategory->products;
-        // var_dump($products);
         $response = [
             'products' => $products,
             // 'subcategory' => $subcategory
         ];
-
         return response()->json($response, 200);
         
     }
@@ -68,32 +66,18 @@ class ProductController extends Controller
         //     $product->image = '';
         // }
 
-            // IMAGE
-            $file = $request->image;
-            if($file == null) {
-                $product->image = null;
-            } else if($file->isValid()) {
-                // $path_info = pathinfo($file->getClientOriginalName());
-                // $extension =  $path_info['extension'];
-                $has_ext = 0;
-                $get_file_type = mime_content_type($file->getClientOriginalName());
-                $type_array = ['image/gif', 'image/jpeg', 'image/png', 'image/jp2'];
-    
-                foreach($type_array as $type) {
-                    if($get_file_type == $type) {
-                        $has_ext++;
-                    }
-                }
-    
-                if($has_ext > 0) {
-                    $path = public_path('/uploads/products');
-                    $path2 = asset('/uploads/products');
-                    $file->move($path, $file->getClientOriginalName());
-                    $product->image = $path2 . '/' . $file->getClientOriginalName();
-                } else {
-                    return $response()->json(["Message" => "Image must be a file"]);
-                 }
-            } 
+        // IMAGE
+        $file = $request->image;
+        if($file == null) {
+            $product->image = null;
+        } else if($file->isValid()) {
+            $path = public_path('/uploads/subcategories');
+            $path2 = asset('/uploads/subcategories');
+            $file->move($path, $file->getClientOriginalName());
+            $product->image = $path2 . '/' . $file->getClientOriginalName();
+        } else {
+            return $response()->json(["Message" => "Image must be a file"]);
+         }
 
         if($product->save()) {
             $response = [
@@ -104,9 +88,9 @@ class ProductController extends Controller
         return response()->json($request, 201);
     }
 
-    public function show($subcategory_id, Product $product )
+    public function show($subcategory_id, $id )
     {
-        $product = Product::findOrFail($product);
+        $product = Product::findOrFail($id);
 
         return response()->json(["product" => $product], 200);
     }
@@ -173,12 +157,10 @@ class ProductController extends Controller
             ];
         }
 
-        var_dump("result: ", $product);
-
         return response()->json($request, 201);
     }
 
-    public function destroy(Product $product, Subcategory $subcategory)
+    public function destroy($id, $subcategory_id)
     {
         $product->delete();
         $products = Product::all();

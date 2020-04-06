@@ -1,4 +1,4 @@
-import { GET_SUBCATEGORIES, POST_SUBCATEGORY, URL } from './types';
+import { GET_SUBCATEGORIES, POST_SUBCATEGORY, EDIT_SUBCATEGORY, URL } from './types';
 import axios from 'axios';
 
 // export const getSubcategories = (category) => dispatch => {
@@ -33,4 +33,16 @@ export const addSubcategory = (subcategory, category) => dispatch => {
             })
         }).catch(err => 
             console.log("POST SUBCATEGORY ERROR: ", err.response))
+}
+
+export const editSubcategory = (subcategory, category, data) => (dispatch) => {
+    axios.post( URL + `/updateSubcategory/${category}/${subcategory}`, data)
+        .then(subcategory => { console.log("show: ", subcategory)
+            dispatch({
+                action: EDIT_SUBCATEGORY,
+                payload: subcategory.data,
+                id: subcategory.data.id,
+            })
+        }).catch(err => 
+            console.log("EDIT SUBCATEGORY ERROR: ", err.response))
 }

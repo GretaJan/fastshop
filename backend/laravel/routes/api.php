@@ -19,22 +19,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/categories', 'CategoryController@index');
-Route::get('/category/{category}', 'CategoryController@show');
+Route::get('/category/{id}', 'CategoryController@show');
 Route::post('/addCategory', 'CategoryController@store');
 Route::put('/updateCategory/{id}', 'CategoryController@update');
-Route::delete('/deleteCategory/{category}', 'CategoryController@delete');
+Route::delete('/deleteCategory/{id}', 'CategoryController@delete');
 
 Route::get('/subcategories/{category_id}', 'SubcategoryController@index');
-Route::get('/subcategory/{category_id}/{subcategory}', 'SubcategoryController@show');
+Route::get('/subcategory/{category_id}/{id}', 'SubcategoryController@show');
 Route::post('/addSubcategory/{category_id}', 'SubcategoryController@store');
 Route::put('/updateSubcategory/{category_id}/{id}', 'SubcategoryController@update');
-Route::delete('/deleteSubcategory/{category_id}/{subcategory}', 'SubcategoryController@delete');
+Route::delete('/deleteSubcategory/{category_id}/{id}', 'SubcategoryController@delete');
 
 Route::get('/products/{subcategory_id}', 'ProductController@index');
-Route::get('/product/{subcategory_id}/{product}', 'ProductController@show');
+Route::get('/product/{subcategory_id}/{id}', 'ProductController@show');
 Route::post('/addProduct/{subcategory_id}', 'ProductController@store');
 Route::put('/updateProduct/{subcategory_id}/{id}', 'ProductController@update');
-Route::delete('/deleteProduct/{subcategory_id}/{product}', 'ProductController@delete');
+Route::delete('/deleteProduct/{subcategory_id}/{id}', 'ProductController@delete');
 
 Route::post('/login', 'UserController@login');
 Route::group([

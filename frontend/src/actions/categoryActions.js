@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_CATEGORY, POST_CATEGORY, URL } from './types';
+import { GET_CATEGORIES, GET_CATEGORY, POST_CATEGORY, URL, EDIT_CATEGORY } from './types';
 import axios from 'axios';
 
 export const getCategories = () => (dispatch) => {
@@ -44,4 +44,34 @@ export const addCategory = (data) => (dispatch) => {
                 type: POST_CATEGORY,
                 payload: newCategory.data.category,
             })).catch(err =>console.log("Error:", err.response))
+}
+
+
+export const editCategory = (category, data) => (dispatch) => {
+    // console.log("SUBID: ", data );
+
+    // const NewArray = [{
+    //     id: 1,
+    //     name: 'Scott'
+    // },{
+    //     id: 3,
+    //     name: 'Benjamin'}];
+
+    // const sudurtas = Object.assign({}, NewArray, {
+    //     newArray: data
+    // });
+
+    // sudurtas.map(sudurtas)
+
+    // console.log("sudurtas",sudurtas);
+
+    axios.post( URL + `/updateCategory/${category}`, data)
+        .then(category => {
+            dispatch({
+                action: EDIT_CATEGORY,
+                payload: category.data,
+                id: category.data.id
+            }) 
+        }).catch(err => 
+            console.log("EDIT PRODUCT ERROR: ", err.response))
 }

@@ -19,9 +19,15 @@ const styles = {
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 5,
+        height: 50
     },
     itemText: {
         width: 'auto',
+        fontSize: 20
+    },
+    itemInput: {
+        backgroundColor: '#fff',
+        width: '75%',
         fontSize: 20
     },
     itemButton: {
@@ -37,16 +43,16 @@ class Product extends Component {
     state = {
         productId: this.props.match.params.productId,
         subcategoryId: this.props.match.params.subcategoryId,
-        name: '',
-        energy: '',
-        fat: '',
-        saturated: '',
-        carbs: '',
-        sugar: '',
-        fiber: '',
-        protein: '',
-        salt: '',
-        vitamins: '',
+        name: this.props.product.name,
+        energy: this.props.product.energy,
+        fat: this.props.product.fat,
+        saturated: this.props.product.saturated,
+        carbs: this.props.product.carbs,
+        sugar: this.props.product.sugar,
+        fiber: this.props.product.fiber,
+        protein: this.props.product.protein,
+        salt: this.props.product.salt,
+        vitamins: this.props.product.vitamins,
         image: null,
         nameInput: false,
         energyInput: false,
@@ -62,19 +68,31 @@ class Product extends Component {
 
     componentDidMount() {
         this.props.getProduct( this.state.subcategoryId, this.state.productId);
-        this.setState({
-            name: this.props.product.name,
-            energy: this.props.product.energy,
-            fat: this.props.product.fat,
-            saturated: this.props.product.saturated,
-            carbs: this.props.product.carbs,
-            sugar: this.props.product.sugar,
-            fiber: this.props.product.fiber,
-            protein: this.props.product.protein,
-            salt: this.props.product.salt,
-            vitamins: this.props.product.vitamins,
-            image: this.props.product.image,
-        });
+        console.log("subID :", this.state.subcategoryId, 'product ID: ', this.state.productId)
+        // this.setState({
+        //     name: this.props.product.name,
+        //     energy: this.props.product.energy,
+        //     fat: this.props.product.fat,
+        //     saturated: this.props.product.saturated,
+        //     carbs: this.props.product.carbs,
+        //     sugar: this.props.product.sugar,
+        //     fiber: this.props.product.fiber,
+        //     protein: this.props.product.protein,
+        //     salt: this.props.product.salt,
+        //     vitamins: this.props.product.vitamins,
+        //     image: this.props.product.image,
+        // });
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if(prevState.productId !== nextProps.productId) {
+            return {
+                productId: nextProps.productId,
+                subcategoryId: nextProps.subcategoryId
+            }
+        } else {
+            return null
+        }
     }
 
     nameInput = () => {
@@ -200,7 +218,6 @@ class Product extends Component {
     editProduct = () => {
 
         // this.validation();
-        console.log("Name: ", this.state.name)
         const data = {
             name: this.state.name,
             energy: this.state.energy,
@@ -238,13 +255,12 @@ class Product extends Component {
                     <Text>Auth Product</Text>
                     {(!this.state.nameInput) &&
                         <View style={styles.itemWrap} >
-                            <Text style={styles.itemText} >{ this.props.product.name }</Text>
-                            {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
+                            <Text style={styles.itemText} >{ this.state.name }</Text>
                             <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
                         </View>
                     }{(this.state.nameInput) &&
                         <View style={styles.itemWrap}>
-                            <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({name: value})}} defaultValue="No value" value={this.state.name} />
+                            <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({name: value})}}  defaultValue={this.state.name} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelNameEdit} />
@@ -252,14 +268,13 @@ class Product extends Component {
                          </View>
                     }{(!this.state.energyInput) &&
                         <View style={styles.itemWrap}>
-                            { (this.props.product.energy) && <Text style={styles.itemText} >{ this.props.product.energy }</Text> }
-                            { (!this.props.product.energy) && <Text style={styles.itemText} >No value</Text> }
-                            {/* <Button title="Edit" onPress={this.energyInput} />  */}
+                            { (this.state.energy) && <Text style={styles.itemText} >{ this.state.energy }</Text> }
+                            { (!this.state.energy) && <Text style={styles.itemText} >No value</Text> }
                             <Icon name="edit" size={35} color="firebrick" onPress={this.energyInput} />
                         </View>
                     }{(this.state.energyInput) &&
                         <View style={styles.itemWrap}>  
-                            <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({energy: value})}} defaultValue="No value" value={this.state.energy} />
+                            <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({energy: value})}} defaultValue={this.state.energy} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelEnergyEdit} />
@@ -267,14 +282,13 @@ class Product extends Component {
                         </View>  
                     }{(!this.state.fatInput) &&
                         <View style={styles.itemWrap}>
-                            { (this.props.product.fat) && <Text style={styles.itemText} >{ this.props.product.fat }</Text> }
-                            { (!this.props.product.fat) && <Text style={styles.itemText} >No value</Text> }
-                            {/* <Button title="Edit" onPress={this.fatInput} />  */}
+                            { (this.state.fat) && <Text style={styles.itemText} >{ this.state.fat }</Text> }
+                            { (!this.state.fat) && <Text style={styles.itemText} >No value</Text> }
                             <Icon name="edit" size={35} color="firebrick" onPress={this.fatInput} />
                         </View>
                     }{(this.state.fatInput) &&
                         <View style={styles.itemWrap} >
-                            <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({fat: value})}} defaultValue="No value" value={this.state.fat} />
+                            <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fat: value})}} defaultValue={this.state.fat} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelFatEdit} />
@@ -282,14 +296,13 @@ class Product extends Component {
                         </View>
                     }{(!this.state.saturatedInput) &&
                         <View style={styles.itemWrap}>
-                            {(this.props.product.saturated) && <Text style={styles.itemText} >{ this.props.product.saturated }</Text> }
-                            {(!this.props.product.saturated) && <Text style={styles.itemText} >No value</Text> }
-                            {/* <Button title="Edit" onPress={this.saturatedInput} />  */}
+                            {(this.state.saturated) && <Text style={styles.itemText} >{ this.state.saturated }</Text> }
+                            {(!this.state.saturated) && <Text style={styles.itemText} >No value</Text> }
                             <Icon name="edit" size={35} color="firebrick" onPress={this.saturatedInput} /> 
                         </View>
                     }{(this.state.saturatedInput) &&
                         <View style={styles.itemWrap}>
-                            <TextInput  style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}} defaultValue="No value" value={this.state.saturated} />
+                            <TextInput  style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}}  defaultValue={this.state.saturated} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelSaturatedEdit} />
@@ -297,14 +310,13 @@ class Product extends Component {
                         </View>
                     }{(!this.state.carbsInput) &&
                         <View style={styles.itemWrap} >
-                            {(this.props.product.carbs) && <Text style={styles.itemText}> { this.props.product.carbs } </Text> }
-                            {(!this.props.product.carbs) && <Text style={styles.itemText}>No value</Text> }
-                            {/* <Button title="Edit" onPress={this.saturatedInput} />   */}
-                            <Icon name="edit" size={35} color="firebrick" onPress={this.saturatedInput} />
+                            {(this.state.carbs) && <Text style={styles.itemText}> { this.state.carbs } </Text> }
+                            {(!this.state.carbs) && <Text style={styles.itemText}>No value</Text> }
+                            <Icon name="edit" size={35} color="firebrick" onPress={this.carbsInput} />
                         </View>
                     }{(this.state.carbsInput) &&
                         <View style={styles.itemWrap}>
-                            <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({carbs: value})}} defaultValue="No value" value={this.state.carbs} />
+                            <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({carbs: value})}} defaultValue={this.state.carbs} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelCarbsEdit} />
@@ -312,14 +324,13 @@ class Product extends Component {
                         </View>
                     }{(!this.state.sugarInput) &&
                         <View style={styles.itemWrap}>
-                            {(this.props.product.sugar) && <Text style={styles.itemText}>{ this.props.product.sugar }</Text> }
-                            {(!this.props.product.sugar) && <Text style={styles.itemText}>No value</Text> }
-                            {/* <Button title="Edit" onPress={this.sugarInput} />  */}
+                            {(this.state.sugar) && <Text style={styles.itemText}>{ this.state.sugar }</Text> }
+                            {(!this.state.sugar) && <Text style={styles.itemText}>No value</Text> }
                             <Icon name="edit" size={35} color="firebrick" onPress={this.sugarInput} /> 
                         </View>
                     }{(this.state.sugarInput) &&
                         <View style={styles.itemWrap}>
-                            <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue="No value" value={this.state.sugar} />
+                            <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue={this.state.sugar} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelSugarEdit} />
@@ -327,14 +338,13 @@ class Product extends Component {
                         </View>
                     }{(!this.state.fiberInput) &&
                             <View style={styles.itemWrap}>
-                                {(this.props.product.fiber) && <Text style={styles.itemText}>{ this.props.product.fiber }</Text> }
-                                {(!this.props.product.fiber) && <Text style={styles.itemText}>No value</Text> }
-                                {/* <Button title="Edit" onPress={this.fiberInput} />  */}
+                                {(this.state.fiber) && <Text style={styles.itemText}>{ this.state.fiber }</Text> }
+                                {(!this.state.fiber) && <Text style={styles.itemText}>No value</Text> }
                                 <Icon name="edit" size={35} color="firebrick" onPress={this.fiberInput} /> 
                             </View>
                     }{(this.state.fiberInput) &&
                         <View style={styles.itemWrap}>
-                            <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({fiber: value})}} defaultValue="No value" value={this.state.fiber} />
+                            <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fiber: value})}} defaultValue={this.state.fiber} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelFiberEdit} />
@@ -342,14 +352,13 @@ class Product extends Component {
                         </View>
                     }{(!this.state.proteinInput) &&
                             <View style={styles.itemWrap}>
-                                {(this.props.product.protein) && <Text style={styles.itemText} >{ this.props.product.protein }</Text> }
-                                {(!this.props.product.protein) && <Text style={styles.itemText} >No value</Text> }
-                                {/* <Button title="Edit" onPress={this.proteinInput} /> */}
+                                {(this.state.protein) && <Text style={styles.itemText} >{ this.state.protein }</Text> }
+                                {(!this.state.protein) && <Text style={styles.itemText} >No value</Text> }
                                 <Icon name="edit" size={35} color="firebrick" onPress={this.proteinInput} /> 
                             </View>
                     }{(this.state.proteinInput) &&
                         <View style={styles.itemWrap}>
-                            <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({protein: value})}} defaultValue="No value" value={this.state.protein} />
+                            <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({protein: value})}} defaultValue={this.state.protein} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelProteinEdit} />
@@ -357,14 +366,13 @@ class Product extends Component {
                         </View>
                     }{(!this.state.saltInput) &&
                             <View style={styles.itemWrap}>
-                                {(this.props.product.salt) && <Text style={styles.itemText}>{ this.props.product.salt }</Text> }
-                                {(!this.props.product.salt) && <Text style={styles.itemText}>No value</Text> }
-                                {/* <Button title="Edit" onPress={this.saltInput} />  */}
+                                {(this.state.salt) && <Text style={styles.itemText}>{ this.state.salt }</Text> }
+                                {(!this.state.salt) && <Text style={styles.itemText}>No value</Text> }
                                 <Icon name="edit" size={35} color="firebrick" onPress={this.saltInput} /> 
                             </View>
                     }{(this.state.saltInput) &&
                         <View style={styles.itemWrap}>
-                            <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({salt: value})}} defaultValue="No value" value={this.state.salt} />
+                            <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({salt: value})}} defaultValue={this.state.salt} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelSaltEdit} />
@@ -372,21 +380,20 @@ class Product extends Component {
                         </View>
                     }{(!this.state.vitaminsInput) &&
                             <View style={styles.itemWrap}>
-                                {(this.props.product.vitamins) && <Text style={styles.itemText}>{ this.props.product.vitamins }</Text> }
-                                {(!this.props.product.vitamins) && <Text style={styles.itemText}>No value</Text> }
-                                {/* <Button title="Edit" onPress={this.vitaminsInput} />  */}
+                                {(this.state.vitamins) && <Text style={styles.itemText}>{ this.state.vitamins }</Text> }
+                                {(!this.state.vitamins) && <Text style={styles.itemText}>No value</Text> }
                                 <Icon name="edit" size={35} color="firebrick" onPress={this.vitaminsInput} /> 
                             </View>
                     }{(this.state.vitaminsInput) &&
                         <View style={styles.itemWrap}>
-                            <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({vitamins: value})}} defaultValue="No value" value={this.state.vitamins} />
+                            <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({vitamins: value})}} defaultValue={this.state.vitamins} />
                             <View style={styles.itemWrap}>
                                 <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
                                 <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelVitaminsEdit} />
                             </View>
                         </View>
                     }{(this.props.image && (
-                        <Image source={{ uri: this.props.image}} />
+                        <Image source={{ uri: this.state.image}} />
                     ))}
                </View>
         )

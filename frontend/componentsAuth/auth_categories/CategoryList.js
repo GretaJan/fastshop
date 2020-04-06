@@ -1,15 +1,85 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { withRouter } from 'react-router-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { editCategory } from '../../src/actions/categoryActions';
+
+const styles = {
+    container: {
+        marginTop: 8,
+        // marginLeft: 10,
+        // marginRight: 10
+    },
+    itemWrap: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor:'lightgrey',
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 5,
+    },
+    itemText: {
+        width: 'auto',
+        fontSize: 20
+    },
+    itemButton: {
+        flexBasis: '40'
+    },
+    iconItem: {
+        paddingRight: 10
+    }
+
+}
 
 class CategoryList extends Component {
+    state = {
+        name: this.props.item.name,
+        nameInput: false
+    }
+
+    nameInput = () => {
+        this.setState({nameInput: true})
+    }
+
+    cancelNameEdit = () => {
+        this.setState({nameInput: false})
+    }
+
+    editCategory = () => {
+
+        const data = {
+            name: this.state.name,
+            "_method": "put"
+        }
+    console.log("My ID:", data);
+        this.props.editCategory(this.props.item.id, data);
+        this.cancelNameEdit();
+    }
 
     render() {
         return (
-            <Text key={this.props.item.id} onPress={() => {this.props.history.push(`/subcategories_auth/${this.props.item.id}`)}}>{this.props.item.name}</Text>
+            <View>
+            {(!this.state.nameInput) &&
+                <View style={styles.itemWrap} >
+                    <Text key={this.props.item.id} onPress={() => {this.props.history.push(`/subcategories_auth/${this.props.item.id}`)}}>{this.state.name}</Text>
+                    {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
+                    <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
+                </View>
+            }{(this.state.nameInput) &&
+                <View style={styles.itemWrap}>
+                    <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({name: value})}}  defaultValue={this.props.item.name} value={this.state.name}/>
+                    <View style={styles.itemWrap}>
+                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editCategory} />
+                        <Icon name="check" size={35} color="firebrick" onPress={this.cancelNameEdit} />
+                    </View>
+                 </View>
+            }
+             </View>
         )
     }
 }
+  
 
-export default withRouter(CategoryList)
+export default withRouter(connect(null, {editCategory})(CategoryList))

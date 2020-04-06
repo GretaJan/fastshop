@@ -14,9 +14,13 @@ class Categories extends Component {
         this.props.getCategories();
     }
 
-    componentDidUpdate(prevProps) {
-        return this.props.didUpdate == true
-    }
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.categories !== this.props.categories){
+    //         console.log("NEW: ", this.props.categories);
+    //     } else {
+    //         console.log("old: ", this.props.categories);
+    //     }
+    // }
 
     componentWillUnmount() {
 

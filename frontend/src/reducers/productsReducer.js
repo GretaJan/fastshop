@@ -20,12 +20,25 @@ export default function(state = initialState, action) {
         case POST_PRODUCT:
             return {
                 ...state,
-                products: products.concat(action.payload)
+                products: state.products.concat(action.payload)
             }
         case EDIT_PRODUCT:
-            return {
-                ...state,
-            }
+            // return {
+            //     ...state,
+            //     // products: state.products
+            // }
+
+            return state.products.map(item => {
+                if(item.id === action.id) {
+                    return {
+                        ...state,
+                        products: this.products.concat(action.payload)
+                    }
+                } else {
+                    return item
+                }
+            })
+         
         default:
             return state
     }

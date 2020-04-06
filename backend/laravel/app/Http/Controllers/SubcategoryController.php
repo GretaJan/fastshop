@@ -89,9 +89,9 @@ class SubcategoryController extends Controller
         return response()->json($response, 201);
     }
 
-    public function show(Subcategory $subcategory, $category_id)
+    public function show($id, $category_id)
     {
-        $subcategory = Subcategory::findOrFail($subcategory, $category_id);
+        $subcategory = Subcategory::findOrFail($id);
 
         return response()->json(['subcategory' => $subcategory], 201);
     }
@@ -99,33 +99,45 @@ class SubcategoryController extends Controller
 
     public function update(Request $request, $id, $category_id)
     {
-        $subcategory = Subcategory::findOrFail($id, $category_id);
+        $subcategory = Subcategory::findOrFail($id);
 
         $request->validate([
-            'name' => 'min:3|max:100',
-            'image' => 'image',
+            'name' => 'nullable|min:3|max:100',
+            'image' => 'nullable|image',
         ]);
 
         if(!$id) {
             return response()->json(['subcategory not found'], 400);
         }
 
-        $subcategory->category_id = $request->subcategory_id;
         $subcategory->name = $request->name; 
 
-        $file = $request->file('image');
-        if($request->hasFile('image')) {
-            if($file->isValid()) {
-                $path = public_path('/uploads/subcategories');
-                $path2 = asset('/uploads/subcategories');
-                $file->move($path, $file . '/' . $file->getClientOriginalName());
-                $subcategory->image = $path2 . '/' . $file->getClientOriginalName();
-            } else {
-                return response()->json(['file format is invalid'], 400);
-            }
-        } else {
-            $subcategory->image = '';
-        }
+        // $file = $request->file('image');
+        // if($request->hasFile('image')) {
+        //     if($file->isValid()) {
+        //         $path = public_path('/uploads/subcategories');
+        //         $path2 = asset('/uploads/subcategories');
+        //         $file->move($path, $file . '/' . $file->getClientOriginalName());
+        //         $subcategory->image = $path2 . '/' . $file->getClientOriginalName();
+        //     } else {
+        //         return response()->json(['file format is invalid'], 400);
+        //     }
+        // } else {
+        //     $subcategory->image = '';
+        // }
+
+         // IMAGE
+         $file = $request->image;
+         if($file == null) {
+             $subcategory->image = null;
+         } else if($file->isValid()) {
+             $path = public_path('/uploads/products');
+             $path2 = asset('/uploads/products');
+             $file->move($path, $file->getClientOriginalName());
+             $subcategory->image = $path2 . '/' . $file->getClientOriginalName();
+         } else {
+             return $response()->json(["Message" => "Image must be a file"]);
+          }
 
         if($subcategory->save()) {
             $response = [
@@ -133,11 +145,11 @@ class SubcategoryController extends Controller
             ];
         }
 
-        return response()->json()($response, 201);
+        return response()->json($response, 201);
         
     }
 
-    public function destroy(Subcategory $subcategory, $category_id)
+    public function destroy($id, $category_id)
     {
         $subcategory->delete();
         $subcategories = Subcategory::all();

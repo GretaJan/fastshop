@@ -12,8 +12,9 @@ export const getProducts = (subcategory) => dispatch => {
     //         })
     //     }
     // ).catch(err => console.log("Fetch Categories error: ", err))
+    console.log("url: ",URL + '/products/' + subcategory),
     axios.get( URL + '/products/' + subcategory)
-    .then(products => {
+    .then(products => { console.log("produts: ",products),
             dispatch({
                 type: GET_PRODUCTS,
                 payload: products.data.products
@@ -34,10 +35,10 @@ export const getProduct = (subcategory, product) => dispatch => {
     //     }
     // ).catch(err => console.log("Fetch Categories error: ", err))
     axios.get( URL + '/product/' + subcategory + '/' + product)
-    .then(product => {
+    .then(product => { console.log(product.data.product)
             dispatch({
                 type: GET_PRODUCT,
-                payload: product.data.product[0]
+                payload: product.data.product
             })
         }
     ).catch(err => console.log("Fetch Categories error: ", err))
@@ -45,7 +46,7 @@ export const getProduct = (subcategory, product) => dispatch => {
 
 export const addProduct = (product, subcategory) => dispatch => {
     axios.post( URL + '/addProduct/' + subcategory, product )
-        .then(product => {
+        .then(product => { console.log("Product: ", product),
             dispatch({
                 action: POST_PRODUCT,
                 dispatch: product.data
@@ -55,12 +56,11 @@ export const addProduct = (product, subcategory) => dispatch => {
 }
 
 export const editProduct = (product, subcategory, data) => (dispatch) => {
-    console.log("SUBID: ", data );
     axios.post( URL + `/updateProduct/${subcategory}/${product}`, data)
         .then(product => { console.log("show: ", product)
             dispatch({
                 action: EDIT_PRODUCT,
-                // payload: product
+                payload: product.data
             })
         }).catch(err => 
             console.log("EDIT PRODUCT ERROR: ", err.response))
