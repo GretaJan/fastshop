@@ -154,31 +154,31 @@ class Product extends Component {
         if(this.state.name == null) {
             this.setState({name: this.props.product.name})
         }
-        if(this.state.energy == 'No value') {
+        if(this.state.energy == '') {
             this.setState({energy: this.props.product.energy})
         }
-        if(this.state.fat == 'No value') {
+        if(this.state.fat == '') {
             this.setState({fat: this.props.product.fat})
         }
-        if(this.state.saturated == 'No value') {
+        if(this.state.saturated == '') {
             this.setState({saturated: this.props.product.saturated})
         }
-        if(this.state.carbs == 'No value') {
+        if(this.state.carbs == '') {
             this.setState({carbs: this.props.product.carbs})
         }
-        if(this.state.sugar == 'No value') {
+        if(this.state.sugar == '') {
             this.setState({sugar: this.props.product.sugar})
         }
-        if(this.state.fiber == 'No value') {
+        if(this.state.fiber == '') {
             this.setState({fiber: this.props.product.fiber})
         }
-        if(this.state.protein == 'No value') {
+        if(this.state.protein == '') {
             this.setState({protein: this.props.product.protein})
         }
-        if(this.state.salt == 'No value') {
+        if(this.state.salt == '') {
             this.setState({salt: this.props.product.salt})
         }
-        if(this.state.vitamins == 'No value') {
+        if(this.state.vitamins == '') {
             this.setState({vitamins: this.props.product.vitamins})
         }
         if(this.state.image == null) {

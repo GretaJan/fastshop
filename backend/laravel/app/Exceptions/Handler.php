@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Handler extends ExceptionHandler
 {
@@ -37,6 +38,14 @@ class Handler extends ExceptionHandler
         parent::report($exception);
     }
 
+    public function render($request, Exception $exception)
+{
+    if($exception instanceof ModelNotFoundException){
+        return redirect("/error_page", 401)->with('error', $e->getMessage());
+    }
+    return parent::render($request, $exception);
+}
+
     /**
      * Render an exception into an HTTP response.
      *
@@ -44,8 +53,8 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
-    {
-        return parent::render($request, $exception);
-    }
+    // public function render($request, Exception $exception)
+    // {
+    //     return parent::render($request, $exception);
+    // }
 }

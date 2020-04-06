@@ -54,9 +54,9 @@ export const addProduct = (product, subcategory) => dispatch => {
             console.log("POST PRODUCT ERROR: ", err.response))
 }
 
-export const editProduct = (product, subcategory, data) => dispatch => {
-    console.log("URL: ", URL + `/updateProduct/${subcategory}/${product}` );
-    axios.post( URL + `/updateProduct/${subcategory}/${product}`, data )
+export const editProduct = (product, subcategory, data) => (dispatch) => {
+    console.log("SUBID: ", data );
+    axios.post( URL + `/updateProduct/${subcategory}/${product}`, data)
         .then(product => { console.log("show: ", product)
             dispatch({
                 action: EDIT_PRODUCT,

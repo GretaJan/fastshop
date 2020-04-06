@@ -159,33 +159,21 @@ class ProductController extends Controller
         if($file == null) {
             $product->image = null;
         } else if($file->isValid()) {
-            // $path_info = pathinfo($file->getClientOriginalName());
-            // $extension =  $path_info['extension'];
-            $has_ext = 0;
-            $get_file_type = mime_content_type($file->getClientOriginalName());
-            $type_array = ['image/gif', 'image/jpeg', 'image/png', 'image/jp2'];
-
-            foreach($type_array as $type) {
-                if($get_file_type == $type) {
-                    $has_ext++;
-                }
-            }
-
-            if($has_ext > 0) {
-                $path = public_path('/uploads/products');
-                $path2 = asset('/uploads/products');
-                $file->move($path, $file->getClientOriginalName());
-                $product->image = $path2 . '/' . $file->getClientOriginalName();
-            } else {
-                return $response()->json(["Message" => "Image must be a file"]);
-             }
-        } 
+            $path = public_path('/uploads/products');
+            $path2 = asset('/uploads/products');
+            $file->move($path, $file->getClientOriginalName());
+            $product->image = $path2 . '/' . $file->getClientOriginalName();
+        } else {
+            return $response()->json(["Message" => "Image must be a file"]);
+         }
 
         if($product->save()) {
             $response = [
                 'product' => $product
             ];
         }
+
+        var_dump("result: ", $product);
 
         return response()->json($request, 201);
     }
