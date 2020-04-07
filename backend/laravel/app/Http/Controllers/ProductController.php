@@ -122,10 +122,6 @@ class ProductController extends Controller
         $product->protein = $request->protein;
         $product->salt = $request->salt;
         $product->vitamins = $request->vitamins;
-
-
-        var_dump($product);
-
         // $file = $request->file('image');
         // if($request->hasFile('image')) {
         //     if($file->isValid()){

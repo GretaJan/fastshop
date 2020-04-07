@@ -62,7 +62,7 @@ class AddProduct extends Component {
         })
     }
 
-    addProduct = () => {
+    addProduct = async() => {
         const data = {
             name: this.state.name,
             energy: this.state.energy,
@@ -77,7 +77,7 @@ class AddProduct extends Component {
             image: this.state.image,
         }
         var id = this.props.match.params.subcategoryId
-        this.props.addProduct(data, id);
+        await this.props.addProduct(data, id);
         this.props.history.push(`/products_auth/${this.props.match.params.subcategoryId}`);
     }
 

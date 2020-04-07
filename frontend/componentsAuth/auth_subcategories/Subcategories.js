@@ -7,6 +7,8 @@ import { withRouter } from 'react-router-native';
 
 //Components
 import Subcategory from './SubcategoryList';
+import Loading from '../../components_additional/Loading';
+import Error from '../../components_additional/Error';
 
 
 class Subcategories extends Component {
@@ -23,13 +25,21 @@ class Subcategories extends Component {
 
     render() {
         return (
-            <View>
-                 <Text>Subcategories folder Auth</Text>
-                <FlatList data={this.props.subcategories} renderItem={({item}) => (
-                    <Subcategory item={item} />
-                )} />
-                <Button title="Add subcategory" onPress={() => {this.props.history.push(`/addSubcategory/${this.state.id}`), console.log("ID", this.state.id)}} ></Button>
-            </View>
+            (this.props.loading) ? (
+                <Loading />
+            ) : (
+                (this.props.error !== '') ? (
+                    <Error message={this.props.error} />
+                ) : (
+                    <View>
+                        <Text>Subcategories folder Auth</Text>
+                        <FlatList data={this.props.subcategories} renderItem={({item}) => (
+                            <Subcategory item={item} />
+                        )} />
+                        <Button title="Add subcategory" onPress={() => {this.props.history.push(`/addSubcategory/${this.state.id}`), console.log("ID", this.state.id)}} ></Button>
+                    </View>
+                )
+            )
         )
     }
 
@@ -38,6 +48,8 @@ class Subcategories extends Component {
 const mapStateToProps = (state, ownProps ) => {
    return {
     subcategories: state.subcategories.subcategories,
+    loading: state.subcategories.loading,
+    error: state.subcategories.error
    }
 }
 

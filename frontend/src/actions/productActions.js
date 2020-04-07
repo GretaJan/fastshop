@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, URL } from './types';
+import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, URL } from './types';
 import axios from 'axios';
 
 export const getProducts = (subcategory) => dispatch => {
@@ -12,18 +12,28 @@ export const getProducts = (subcategory) => dispatch => {
     //         })
     //     }
     // ).catch(err => console.log("Fetch Categories error: ", err))
-    console.log("url: ",URL + '/products/' + subcategory),
+    dispatch({
+        type: LOADING_GET_PRODUCTS,
+        loading: true
+    });
     axios.get( URL + '/products/' + subcategory)
     .then(products => { console.log("produts: ",products),
             dispatch({
                 type: GET_PRODUCTS,
-                payload: products.data.products
+                payload: products.data.products,
+                loading: false
             })
         }
-    ).catch(err => console.log("Fetch Categories error: ", err))
+    ).catch(err => {
+        dispatch({
+            type: GET_PRODUCTS_ERROR,
+            error: 'Failed to load: ', err,
+            loading: false
+        })
+    })
 } 
 
-export const getProduct = (subcategory, product) => dispatch => {
+export const getProduct = (subcategory, product) => (dispatch) => {
     // fetch( URL + '/product/' + subcategory + product, {method: 'GET'})
     // .then(res => res.json())
     // .then(product => {
@@ -34,14 +44,24 @@ export const getProduct = (subcategory, product) => dispatch => {
     //         })
     //     }
     // ).catch(err => console.log("Fetch Categories error: ", err))
+    dispatch({
+        type: LOADING_GET_PRODUCTS,
+        loading: true
+    })
     axios.get( URL + '/product/' + subcategory + '/' + product)
-    .then(product => { console.log(product.data.product)
+    .then(product => { console.log("THIS PRODUCT: ", product.data.product)
             dispatch({
                 type: GET_PRODUCT,
-                payload: product.data.product
+                payload: product.data.product,
+                loading: false
             })
         }
-    ).catch(err => console.log("Fetch Categories error: ", err))
+    ).catch(err =>  
+        dispatch({
+            type: GET_PRODUCTS_ERROR,
+            error: 'Failed to load: ', err,
+            loading: false
+        }))
 } 
 
 export const addProduct = (product, subcategory) => dispatch => {
@@ -60,7 +80,8 @@ export const editProduct = (product, subcategory, data) => (dispatch) => {
         .then(product => { console.log("show: ", product)
             dispatch({
                 action: EDIT_PRODUCT,
-                payload: product.data
+                payload: product.data,
+                edited: true
             })
         }).catch(err => 
             console.log("EDIT PRODUCT ERROR: ", err.response))

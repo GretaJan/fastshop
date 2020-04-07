@@ -1,26 +1,42 @@
-import { GET_CATEGORIES, GET_CATEGORY, POST_CATEGORY, EDIT_CATEGORY } from '../actions/types';
+import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, GET_CATEGORY, POST_CATEGORY, EDIT_CATEGORY } from '../actions/types';
 
 const initialState = {
        categories:[],
        category:{},
+       loading: null,
+       error: ''
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
+        case LOADING_GET_CATEGORIES:
+            return {
+                ...state,
+                loading: action.loading
+            }
         case GET_CATEGORIES:
             return {
                 ...state,
-                categories: action.payload
+                categories: action.payload,
+                loading: action.loading
             }
         case GET_CATEGORY:
             return {
                 ...state,
                 category: action.payload,
+                loading: action.loading
+            }
+        case GET_CATEGORIES_ERROR:
+            return {
+                ...state,
+                error: action.error,
+                loading: action.loading
             }
         case POST_CATEGORY:
             return {
                 ...state,
-                categories: state.categories.concat(action.payload)
+                categories: state.categories.concat(action.payload),
+                category: action.payload
             }
             // return Object.assign({}, state, {
             //     categories: [...state.categories, action.payload]

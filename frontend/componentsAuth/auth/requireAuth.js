@@ -21,7 +21,7 @@ function HOC (ComposedComponent) {
         render() {
             return (
                 <View>
-                    <ComposedComponent {...this.props} />
+                    <ComposedComponent {...this.props}/>
                 </View>
             )
         }

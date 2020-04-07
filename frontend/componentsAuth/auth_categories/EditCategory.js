@@ -78,9 +78,7 @@ class EditCategory extends Component {
                         <Button title="Cancel" className="btn btn-primary" />
                 </View>
             )
-
     }
-
 }
 
 export default withRouter(connect(null, { addCategory })(EditCategory))

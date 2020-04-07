@@ -1,4 +1,4 @@
-import { GET_SUBCATEGORIES, POST_SUBCATEGORY, EDIT_SUBCATEGORY, URL } from './types';
+import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, POST_SUBCATEGORY, EDIT_SUBCATEGORY, URL } from './types';
 import axios from 'axios';
 
 // export const getSubcategories = (category) => dispatch => {
@@ -14,13 +14,23 @@ import axios from 'axios';
 // } 
 
 export const getSubcategories = (category) => (dispatch) => {
+    dispatch({
+        type: LOADING_GET_SUBCATEGORIES,
+        loading: true
+    })
     axios.get(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/subcategories/${category}`)
     .then(resp => {
             dispatch({
                 type: GET_SUBCATEGORIES,
-                payload: resp.data.subcategories
+                payload: resp.data.subcategories,
+                loading: false
             })   
-        }).catch(err => console.log("Fetch Categories error: ", err))
+        }).catch(err => 
+            dispatch({
+                action: GET_SUBCATEGORIES_ERROR,
+                error: 'Failed to load: ', err,
+                loading: false
+            }))
 } 
 
 export const addSubcategory = (subcategory, category) => dispatch => {
