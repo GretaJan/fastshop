@@ -149,7 +149,7 @@ class SubcategoryController extends Controller
         
     }
 
-    public function destroy($id, $category_id)
+    public function destroy(Subcategory $subcategory)
     {
         $subcategory->delete();
         $subcategories = Subcategory::all();

@@ -1,4 +1,4 @@
-import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, GET_CATEGORY, POST_CATEGORY, EDIT_CATEGORY } from '../actions/types';
+import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, GET_CATEGORY, POST_CATEGORY, EDIT_CATEGORY, DELETE_CATEGORY } from '../actions/types';
 
 const initialState = {
        categories:[],
@@ -57,26 +57,11 @@ export default function(state = initialState, action) {
                     return item
                 }
             })
-
-            // return {
-            //     ...state,
-            //     categories: categories.map(item => {
-            //         if(item.id !== action.id) {
-            //             return item
-            //         } else {
-            //             return action.payload
-            //         }
-            //     })
-            // }
-                // return {
-                //     categories: state.categories.map(item => {
-                //                 if(item.name !== action.payload.name) {
-                //                     return item
-                //                 } else {
-                //                     return action.payload
-                //                 }
-                //             }
-                //     } 
+            case DELETE_CATEGORY:
+                return {
+                    ...state,
+                    categories: state.categories.filter(categories.id !== action.payload),
+                }
                 
         default:
             return state; 

@@ -28,7 +28,7 @@ export const getSubcategories = (category) => (dispatch) => {
         }).catch(err => 
             dispatch({
                 action: GET_SUBCATEGORIES_ERROR,
-                error: 'Failed to load: ', err,
+                error: 'Failed to load subcategories list...',
                 loading: false
             }))
 } 
@@ -56,3 +56,15 @@ export const editSubcategory = (subcategory, category, data) => (dispatch) => {
         }).catch(err => 
             console.log("EDIT SUBCATEGORY ERROR: ", err.response))
 }
+
+// export const editSubcategory = (subcategory, category,) => (dispatch) => {
+//     axios.post( URL + `/deleteProduct/${category}/${subcategory}`, data)
+//         .then(subcategory => { console.log("show: ", subcategory)
+//             dispatch({
+//                 action: EDIT_SUBCATEGORY,
+//                 payload: subcategory.data,
+//                 id: subcategory.data.id,
+//             })
+//         }).catch(err => 
+//             console.log("EDIT SUBCATEGORY ERROR: ", err.response))
+// }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, Button, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
-import { getProduct, editProduct } from '../../src/actions/productActions';
+import { getProduct, editProduct, deleteProduct } from '../../src/actions/productActions';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 //Components:
 import Loading from '../../components_additional/Loading';
@@ -73,7 +73,6 @@ class Product extends Component {
      async componentDidMount() {
 
         await this.props.getProduct(this.props.match.params.subcategoryId, this.props.match.params.productId);
-        console.log("PROOOOOODUCT: ", this.props.product)
         // this.setState({
         //     name: this.props.product.name,
         //     energy: this.props.product.energy,
@@ -228,8 +227,13 @@ class Product extends Component {
         }
     }
 
-    editProduct = async() => {
+    deleteProduct = async() => {
+        console.log(this.props.product.id)
+        await this.props.deleteProduct(this.props.product.id);
+        this.props.history.push(`/products_auth/${this.props.match.params.subcategoryId}`);
+    }
 
+    editProduct = async() => {
         // this.validation();
         const data = {
             name: this.state.name,
@@ -288,7 +292,11 @@ class Product extends Component {
                                         <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelNameEdit} />
                                     </View>
                                 </View>
-                            }{(!this.state.energyInput) &&
+                            }
+                            <View>                            
+                                <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.deleteProduct} />
+                            </View>
+                            {(!this.state.energyInput) &&
                                 <View style={styles.itemWrap}>
                                     { (this.props.product.energy) && <Text style={styles.itemText}>{this.props.product.energy}</Text>}
                                     { (!this.props.product.energy) && <Text style={styles.itemText}>No value</Text>}
@@ -430,4 +438,4 @@ const mapStateToProps = (state) => (console.log("New: ", state.products.product)
     error: state.products.error
 })
 
-export default connect(mapStateToProps, {getProduct, editProduct})(Product)
+export default connect(mapStateToProps, {getProduct, editProduct, deleteProduct})(Product)

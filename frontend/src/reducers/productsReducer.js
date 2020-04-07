@@ -1,4 +1,4 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT } from '../actions/types';
+import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT } from '../actions/types';
 import { ActionSheetIOS } from 'react-native';
 
 const initialState = {
@@ -59,7 +59,11 @@ export default function(state = initialState, action) {
                 ...state,
                 product: action.payload
             }
-         
+        case DELETE_PRODUCT:
+            return {
+                ...state,
+                products: state.products.filter(state.products.id !== action.payload)
+            }
         default:
             return state
     }

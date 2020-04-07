@@ -156,9 +156,10 @@ class ProductController extends Controller
         return response()->json($request, 201);
     }
 
-    public function destroy($id, $subcategory_id)
+    public function destroy(Product $product)
     {
         $product->delete();
+        var_dump("GET PRODUCT: ", $product);
         $products = Product::all();
         return response()->json(['message => "Product Deleted'], 200);
     }

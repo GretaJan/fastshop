@@ -1,4 +1,4 @@
-import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, GET_CATEGORY, POST_CATEGORY, URL, EDIT_CATEGORY } from './types';
+import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, GET_CATEGORY, POST_CATEGORY, URL, EDIT_CATEGORY, DELETE_CATEGORY } from './types';
 import axios from 'axios';
 
 export const getCategories = () => (dispatch) => {
@@ -20,7 +20,7 @@ export const getCategories = () => (dispatch) => {
         ).catch(err =>
             dispatch({
                 type: GET_CATEGORIES_ERROR,
-                error: 'Failed to load: ', err,
+                error: 'Failed to load categories list... ',
                 loading: false
             }))
 }
@@ -84,4 +84,15 @@ export const editCategory = (category, data) => (dispatch) => {
             }) 
         }).catch(err => 
             console.log("EDIT PRODUCT ERROR: ", err.response))
+}
+
+export const deleteCategory = (category) => (dispatch) => {
+    axios.delete( URL + `/deleteCategory/${category}`)
+        .then(() => { 
+            dispatch({
+                action: DELETE_CATEGORY,
+                payload: category,
+            })
+        }).catch(err => 
+            console.log("DELETE CATEGORY ERROR: ", err.response))
 }

@@ -1,4 +1,4 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, URL } from './types';
+import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT, URL } from './types';
 import axios from 'axios';
 
 export const getProducts = (subcategory) => dispatch => {
@@ -27,7 +27,7 @@ export const getProducts = (subcategory) => dispatch => {
     ).catch(err => {
         dispatch({
             type: GET_PRODUCTS_ERROR,
-            error: 'Failed to load: ', err,
+            error: 'Failed to load product list...',
             loading: false
         })
     })
@@ -85,4 +85,15 @@ export const editProduct = (product, subcategory, data) => (dispatch) => {
             })
         }).catch(err => 
             console.log("EDIT PRODUCT ERROR: ", err.response))
+}
+
+export const deleteProduct = (product) => (dispatch) => {
+    axios.delete( URL + `/deleteProduct/${product}`)
+        .then(() => {
+            dispatch({
+                action: DELETE_PRODUCT,
+                payload: product,
+            })
+        }).catch(err => 
+            console.log("DELETE PRODUCT ERROR: ", err.response))
 }

@@ -22,19 +22,19 @@ Route::get('/categories', 'CategoryController@index');
 Route::get('/category/{id}', 'CategoryController@show');
 Route::post('/addCategory', 'CategoryController@store');
 Route::put('/updateCategory/{id}', 'CategoryController@update');
-Route::delete('/deleteCategory/{id}', 'CategoryController@delete');
+Route::delete('/deleteCategory/{id}', 'CategoryController@destroy');
 
 Route::get('/subcategories/{category_id}', 'SubcategoryController@index');
 Route::get('/subcategory/{category_id}/{id}', 'SubcategoryController@show');
 Route::post('/addSubcategory/{category_id}', 'SubcategoryController@store');
 Route::put('/updateSubcategory/{category_id}/{id}', 'SubcategoryController@update');
-Route::delete('/deleteSubcategory/{category_id}/{id}', 'SubcategoryController@delete');
+Route::delete('/deleteSubcategory/{subcategory}', 'SubcategoryController@destroy');
 
 Route::get('/products/{subcategory_id}', 'ProductController@index');
 Route::get('/product/{subcategory_id}/{id}', 'ProductController@show');
 Route::post('/addProduct/{subcategory_id}', 'ProductController@store');
 Route::put('/updateProduct/{subcategory_id}/{id}', 'ProductController@update');
-Route::delete('/deleteProduct/{subcategory_id}/{id}', 'ProductController@delete');
+Route::delete('/deleteProduct/{product}', 'ProductController@destroy');
 
 Route::post('/login', 'UserController@login');
 Route::group([

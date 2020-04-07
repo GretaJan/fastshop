@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Button } from 'react-native';
 import { connect } from 'react-redux';
-import { getCategories } from '../../src/actions/categoryActions';
+import { getCategories, deleteCategory } from '../../src/actions/categoryActions';
 import { withRouter } from 'react-router-native';
 //Components
 import CategoryList from './CategoryList';
@@ -24,6 +24,13 @@ class Categories extends Component {
     //     }
     // }
 
+    // static getDerivedStateFromProps()
+
+    deleteCategory = (id) => {
+        // this.props.deleteCategory(id);
+        // this.props.history.push('/dashboard');
+    }
+
     render() {
         return (
             (this.props.loading) ? (
@@ -34,7 +41,7 @@ class Categories extends Component {
                 ) : (
                 <View>
                     <FlatList data={this.props.categories} renderItem={({item}) => (
-                    <CategoryList key={item} item={item} />
+                    <CategoryList key={item} item={item} deleteCategory={this.deleteCategory({item})} />
                     )} >
                     </FlatList>
                     <Button title="Add category" onPress={() => this.props.history.push('/addCategory')} ></Button>
@@ -54,4 +61,4 @@ const mapStateToProps = (state) => ({
     error: state.categories.error
 });
 
-export default withRouter(connect(mapStateToProps, { getCategories })(Categories))
+export default withRouter(connect(mapStateToProps, { getCategories, deleteCategory })(Categories))
