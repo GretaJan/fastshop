@@ -12,8 +12,9 @@ import Error from '../../components_additional/Error';
 class Categories extends Component {
   
     componentDidMount() {
-        console.log('cat!');
+        
         this.props.getCategories();
+        console.log('cat: ', this.props.categories);
     }
 
     // componentDidUpdate(prevProps) {
@@ -26,9 +27,10 @@ class Categories extends Component {
 
     // static getDerivedStateFromProps()
 
-    deleteCategory = (id) => {
-        // this.props.deleteCategory(id);
-        // this.props.history.push('/dashboard');
+    deleteCategory = async (id) => {
+        await this.props.deleteCategory(id);
+        console.log("id: ", id);
+        this.props.getCategories();
     }
 
     render() {
@@ -36,12 +38,12 @@ class Categories extends Component {
             (this.props.loading) ? (
                 <Loading />
             ) : (
-                (this.props.error) ? (
+                (this.props.error !== '') ? (
                     <Error message={this.props.error} />
                 ) : (
                 <View>
                     <FlatList data={this.props.categories} renderItem={({item}) => (
-                    <CategoryList key={item} item={item} deleteCategory={this.deleteCategory({item})} />
+                    <CategoryList key={item} item={item} deleteCategory = {item => this.deleteCategory(item)} />
                     )} >
                     </FlatList>
                     <Button title="Add category" onPress={() => this.props.history.push('/addCategory')} ></Button>

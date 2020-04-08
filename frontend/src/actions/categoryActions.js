@@ -10,30 +10,41 @@ export const getCategories = () => (dispatch) => {
     })
     fetch( URL + '/categories', {method: 'GET'})
         .then(res => res.json())
-        .then(categories => {
+        .then(categories => { 
                 dispatch({
                     type: GET_CATEGORIES,
                     payload: categories.categories,
                     loading: false
                 })
             }
-        ).catch(err =>
+        ).catch((error) => { 
+            console.log("error: ", error.response),
             dispatch({
                 type: GET_CATEGORIES_ERROR,
                 error: 'Failed to load categories list... ',
                 loading: false
-            }))
+            })
+        })
 }
 
   
 // export const getCategories = () => (dispatch) => {
+//     dispatch({
+//         type: LOADING_GET_CATEGORIES,
+//         loading: true
+//     })
 //     axios.get('http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/categories')
 //         .then(categories => 
 //             dispatch({
 //                 type: GET_CATEGORIES,
 //                 payload: categories.data.categories
 //             })
-//         )
+//         ).catch(() =>
+//         dispatch({
+//             type: GET_CATEGORIES_ERROR,
+//             error: 'Failed to load categories list... ',
+//             loading: false
+//         }))
 // }
 
 export const addCategory = (data) => (dispatch) => {

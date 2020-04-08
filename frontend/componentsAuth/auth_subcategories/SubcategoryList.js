@@ -69,6 +69,10 @@ class SubcategoryList extends Component {
         this.setState({editedState: true})
     }
 
+    deleteFunction = () => {
+        this.props.deleteSubcategory(this.props.item.id);
+    }
+
     render() {
         return (
             <View>
@@ -76,7 +80,10 @@ class SubcategoryList extends Component {
                 <View style={styles.itemWrap} >
                 <Text key={this.props.item.id} onPress={() => this.props.history.push(`/products_auth/${this.props.item.id}`)}>{this.state.name}</Text>
                     {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
-                    <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
+                    <View style={styles.itemWrap}>
+                        <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
+                        <Icon name="check" size={35} color="firebrick" onPress={this.deleteFunction} />
+                    </View>
                 </View>
             }{(this.state.nameInput) &&
                 <View style={styles.itemWrap}>

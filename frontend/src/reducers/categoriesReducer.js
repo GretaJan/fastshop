@@ -20,12 +20,6 @@ export default function(state = initialState, action) {
                 categories: action.payload,
                 loading: action.loading
             }
-        case GET_CATEGORY:
-            return {
-                ...state,
-                category: action.payload,
-                loading: action.loading
-            }
         case GET_CATEGORIES_ERROR:
             return {
                 ...state,
@@ -57,12 +51,11 @@ export default function(state = initialState, action) {
                     return item
                 }
             })
-            case DELETE_CATEGORY:
-                return {
-                    ...state,
-                    categories: state.categories.filter(categories.id !== action.payload),
-                }
-                
+        case DELETE_CATEGORY:
+            return {
+                ...state,
+                categories: state.categories.filter(categories.id !== action.payload),
+            }       
         default:
             return state; 
     }

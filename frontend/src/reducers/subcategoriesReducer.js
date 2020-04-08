@@ -1,4 +1,4 @@
-import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, FRW_TO_SUBCATEGORIES, POST_SUBCATEGORY, EDIT_SUBCATEGORY } from '../actions/types';
+import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, FRW_TO_SUBCATEGORIES, POST_SUBCATEGORY, EDIT_SUBCATEGORY, DELETE_SUBCATEGORY } from '../actions/types';
 
 const initialState = {
     subcategories: [],
@@ -42,6 +42,11 @@ export default function(state = initialState, action) {
                     item
                 }
             })
+        case DELETE_SUBCATEGORY:
+            return {
+                ...state,
+                subcategories: state.subcategories.filter(subcategories.id !== action.payload)
+            }
         default:
             return state
     }

@@ -53,9 +53,12 @@ class CategoryList extends Component {
             name: this.state.name,
             "_method": "put"
         }
-    console.log("My ID:", data);
         this.props.editCategory(this.props.item.id, data);
         this.cancelNameEdit();
+    }
+
+    deleteFunction = () => {
+        this.props.deleteCategory(this.props.item.id);
     }
 
     render() {
@@ -67,7 +70,7 @@ class CategoryList extends Component {
                     {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
                     <View style={styles.itemWrap}>
                         <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
-                        <Icon name="check" size={35} color="firebrick" onPress={this.props.deleteCategory(this.props.item.id)} />
+                        <Icon name="check" size={35} color="firebrick"  onPress={this.deleteFunction}/>
                     </View>
                 </View>
             }{(this.state.nameInput) &&

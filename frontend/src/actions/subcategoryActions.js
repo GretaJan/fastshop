@@ -1,4 +1,4 @@
-import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, POST_SUBCATEGORY, EDIT_SUBCATEGORY, URL } from './types';
+import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, POST_SUBCATEGORY, EDIT_SUBCATEGORY, DELETE_SUBCATEGORY, URL } from './types';
 import axios from 'axios';
 
 // export const getSubcategories = (category) => dispatch => {
@@ -68,3 +68,13 @@ export const editSubcategory = (subcategory, category, data) => (dispatch) => {
 //         }).catch(err => 
 //             console.log("EDIT SUBCATEGORY ERROR: ", err.response))
 // }
+export const deleteSubcategory = (subcategory) => (dispatch) => {
+    axios.delete( URL + `/deleteSubcategory/${subcategory}`)
+        .then(() => { 
+            dispatch({
+                action: DELETE_SUBCATEGORY,
+                payload: subcategory,
+            })
+        }).catch(err => 
+            console.log("EDIT SUBCATEGORY ERROR: ", err.response))
+}
