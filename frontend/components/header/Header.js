@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, requireNativeComponent } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
+// import { Button } from 'react-native-elements';
 import { withRouter } from "react-router-native";
 import { logOut } from '../../src/actions/authActions';
 
@@ -36,11 +36,16 @@ class Header extends Component {
 
         if(this.props.isAuthorized) {
             return [
-                <TouchableOpacity style={styles.button} onPress={this.logOut} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity >
+                    <TouchableOpacity style={styles.button} onPress={this.logOut} ><Text style={styles.text}>LOGOUT</Text></TouchableOpacity>
             ]
         } else {
             return [
-                <TouchableOpacity style={styles.button} onPress={() =>{ this.props.history.push("/login" ), console.log("Admin: " , this.props.admin.length)}} ><Text  style={styles.text}>LOGIN</Text></TouchableOpacity >
+                <View>
+                    <TouchableOpacity style={styles.button}><Button title="View List" onPress={() => this.props.history.push('/selectedProducts')} /></TouchableOpacity>
+                    <TouchableOpacity style={styles.button}><Button title="Calculate" /></TouchableOpacity>
+                    <Text>Number: {this.props.selectedProducts.length} </Text>
+                    <TouchableOpacity style={styles.button} onPress={() =>{ this.props.history.push("/login" ), console.log("Admin: " , this.props.admin.length)}} ><Text  style={styles.text}>LOGIN</Text></TouchableOpacity >
+                </View>
             ]
         }
     }
@@ -65,7 +70,8 @@ Header.propTypes = {
 
 const mapStateToProps = (state) => ({
     admin: state.auth.admin,
-    isAuthorized: state.auth.isAuthorized
+    isAuthorized: state.auth.isAuthorized,
+    selectedProducts: state.selectedProducts.comparisonArray
 })
 
 export default withRouter(connect(mapStateToProps, {logOut})(Header))

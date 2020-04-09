@@ -9,8 +9,7 @@ import Search from '../../components_additional/SearchInput';
 
 class Categories extends Component {
     state = {
-        originalArray: this.props.categories,
-        tempArray: [],
+        tempArray: this.props.categories,
         searchName: ''
     }
   
@@ -19,19 +18,19 @@ class Categories extends Component {
     }
 
     findFunction = searchName => {
-        const newData = this.props.categories.filter(item => {
-            const itemData = item.name ? item.name.toLowerCase() : ''.toLower;
+        const matchedData = this.props.categories.filter(item => {
+            const itemData = item.name ? item.name.toLowerCase() : '';
             const textData = searchName.toLowerCase();
             return itemData.indexOf(textData) > -1; 
         });
         if(searchName == '') {
             this.setState({
-                originalArray: this.props.categories,
+                tempArray: this.props.categories,
                 searchName: searchName
             });
         } else {
             this.setState({
-                originalArray: newData,
+                tempArray: matchedData,
                 searchName: searchName
             });
         }
@@ -39,7 +38,7 @@ class Categories extends Component {
     }
 
     getInput = () => {
-        return <TextInput placeholder={"Search in categories..."} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />
+        return <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />
     }
 
     render() {
@@ -51,7 +50,7 @@ class Categories extends Component {
                 {/* <Search name={this.state.name} array={this.props.categories} findFunction={() => this.findFunction(this.props.categories)} /> */}
                 {/* <Search array={this.props.categories} title={"categories"} /> */}
                 {/* <TextInput placeholder={"Search in" + {title}} onChangeText={(value) => {setName(value), findFunction(name, array)}} /> */}
-                <FlatList ListHeaderComponent={this.getInput} data={this.state.originalArray} renderItem={({item}) => (
+                <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
                     <CategoryList key={item} item={item} />
                     )} >
                 </FlatList>

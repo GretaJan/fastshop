@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { getProducts } from '../../src/actions/productActions';
+import { productSelected } from '../../src/actions/comparisonActions';
 
 //Components
 import Product from './ProductList';
@@ -9,21 +10,48 @@ import Product from './ProductList';
 
 class Products extends Component {
     state = {
-        id: this.props.match.params.subcategoryId
+        id: this.props.match.params.subcategoryId,
+        tempArray: this.props.products,
+        searchName: ''
     }
 
-    componentDidMount() {
-        console.log("Product!");
-        console.log("categoryID: ",this.props.match.params.subcategoryId);
-        this.props.getProducts(this.state.id);
+    async componentDidMount() {
+        await this.props.getProducts(this.state.id);
+    }
+
+    findFunction = (searchName) => {
+        const tempData =  this.props.products.filter(item => {
+            const itemData = item.name ? item.name.toLowerCase() : '';
+            const searchData = searchName.toLowerCase();
+            return itemData.indexOf(searchData) > -1;
+        })
+        if(searchName == '') {
+            this.setState({
+                tempArray: this.props.products,
+                searchName: searchName
+            })
+        } else {
+            this.setState({
+                tempArray: tempData,
+                searchName: searchName
+            })
+        }
+    }
+
+    getInput = () => {
+        return <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />
+    }
+
+    selectProduct = (item1, item2) => {
+        this.props.productSelected(item1, item2);
     }
 
     render() {
         return (
             <View>
-                 <Text>Products</Text>
-                <FlatList data={this.props.products} renderItem={({item}) => (
-                    <Product item={item} />
+                <Text>Products</Text>
+                <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
+                    <Product item={item} selectProduct={(item1, item2) => this.selectProduct(item1, item2)  }/>
                 )} />
             </View>
         )
@@ -35,4 +63,4 @@ const mapStateToProps = state => ({
     products: state.products.products
 })
 
-export default connect(mapStateToProps, {getProducts})(Products)
+export default connect(mapStateToProps, {getProducts, productSelected})(Products)

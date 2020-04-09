@@ -29,6 +29,8 @@ import AddProduct from './componentsAuth/auth_products/AddProduct';
 import EditCategory from './componentsAuth/auth_categories/EditCategory';
 import EditSubcategory from './componentsAuth/auth_subcategories/EditSubcategory';
 import EditProduct from './componentsAuth/auth_products/EditProduct';
+// COMPARISON
+import SelectedProducts from './components/comparison/selectedProducts';
 
 
 class App extends Component {
@@ -40,7 +42,6 @@ class App extends Component {
       <Provider store={store}>
          {/* <PersistGate loading={null} persistor={persistor}> */}
           <NativeRouter>
-          <Header />
             <Switch>
               <Route exact path="/" component={ifAuthorized(Home)} />
               <Route path="/dashboard" component={Authorized(Dashboard)} />
@@ -58,7 +59,10 @@ class App extends Component {
               <Route path="/editCategory/:categoryId" component={Authorized(EditCategory)} />
               <Route path="/editSubcategory/:categoryId/:subcategoryId" component={Authorized(EditSubcategory)} />
               <Route path="/editProduct/:subcategoryId/:productId" component={Authorized(EditProduct)} />
+              {/* CALCULATIONS */}
+              <Route path="/selectedProducts" component={SelectedProducts} />
             </Switch>
+            <Header />
           </NativeRouter>
           {/* </PersistGate> */}
       </Provider>

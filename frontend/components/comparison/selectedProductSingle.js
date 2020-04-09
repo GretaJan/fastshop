@@ -37,12 +37,16 @@ class ProductList extends Component {
         this.props.selectProduct(this.props.item.id, this.props.item.subcategory_id);
     }
 
+    removeFromList = (product) => {
+        this.props.removeProduct(product);
+    }
+
     render() {
         return (
             <View style={styles.itemWrap}>
                 <Text key={this.props.item.id} onPress={() => this.props.history.push(`/product/${this.props.item.subcategory_id}/${this.props.item.id}`)}>{this.props.item.name}</Text>
                 <View style={styles.itemWrap}>
-                    <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.selectProduct} />
+                    <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.removeFromList(this.props.item.id)} />
                 </View>
             </View>
         )
