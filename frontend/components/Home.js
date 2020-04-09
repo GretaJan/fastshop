@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-// import { Provider } from 'react-redux';
-// import store from '../store';
+import { View, Text, StyleSheet } from 'react-native';
+
 
 // Components:
 import Categories from './Categories/Categories';
@@ -10,7 +9,6 @@ class Home extends Component {
 
 
   render() {
-
     const styles = StyleSheet.create({
       container: {
         // flex: 1,

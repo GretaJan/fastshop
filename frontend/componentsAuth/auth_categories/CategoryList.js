@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { withRouter } from 'react-router-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -70,15 +70,15 @@ class CategoryList extends Component {
                     {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
                     <View style={styles.itemWrap}>
                         <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
-                        <Icon name="check" size={35} color="firebrick"  onPress={this.deleteFunction}/>
+                        <Icon name="remove" size={35} color="firebrick"  onPress={this.deleteFunction}/>
                     </View>
                 </View>
             }{(this.state.nameInput) &&
                 <View style={styles.itemWrap}>
                     <TextInput style={styles.itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({name: value})}}  defaultValue={this.props.item.name} value={this.state.name}/>
                     <View style={styles.itemWrap}>
-                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editCategory} />
-                        <Icon name="check" size={35} color="firebrick" onPress={this.cancelNameEdit} />
+                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editCategory} />
+                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelNameEdit} />
                     </View>
                  </View>
             }

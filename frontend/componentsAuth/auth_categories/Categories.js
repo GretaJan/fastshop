@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Button } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { getCategories, deleteCategory } from '../../src/actions/categoryActions';
 import { withRouter } from 'react-router-native';
@@ -8,6 +8,12 @@ import { withRouter } from 'react-router-native';
 import CategoryList from './CategoryList';
 import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
+
+const styles = {
+    container: {
+        flex: 1
+    }
+}
 
 class Categories extends Component {
   
@@ -41,11 +47,13 @@ class Categories extends Component {
                 (this.props.error !== '') ? (
                     <Error message={this.props.error} />
                 ) : (
-                <View>
-                    <FlatList data={this.props.categories} renderItem={({item}) => (
-                    <CategoryList key={item} item={item} deleteCategory = {item => this.deleteCategory(item)} />
-                    )} >
-                    </FlatList>
+                <View style={styles.container}>
+                    <ScrollView>
+                        <FlatList data={this.props.categories} renderItem={({item}) => (
+                        <CategoryList key={item} item={item} deleteCategory = {item => this.deleteCategory(item)} />
+                        )} >
+                        </FlatList>
+                    </ScrollView>
                     <Button title="Add category" onPress={() => this.props.history.push('/addCategory')} ></Button>
                 </View>
             ))

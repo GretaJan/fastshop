@@ -288,8 +288,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>
                                     <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => this.setState({name: value})} defaultValue={this.props.product.name} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelNameEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelNameEdit} />
                                     </View>
                                 </View>
                             }
@@ -306,8 +306,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>  
                                     <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => this.setState({energy: value})} defaultValue={this.props.product.energy} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelEnergyEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelEnergyEdit} />
                                     </View>
                                 </View>  
                             }{(!this.state.fatInput) &&
@@ -320,8 +320,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>
                                     <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fat: value})}} defaultValue={this.props.product.fat} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelFatEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelFatEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.saturatedInput) &&
@@ -334,8 +334,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>
                                     <TextInput  style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}}  defaultValue={this.props.product.saturated} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelSaturatedEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelSaturatedEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.carbsInput) &&
@@ -348,8 +348,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>
                                     <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({carbs: value})}} defaultValue={this.props.product.carbs} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelCarbsEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelCarbsEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.sugarInput) &&
@@ -362,8 +362,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>
                                     <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue={this.props.product.sugar} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelSugarEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelSugarEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.fiberInput) &&
@@ -376,8 +376,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>
                                     <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fiber: value})}} defaultValue={this.props.product.fiber} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelFiberEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelFiberEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.proteinInput) &&
@@ -390,8 +390,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>
                                     <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({protein: value})}} defaultValue={this.props.product.protein} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelProteinEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelProteinEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.saltInput) &&
@@ -404,8 +404,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>
                                     <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({salt: value})}} defaultValue={this.props.product.salt} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelSaltEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelSaltEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.vitaminsInput) &&
@@ -418,8 +418,8 @@ class Product extends Component {
                                 <View style={styles.itemWrap}>
                                     <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({vitamins: value})}} defaultValue={this.props.product.vitamins} />
                                     <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.editProduct} />
-                                        <Icon name="file-cancel-outline" size={35} color="firebrick" onPress={this.cancelVitaminsEdit} />
+                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelVitaminsEdit} />
                                     </View>
                                 </View>
                             }{(this.props.image && (

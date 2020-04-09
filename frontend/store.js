@@ -1,11 +1,31 @@
 import { createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './src/reducers';
+import { persistStore, persistReducer } from 'redux-persist'
+import AsyncStorage from '@react-native-community/async-storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
+
 
 const initialState = {};
 
 const middleware = [thunk];
 
-const store = createStore(rootReducer, initialState, applyMiddleware(...middleware));
+const persistConfig = {
+    key: 'root',
+    storage: AsyncStorage,
+    // whitelist: ['authReducer'],
+    stateReconciler: autoMergeLevel2,
+}
 
-export default store
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+
+
+export default() => {
+    const store = createStore(persistedReducer, initialState, applyMiddleware(...middleware));
+    const persistor = persistStore(store)
+    return {store: store, persistor: persistor}
+}
+
+
+// export default {store, persistStore(store)} 
