@@ -18,36 +18,27 @@ class Categories extends Component {
         this.props.getCategories();
     }
 
-    // findFunction = (item) => {
-    //     item.map(item => {
-    //         if(item.indexOf(this.state.name)) {
-    //             this.setState({nameArray: this.state.nameArray.concat(name)});
-    //         }
-    //     })     
-    // }
-    findFunction = name => {
-        this.setState({searchName: name}), 
-        () => {
-            if(name === '') {
+    findFunction = searchName => {
+        const newData = this.props.categories.filter(item => {
+            const itemData = item.name ? item.name.toLowerCase() : ''.toLower;
+            const textData = searchName.toLowerCase();
+            return itemData.indexOf(textData) > -1; 
+        });
+        if(searchName == '') {
             this.setState({
-                originalArray: [...this.state.tempArray]
-            })
-            //  return;
-            console.log(originalArray);
-            } else {
-                this.state.tempArray = this.state.originalArray;
-            }
-        } 
-            
-        this.state.originalArray = this.state.tempArray.filter(function(item) {
-            console.log("name2: ", item)
-            return item.name.includes(name)
-        }).map((name) => name);
-
+                originalArray: this.props.categories,
+                searchName: searchName
+            });
+        } else {
+            this.setState({
+                originalArray: newData,
+                searchName: searchName
+            });
+        }
+       
     }
 
     getInput = () => {
-        // return <Search array={this.props.categories} title={"categories"} />
         return <TextInput placeholder={"Search in categories..."} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />
     }
 
