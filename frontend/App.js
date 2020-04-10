@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NativeRouter, Switch, Route } from 'react-router-native';
-import { View, TabBarIOS } from 'react-native';
+import { View } from 'react-native';
 import { NavigationContainter } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -38,122 +38,57 @@ import EditProduct from './componentsAuth/auth_products/EditProduct';
 import SelectedProducts from './components/comparison/selectedProducts';
 
 
-//Navigation:
 
-// const Body_not_authorized = StackNavigator({
-//     Home: {
-//       screen: Home
-//     },
-//     Detail: {
-//       screen: RepoDetail
-//     },
-//     subcategories: {
-//         screen: Subcategories
-//     },
-//     products: {
-//         screen: Products
-//     },
-//     product: {
-//         screen: Product
-//     },
-// });
-
-// const Body_authorized = StackNavigator({
-//     dashboard: {
-//       screen: Dashboard
-//     },
-//     subcategories_auth: {
-//       screen: Subcategories_Auth
-//     },
-//     products_auth: {
-//         screen: Products_Auth
-//     },
-//     product_auth: {
-//         screen: Product_Auth
-//     },
-//     addCategory: {
-//         screen: AddCategory
-//     },
-//     addSubcategory: {
-//     screen: AddSubcategory
-//     },
-//     addProduct: {
-//         screen: AddProduct
-//     }
-// });
-
-// const Footer_not_authorized = TabNavigator({
-//     home: {
-//         screen: Home
-//     },
-//     login: {
-//         screen: Login
-//     },
-//     selected_products: {
-//         screen: SelectedProducts
-//     }
-// })
-// const Footer_authorized = TabNavigator({
-//     dashboard: {
-//         screen: Dashboard
-//     },
-//     login: {
-//         screen: Login
-//     }
-// })
-
+let AppNavigation = () => {
+  const GuestNavigation = createStackNavigator();
 const AuthNavigation = createStackNavigator();
 const Footer = createBottomTabNavigator();
- 
+const AuthFooter = createBottomTabNavigator();
 
-let Navigation = ({ isAuthorized }) => {
 
-    logOut = () => {
-        this.props.logOut(this.props.admin);
-        navigation.navigate('home')
-    }
-
-        return (
-            <NavigationContainter>
-                <AuthNavigation.Navigator>
-                    <AuthNavigation.Screen name="Login" component={LoginPage} />
-                    <AuthNavigation.Screen name="Dashboard" component={Dashboard} options={{ title: Dashboard}} />
-                    <AuthNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} />
-                    <AuthNavigation.Screen name="Products_Auth" component={Products_Auth} />
-                    <AuthNavigation.Screen name="Product_Auth" component={Product_Auth} />
-                </AuthNavigation.Navigator>
-                <Tabs.Navigator>
-                    <Tabs.Screen name="Home" component={Home} />
-                    <Tabs.Screen name="Login" component={Login} />
-                    <Tabs.Screen name="SelectedProducts" component={SelectedProducts} />
-                </Tabs.Navigator>
-            </NavigationContainter>
-        )
+  return (
+        <NavigationContainter>
+          {/* <GuestNavigation.Navigator>
+            <GuestNavigation.Screen name="Login" component={LoginPage} />
+            <GuestNavigation.Screen name="Dashboard" component={Dashboard} options={{ title: Dashboard}} />
+            <GuestNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} />
+            <GuestNavigation.Screen name="Products_Auth" component={Products_Auth} />
+            <GuestNavigation.Screen name="Product_Auth" component={Product_Auth} />
+          </GuestNavigation.Navigator> */}
+          <AuthNavigation.Navigator>
+              <AuthNavigation.Screen name="Login" component={LoginPage} />
+              {/* <AuthNavigation.Screen name="Dashboard" component={Dashboard} options={{ title: Dashboard}} />
+              <AuthNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} />
+              <AuthNavigation.Screen name="Products_Auth" component={Products_Auth} />
+              <AuthNavigation.Screen name="Product_Auth" component={Product_Auth} /> */}
+          </AuthNavigation.Navigator>
+          <Footer.Navigator>
+              <Footer.Screen name="Home" component={Home} />
+              <Footer.Screen name="Login" component={LoginPage} />
+              <Footer.Screen name="SelectedProducts" component={SelectedProducts} />
+          </Footer.Navigator>
+        </NavigationContainter>
+    )
 }
 
 const mapStateToProps = (state) => ({
-    admin: state.auth.admin,
-    isAuthorized: state.auth.isAuthorized,
-    selectedProducts: state.selectedProducts.comparisonArray
-});
+  admin: state.auth.admin,
+  isAuthorized: state.auth.isAuthorized,
+  selectedProducts: state.selectedProducts.comparisonArray
+})
 
-Navigation = connect(mapStateToProps, { logOut })(Navigation)
+AppNavigation = connect(mapStateToProps, {logOut})(AppNavigation)
 
-
-class App extends components {
-
-
-  render() {
+const App = () => {
 
     return (
       <Provider store={store}>
          <PersistGate loading={null} persistor={persistor}>
-            <Navigation />
+            <AppNavigation />
           </PersistGate>
       </Provider>
     )
   }
-}
 
 export default App
 
