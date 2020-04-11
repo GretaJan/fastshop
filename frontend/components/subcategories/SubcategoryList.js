@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { withRouter } from 'react-router-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 const styles = StyleSheet.create({
@@ -34,7 +33,7 @@ class SubcategoryList extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={styles.itemWrap} onPress={() => this.props.history.push(`/products/${this.props.item.id}`)} >
+            <TouchableOpacity style={styles.itemWrap} onPress={() => navigation.push(`/products/${this.props.item.id}`)} >
                 <Text key={this.props.item.id} >{this.props.item.name}</Text>
                 <View style={styles.itemWrap}>
                     <Icon style={styles.iconItem} name="arrow-circle-right" size={20} onPress={this.selectProduct} />
@@ -44,4 +43,4 @@ class SubcategoryList extends Component {
     }
 }
 
-export default withRouter(SubcategoryList)
+export default SubcategoryList

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TextInput, Image, PushNotificationIOS } from 'react-native';
 import { Input, Button } from 'react-native-elements';
-import { withRouter } from 'react-router-native';
 import ImagePicker from 'react-native-image-picker';
 import { addProduct } from '../../src/actions/productActions';
 
@@ -78,7 +77,7 @@ class AddProduct extends Component {
         }
         var id = this.props.match.params.subcategoryId
         await this.props.addProduct(data, id);
-        this.props.history.push(`/products_auth/${this.props.match.params.subcategoryId}`);
+        navigation.push(`/products_auth/${this.props.match.params.subcategoryId}`);
     }
 
         render() {
@@ -114,4 +113,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default withRouter(connect(null, mapDispatchToProps)(AddProduct))
+export default connect(null, mapDispatchToProps)(AddProduct)

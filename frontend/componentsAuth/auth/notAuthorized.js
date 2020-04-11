@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-native';
 
 function HOC(WrapperComponent) {
     class NoAuthorization extends Component {
 
         componentDidMount() {
             if(this.props.isAuthorized) {
-                this.props.history.push('/dashboard')
+                navigation.push('/dashboard')
             }
         }
 
         componentDidUpdate(nextProps) {
             if(nextProps.isAuthorized) {
-                this.props.history.push('/dashboard')
+                navigation.push('/dashboard')
             }
         }
 
@@ -31,7 +30,7 @@ function HOC(WrapperComponent) {
         isAuthorized: state.auth.isAuthorized
     })
 
-    return withRouter(connect(mapStateToProps, {})(NoAuthorization))
+    return connect(mapStateToProps, {})(NoAuthorization)
 }
 
 export default HOC

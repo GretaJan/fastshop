@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TextInput, Image, PushNotificationIOS } from 'react-native';
 import { Input, Button } from 'react-native-elements';
-import { withRouter } from 'react-router-native';
 import ImagePicker from 'react-native-image-picker';
 import { addSubcategory } from '../../src/actions/subcategoryActions';
 
@@ -56,7 +55,7 @@ class AddSubcategory extends Component {
     }
 
     goBack = () => {
-        this.props.history.push(`/subcategories_auth/${this.state.id}`);
+        navigation.push(`/subcategories_auth/${this.state.id}`);
     }
 
     addSubcategory = () => {
@@ -66,7 +65,7 @@ class AddSubcategory extends Component {
         }
         var id = this.props.match.params.categoryId
         this.props.addSubcategory(data, id);
-        this.props.history.push(`/subcategories_auth/${this.state.id}`);
+        navigation.push(`/subcategories_auth/${this.state.id}`);
     }
 
         render() {
@@ -89,4 +88,4 @@ class AddSubcategory extends Component {
 
 }
 
-export default withRouter(connect(null, { addSubcategory })(AddSubcategory))
+export default connect(null, { addSubcategory })(AddSubcategory)

@@ -51,7 +51,7 @@ class Categories extends Component {
                 {/* <Search array={this.props.categories} title={"categories"} /> */}
                 {/* <TextInput placeholder={"Search in" + {title}} onChangeText={(value) => {setName(value), findFunction(name, array)}} /> */}
                 <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                    <CategoryList key={item} item={item} />
+                    <CategoryList key={item} item={item} navigation={this.props.navigation}/>
                     )} >
                 </FlatList>
             </View>
@@ -67,4 +67,4 @@ const mapStateToProps = (state) => ({
     categories: state.categories.categories,
 });
 
-export default connect(mapStateToProps, { getCategories })(Categories);
+export default connect(mapStateToProps, { getCategories })(Categories)

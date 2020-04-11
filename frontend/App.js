@@ -8,7 +8,7 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import configureStore from './store';
 const { store, persistor } = configureStore();
 
-import NavigationComponent from './App_2';
+import NavigationComponent from './Navigation';
 
 
 // Components:

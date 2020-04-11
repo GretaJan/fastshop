@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { View, Text, TextInput, ScrollView, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { withRouter } from 'react-router-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { editCategory } from '../../src/actions/categoryActions';
@@ -66,7 +65,7 @@ class CategoryList extends Component {
             <View>
             {(!this.state.nameInput) &&
                 <View style={styles.itemWrap} >
-                    <Text key={this.props.item.id} onPress={() => {this.props.history.push(`/subcategories_auth/${this.props.item.id}`)}}>{this.state.name}</Text>
+                    <Text key={this.props.item.id} onPress={() => { navigation.push(`/subcategories_auth/${this.props.item.id}`)}}>{this.state.name}</Text>
                     {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
                     <View style={styles.itemWrap}>
                         <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
@@ -88,4 +87,4 @@ class CategoryList extends Component {
 }
   
 
-export default withRouter(connect(null, {editCategory})(CategoryList))
+export default connect(null, {editCategory})(CategoryList)

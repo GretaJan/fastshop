@@ -3,6 +3,7 @@ import { View, Text, FlatList, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { getSubcategories } from '../../src/actions/subcategoryActions';
 import { getCategory } from '../../src/actions/categoryActions';
+import { withNavigation } from 'react-navigation';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -10,12 +11,15 @@ import Subcategory from './SubcategoryList';
 
 class Subcategories extends Component {
     state = {
-        id: this.props.match.params.categoryId,
+        // id: this.props.navigation.state.params.categoryId,
+        id: this.props.route.params.categoryId,
+        // id:  this.props.navigation.getParam('categoryId', null),
         tempArray: this.props.subcategories,
         searchName: ''
     }
 
     async componentDidMount() {
+        console.log("new params: ", this.props.route.params.categoryId,);
         await this.props.getSubcategories(this.state.id);
     }
 
@@ -43,6 +47,7 @@ class Subcategories extends Component {
     }
 
     render() {
+   
         return (
             <View>
                  <Text>Subcategories folder</Text>
@@ -61,4 +66,4 @@ const mapStateToProps = (state, ownProps ) => {
    }
 }
 
-export default connect(mapStateToProps, {getSubcategories, getCategory})(Subcategories)
+export default withNavigation(connect(mapStateToProps, {getSubcategories, getCategory})(Subcategories))

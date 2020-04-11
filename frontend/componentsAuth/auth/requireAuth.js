@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-native';
 
 function HOC (ComposedComponent) {
     class Authentication extends Component {
@@ -14,7 +13,7 @@ function HOC (ComposedComponent) {
 
         componentDidUpdate(nextProps){
             if(!nextProps.isAuthorized){
-                this.props.history.push('/login');
+               navigation.push('/login');
             }
         }
 
@@ -31,7 +30,7 @@ function HOC (ComposedComponent) {
         isAuthorized: state.auth.isAuthorized
     })
 
-    return withRouter(connect(mapStateToProps, {})(Authentication))
+    return connect(mapStateToProps, {})(Authentication)
 }
 
 export default HOC
