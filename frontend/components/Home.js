@@ -30,7 +30,7 @@ class Home extends Component {
     return (
         <View style={styles.container}>
           <Text style={styles.title}>SpeedShop</Text>
-          <Categories />
+          {/* <Categories /> */}
         </View>
     )
   }

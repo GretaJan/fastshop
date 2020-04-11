@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { NativeRouter, Switch, Route } from 'react-router-native';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/es/integration/react'
-import configureStore from './store';
-const { store, persistor } = configureStore();
-
+// import { createStackNavigator } from "react-navigation-stack";
+// import { createAppContainter } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 // Components:
 import Home from './components/Home';
@@ -30,44 +28,24 @@ import EditSubcategory from './componentsAuth/auth_subcategories/EditSubcategory
 import EditProduct from './componentsAuth/auth_products/EditProduct';
 // COMPARISON
 import SelectedProducts from './components/comparison/selectedProducts';
+import { StackActions } from 'react-navigation';
 
 
-class App extends Component {
 
+class NavigatorContainer extends Component {
+   
+render() {
 
-  render() {
-
-    return (
-      <Provider store={store}>
-         <PersistGate loading={null} persistor={persistor}>
-          <NativeRouter>
-              <Switch>
-                  <Route exact path="/" component={ifAuthorized(Home)} />
-                  <Route path="/dashboard" component={Authorized(Dashboard)} />
-                  <Route path="/login" component={ifAuthorized(LoginPage)} />
-                  <Route path="/subcategories/:categoryId" component={Subcategories} />
-                  <Route path="/subcategories_auth/:categoryId" component={Authorized(Subcategories_Auth)} />
-                  <Route path="/products/:subcategoryId" component={Products} />
-                  <Route path="/products_auth/:subcategoryId" component={Authorized(Products_Auth)} />
-                  <Route path="/product/:subcategoryId/:productId" component={Product} />
-                  <Route path="/product_auth/:subcategoryId/:productId" component={Authorized(Product_Auth)} />
-                  {/* CRUD */}
-                  <Route path="/addCategory" component={Authorized(AddCategory)} />
-                  <Route path="/addSubcategory/:categoryId" component={Authorized(AddSubcategory)} />
-                  <Route path="/addProduct/:subcategoryId" component={Authorized(AddProduct)} />
-                  <Route path="/editCategory/:categoryId" component={Authorized(EditCategory)} />
-                  <Route path="/editSubcategory/:categoryId/:subcategoryId" component={Authorized(EditSubcategory)} />
-                  <Route path="/editProduct/:subcategoryId/:productId" component={Authorized(EditProduct)} />
-                  {/* CALCULATIONS */}
-                  <Route path="/selectedProducts" component={SelectedProducts} />
-              </Switch>
-                <Header />
-          </NativeRouter>
-          </PersistGate>
-      </Provider>
-    )
-  }
+    const GuestNavigation = createStackNavigator();
+    return ( 
+        <NavigationContainer>
+        <GuestNavigation.Navigator>
+            <GuestNavigation.Screen name="Home" component={Home} options={{title: "SpeedShop"}} />
+        </GuestNavigation.Navigator>
+    </NavigationContainer>
+    ) 
+ 
+    }
 }
 
-export default App
-
+export default NavigatorContainer
