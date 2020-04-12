@@ -14,7 +14,8 @@ export const getCategories = () => (dispatch) => {
                 dispatch({
                     type: GET_CATEGORIES,
                     payload: categories.categories,
-                    loading: false
+                    loading: false, 
+                    error: ''
                 })
             }
         ).catch((error) => { 

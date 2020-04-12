@@ -100,7 +100,6 @@ class Header extends Component {
         } else {
             return [
                 <View style={styles.itemWrap}>
-                    <Icon style={styles.itemOne} name="home" size={40} onPress={() => this.props.history.push('/')} />
                     <Icon style={styles.itemTwo} name="sign-in" size={40} onPress={() => this.props.history.push('/login')} />
                     <View style={styles.itemThree} >
                         <Icon style={styles.iconThree} name="list-alt" size={40} onPress={() => this.props.history.push('/selectedProducts')} />
