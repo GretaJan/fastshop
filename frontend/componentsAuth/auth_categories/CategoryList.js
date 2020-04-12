@@ -3,6 +3,7 @@ import { View, Text, TextInput, ScrollView, StyleSheet, FlatList, TouchableOpaci
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { editCategory } from '../../src/actions/categoryActions';
+import { withNavigation } from 'react-navigation';
 
 const styles = {
     container: {
@@ -65,7 +66,7 @@ class CategoryList extends Component {
             <View>
             {(!this.state.nameInput) &&
                 <View style={styles.itemWrap} >
-                    <Text key={this.props.item.id} onPress={() => { navigation.push(`/subcategories_auth/${this.props.item.id}`)}}>{this.state.name}</Text>
+                    <Text key={this.props.item.id} onPress={() => { this.props.navigation.push("Subcategories_Auth", {categoryId: this.props.item.id})}}>{this.state.name}</Text>
                     {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
                     <View style={styles.itemWrap}>
                         <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
@@ -87,4 +88,4 @@ class CategoryList extends Component {
 }
   
 
-export default connect(null, {editCategory})(CategoryList)
+export default withNavigation(connect(null, {editCategory})(CategoryList))

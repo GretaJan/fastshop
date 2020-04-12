@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { withNavigation } from 'react-navigation';
 
 const styles = {
     container: {
@@ -38,7 +39,7 @@ class ProductList extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={styles.itemWrap} onPress={() =>navigation.push(`/product/${this.props.item.subcategory_id}/${this.props.item.id}`)} >
+            <TouchableOpacity style={styles.itemWrap} onPress={() => this.props.navigation.push("Product", {subcategoryId: this.props.item.subcategory_id, productId: this.props.item.id})} >
                 <Text key={this.props.item.id} >{this.props.item.name}</Text>
                 <View style={styles.itemWrap}>
                     <Icon style={styles.iconItem} name="arrow-circle-right" size={35} color="firebrick" onPress={this.selectProduct} />
@@ -48,4 +49,4 @@ class ProductList extends Component {
     }
 }
 
-export default ProductList
+export default withNavigation(ProductList)

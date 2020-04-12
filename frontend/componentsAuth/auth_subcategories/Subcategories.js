@@ -3,6 +3,7 @@ import { View, Text, FlatList, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { getSubcategories, deleteSubcategory } from '../../src/actions/subcategoryActions';
 import { getCategory } from '../../src/actions/categoryActions';
+import { withNavigation } from 'react-navigation';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -13,7 +14,7 @@ import Error from '../../components_additional/Error';
 class Subcategories extends Component {
 
     state = {
-        id: this.props.match.params.categoryId
+        id: this.props.route.params.categoryId
     }
 
     componentDidMount() {
@@ -38,7 +39,7 @@ class Subcategories extends Component {
                         <FlatList data={this.props.subcategories} renderItem={({item}) => (
                             <Subcategory item={item} deleteSubcategory={(item) => this.deleteSubcategory(item)} />
                         )} />
-                        <Button title="Add subcategory" onPress={() => { navigation.push(`/addSubcategory/${this.state.id}`), console.log("ID", this.state.id)}} ></Button>
+                        <Button title="Add subcategory" onPress={() => { navigation.push("Add_Subcategory", {categoryId: this.state.id}) }} ></Button>
                     </View>
                 )
             )
@@ -54,4 +55,4 @@ const mapStateToProps = (state, ownProps ) => {
    }
 }
 
-export default connect(mapStateToProps, {getSubcategories, getCategory, deleteSubcategory})(Subcategories)
+export default withNavigation(connect(mapStateToProps, {getSubcategories, getCategory, deleteSubcategory})(Subcategories))

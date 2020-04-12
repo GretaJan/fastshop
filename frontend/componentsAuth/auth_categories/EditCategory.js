@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TextInput, Image, PushNotificationIOS } from 'react-native';
 import { Input, Button } from 'react-native-elements';
-import { withRouter } from 'react-router-native';
+import { withNavigation } from 'react-navigation';
 import ImagePicker from 'react-native-image-picker';
 import { addCategory } from '../../src/actions/categoryActions';
 
@@ -60,7 +60,7 @@ class EditCategory extends Component {
             image: this.state.image,
         }
         this.props.editCategory(data);
-        this.props.history.push('/dashboard')
+        this.props.navigation.push("Dashboard")
     }
 
         render() {
@@ -81,4 +81,4 @@ class EditCategory extends Component {
     }
 }
 
-export default withRouter(connect(null, { addCategory })(EditCategory))
+export default withNavigation(connect(null, { addCategory })(EditCategory))

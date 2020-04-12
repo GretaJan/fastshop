@@ -5,8 +5,7 @@ import { View, Text, StyleSheet, TextInput, Image, PushNotificationIOS } from 'r
 import { Input, Button } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { addCategory } from '../../src/actions/categoryActions';
-
-
+import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
     container: {
@@ -59,7 +58,7 @@ class AddCategory extends Component {
             image: this.state.image,
         }
         this.props.addCategory(data);
-        navigation.push('/dashboard')
+        this.props.navigation.push("Dashboard")
     }
 
         render() {
@@ -82,4 +81,4 @@ class AddCategory extends Component {
 
 }
 
-export default connect(null, { addCategory })(AddCategory)
+export default withNavigation(connect(null, { addCategory })(AddCategory))

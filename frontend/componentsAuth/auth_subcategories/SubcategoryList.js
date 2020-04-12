@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { withNavigation } from 'react-navigation';
 import { editSubcategory } from '../../src/actions/subcategoryActions';
 
 const styles = {
@@ -77,7 +78,7 @@ class SubcategoryList extends Component {
             <View>
             {(!this.state.nameInput) &&
                 <View style={styles.itemWrap} >
-                <Text key={this.props.item.id} onPress={() => navigation.push(`/products_auth/${this.props.item.id}`)}>{this.state.name}</Text>
+                <Text key={this.props.item.id} onPress={() => this.props.navigation.push("Products_Auth", {subcategoryId: this.props.item.id})}>{this.state.name}</Text>
                     {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
                     <View style={styles.itemWrap}>
                         <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
@@ -98,4 +99,4 @@ class SubcategoryList extends Component {
     }
 }
 
-export default connect(null, {editSubcategory})(SubcategoryList)
+export default withNavigation(connect(null, {editSubcategory})(SubcategoryList))

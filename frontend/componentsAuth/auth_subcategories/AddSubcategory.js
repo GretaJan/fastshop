@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, TextInput, Image, PushNotificationIOS } from 'r
 import { Input, Button } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { addSubcategory } from '../../src/actions/subcategoryActions';
-
+import { withNavigation } from 'react-navigation';
 
 
 const styles = StyleSheet.create({
@@ -31,7 +31,7 @@ class AddSubcategory extends Component {
         super(props);
 
         this.state = {
-            id: this.props.match.params.categoryId,
+            id: this.props.route.params.categoryId,
             name: '',
             image: null
         }
@@ -55,7 +55,7 @@ class AddSubcategory extends Component {
     }
 
     goBack = () => {
-        navigation.push(`/subcategories_auth/${this.state.id}`);
+        this.props.navigation.push("Subcategories_Auth", {categoryId: this.state.id});
     }
 
     addSubcategory = () => {
@@ -63,9 +63,9 @@ class AddSubcategory extends Component {
             name: this.state.name,
             image: this.state.image,
         }
-        var id = this.props.match.params.categoryId
+        var id = this.props.route.params.categoryId
         this.props.addSubcategory(data, id);
-        navigation.push(`/subcategories_auth/${this.state.id}`);
+        navigation.push("Subcategories_Auth", {categoryId: this.state.id});
     }
 
         render() {
@@ -88,4 +88,4 @@ class AddSubcategory extends Component {
 
 }
 
-export default connect(null, { addSubcategory })(AddSubcategory)
+export default withNavigation(connect(null, { addSubcategory })(AddSubcategory))

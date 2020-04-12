@@ -3,6 +3,7 @@ import { View, Text, FlatList, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { getProducts } from '../../src/actions/productActions';
 import { productSelected } from '../../src/actions/comparisonActions';
+import { withNavigation } from 'react-navigation';
 
 //Components
 import Product from './ProductList';
@@ -10,7 +11,7 @@ import Product from './ProductList';
 
 class Products extends Component {
     state = {
-        id: this.props.match.params.subcategoryId,
+        id: this.props.route.params.subcategoryId,
         tempArray: this.props.products,
         searchName: ''
     }
@@ -63,4 +64,4 @@ const mapStateToProps = state => ({
     products: state.products.products
 })
 
-export default connect(mapStateToProps, {getProducts, productSelected})(Products)
+export default withNavigation(connect(mapStateToProps, {getProducts, productSelected})(Products))

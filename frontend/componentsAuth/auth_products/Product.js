@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
 import { getProduct, editProduct, deleteProduct } from '../../src/actions/productActions';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { withNavigation } from 'react-navigation';
 //Components:
 import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
@@ -250,8 +251,8 @@ class Product extends Component {
             "_method": "put"
         }
         console.log("Name: ", this.state.name);
-        await this.props.editProduct(this.props.match.params.subcategoryId, this.props.match.params.productId, data); 
-        this.props.getProduct(this.props.match.params.subcategoryId, this.props.match.params.productId);
+        await this.props.editProduct(this.props.route.params.subcategoryId, this.props.route.params.productId, data); 
+        this.props.getProduct(this.props.route.params.subcategoryId, this.props.route.params.productId);
         this.setState({edited: true})
         this.cancelNameEdit();
         this.cancelEnergyEdit();
@@ -438,4 +439,4 @@ const mapStateToProps = (state) => (console.log("New: ", state.products.product)
     error: state.products.error
 })
 
-export default connect(mapStateToProps, {getProduct, editProduct, deleteProduct})(Product)
+export default withNavigation(connect(mapStateToProps, {getProduct, editProduct, deleteProduct})(Product))

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { getProducts } from '../../src/actions/productActions';
+import { withNavigation } from 'react-navigation';
 
 //Components
 import Product from './ProductList';
@@ -11,12 +12,11 @@ import Error from '../../components_additional/Error';
 
 class Products extends Component {
     state = {
-        id: this.props.match.params.subcategoryId
+        id: this.props.route.params.subcategoryId
     }
 
     async componentDidMount() {
         await this.props.getProducts(this.state.id);
-        console.log("Senu produkctai: ", this.props.products )
     }
 
     render() {
@@ -33,7 +33,7 @@ class Products extends Component {
                         <FlatList data={this.props.products} renderItem={({item}) => (
                             <Product item={item} />
                         )} />
-                        <Button title="Add product" onPress={() => {this.props.history.push(`/addProduct/${this.state.id}`) }} ></Button>
+                        <Button title="Add product" onPress={() => { this.props.navigation.push("Add_Product", {productId: this.state.id}) }} ></Button>
                     </View>
                  ))}
                
@@ -48,4 +48,4 @@ const mapStateToProps = state => (console.log("array of products: ", state.produ
     error: state.products.error
 })
 
-export default connect(mapStateToProps, {getProducts})(Products)
+export default withNavigation(connect(mapStateToProps, {getProducts})(Products))

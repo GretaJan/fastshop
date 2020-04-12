@@ -9,6 +9,7 @@ import { withNavigation } from 'react-navigation';
 import Subcategory from './SubcategoryList';
 
 
+
 class Subcategories extends Component {
     state = {
         // id: this.props.navigation.state.params.categoryId,
@@ -19,7 +20,6 @@ class Subcategories extends Component {
     }
 
     async componentDidMount() {
-        console.log("new params: ", this.props.route.params.categoryId,);
         await this.props.getSubcategories(this.state.id);
     }
 
@@ -47,7 +47,9 @@ class Subcategories extends Component {
     }
 
     render() {
-   
+        // const { navigation } = this.props;
+        // const categoryId = this.props.navigation.getParam('categoryId');
+        // console.log('nav id: ', categoryId);
         return (
             <View>
                  <Text>Subcategories folder</Text>

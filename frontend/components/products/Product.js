@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { getProduct } from '../../src/actions/productActions';
+import { withNavigation } from 'react-navigation';
 
 class Product extends Component {
     state = {
-        productId: this.props.match.params.productId,
-        subcategoryId: this.props.match.params.subcategoryId
+        productId: this.props.route.params.productId,
+        subcategoryId: this.props.route.params.subcategoryId
     }
 
     // static getDerivedStateFromProps(props) {
@@ -32,4 +33,4 @@ const mapStateToProps = (state) => ({
     product: state.products.product
 })
 
-export default connect(mapStateToProps, {getProduct})(Product)
+export default withNavigation(connect(mapStateToProps, {getProduct})(Product))

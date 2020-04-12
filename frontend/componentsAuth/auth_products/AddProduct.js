@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, TextInput, Image, PushNotificationIOS } from 'r
 import { Input, Button } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { addProduct } from '../../src/actions/productActions';
-
+import { withNavigation } from 'react-navigation';
 
 
 const styles = StyleSheet.create({
@@ -77,7 +77,7 @@ class AddProduct extends Component {
         }
         var id = this.props.match.params.subcategoryId
         await this.props.addProduct(data, id);
-        navigation.push(`/products_auth/${this.props.match.params.subcategoryId}`);
+        this.props.navigation.push("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
     }
 
         render() {
@@ -113,4 +113,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default connect(null, mapDispatchToProps)(AddProduct)
+export default withNavigation(connect(null, mapDispatchToProps)(AddProduct))

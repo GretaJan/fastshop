@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { getCategories, deleteCategory } from '../../src/actions/categoryActions';
+import { withNavigation } from 'react-navigation';
 //Components
 import CategoryList from './CategoryList';
 import Loading from '../../components_additional/Loading';
@@ -53,7 +54,7 @@ class Categories extends Component {
                         )} >
                         </FlatList>
                     </ScrollView>
-                    <Button title="Add category" onPress={() => navigation.push('/addCategory')} ></Button>
+                    <Button title="Add category" onPress={() => this.props.navigation.push("Add_Category")} ></Button>
                 </View>
             ))
         )
@@ -70,4 +71,4 @@ const mapStateToProps = (state) => ({
     error: state.categories.error
 });
 
-export default connect(mapStateToProps, { getCategories, deleteCategory })(Categories)
+export default withNavigation(connect(mapStateToProps, { getCategories, deleteCategory })(Categories))
