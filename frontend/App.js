@@ -8,9 +8,8 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import configureStore from './store';
 const { store, persistor } = configureStore();
 
-import NavigationComponent from './Navigation';
-
-
+import Routes from './components_additional/Navigation/Routes';
+import Tabs from './components_additional/Navigation/Tabs';
 
 
 // let AppNavigation = ( { isAuthorized } ) => {
@@ -145,7 +144,8 @@ const App = () => {
         return (
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-              <NavigationComponent />
+              <Routes />
+              <Tabs />
             </PersistGate>
           </Provider>
         )

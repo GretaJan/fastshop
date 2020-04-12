@@ -34,7 +34,7 @@ class CategoryList extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={styles.itemWrap} onPress={() => { this.props.navigation.push("Subcategories", { params: {categoryId: this.props.item.id }}) }}>
+            <TouchableOpacity style={styles.itemWrap} onPress={() => { this.props.navigation.push("Subcategories", {categoryId: this.props.item.id}) }}>
                 <Text key={this.props.item.id} >{this.props.item.name}</Text>
                 <Icon name="arrow-circle-right" size={20} />
             </TouchableOpacity >

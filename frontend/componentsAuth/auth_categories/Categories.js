@@ -18,9 +18,7 @@ const styles = {
 class Categories extends Component {
   
     componentDidMount() {
-        
         this.props.getCategories();
-        console.log('cat: ', this.props.categories);
     }
 
     // componentDidUpdate(prevProps) {
@@ -35,8 +33,11 @@ class Categories extends Component {
 
     deleteCategory = async (id) => {
         await this.props.deleteCategory(id);
-        console.log("id: ", id);
         this.props.getCategories();
+    }
+
+    goToSubcategories = (id) => {
+         this.props.navigation.push("Subcategories_Auth", {categoryId: id});
     }
 
     render() {
@@ -50,7 +51,9 @@ class Categories extends Component {
                 <View style={styles.container}>
                     <ScrollView>
                         <FlatList data={this.props.categories} renderItem={({item}) => (
-                        <CategoryList key={item} item={item} deleteCategory = {item => this.deleteCategory(item)} />
+                        <CategoryList key={item} item={item} 
+                                    goToSubcategories={({item}) => goToSubcategories(item)} 
+                                    deleteCategory = {item => this.deleteCategory(item)} />
                         )} >
                         </FlatList>
                     </ScrollView>

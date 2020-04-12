@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
     container: {
@@ -30,11 +29,16 @@ const styles = StyleSheet.create({
     }
 })
 
+
 class SubcategoryList extends Component {
+
+    goToProducts = () => {
+        this.props.goToProducts(this.props.item.id);
+    }
 
     render() {
         return (
-            <TouchableOpacity style={styles.itemWrap} onPress={() => this.props.navigation.push("Products", {subcategoryId: this.props.item.id})} >
+            <TouchableOpacity style={styles.itemWrap} onPress={ this.goToProducts } >
                 <Text key={this.props.item.id} >{this.props.item.name}</Text>
                 <View style={styles.itemWrap}>
                     <Icon style={styles.iconItem} name="arrow-circle-right" size={20} onPress={this.selectProduct} />
@@ -44,4 +48,4 @@ class SubcategoryList extends Component {
     }
 }
 
-export default withNavigation(SubcategoryList)
+export default SubcategoryList

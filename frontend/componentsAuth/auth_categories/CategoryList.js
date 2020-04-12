@@ -3,7 +3,6 @@ import { View, Text, TextInput, ScrollView, StyleSheet, FlatList, TouchableOpaci
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { editCategory } from '../../src/actions/categoryActions';
-import { withNavigation } from 'react-navigation';
 
 const styles = {
     container: {
@@ -39,6 +38,10 @@ class CategoryList extends Component {
         nameInput: false
     }
 
+    goToSubcategories = () => {
+        this.props.goToSubcategories(this.props.item.id);
+    }
+
     nameInput = () => {
         this.setState({nameInput: true})
     }
@@ -47,13 +50,13 @@ class CategoryList extends Component {
         this.setState({nameInput: false})
     }
 
-    editCategory = () => {
+    editCategory = async() => {
 
         const data = {
             name: this.state.name,
             "_method": "put"
         }
-        this.props.editCategory(this.props.item.id, data);
+        await this.props.editCategory(this.props.item.id, data);
         this.cancelNameEdit();
     }
 
@@ -66,7 +69,7 @@ class CategoryList extends Component {
             <View>
             {(!this.state.nameInput) &&
                 <View style={styles.itemWrap} >
-                    <Text key={this.props.item.id} onPress={() => { this.props.navigation.push("Subcategories_Auth", {categoryId: this.props.item.id})}}>{this.state.name}</Text>
+                    <Text key={this.props.item.id} onPress={this.goToSubcategories}>{this.state.name}</Text>
                     {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
                     <View style={styles.itemWrap}>
                         <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
@@ -88,4 +91,4 @@ class CategoryList extends Component {
 }
   
 
-export default withNavigation(connect(null, {editCategory})(CategoryList))
+export default connect(null, {editCategory})(CategoryList)

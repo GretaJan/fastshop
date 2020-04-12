@@ -23,6 +23,10 @@ class Subcategories extends Component {
         await this.props.getSubcategories(this.state.id);
     }
 
+    goToProducts = (id) => {
+        this.props.navigation.push("Products", {subcategoryId: id});
+    }
+
     searchFunction = searchName => {
         const matchedData = this.props.subcategories.filter(item => {
             const itemData = item.name ? item.name.toLowerCase() : '';
@@ -54,7 +58,8 @@ class Subcategories extends Component {
             <View>
                  <Text>Subcategories folder</Text>
                 <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                    <Subcategory item={item} />
+                    // <Subcategory item={item} goToProducts={({item}) => this.goToProducts({item})} />
+                    <Subcategory item={item} goToProducts={({item}) => this.props.navigation.push("Products", {subcategoryId: item}) } />
                 )} />
             </View>
         )
