@@ -59,7 +59,7 @@ class Subcategories extends Component {
                  <Text>Subcategories folder</Text>
                 <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
                     // <Subcategory item={item} goToProducts={({item}) => this.goToProducts({item})} />
-                    <Subcategory item={item} goToProducts={({item}) => this.props.navigation.push("Products", {subcategoryId: item}) } />
+                    <Subcategory item={item} goToProducts={() => this.props.navigation.push("Products", {subcategoryId: item}) } />
                 )} />
             </View>
         )

@@ -145,7 +145,7 @@ const App = () => {
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <Routes />
-              <Tabs />
+              {/* <Tabs /> */}
             </PersistGate>
           </Provider>
         )

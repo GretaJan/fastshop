@@ -33,31 +33,30 @@ import { StackActions } from 'react-navigation';
 class Navigator extends Component {
    
 render() {
-
     const GuestNavigation = createStackNavigator();
-    // const AuthNavigation = createStackNavigator();
+    const AuthNavigation = createStackNavigator();
 
     return ( 
         <NavigationContainer>
-            {!this.props.isAuthorized ? (
-                <GuestNavigation.Navigator>
+            {/* {this.props.isAuthorized && */}
+                <GuestNavigation.Navigator initialRouteName="Categories">
                     <GuestNavigation.Screen name="Categories" component={Categories} options={{title: "SpeedShop"}} />
-                    <GuestNavigation.Screen name="Subcategories" component={Subcategories} />
+                    <GuestNavigation.Screen name="Subcategories" component={Subcategories} options={{title: "Subcategories"}} />
                     <GuestNavigation.Screen name="Products" component={Products} /> 
                     <GuestNavigation.Screen name="Product" component={Product} /> 
                     <GuestNavigation.Screen name="Login" component={LoginPage} />
                 </GuestNavigation.Navigator> 
-            ) : (
-                <GuestNavigation.Navigator>
-                    <GuestNavigation.Screen name="Dashboard" component={Categories_Auth} options={{ title: Dashboard}} />
-                    <GuestNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} />
-                    <GuestNavigation.Screen name="Products_Auth" component={Products_Auth} />
-                    <GuestNavigation.Screen name="Product_Auth" component={Product_Auth} /> 
-                    <GuestNavigation.Screen name="Add_Category" component={AddCategory} />
-                    <GuestNavigation.Screen name="Add_Subcategory" component={AddSubcategory} />
-                    <GuestNavigation.Screen name="Add_Product" component={AddProduct} />
-                </GuestNavigation.Navigator> 
-            )}
+              {/* {!this.props.isAuthorized && 
+                  <AuthNavigation.Navigator  initialRouteName="Add_Product">
+                     <AuthNavigation.Screen name="Dashboard" component={Categories_Auth} options={{ title: Dashboard}} />
+                     <AuthNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} />
+                     <AuthNavigation.Screen name="Products_Auth" component={Products_Auth} />
+                     <AuthNavigation.Screen name="Product_Auth" component={Product_Auth} /> 
+                     <AuthNavigation.Screen name="Add_Category" component={AddCategory} />
+                     <AuthNavigation.Screen name="Add_Subcategory" component={AddSubcategory} />
+                    <AuthNavigation.Screen name="Add_Product" component={AddProduct} />
+                 </AuthNavigation.Navigator> 
+             }  */}
         </NavigationContainer>
     ) 
  }

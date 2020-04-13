@@ -4,8 +4,6 @@ import { useRoute } from '@react-navigation/native';
 // import { createStackNavigator, createAppContainer } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-// import { createAppContainer } from 'react-navigation';
-import { withNavigation } from 'react-navigation';
 
 
 const styles = StyleSheet.create({
@@ -21,7 +19,7 @@ class CategoryList extends Component {
     // render() {
     //     const { route } = this.props;
 
-    //     export default function(props) {
+    //     export default function(props) {s
     //         return (
     //             <TouchableOpacity style={styles.itemWrap} onPress={() => { route.subcategories.this.props.item.id }}>
     //                 <Text key={this.props.item.id} >{this.props.item.name}</Text>
@@ -32,9 +30,14 @@ class CategoryList extends Component {
         
     // }
 
+    goToSubcategories = () => {
+        this.props.goToSubcategories(this.props.item.id)
+    }
+
     render() {
         return (
-            <TouchableOpacity style={styles.itemWrap} onPress={() => { this.props.navigation.push("Subcategories", {categoryId: this.props.item.id}) }}>
+            // <TouchableOpacity style={styles.itemWrap} onPress={this.goToSubcategories}>
+            <TouchableOpacity style={styles.itemWrap} onPress={() => this.goToSubcategories()}>
                 <Text key={this.props.item.id} >{this.props.item.name}</Text>
                 <Icon name="arrow-circle-right" size={20} />
             </TouchableOpacity >
@@ -42,4 +45,4 @@ class CategoryList extends Component {
     }
 }
 
-export default withNavigation(CategoryList)
+export default CategoryList

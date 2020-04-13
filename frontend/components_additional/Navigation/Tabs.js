@@ -40,15 +40,18 @@ class Tabs extends Component {
             console.log("Next props: ", nextProps.isAuthorized);
         }
     } 
-   
+    logOut = () => {
+        this.props.logOut(this.props.admin)
+    }   
+
 render() {
 
     const Tabs = createBottomTabNavigator();
     // const AuthFooter = createBottomTabNavigator();
-
+console.log("Auth::", this.props.isAuthorized);
     return ( 
         <NavigationContainer>
-            {(!this.props.isAuthorized) ? (
+            {(this.props.isAuthorized) ? (
                 <Tabs.Navigator>
                     <Tabs.Screen name="Home" component={Categories} 
                     options = {
@@ -81,11 +84,14 @@ render() {
                         options = {
                             { tabBarIcon: () => (
                                 <Icon name="sign-out" size={40}  />
-                            )},
-                            { tabBarOnPress: () => (
-                                this.props.logOut(this.props.admin)
                             )}
-                    } />
+                        }
+                        listeners={
+                            { tabPress: () => (
+                                this.logOut()
+                            )}
+                        }                
+                    />
                 </Tabs.Navigator> 
             )}
         </NavigationContainer> 

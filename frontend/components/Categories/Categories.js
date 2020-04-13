@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, Button } from 'react-native';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import { getCategories } from '../../src/actions/categoryActions';
 //Components
 import CategoryList from './CategoryList';
@@ -41,6 +42,11 @@ class Categories extends Component {
         return <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />
     }
 
+    goToSubcategories = (id) => {
+        console.log('id', id);
+        this.props.navigation.push("Subcategories", {categoryId: id});
+    }
+
     render() {
 
         return (
@@ -51,7 +57,7 @@ class Categories extends Component {
                 {/* <Search array={this.props.categories} title={"categories"} /> */}
                 {/* <TextInput placeholder={"Search in" + {title}} onChangeText={(value) => {setName(value), findFunction(name, array)}} /> */}
                 <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                    <CategoryList key={item} item={item} navigation={this.props.navigation}/>
+                    <CategoryList key={item} item={item} goToSubcategories={(item) => this.goToSubcategories(item)} />
                     )} >
                 </FlatList>
             </View>
@@ -67,4 +73,4 @@ const mapStateToProps = (state) => ({
     categories: state.categories.categories,
 });
 
-export default connect(mapStateToProps, { getCategories })(Categories)
+export default withNavigation(connect(mapStateToProps, { getCategories })(Categories))

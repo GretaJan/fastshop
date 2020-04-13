@@ -38,7 +38,7 @@ class SubcategoryList extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={styles.itemWrap} onPress={ this.goToProducts } >
+            <TouchableOpacity key={this.props.item.id} style={styles.itemWrap} onPress={() => this.goToProducts } >
                 <Text key={this.props.item.id} >{this.props.item.name}</Text>
                 <View style={styles.itemWrap}>
                     <Icon style={styles.iconItem} name="arrow-circle-right" size={20} onPress={this.selectProduct} />

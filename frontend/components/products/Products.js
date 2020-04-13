@@ -52,7 +52,10 @@ class Products extends Component {
             <View>
                 <Text>Products</Text>
                 <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                    <Product item={item} selectProduct={(item1, item2) => this.selectProduct(item1, item2)  }/>
+                    <Product item={item} 
+                            selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
+                            goToProduct={(id1, id2) => this.props.navigation.push("Product", {subcategoryId: id1, productId: id2})} 
+                    />
                 )} />
             </View>
         )
