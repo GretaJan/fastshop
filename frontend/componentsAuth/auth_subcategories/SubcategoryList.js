@@ -73,12 +73,16 @@ class SubcategoryList extends Component {
         this.props.deleteSubcategory(this.props.item.id);
     }
 
+    goToProducts = () => {
+        this.props.goToProducts(this.props.item.id);
+    }
+
     render() {
         return (
             <View>
             {(!this.state.nameInput) &&
                 <View style={styles.itemWrap} >
-                <Text key={this.props.item.id} onPress={() => this.props.navigation.push("Products_Auth", {subcategoryId: this.props.item.id})}>{this.state.name}</Text>
+                <Text key={this.props.item.id} onPress={this.goToProducts}>{this.state.name}</Text>
                     {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
                     <View style={styles.itemWrap}>
                         <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
@@ -99,4 +103,4 @@ class SubcategoryList extends Component {
     }
 }
 
-export default withNavigation(connect(null, {editSubcategory})(SubcategoryList))
+export default (connect(null, {editSubcategory})(SubcategoryList))

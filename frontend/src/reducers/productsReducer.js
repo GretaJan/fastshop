@@ -1,11 +1,11 @@
 import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT } from '../actions/types';
-import { ActionSheetIOS } from 'react-native';
 
 const initialState = {
     products: [],
     product: {},
     loading: null,
-    error: ''
+    error: '',
+    updated: null
 }
 
 export default function(state = initialState, action) {
@@ -13,13 +13,14 @@ export default function(state = initialState, action) {
         case LOADING_GET_PRODUCTS:
             return {
                 ...state,
-                loading: action.loading
+                loading:  action.loading
             }
         case GET_PRODUCTS:
             return {
                 ...state,
                 products: action.payload,
-                loading: action.loading
+                loading: action.loading,
+                error: action.error
             }
         case GET_PRODUCTS_ERROR:
         return {
@@ -55,10 +56,19 @@ export default function(state = initialState, action) {
             //         return item
             //     }
             // })
-            return {
-                ...state,
-                product: action.payload
-            }
+
+            return state.products.map(item => {
+                if(item.id === action.id) {
+                    return {
+                        ...state,
+                        updated: true,
+                        products: state.products.concat(action.payload) 
+                    }
+                } else {
+                    item
+                }
+            })
+
         case DELETE_PRODUCT:
             return {
                 ...state,

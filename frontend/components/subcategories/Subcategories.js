@@ -7,8 +7,8 @@ import { withNavigation } from 'react-navigation';
 
 //Components
 import Subcategory from './SubcategoryList';
-
-
+import Loading from '../../components_additional/Loading';
+import Error from '../../components_additional/Error';
 
 class Subcategories extends Component {
     state = {
@@ -50,26 +50,39 @@ class Subcategories extends Component {
         return <TextInput placeholder="Search by name" onChangeText={value => this.searchFunction(value)} value={this.state.searchName} />
     }
 
+    goToProducts = (id) => {
+        this.props.navigation.push("Products", {subcategoryId: id});
+    }
+
     render() {
         // const { navigation } = this.props;
         // const categoryId = this.props.navigation.getParam('categoryId');
         // console.log('nav id: ', categoryId);
         return (
-            <View>
-                 <Text>Subcategories folder</Text>
-                <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                    // <Subcategory item={item} goToProducts={({item}) => this.goToProducts({item})} />
-                    <Subcategory item={item} goToProducts={() => this.props.navigation.push("Products", {subcategoryId: item}) } />
-                )} />
-            </View>
+            (this.props.loading) ? (
+                <Loading />
+            ) : (
+                (this.props.error !== '') ? (
+                    <Error message={this.props.error} />
+                ) : (
+                <View>
+                    <Text>Subcategories folder</Text>
+                    <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
+                        <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
+                    )} />
+                </View>
+                )
+            )
         )
     }
 
 }
 
-const mapStateToProps = (state, ownProps ) => {
+const mapStateToProps = (state) => {
    return {
     subcategories:state.subcategories.subcategories,
+    loading: state.subcategories.loading,
+    error: state.subcategories.error
    }
 }
 

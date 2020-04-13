@@ -21,10 +21,11 @@ export const getProducts = (subcategory) => dispatch => {
             dispatch({
                 type: GET_PRODUCTS,
                 payload: products.data.products,
-                loading: false
+                loading: false,
+                error: ''
             })
         }
-    ).catch(err => {
+    ).catch(err => { console.log(err.response),
         dispatch({
             type: GET_PRODUCTS_ERROR,
             error: 'Failed to load product list...',
@@ -53,7 +54,8 @@ export const getProduct = (subcategory, product) => (dispatch) => {
             dispatch({
                 type: GET_PRODUCT,
                 payload: product.data.product,
-                loading: false
+                loading: false,
+                error: ''
             })
         }
     ).catch(err =>  
@@ -69,7 +71,7 @@ export const addProduct = (product, subcategory) => dispatch => {
         .then(product => { console.log("Product: ", product),
             dispatch({
                 action: POST_PRODUCT,
-                dispatch: product.data
+                payload: product.data
             })
         }).catch(err => 
             console.log("POST PRODUCT ERROR: ", err.response))
@@ -84,7 +86,7 @@ export const editProduct = (product, subcategory, data) => (dispatch) => {
                 edited: true
             })
         }).catch(err => 
-            console.log("EDIT PRODUCT ERROR: ", err.response))
+            console.log("EDIT PRODUCT ERROR: ", err))
 }
 
 export const deleteProduct = (product) => (dispatch) => {

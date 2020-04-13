@@ -18,12 +18,17 @@ class Subcategories extends Component {
     }
 
     componentDidMount() {
+        console.log("ID", this.props.route.params);
         this.props.getSubcategories(this.state.id);
     }
 
     deleteSubcategory = async (id) => {
         await this.props.deleteSubcategory(id);
         this.props.getSubcategories(this.state.id);
+    }
+
+    goToProducts = (id) => {
+        this.props.navigation.push("Products_Auth", {subcategoryId: id});
     }
 
     render() {
@@ -37,7 +42,10 @@ class Subcategories extends Component {
                     <View>
                         <Text>Subcategories folder Auth</Text>
                         <FlatList data={this.props.subcategories} renderItem={({item}) => (
-                            <Subcategory item={item} deleteSubcategory={(item) => this.deleteSubcategory(item)} />
+                            <Subcategory item={item} 
+                                        deleteSubcategory={(item) => this.deleteSubcategory(item)} 
+                                        goToProducts={(item) => this.goToProducts(item)}
+                            />
                         )} />
                         <Button title="Add subcategory" onPress={() => { navigation.push("Add_Subcategory", {categoryId: this.state.id}) }} ></Button>
                     </View>
@@ -47,7 +55,7 @@ class Subcategories extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps ) => {
+const mapStateToProps = (state) => {
    return {
     subcategories: state.subcategories.subcategories,
     loading: state.subcategories.loading,

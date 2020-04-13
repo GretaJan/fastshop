@@ -36,6 +36,10 @@ class ProductList extends Component {
         this.props.selectProduct(this.props.item.id, this.props.item.subcategory_id);
     }
 
+    goToProduct = () => {
+        this.props.goToProduct(this.props.item.subcategory_id, this.props.item.id)
+    }
+
     removeFromList = (product) => {
         this.props.removeProduct(product);
     }
@@ -43,7 +47,7 @@ class ProductList extends Component {
     render() {
         return (
             <View style={styles.itemWrap}>
-                <Text key={this.props.item.id} onPress={() => navigation.push(`/product/${this.props.item.subcategory_id}/${this.props.item.id}`)}>{this.props.item.name}</Text>
+                <Text key={this.props.item.id} onPress={this.goToProduct}>{this.props.item.name}</Text>
                 <View style={styles.itemWrap}>
                     <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.removeFromList(this.props.item.id)} />
                 </View>

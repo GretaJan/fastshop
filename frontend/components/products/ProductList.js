@@ -42,7 +42,7 @@ class ProductList extends Component {
 
     render() {
         return (
-            <TouchableOpacity key={this.props.item.id} style={styles.itemWrap} onPress={() => this.goToProduct} >
+            <TouchableOpacity key={this.props.item.id} style={styles.itemWrap} onPress={this.goToProduct} >
                 <Text key={this.props.item.id} >{this.props.item.name}</Text>
                 <View style={styles.itemWrap}>
                     <Icon style={styles.iconItem} name="arrow-circle-right" size={35} color="firebrick" onPress={this.selectProduct} />

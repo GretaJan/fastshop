@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-
+import { View, Text, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { connect } from 'react-redux';
 import { logOut } from '../../src/actions/authActions';
+
 // Components:
 import Home from '../../components/Home';
 import Categories from '../../components/Categories/Categories';
@@ -31,6 +32,23 @@ import AddProduct from '../../componentsAuth/auth_products/AddProduct';
 import SelectedProducts from '../../components/comparison/selectedProducts';
 import { StackActions } from 'react-navigation';
 
+const styles = StyleSheet.create({
+    counter: {
+        position: 'absolute',
+        top: -6,
+        left: 27,
+        backgroundColor: 'orange',
+        width: 23,
+        height: 23,
+        borderRadius: 23/2
+    },
+    counterNo: {
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        right: 1,
+        top: 2
+    }
+});
 
 
 class Tabs extends Component {
@@ -45,36 +63,74 @@ class Tabs extends Component {
     }   
 
 render() {
-
     const Tabs = createBottomTabNavigator();
-    // const AuthFooter = createBottomTabNavigator();
-console.log("Auth::", this.props.isAuthorized);
+    const GuestNavigation = createStackNavigator();
+    const SelectedProducts = createStackNavigator();
+    const AdminNavigation = createStackNavigator();
+
+    const GuestNavigationScreens = () => (
+        <GuestNavigation.Navigator initialRouteName="Categories">
+            <GuestNavigation.Screen name="Categories" component={Categories} options={{title: "SpeedShop"}} />
+            <GuestNavigation.Screen name="Subcategories" component={Subcategories} options={{title: "Subcategories"}} />
+            <GuestNavigation.Screen name="Products" component={Products} options={{title: "Products List"}} /> 
+            <GuestNavigation.Screen name="Product" component={Product} options={{title: "Product"}} /> 
+            <GuestNavigation.Screen name="Login" component={LoginPage} options={{title: "Please Login"}} />
+            <GuestNavigation.Screen name="SelectedProducts" component={SelectedProducts} options={{title: "Calculate"}} />
+        </GuestNavigation.Navigator>
+    )
+
+    // const SelectedProductsScreen = () => (
+    //     <SelectedProducts.Navigator>
+    //         <SelectedProducts.Screen name="SelectedProducts" component={SelectedProducts} options={{title: "Calculate"}} />
+    //     </SelectedProducts.Navigator>
+    // )
+    
+    const AdminNavigationScreens = () => (
+        <AdminNavigation.Navigator >
+            <AdminNavigation.Screen name="Dashboard" component={Categories_Auth} options={{ title: "Dashboard"}} />
+            <AdminNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} options={{ title: "Subcategories"}} />
+            <AdminNavigation.Screen name="Products_Auth" component={Products_Auth} options={{ title: "Products"}}  />
+            <AdminNavigation.Screen name="Product_Auth" component={Product_Auth} options={{ title: "Product"}}  /> 
+            <AdminNavigation.Screen name="Add_Category" component={AddCategory} options={{ title: "Add Category"}}  />
+            <AdminNavigation.Screen name="Add_Subcategory" component={AddSubcategory} options={{ title: "Add Subcategory"}}  />
+            <AdminNavigation.Screen name="Add_Product" component={AddProduct} options={{ title: "Add Product" }}  />
+        </AdminNavigation.Navigator> 
+    )
     return ( 
         <NavigationContainer>
-            {(this.props.isAuthorized) ? (
+            {(!this.props.isAuthorized) ? (
                 <Tabs.Navigator>
-                    <Tabs.Screen name="Home" component={Categories} 
-                    options = {
-                        { tabBarIcon: () => (
+                    <Tabs.Screen name="Home" component={GuestNavigationScreens}
+                    options = {{ 
+                        tabBarLabel: () => (null),
+                        tabBarIcon: () => (
                             <Icon name="home" size={40}  />
                         )}
                     } />
                     <Tabs.Screen name="Login" component={LoginPage} 
-                    options = {
-                        { tabBarIcon: () => (
+                    options = {{ 
+                        tabBarLabel: () => (null),
+                        tabBarIcon: () => (
                             <Icon name="sign-in" size={40}  />
-                        )}
-                    } />
+                        )
+                    }} />
                     <Tabs.Screen name="SelectedProducts" component={SelectedProducts} 
-                    options = {
-                        { tabBarIcon: () => (
-                            <Icon name="list-alt" size={40} />
-                        )}
-                    } />
+                    options = {{ 
+                            tabBarLabel: () => (null),
+                            tabBarIcon: () => (
+                            // <Icon name="list-alt" size={40} />
+                            <View>
+                                <Icon name="list-alt" size={40} />
+                                <View style={styles.counter}>
+                                    <Text style={styles.counterNo} > {this.props.selectedProducts}</Text>
+                                </View>
+                            </View>
+                        )
+                        }} />
                 </Tabs.Navigator>           
             ) : (
                 <Tabs.Navigator>
-                    <Tabs.Screen name="Dashboard" component={Categories_Auth} 
+                    <Tabs.Screen name="Dashboard" component={AdminNavigationScreens} 
                         options = {
                             { tabBarIcon: () => (
                                 <Icon name="list-alt" size={40} />
@@ -90,7 +146,7 @@ console.log("Auth::", this.props.isAuthorized);
                             { tabPress: () => (
                                 this.logOut()
                             )}
-                        }                
+                        }                 
                     />
                 </Tabs.Navigator> 
             )}

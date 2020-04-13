@@ -42,9 +42,9 @@ render() {
                 <GuestNavigation.Navigator initialRouteName="Categories">
                     <GuestNavigation.Screen name="Categories" component={Categories} options={{title: "SpeedShop"}} />
                     <GuestNavigation.Screen name="Subcategories" component={Subcategories} options={{title: "Subcategories"}} />
-                    <GuestNavigation.Screen name="Products" component={Products} /> 
-                    <GuestNavigation.Screen name="Product" component={Product} /> 
-                    <GuestNavigation.Screen name="Login" component={LoginPage} />
+                    <GuestNavigation.Screen name="Products" component={Products} options={{title: "Products List"}} /> 
+                    <GuestNavigation.Screen name="Product" component={Product} options={{title: "Product"}} /> 
+                    <GuestNavigation.Screen name="Login" component={LoginPage} options={{title: "Please Login"}} />
                 </GuestNavigation.Navigator> 
               {/* {!this.props.isAuthorized && 
                   <AuthNavigation.Navigator  initialRouteName="Add_Product">

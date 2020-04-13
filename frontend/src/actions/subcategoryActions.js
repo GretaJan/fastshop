@@ -23,7 +23,8 @@ export const getSubcategories = (category) => (dispatch) => {
             dispatch({
                 type: GET_SUBCATEGORIES,
                 payload: resp.data.subcategories,
-                loading: false
+                loading: false,
+                error: ''
             })   
         }).catch(err => 
             dispatch({

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Input, Button, Form } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
 import { tryLogin } from '../../src/actions/authActions';
 
 const styles = StyleSheet.create({
@@ -47,8 +48,11 @@ class Login extends Component {
             password: this.state.password
         }
         this.props.tryLogin(data);
-        this.props.navigation.push("Dashboard");
         this.clearInputs();
+    }
+
+    cancelLogin = () => {
+        this.props.navigation.goBack();
     }
 
         render() {
@@ -59,7 +63,7 @@ class Login extends Component {
                         <TextInput type="email" autoCorrect={false}  placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} ref={ref => this.textInputRef = ref}/>
                         <TextInput type="text" autoCorrect={false}  secureTextEntry={true} placeholder="password" onChangeText={value => { this.setState({password: value})}} value={this.state.password} ref={ref => this.textInputRef = ref} />
                         <Button title="LOGIN" className="btn btn-primary" onPress={this.loginAdmin} />
-                        <Button title="CANCEL" className="btn btn-primary" onPress={() => this.props.navigation.push("Categories") } />
+                        <Button title="CANCEL" className="btn btn-primary" onPress={this.cancelLogin} />
                 </View>
             )
 
@@ -71,4 +75,4 @@ Login.propTypes = {
     tryLogin: PropTypes.func.isRequired
 }
 
-export default connect(null, { tryLogin })(Login)
+export default withNavigation(connect(null, { tryLogin })(Login))

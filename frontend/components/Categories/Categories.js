@@ -6,7 +6,8 @@ import { withNavigation } from 'react-navigation';
 import { getCategories } from '../../src/actions/categoryActions';
 //Components
 import CategoryList from './CategoryList';
-import Search from '../../components_additional/SearchInput';
+import Loading from '../../components_additional/Loading';
+import Error from '../../components_additional/Error';
 
 class Categories extends Component {
     state = {
@@ -50,17 +51,20 @@ class Categories extends Component {
     render() {
 
         return (
-            <View>
-{/*                 
-                <FlatList data={this.props.categories} renderItem={({item}) => ( */}
-                {/* <Search name={this.state.name} array={this.props.categories} findFunction={() => this.findFunction(this.props.categories)} /> */}
-                {/* <Search array={this.props.categories} title={"categories"} /> */}
-                {/* <TextInput placeholder={"Search in" + {title}} onChangeText={(value) => {setName(value), findFunction(name, array)}} /> */}
-                <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                    <CategoryList key={item} item={item} goToSubcategories={(item) => this.goToSubcategories(item)} />
-                    )} >
-                </FlatList>
-            </View>
+            (this.props.loading) ? (
+                <Loading />
+                ) : (
+                (this.props.error !== '') ? (
+                    <Error message={this.props.error} />
+                ) : (
+                <View>
+                    <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
+                        <CategoryList key={item} item={item} goToSubcategories={(item) => this.goToSubcategories(item)} />
+                        )} >
+                    </FlatList>
+                </View>
+                )
+            )
         )
     }
 }
@@ -71,6 +75,8 @@ Categories.propTypes = {
 
 const mapStateToProps = (state) => ({
     categories: state.categories.categories,
+    loading: state.categories.loading,
+    error: state.categories.error
 });
 
 export default withNavigation(connect(mapStateToProps, { getCategories })(Categories))

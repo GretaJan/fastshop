@@ -45,8 +45,8 @@ const styles = {
 
 class Product extends Component {
     state = {
-        productId: this.props.match.params.productId,
-        subcategoryId: this.props.match.params.subcategoryId,
+        productId: this.props.route.params.productId,
+        subcategoryId: this.props.route.params.subcategoryId,
         name: this.props.product.name,
         energy: this.props.product.energy,
         fat: this.props.product.fat,
@@ -73,7 +73,7 @@ class Product extends Component {
 
      async componentDidMount() {
 
-        await this.props.getProduct(this.props.match.params.subcategoryId, this.props.match.params.productId);
+        await this.props.getProduct(this.state.subcategoryId, this.state.productId);
         // this.setState({
         //     name: this.props.product.name,
         //     energy: this.props.product.energy,
@@ -231,7 +231,7 @@ class Product extends Component {
     deleteProduct = async() => {
         console.log(this.props.product.id)
         await this.props.deleteProduct(this.props.product.id);
-        this.props.history.push(`/products_auth/${this.props.match.params.subcategoryId}`);
+        this.props.navigation.push("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
     }
 
     editProduct = async() => {
@@ -250,10 +250,9 @@ class Product extends Component {
             image: this.state.image,
             "_method": "put"
         }
-        console.log("Name: ", this.state.name);
         await this.props.editProduct(this.props.route.params.subcategoryId, this.props.route.params.productId, data); 
-        this.props.getProduct(this.props.route.params.subcategoryId, this.props.route.params.productId);
-        this.setState({edited: true})
+        // this.props.getProduct(this.props.route.params.subcategoryId, this.props.route.params.productId);
+        // this.setState({edited: true})
         this.cancelNameEdit();
         this.cancelEnergyEdit();
         this.cancelFatEdit();
@@ -282,12 +281,12 @@ class Product extends Component {
                             <Text>Auth Product</Text>
                             {(!this.state.nameInput) &&
                                 <View style={styles.itemWrap}>
-                                    <Text style={styles.itemText}>{this.props.product.name}</Text>
+                                    <Text style={styles.itemText}>{this.state.name}</Text>
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput}/>
                                 </View>
                             }{(this.state.nameInput) &&
                                 <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => this.setState({name: value})} defaultValue={this.props.product.name} />
+                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => this.setState({name: value})} defaultValue={this.state.name} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelNameEdit} />
@@ -295,17 +294,17 @@ class Product extends Component {
                                 </View>
                             }
                             <View>                            
-                                <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.deleteProduct} />
+                                <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={() => this.deleteProduct} />
                             </View>
                             {(!this.state.energyInput) &&
                                 <View style={styles.itemWrap}>
-                                    { (this.props.product.energy) && <Text style={styles.itemText}>{this.props.product.energy}</Text>}
+                                    { (this.props.product.energy) && <Text style={styles.itemText}>{this.state.energy}</Text>}
                                     { (!this.props.product.energy) && <Text style={styles.itemText}>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.energyInput}/>
                                 </View>
                             }{(this.state.energyInput) &&
                                 <View style={styles.itemWrap}>  
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => this.setState({energy: value})} defaultValue={this.props.product.energy} />
+                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => this.setState({energy: value})} defaultValue={this.state.energy} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelEnergyEdit} />
@@ -313,13 +312,13 @@ class Product extends Component {
                                 </View>  
                             }{(!this.state.fatInput) &&
                                 <View style={styles.itemWrap}>
-                                    { (this.props.product.fat) && <Text style={styles.itemText}>{this.props.product.fat}</Text>}
+                                    { (this.props.product.fat) && <Text style={styles.itemText}>{this.state.fat}</Text>}
                                     { (!this.props.product.fat) && <Text style={styles.itemText}>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.fatInput} />
                                 </View>
                             }{(this.state.fatInput) &&
                                 <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fat: value})}} defaultValue={this.props.product.fat} />
+                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fat: value})}} defaultValue={this.state.fat} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelFatEdit} />
@@ -327,13 +326,13 @@ class Product extends Component {
                                 </View>
                             }{(!this.state.saturatedInput) &&
                                 <View style={styles.itemWrap}>
-                                    {(this.props.product.saturated) && <Text style={styles.itemText}>{this.props.product.saturated}</Text>}
+                                    {(this.props.product.saturated) && <Text style={styles.itemText}>{this.state.saturated}</Text>}
                                     {(!this.props.product.saturated) && <Text style={styles.itemText}>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.saturatedInput} /> 
                                 </View>
                             }{(this.state.saturatedInput) &&
                                 <View style={styles.itemWrap}>
-                                    <TextInput  style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}}  defaultValue={this.props.product.saturated} />
+                                    <TextInput  style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}}  defaultValue={this.state.saturated} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelSaturatedEdit} />
@@ -341,13 +340,13 @@ class Product extends Component {
                                 </View>
                             }{(!this.state.carbsInput) &&
                                 <View style={styles.itemWrap} >
-                                    {(this.props.product.carbs) && <Text style={styles.itemText}>{ this.props.product.carbs }</Text>}
+                                    {(this.props.product.carbs) && <Text style={styles.itemText}>{ this.state.carbs }</Text>}
                                     {(!this.props.product.carbs) && <Text style={styles.itemText}>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.carbsInput} />
                                 </View>
                             }{(this.state.carbsInput) &&
                                 <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({carbs: value})}} defaultValue={this.props.product.carbs} />
+                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({carbs: value})}} defaultValue={this.state.carbs} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelCarbsEdit} />
@@ -355,13 +354,13 @@ class Product extends Component {
                                 </View>
                             }{(!this.state.sugarInput) &&
                                 <View style={styles.itemWrap}>
-                                    {(this.props.product.sugar) && <Text style={styles.itemText}>{this.props.product.sugar}</Text>}
-                                    {(!this.props.product.sugar) && <Text style={styles.itemText}>No value</Text>}
+                                    {(this.state.sugar) && <Text style={styles.itemText}>{this.state.sugar}</Text>}
+                                    {(!this.state.sugar) && <Text style={styles.itemText}>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.sugarInput} /> 
                                 </View>
                             }{(this.state.sugarInput) &&
                                 <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue={this.props.product.sugar} />
+                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue={this.state.sugar} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelSugarEdit} />
@@ -369,13 +368,13 @@ class Product extends Component {
                                 </View>
                             }{(!this.state.fiberInput) &&
                                 <View style={styles.itemWrap}>
-                                    {(this.props.product.fiber) && <Text style={styles.itemText}>{this.props.product.fiber }</Text>}
-                                    {(!this.props.product.fiber) && <Text style={styles.itemText}>No value</Text>}
+                                    {(this.state.fiber) && <Text style={styles.itemText}>{this.state.fiber }</Text>}
+                                    {(!this.state.fiber) && <Text style={styles.itemText}>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.fiberInput} /> 
                                 </View>
                             }{(this.state.fiberInput) &&
                                 <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fiber: value})}} defaultValue={this.props.product.fiber} />
+                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fiber: value})}} defaultValue={this.state.fiber} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelFiberEdit} />
@@ -383,13 +382,13 @@ class Product extends Component {
                                 </View>
                             }{(!this.state.proteinInput) &&
                                 <View style={styles.itemWrap}>
-                                    {(this.props.product.protein) && <Text style={styles.itemText}>{this.props.product.protein}</Text> }
-                                    {(!this.props.product.protein) && <Text style={styles.itemText}>No value</Text> }
+                                    {(this.state.protein) && <Text style={styles.itemText}>{this.state.protein}</Text> }
+                                    {(!this.state.protein) && <Text style={styles.itemText}>No value</Text> }
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.proteinInput} /> 
                                 </View>
                             }{(this.state.proteinInput) &&
                                 <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({protein: value})}} defaultValue={this.props.product.protein} />
+                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({protein: value})}} defaultValue={this.state.protein} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelProteinEdit} />
@@ -397,13 +396,13 @@ class Product extends Component {
                                 </View>
                             }{(!this.state.saltInput) &&
                                 <View style={styles.itemWrap}>
-                                    {(this.props.product.salt) && <Text style={styles.itemText}>{this.props.product.salt}</Text>}
-                                    {(!this.props.product.salt) && <Text style={styles.itemText}>No value</Text>}
+                                    {(this.state.salt) && <Text style={styles.itemText}>{this.props.product.salt}</Text>}
+                                    {(!this.state.salt) && <Text style={styles.itemText}>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.saltInput} /> 
                                 </View>
                             }{(this.state.saltInput) &&
                                 <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({salt: value})}} defaultValue={this.props.product.salt} />
+                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({salt: value})}} defaultValue={this.state.salt} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelSaltEdit} />
@@ -411,13 +410,13 @@ class Product extends Component {
                                 </View>
                             }{(!this.state.vitaminsInput) &&
                                 <View style={styles.itemWrap}>
-                                    {(this.props.product.vitamins) && <Text style={styles.itemText}>{this.props.product.vitamins}</Text>}
-                                    {(!this.props.product.vitamins) && <Text style={styles.itemText}>No value</Text>}
+                                    {(this.state.vitamins) && <Text style={styles.itemText}>{this.state.vitamins}</Text>}
+                                    {(!this.state.vitamins) && <Text style={styles.itemText}>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.vitaminsInput} /> 
                                 </View>
                             }{(this.state.vitaminsInput) &&
                                 <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({vitamins: value})}} defaultValue={this.props.product.vitamins} />
+                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({vitamins: value})}} defaultValue={this.state.vitamins} />
                                     <View style={styles.itemWrap}>
                                         <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelVitaminsEdit} />

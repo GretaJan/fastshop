@@ -12,13 +12,14 @@ export default function(state = initialState, action) {
         case LOADING_GET_SUBCATEGORIES:
             return {
                 ...state,
-                loading: action.loading
+                loading: true
             }
         case GET_SUBCATEGORIES:
             return {
                 ...state,
                 subcategories: action.payload,
-                loading: action.loading
+                loading: action.loading,
+                error: action.error
             }
         case GET_SUBCATEGORIES_ERROR:
             return {

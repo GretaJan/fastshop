@@ -52,7 +52,7 @@ class Categories extends Component {
                     <ScrollView>
                         <FlatList data={this.props.categories} renderItem={({item}) => (
                         <CategoryList key={item} item={item} 
-                                    goToSubcategories={({item}) => this.goToSubcategories(item)} 
+                        goToSubcategories={(item) => this.goToSubcategories(item)}
                                     deleteCategory = {item => this.deleteCategory(item)} />
                         )} >
                         </FlatList>

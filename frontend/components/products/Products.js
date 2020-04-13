@@ -7,7 +7,8 @@ import { withNavigation } from 'react-navigation';
 
 //Components
 import Product from './ProductList';
-
+import Loading from '../../components_additional/Loading';
+import Error from '../../components_additional/Error';
 
 class Products extends Component {
     state = {
@@ -19,6 +20,8 @@ class Products extends Component {
     async componentDidMount() {
         await this.props.getProducts(this.state.id);
     }
+
+    
 
     findFunction = (searchName) => {
         const tempData =  this.props.products.filter(item => {
@@ -49,22 +52,30 @@ class Products extends Component {
 
     render() {
         return (
-            <View>
-                <Text>Products</Text>
-                <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                    <Product item={item} 
-                            selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
-                            goToProduct={(id1, id2) => this.props.navigation.push("Product", {subcategoryId: id1, productId: id2})} 
-                    />
-                )} />
-            </View>
+            (this.props.loading) ? (
+                <Loading />
+                ) : (
+                    (this.props.error !== '') ? (
+                        <Error message={this.props.error} />
+                    ) : (
+                    <View>
+                        <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
+                            <Product item={item} 
+                                    selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
+                                    goToProduct={(id1, id2) => this.props.navigation.push("Product", {subcategoryId: id1, productId: id2})} 
+                            />
+                        )} />
+                    </View>
+                )
+            )
         )
     }
-
 }
 
 const mapStateToProps = state => ({
-    products: state.products.products
+    products: state.products.products,
+    loading: state.products.loading,
+    error: state.products.error
 })
 
 export default withNavigation(connect(mapStateToProps, {getProducts, productSelected})(Products))

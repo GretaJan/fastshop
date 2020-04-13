@@ -19,7 +19,7 @@ export default function(state = initialState, action) {
                 ...state,
                 categories: action.payload,
                 loading: action.loading,
-                error: ''
+                error: action.error
             }
         case GET_CATEGORIES_ERROR:
             return {

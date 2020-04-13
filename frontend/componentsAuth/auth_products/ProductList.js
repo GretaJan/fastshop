@@ -4,11 +4,15 @@ import { withNavigation } from 'react-navigation';
  
 class ProductList extends Component {
 
+    goToProduct = () => {
+        this.props.goToProduct(this.props.item.subcategory_id, this.props.item.id)
+    }
+
     render() {
         return (
-            <Text key={this.props.item.id} onPress={() => navigation.push("Product_Auth", {subcategoryId: this.props.item.subcategory_id, productId: this.props.item.id})}>{this.props.item.name}</Text>
+            <Text key={this.props.item.id} onPress={this.goToProduct}>{this.props.item.name}</Text>
         )
     }
 }
 
-export default withNavigation(ProductList)
+export default ProductList
