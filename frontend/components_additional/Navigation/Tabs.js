@@ -22,8 +22,6 @@ import Categories_Auth from '../../componentsAuth/auth_categories/Categories';
 import Subcategories_Auth from '../../componentsAuth/auth_subcategories/Subcategories';
 import Products_Auth from '../../componentsAuth/auth_products/Products';
 import Product_Auth from '../../componentsAuth/auth_products/Product';
-import Authorized from '../../componentsAuth/auth/requireAuth';
-import ifAuthorized from '../../componentsAuth/auth/notAuthorized';
 //CRUD
 import AddCategory from '../../componentsAuth/auth_categories/AddCategory';
 import AddSubcategory from '../../componentsAuth/auth_subcategories/AddSubcategory';
@@ -65,7 +63,7 @@ class Tabs extends Component {
 render() {
     const Tabs = createBottomTabNavigator();
     const GuestNavigation = createStackNavigator();
-    const SelectedProducts = createStackNavigator();
+    const SelectedProductsNav = createStackNavigator();
     const AdminNavigation = createStackNavigator();
 
     const GuestNavigationScreens = () => (
@@ -75,15 +73,15 @@ render() {
             <GuestNavigation.Screen name="Products" component={Products} options={{title: "Products List"}} /> 
             <GuestNavigation.Screen name="Product" component={Product} options={{title: "Product"}} /> 
             <GuestNavigation.Screen name="Login" component={LoginPage} options={{title: "Please Login"}} />
-            <GuestNavigation.Screen name="SelectedProducts" component={SelectedProducts} options={{title: "Calculate"}} />
+            {/* <GuestNavigation.Screen name="SelectedProducts" component={SelectedProducts} options={{title: "Calculate"}} /> */}
         </GuestNavigation.Navigator>
     )
 
-    // const SelectedProductsScreen = () => (
-    //     <SelectedProducts.Navigator>
-    //         <SelectedProducts.Screen name="SelectedProducts" component={SelectedProducts} options={{title: "Calculate"}} />
-    //     </SelectedProducts.Navigator>
-    // )
+    const SelectedProductsScreen = () => (
+        <SelectedProductsNav.Navigator>
+            <SelectedProductsNav.Screen name="SelectedProducts" component={SelectedProducts} options={{title: "Calculate"}} />
+        </SelectedProductsNav.Navigator>
+    )
     
     const AdminNavigationScreens = () => (
         <AdminNavigation.Navigator >
@@ -114,7 +112,7 @@ render() {
                             <Icon name="sign-in" size={40}  />
                         )
                     }} />
-                    <Tabs.Screen name="SelectedProducts" component={SelectedProducts} 
+                    <Tabs.Screen name="SelectedProducts" component={SelectedProductsScreen} 
                     options = {{ 
                             tabBarLabel: () => (null),
                             tabBarIcon: () => (
