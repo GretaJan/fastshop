@@ -46,7 +46,7 @@ export default function(state = initialState, action) {
         case DELETE_SUBCATEGORY:
             return {
                 ...state,
-                subcategories: state.subcategories.filter(subcategories.id !== action.payload)
+                subcategories: state.subcategories.filter((item) => item.id !== action.payload)
             }
         default:
             return state

@@ -15,7 +15,6 @@ class Product extends Component {
     // }
 
     componentDidMount() {
-
         this.props.getProduct( this.state.subcategoryId, this.state.productId);
     }
 

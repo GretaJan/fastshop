@@ -120,7 +120,7 @@ render() {
                             <View>
                                 <Icon name="list-alt" size={40} />
                                 <View style={styles.counter}>
-                                    <Text style={styles.counterNo} > {this.props.selectedProducts}</Text>
+                                    <Text style={styles.counterNo} > {this.props.selectedProducts.length}</Text>
                                 </View>
                             </View>
                         )

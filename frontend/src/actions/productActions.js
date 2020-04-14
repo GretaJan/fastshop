@@ -17,7 +17,7 @@ export const getProducts = (subcategory) => dispatch => {
         loading: true
     });
     axios.get( URL + '/products/' + subcategory)
-    .then(products => { console.log("produts: ",products),
+    .then(products => { 
             dispatch({
                 type: GET_PRODUCTS,
                 payload: products.data.products,

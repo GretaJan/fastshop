@@ -32,25 +32,27 @@ const styles = {
  
 class ProductList extends Component {
 
-    selectProduct = () => {
-        this.props.selectProduct(this.props.item.id, this.props.item.subcategory_id);
-    }
+    // selectProduct = () => {
+    //     this.props.selectProduct(this.props.item.id, this.props.item.subcategory_id);
+    // }
 
     goToProduct = () => {
         this.props.goToProduct(this.props.item.subcategory_id, this.props.item.id)
     }
 
-    removeFromList = (product) => {
-        this.props.removeProduct(product);
+    removeFromList = () => {
+        this.props.removeProduct( this.props.item.id);
     }
 
     render() {
         return (
             <View style={styles.itemWrap}>
-                <Text key={this.props.item.id} onPress={this.goToProduct}>{this.props.item.name}</Text>
-                <View style={styles.itemWrap}>
-                    <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={this.removeFromList(this.props.item.id)} />
-                </View>
+                <TouchableOpacity onPress={this.goToProduct}>
+                    <Text key={this.props.item.id}>{this.props.item.name}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemWrap} onPress={this.removeFromList} >
+                    <Icon style={styles.iconItem} name="check" size={35} color="firebrick" />
+                </TouchableOpacity>
             </View>
         )
     }

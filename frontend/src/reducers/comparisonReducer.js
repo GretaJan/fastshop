@@ -1,8 +1,9 @@
-import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT } from '../actions/types';
+import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT } from '../actions/types';
 
 const initialState = {
     comparisonArray: [],
-    comparisonItem: {}
+    result: {},
+    calculated: false
 }
 
 export default function(state = initialState, action) {
@@ -10,12 +11,32 @@ export default function(state = initialState, action) {
         case PRODUCT_SELECTED:
             return {
                 ...state,
-                comparisonArray: state.comparisonArray.concat(action.payload)
+                comparisonArray: state.comparisonArray.concat(action.payload),
+                calculated: action.calculated
+                // comparisonArray: []
             }
+            // function newObject(value, obj) {
+            //     obj[1] = value;
+            //     return obj;
+            // }
+            // return {
+            //     ...state,
+            //     comparisonArray: comparisonArray.push(newObject(action.payload, {}))
+            // }
+
         case REMOVE_SELECTED_PRODUCT: 
             return {
                 ...state,
-                comparisonArray: action.payload
+                comparisonArray: state.comparisonArray.filter((item) => (
+                    action.payload !== item.id
+               )),
+            }
+        case COMPARE_RESULT:
+            return {
+                ...state,
+                comparisonArray: action.array,
+                result: action.payload,
+                calculated: action.calculated
             }
         default:
             return state

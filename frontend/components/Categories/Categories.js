@@ -44,7 +44,6 @@ class Categories extends Component {
     }
 
     goToSubcategories = (id) => {
-        console.log('id', id);
         this.props.navigation.push("Subcategories", {categoryId: id});
     }
 
@@ -59,7 +58,9 @@ class Categories extends Component {
                 ) : (
                 <View>
                     <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                        <CategoryList key={item} item={item} goToSubcategories={(item) => this.goToSubcategories(item)} />
+                        <CategoryList key={item} item={item} 
+                                        goToSubcategories={(item) => this.goToSubcategories(item)} 
+                        />
                         )} >
                     </FlatList>
                 </View>
@@ -76,7 +77,8 @@ Categories.propTypes = {
 const mapStateToProps = (state) => ({
     categories: state.categories.categories,
     loading: state.categories.loading,
-    error: state.categories.error
+    error: state.categories.error,
+    selectedProducts: state.selectedProducts.comparisonArray
 });
 
 export default withNavigation(connect(mapStateToProps, { getCategories })(Categories))
