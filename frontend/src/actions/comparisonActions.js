@@ -1,4 +1,4 @@
-import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, URL } from './types';
+import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEARE_RESULTS, URL } from './types';
 import axios from 'axios';
 
 export const productSelected = (product, subcategory) => dispatch => {
@@ -25,5 +25,14 @@ export const compare = (result) => dispatch => {
         payload: result,
         array: [],
         calculated: true
+    })
+}
+
+export const clearResults = () => dispatch => {
+    dispatch({
+        type: CLEARE_RESULTS,
+        array: [],
+        result: {},
+        calculated: null
     })
 }

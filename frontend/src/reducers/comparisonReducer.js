@@ -1,4 +1,4 @@
-import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT } from '../actions/types';
+import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEARE_RESULTS } from '../actions/types';
 
 const initialState = {
     comparisonArray: [],
@@ -36,6 +36,13 @@ export default function(state = initialState, action) {
                 ...state,
                 comparisonArray: action.array,
                 result: action.payload,
+                calculated: action.calculated
+            }
+        case CLEARE_RESULTS: 
+            return {
+                ...state,
+                comparisonArray: action.array,
+                result: action.result,
                 calculated: action.calculated
             }
         default:

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { productSelected, deleteProductFromList, compare } from '../../src/actions/comparisonActions';
+import { productSelected, deleteProductFromList, compare, clearResults } from '../../src/actions/comparisonActions';
 
 //Components
 import Product from './selectedProductSingle';
-import Comparison from './Comparison';
+import Error from '../../components_additional/Error';
 
 class Products extends Component {
     state = {
@@ -167,11 +167,16 @@ class Products extends Component {
         this.props.navigation.navigate("Product", {subcategoryId: subcategoryId, productId: productId});
     }
 
+    clearResults = () => {
+        console.log("Clear")
+        this.props.clearResults();
+    }
+
     render() {
         return (
             (this.props.calculated == null) ? (
                 <View>
-                  <Text>No products have been selected yet. Please go back or select you products here:</Text>
+                  <Error message="No products have been selected yet. Please go back or select you products here:" />
                   <Button title="Products" onPress={() => this.compareProducts()} />
                 </View>
             ) : (
@@ -223,7 +228,7 @@ class Products extends Component {
                             <Text>Product name: {this.props.result.nameVitamins}</Text>
                             <Text>Most vitamins: {this.props.result.mostVitamins} </Text>
                         </View>
-                        <Button title="Clear results" onPress={() => this.compareProducts()} />
+                        <Button title="Clear results" onPress={this.clearResults} />
                     </View>
                 )
                 
@@ -239,4 +244,4 @@ const mapStateToProps = state => ({
     calculated: state.selectedProducts.calculated
 })
 
-export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare})(Products))
+export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearResults})(Products))
