@@ -142,7 +142,7 @@ class Products extends Component {
         // });
         var result = {
             mostEnergy: energy,
-            energyName: energyN,
+            nameEnergy: energyN,
             mostFat: fat,
             nameFat: fatN,
             mostSaturated:saturated,
@@ -169,58 +169,65 @@ class Products extends Component {
 
     render() {
         return (
-            (!this.props.calculated) ? (
+            (this.props.calculated == null) ? (
                 <View>
-                    <FlatList data={this.props.selectedProducts} renderItem={({item}) => (
-                        <Product key={item} item={item} 
-                                removeProduct={() => this.removeProduct(item)}
-                                goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
-                        />
-                    )} />
-                    <Button title="Calculate" onPress={() => this.compareProducts()} />
+                  <Text>No products have been selected yet. Please go back or select you products here:</Text>
+                  <Button title="Products" onPress={() => this.compareProducts()} />
                 </View>
             ) : (
-                <View>
-                   <View>
-                        <Text>Most energy: {this.props.result.mostEnergy} </Text>
-                        <Text>{this.props.result.nameEnergy}</Text>
-                    </View>
+                (!this.props.calculated) ? (
                     <View>
-                        <Text>Most fat: {this.props.result.mostFat} </Text>
-                        <Text>{this.props.result.nameFat}</Text>
+                        <FlatList data={this.props.selectedProducts} renderItem={({item}) => (
+                            <Product key={item} item={item} 
+                                    removeProduct={() => this.removeProduct(item)}
+                                    goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
+                            />
+                        )} />
+                        <Button title="Calculate" onPress={() => this.compareProducts()} />
                     </View>
+                ) : (
                     <View>
-                        <Text>Most saturated fat: {this.props.result.mostSaturated} </Text>
-                        <Text>{this.props.result.nameFat}</Text>
+                       <View>
+                            <Text>Product name: {this.props.result.nameEnergy}</Text>
+                            <Text>Most energy: {this.props.result.mostEnergy} </Text>
+                        </View>
+                        <View>
+                            <Text>Product name: {this.props.result.nameFat}</Text>
+                            <Text>Most fat: {this.props.result.mostFat} </Text>
+                        </View>
+                        <View>
+                            <Text>Product name: {this.props.result.nameFat}</Text>
+                            <Text>Most saturated fat: {this.props.result.mostSaturated} </Text>
+                        </View>
+                        <View>
+                            <Text>Product name: {this.props.result.nameCarbs}</Text>
+                            <Text>Most carbohidrates: {this.props.result.mostCarbs} </Text>
+                        </View>
+                        <View>
+                            <Text>Product name: {this.props.result.nameSugar}</Text>
+                            <Text>Most sugar: {this.props.result.mostSugar} </Text>
+                        </View>
+                        <View>
+                            <Text>Product name: {this.props.result.nameFiber}</Text>
+                            <Text>Most fiber: {this.props.result.mostFiber} </Text>
+                        </View>
+                        <View>
+                            <Text>Product name: {this.props.result.nameProtein}</Text>
+                            <Text>Most protein: {this.props.result.mostProtein} </Text>
+                        </View>
+                        <View>
+                            <Text>Product name: {this.props.result.nameSalt}</Text>
+                            <Text>Most salt: {this.props.result.mostSalt} </Text>
+                        </View>
+                        <View>
+                            <Text>Product name: {this.props.result.nameVitamins}</Text>
+                            <Text>Most vitamins: {this.props.result.mostVitamins} </Text>
+                        </View>
+                        <Button title="Clear results" onPress={() => this.compareProducts()} />
                     </View>
-                    <View>
-                        <Text>Most carbohidrates: {this.props.result.mostCarbs} </Text>
-                        <Text>{this.props.result.nameCarbs}</Text>
-                    </View>
-                    <View>
-                        <Text>Most sugar: {this.props.result.mostSugar} </Text>
-                        <Text>{this.props.result.nameSugar}</Text>
-                    </View>
-                    <View>
-                        <Text>Most fiber: {this.props.result.mostFiber} </Text>
-                        <Text>{this.props.result.nameFiber}</Text>
-                    </View>
-                    <View>
-                        <Text>Most protein: {this.props.result.mostProtein} </Text>
-                        <Text>{this.props.result.nameProtein}</Text>
-                    </View>
-                    <View>
-                        <Text>Most salt: {this.props.result.mostSalt} </Text>
-                        <Text>{this.props.result.nameSalt}</Text>
-                    </View>
-                    <View>
-                        <Text>Most vitamins: {this.props.result.mostVitamins} </Text>
-                        <Text>{this.props.result.nameVitamins}</Text>
-                    </View>
-                </View>
+                )
+                
             )
-            
-
         )
     }
 

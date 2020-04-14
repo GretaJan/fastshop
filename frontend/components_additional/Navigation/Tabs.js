@@ -79,7 +79,7 @@ render() {
 
     const SelectedProductsScreen = () => (
         <SelectedProductsNav.Navigator>
-            <SelectedProductsNav.Screen name="SelectedProducts" component={SelectedProducts} options={{title: "Calculate"}} />
+            <SelectedProductsNav.Screen name="SelectedProducts" component={SelectedProducts} options={{title: (!this.props.calculated) ? "Calculate" : "Results"}} />
         </SelectedProductsNav.Navigator>
     )
     
@@ -156,7 +156,8 @@ render() {
 const mapStateToProps = state => ({
     admin: state.auth.admin,
     isAuthorized: state.auth.isAuthorized,
-    selectedProducts: state.selectedProducts.comparisonArray
+    selectedProducts: state.selectedProducts.comparisonArray,
+    calculated: state.selectedProducts.calculated
 })
 
 export default connect(mapStateToProps, { logOut })(Tabs)

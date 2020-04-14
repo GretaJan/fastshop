@@ -3,7 +3,7 @@ import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT } from '../ac
 const initialState = {
     comparisonArray: [],
     result: {},
-    calculated: false
+    calculated: null
 }
 
 export default function(state = initialState, action) {
