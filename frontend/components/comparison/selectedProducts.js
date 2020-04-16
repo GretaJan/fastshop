@@ -239,6 +239,10 @@ class Products extends Component {
                 console.log("bad components: " + badComponents[i] + " j: " + badComponents[j] )
 
                 if(goodComponents[i] > goodComponents[j] &&  badComponents[i] < badComponents[j]) {
+                    // healtyElementsOne = productOne.fat + productOne.fiber + productOne.protein + productOne.vitamins;
+                    // healtyElementsTwo = productTwo.fat + productTwo.fiber + productTwo.protein + productTwo.vitamins;
+                    // unhealtyElementsOne = productOne.carbs + productOne.salt;
+                    // unhealtyElementsOne = productTwo.carbs + productTwo.salt;
                     //Quality
                     bestQualityProduct = productOne.name;
                     saturatedGood = productOne.saturated;
@@ -284,7 +288,7 @@ class Products extends Component {
         }
 
         var result = {
-            quality: {
+            goodQuality: {
                 productName: bestQualityProduct,
                 saturated:saturatedGood,
                 carbs: carbsGood,
@@ -364,13 +368,13 @@ class Products extends Component {
                 //                         clearResults={() => this.clearResults()}
                 //         />
                 //     ) : (
-                //         <ResultsOfBestWorst bestQuality={this.props.result.quality.productName} 
-                //                         saturatedGood={this.props.result.quality.saturated}
-                //                         carbsGood={this.props.result.quality.carbs}
-                //                         sugarGood={this.props.result.quality.sugar}
-                //                         fiberGood={this.props.result.quality.fiber}
-                //                         proteinGood={this.props.result.quality.protein}
-                //                         saltGood={this.props.result.quality.salt}
+                //         <ResultsOfBestWorst bestQuality={this.props.result.goodQuality.productName} 
+                //                         saturatedGood={this.props.result.goodQuality.saturated}
+                //                         carbsGood={this.props.result.goodQuality.carbs}
+                //                         sugarGood={this.props.result.goodQuality.sugar}
+                //                         fiberGood={this.props.result.goodQuality.fiber}
+                //                         proteinGood={this.props.result.goodQuality.protein}
+                //                         saltGood={this.props.result.goodQuality.salt}
                 //                         vitaminsGood={this.props.result.badQuality.quality.productName}
                 //                         lowestQuality={this.props.result.badQuality.saturated}
                 //                         saturatedBad={this.props.result.badQuality.carbs}
