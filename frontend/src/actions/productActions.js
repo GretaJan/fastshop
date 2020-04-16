@@ -67,6 +67,7 @@ export const getProduct = (subcategory, product) => (dispatch) => {
 } 
 
 export const addProduct = (product, subcategory) => dispatch => {
+    console.log("product: ", product)
     axios.post( URL + '/addProduct/' + subcategory, product )
         .then(product => { console.log("Product: ", product),
             dispatch({

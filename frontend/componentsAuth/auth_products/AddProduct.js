@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, TextInput, Image, PushNotificationIOS } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, ScrollView } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { addProduct } from '../../src/actions/productActions';
@@ -75,15 +75,15 @@ class AddProduct extends Component {
             vitamins: this.state.vitamins,
             image: this.state.image,
         }
-        var id = this.props.match.params.subcategoryId
-        await this.props.addProduct(data, id);
-        this.props.navigation.push("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
+        await this.props.addProduct(data, this.props.route.params.subcategoryId);
+        this.props.navigation.navigate("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
+    // this.props.navigation.goBack();
     }
 
         render() {
             const { image } = this.state;
             return (
-                <View>
+                <ScrollView>
                     <Text>Add New Product</Text>
                         <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
                         <TextInput type="text" autoCorrect={false}  placeholder="energy" onChangeText={value => { this.setState({energy: value})}} value={this.state.energy} ref={ref => this.textInputRef = ref} />
@@ -101,7 +101,7 @@ class AddProduct extends Component {
                         <Button title="Choose image" onPress={this.handleChoosePhoto} />
                         <Button title="Save" className="btn btn-primary" onPress={this.addProduct} />
                         <Button title="Cancel" className="btn btn-primary" />
-                </View>
+                </ScrollView>
             )
     }
 }

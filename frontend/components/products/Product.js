@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { getProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
+    listContainer: {
+        flex: 1,
+        flexDirection: 'row'
+    }
+})
 
 class Product extends Component {
     state = {
@@ -20,9 +30,36 @@ class Product extends Component {
 
     render() {
         return (
-            <View>
-                <Text>{ this.props.product.id }</Text>
-                <Text>{ this.props.product.name }</Text>
+            <View style={styles.container} >
+                <Text>{this.props.product.name}</Text>
+                <View style={styles.listContainer} >
+                    <FlatList data={[
+                                    { key: "Energy:" },
+                                    { key: "Fat:" },
+                                    { key: "Saturated:" },
+                                    { key: "Carbohidrates:" },
+                                    { key: "Sugar:" },
+                                    { key: "Fiber:" },
+                                    { key: "Protein:" },
+                                    { key: "Salt:" },
+                                    { key: "Vitamins:" },
+                                ]} renderItem={({item}) => 
+                                                <Text>{item.key}</Text>}
+                    />
+                    <FlatList data={[
+                                    { key: this.props.product.energy },
+                                    { key: this.props.product.fat },
+                                    { key: this.props.product.saturated },
+                                    { key: this.props.product.carbs },
+                                    { key: this.props.product.sugar },
+                                    { key: this.props.product.fiber },
+                                    { key: this.props.product.protein },
+                                    { key: this.props.product.salt },
+                                    { key: this.props.product.vitamins },
+                                ]} renderItem={({item}) => 
+                                                <Text>{item.key}</Text>}
+                    />
+                </View>
             </View>
         )
     }

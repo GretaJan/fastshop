@@ -55,17 +55,17 @@ class AddSubcategory extends Component {
     }
 
     goBack = () => {
-        this.props.navigation.push("Subcategories_Auth", {categoryId: this.state.id});
+        this.props.navigation.goBack();
     }
 
-    addSubcategory = () => {
+    addSubcategory = async() => {
         const data = {
             name: this.state.name,
             image: this.state.image,
         }
         var id = this.props.route.params.categoryId
-        this.props.addSubcategory(data, id);
-        navigation.push("Subcategories_Auth", {categoryId: this.state.id});
+        await this.props.addSubcategory(data, id);
+        this.props.navigation.push("Subcategories_Auth", {categoryId: this.state.id});
     }
 
         render() {

@@ -60,7 +60,7 @@ class Products extends Component {
                                     goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
                             />
                         )} />
-                        <Button title="Add product" onPress={() => { this.props.navigation.push("Add_Product", {subcategoryId: this.state.subcategory_id}) }} ></Button>
+                        <Button title="Add product" onPress={() => { this.props.navigation.push("Add_Product", {subcategoryId: this.state.id}) }} ></Button>
                     </View>
                  ))}
                

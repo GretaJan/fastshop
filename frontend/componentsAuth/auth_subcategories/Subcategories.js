@@ -47,7 +47,7 @@ class Subcategories extends Component {
                                         goToProducts={(item) => this.goToProducts(item)}
                             />
                         )} />
-                        <Button title="Add subcategory" onPress={() => { navigation.push("Add_Subcategory", {categoryId: this.state.id}) }} ></Button>
+                        <Button title="Add subcategory" onPress={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id}) }} ></Button>
                     </View>
                 )
             )

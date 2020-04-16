@@ -44,8 +44,6 @@ class CategoryController extends Controller
         if($file == null) {
             $category->image = null;
         } else if($file->isValid()) {
-            // $path_info = pathinfo($file->getClientOriginalName());
-            // $extension =  $path_info['extension'];
             $has_ext = 0;
             $get_file_type = mime_content_type($file->getClientOriginalName());
             $type_array = ['image/gif', 'image/jpeg', 'image/png', 'image/jp2'];
@@ -65,6 +63,7 @@ class CategoryController extends Controller
                 return $response()->json(["Message" => "Image must be a file"]);
              }
         } 
+     
         
         if($category->save())
         {
@@ -116,9 +115,8 @@ class CategoryController extends Controller
 
     }
 
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
         $category->delete();
 
         return response()->json(['message - category deleted'], 200);

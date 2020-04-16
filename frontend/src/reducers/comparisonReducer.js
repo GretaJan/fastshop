@@ -3,15 +3,24 @@ import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEARE_RESUL
 const initialState = {
     comparisonArray: [],
     result: {},
-    calculated: null
+    calculated: false,
+    calculatedAll: null,
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
         case PRODUCT_SELECTED:
+            var pushToArray = state.comparisonArray.concat(action.payload);
+            // var filteredArray = pushToArray.filter(item, index => filteredArray.indexOf(item) !== index )
+            var filteredArray = Array.from(new Set(pushToArray.map(item => item.id)))
+                .map(id => {
+                    return pushToArray.find(firstItem => firstItem.id === id)
+                })
+
             return {
                 ...state,
-                comparisonArray: state.comparisonArray.concat(action.payload),
+                // comparisonArray: state.comparisonArray.concat(action.payload),
+                comparisonArray: filteredArray,
                 calculated: action.calculated
                 // comparisonArray: []
             }
@@ -35,8 +44,10 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 comparisonArray: action.array,
-                result: action.payload,
-                calculated: action.calculated
+                // result: action.payload,
+                result: [],
+                calculated: action.calculated,
+                calculatedAll: action.calculatedAll,
             }
         case CLEARE_RESULTS: 
             return {
