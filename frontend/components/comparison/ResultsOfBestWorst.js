@@ -40,7 +40,7 @@ const styles = {
 //     }
 
 const ResultsOfBestWorst = ({ bestQuality, saturatedGood, carbsGood, sugarGood, fiberGood, proteinGood, saltGood, vitaminsGood, 
-                    lowestQuality, saturatedBad, carbsBad, sugarBad, fiberBad, proteinBad, saltBad }) => {
+                    lowestQuality, saturatedBad, carbsBad, sugarBad, fiberBad, proteinBad, saltBad, vitaminsBad, clearResults }) => {
 
         return (
             <View>
@@ -66,7 +66,6 @@ const ResultsOfBestWorst = ({ bestQuality, saturatedGood, carbsGood, sugarGood, 
                                 { key: carbsGood },
                                 { key: sugarGood },
                                 { key: fiberGood },
-                                { key: proteinGood },
                                 { key: proteinGood },
                                 { key: saltGood },
                                 { key: vitaminsGood },
@@ -97,7 +96,6 @@ const ResultsOfBestWorst = ({ bestQuality, saturatedGood, carbsGood, sugarGood, 
                                 { key: carbsBad },
                                 { key: sugarBad },
                                 { key: fiberBad },
-                                { key: proteinBad },
                                 { key: proteinBad },
                                 { key: saltBad },
                                 { key: vitaminsBad },

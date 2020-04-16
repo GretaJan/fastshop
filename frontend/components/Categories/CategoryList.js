@@ -37,8 +37,8 @@ class CategoryList extends Component {
     render() {
         return (
             // <TouchableOpacity style={styles.itemWrap} onPress={this.goToSubcategories}>
-            <TouchableOpacity style={styles.itemWrap} onPress={() => this.goToSubcategories()}>
-                <Text key={this.props.item.id} >{this.props.item.name}</Text>
+            <TouchableOpacity key={this.props.item.id} style={styles.itemWrap} onPress={() => this.goToSubcategories()}>
+                <Text>{this.props.item.name}</Text>
                 <Icon name="arrow-circle-right" size={20} />
             </TouchableOpacity >
         )  

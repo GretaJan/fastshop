@@ -11,27 +11,15 @@ export default function(state = initialState, action) {
     switch(action.type) {
         case PRODUCT_SELECTED:
             var pushToArray = state.comparisonArray.concat(action.payload);
-            // var filteredArray = pushToArray.filter(item, index => filteredArray.indexOf(item) !== index )
             var filteredArray = Array.from(new Set(pushToArray.map(item => item.id)))
                 .map(id => {
                     return pushToArray.find(firstItem => firstItem.id === id)
                 })
-
             return {
                 ...state,
-                // comparisonArray: state.comparisonArray.concat(action.payload),
                 comparisonArray: filteredArray,
                 calculated: action.calculated
-                // comparisonArray: []
             }
-            // function newObject(value, obj) {
-            //     obj[1] = value;
-            //     return obj;
-            // }
-            // return {
-            //     ...state,
-            //     comparisonArray: comparisonArray.push(newObject(action.payload, {}))
-            // }
 
         case REMOVE_SELECTED_PRODUCT: 
             return {
@@ -44,8 +32,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 comparisonArray: action.array,
-                // result: action.payload,
-                result: [],
+                result: action.payload,
                 calculated: action.calculated,
                 calculatedAll: action.calculatedAll,
             }

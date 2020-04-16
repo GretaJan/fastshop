@@ -20,20 +20,21 @@ export const deleteProductFromList = (product) => dispatch => {
 }
 
 export const compare = (result, countAll) => dispatch => {
-    dispatch({
-        type: COMPARE_RESULT,
-        payload: result,
-        array: [],
-        calculated: true
-    })
-
     if(countAll) {
         dispatch({
-            calculatedAll: true
+            calculatedAll: true,
+            type: COMPARE_RESULT,
+            payload: result,
+            array: [],
+            calculated: true
         })
     } else {
         dispatch({
-            calculatedAll: false
+            calculatedAll: false,
+            type: COMPARE_RESULT,
+            payload: result,
+            array: [],
+            calculated: true
         })
     }
 }
