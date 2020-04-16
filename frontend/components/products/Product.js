@@ -24,8 +24,8 @@ class Product extends Component {
     //     console.log("Product is: ", props.product.name)
     // }
 
-    componentDidMount() {
-        this.props.getProduct( this.state.subcategoryId, this.state.productId);
+    async componentDidMount() {
+        await this.props.getProduct( this.state.subcategoryId, this.state.productId);
     }
 
     render() {

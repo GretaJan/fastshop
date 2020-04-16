@@ -14,7 +14,8 @@ class Products extends Component {
     state = {
         id: this.props.route.params.subcategoryId,
         tempArray: this.props.products,
-        searchName: ''
+        searchName: '',
+        inputTriggered: false
     }
 
     async componentDidMount() {
@@ -24,6 +25,7 @@ class Products extends Component {
     
 
     findFunction = (searchName) => {
+        this.setState({ inputTriggered: true })
         const tempData =  this.props.products.filter(item => {
             const itemData = item.name ? item.name.toLowerCase() : '';
             const searchData = searchName.toLowerCase();
@@ -31,7 +33,8 @@ class Products extends Component {
         })
         if(searchName == '') {
             this.setState({
-                tempArray: this.props.products,
+                // tempArray: this.props.products,
+                inputTriggered: false,
                 searchName: searchName
             })
         } else {
@@ -50,6 +53,10 @@ class Products extends Component {
         this.props.productSelected(item1, item2);
     }
 
+    goToProduct = (subcategoryId, productId) => {
+        this.props.navigation.push("Product", {subcategoryId: subcategoryId, productId: productId});
+    }
+
     render() {
         return (
             (this.props.loading) ? (
@@ -59,12 +66,20 @@ class Products extends Component {
                         <Error message={this.props.error} />
                     ) : (
                     <View>
-                        <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
+                        {this.getInput()}
+                        {!this.state.inputTriggered ? (
+                            <FlatList data={this.props.products} renderItem={({item}) => (
                             <Product key={item} item={item} 
                                     selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
-                                    goToProduct={(id1, id2) => this.props.navigation.push("Product", {subcategoryId: id1, productId: id2})} 
-                            />
-                        )} />
+                                    goToProduct={(id1, id2) => this.goToProduct(id1, id2)} />
+                                )} />
+                        ) : (
+                            <FlatList data={this.state.tempArray} renderItem={({item}) => (
+                                <Product key={item} item={item} 
+                                        selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
+                                        goToProduct={(id1, id2) => this.goToProduct(id1, id2)} />
+                            )} />
+                        )}
                     </View>
                 )
             )

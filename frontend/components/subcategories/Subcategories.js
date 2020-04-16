@@ -16,18 +16,29 @@ class Subcategories extends Component {
         id: this.props.route.params.categoryId,
         // id:  this.props.navigation.getParam('categoryId', null),
         tempArray: this.props.subcategories,
-        searchName: ''
+        searchName: '',
+        inputTriggered: false
     }
 
-    async componentDidMount() {
-        await this.props.getSubcategories(this.state.id);
+    componentDidMount() {
+        this.props.getSubcategories(this.state.id);
     }
+
+    // static getDerivedStateFromProps(nextProps, prevState) {
+    //     this.state.tempArray.map(item) {
+    //         if (nextPr. !== prevState.route.params.categoryId) {
+    //             console.log("prevProps: ", prevState.route.params.categoryId, " nesProps: ", nextProps.route.params.categoryId )
+    //           }
+    //     }
+
+    //   }
 
     goToProducts = (id) => {
         this.props.navigation.push("Products", {subcategoryId: id});
     }
 
     searchFunction = searchName => {
+        this.setState({inputTriggered: true});
         const matchedData = this.props.subcategories.filter(item => {
             const itemData = item.name ? item.name.toLowerCase() : '';
             const textInput = searchName.toLowerCase();
@@ -35,7 +46,8 @@ class Subcategories extends Component {
         });
         if(searchName == '') {
             this.setState({
-                tempArray: this.props.subcategories,
+                // tempArray: this.props.subcategories,
+                inputTriggered: false,
                 searchName: searchName
             })
         } else {
@@ -50,10 +62,6 @@ class Subcategories extends Component {
         return <TextInput placeholder="Search by name" onChangeText={value => this.searchFunction(value)} value={this.state.searchName} />
     }
 
-    goToProducts = (id) => {
-        this.props.navigation.push("Products", {subcategoryId: id});
-    }
-
     render() {
         // const { navigation } = this.props;
         // const categoryId = this.props.navigation.getParam('categoryId');
@@ -66,10 +74,16 @@ class Subcategories extends Component {
                     <Error message={this.props.error} />
                 ) : (
                 <View>
-                    <Text>Subcategories folder</Text>
-                    <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                        <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
-                    )} />
+                    {this.getInput}
+                    {!this.state.inputTriggered ? (
+                        <FlatList ListHeaderComponent={this.getInput} data={this.props.subcategories} renderItem={({item}) => (
+                            <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
+                        )} />
+                    ) : (
+                        <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
+                            <Subcategory item={item} goToProducts={(items) => this.goToProducts(item)} />
+                        )} />
+                    )}  
                 </View>
                 )
             )
