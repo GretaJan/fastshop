@@ -50,13 +50,12 @@ class AddProduct extends Component {
 
     handleChoosePhoto = () => {
         const options = {
-            noData: true
+            noData: false
         };
         ImagePicker.launchImageLibrary(options, response => {
-            console.log("image response: ", response);
 
             if (response.uri) {
-                this.setState({image: response.uri})
+                this.setState({image: response})
             }   
         })
     }
@@ -73,7 +72,7 @@ class AddProduct extends Component {
             protein: this.state.protein,
             salt: this.state.salt,
             vitamins: this.state.vitamins,
-            image: this.state.image,
+            image: "data:" + this.state.image.type + ";base64," + this.state.image.data,
         }
         await this.props.addProduct(data, this.props.route.params.subcategoryId);
         this.props.navigation.navigate("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
@@ -95,8 +94,10 @@ class AddProduct extends Component {
                         <TextInput type="text" autoCorrect={false}  placeholder="protein" onChangeText={value => { this.setState({protein: value})}} value={this.state.protein} ref={ref => this.textInputRef = ref} />
                         <TextInput type="text" autoCorrect={false}  placeholder="salt" onChangeText={value => { this.setState({salt: value})}} value={this.state.salt} ref={ref => this.textInputRef = ref} />
                         <TextInput type="text" autoCorrect={false}  placeholder="vitamins" onChangeText={value => { this.setState({vitamins: value})}} value={this.state.vitamins} ref={ref => this.textInputRef = ref} />
-                        {image && (
-                            <Image source={{ uri: image.uri }} />
+                        {this.state.image && (
+                            <View>
+                                <Image style={{width: 50, height: 50}} source={{ uri: this.state.image.uri }} />
+                            </View>
                         )}
                         <Button title="Choose image" onPress={this.handleChoosePhoto} />
                         <Button title="Save" className="btn btn-primary" onPress={this.addProduct} />

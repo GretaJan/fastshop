@@ -35,15 +35,13 @@ export const getSubcategories = (category) => (dispatch) => {
 } 
 
 export const addSubcategory = (subcategory, category) => dispatch => {
-    console.log('URL: ',  URL + '/addSubcategory/' + category);
-    axios.post(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addSubcategory/${category}`, subcategory )
-        .then(subcategory => {
-            dispatch({
-                action: POST_SUBCATEGORY,
-                dispatch: subcategory.data.subcategory
-            })
-        }).catch(err => 
-            console.log("POST SUBCATEGORY ERROR: ", err.response))
+    axios.post(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addSubcategory/${category}`, subcategory)
+    .then((subcategory) => {
+        dispatch({
+            type: POST_CATEGORY,
+            payload: subcategory.data.subcategory,
+        })
+    }).catch((err) =>console.log("Error:", err.response))
 }
 
 export const editSubcategory = (subcategory, category, data) => (dispatch) => {

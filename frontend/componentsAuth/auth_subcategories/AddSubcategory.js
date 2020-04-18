@@ -43,13 +43,11 @@ class AddSubcategory extends Component {
 
     handleChoosePhoto = () => {
         const options = {
-            noData: true
+            noData: false
         };
         ImagePicker.launchImageLibrary(options, response => {
-            console.log("image response: ", response);
-
             if (response.uri) {
-                this.setState({image: response.uri})
+                this.setState({image: response})
             }   
         })
     }
@@ -59,9 +57,11 @@ class AddSubcategory extends Component {
     }
 
     addSubcategory = async() => {
+        const { image, name } = this.state;
+
         const data = {
-            name: this.state.name,
-            image: this.state.image,
+            name: name,
+            image: "data:" + image.type + ";base64," + image.data,
         }
         var id = this.props.route.params.categoryId
         await this.props.addSubcategory(data, id);
@@ -75,8 +75,10 @@ class AddSubcategory extends Component {
                     <Text>Add New Subcategory</Text>
                         <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
                         {/* <Label>Add image</Label> */}
-                        {image && (
-                            <Image source={{ uri: image.uri }} />
+                        {this.state.image && (
+                            <View>
+                                <Image style={{width: 50, height: 50}} source={{ uri: this.state.image.uri }} />
+                            </View>
                         )}
                         <Button title="Choose image" onPress={this.handleChoosePhoto} />
                         <Button title="Save" className="btn btn-primary" onPress={this.addSubcategory} />

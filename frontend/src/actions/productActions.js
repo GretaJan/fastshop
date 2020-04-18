@@ -16,7 +16,7 @@ export const getProducts = (subcategory) => dispatch => {
         type: LOADING_GET_PRODUCTS,
         loading: true
     });
-    RNFetchBlob.axios.get( URL + '/products/' + subcategory)
+    axios.get( URL + '/products/' + subcategory)
     .then(products => { 
             dispatch({
                 type: GET_PRODUCTS,
@@ -67,15 +67,13 @@ export const getProduct = (subcategory, product) => (dispatch) => {
 } 
 
 export const addProduct = (product, subcategory) => dispatch => {
-    console.log("product: ", product)
-    axios.post( URL + '/addProduct/' + subcategory, product )
-        .then(product => { console.log("Product: ", product),
-            dispatch({
-                action: POST_PRODUCT,
-                payload: product.data
-            })
-        }).catch(err => 
-            console.log("POST PRODUCT ERROR: ", err.response))
+    axios.post(URL + '/addProduct/' + subcategory, product)
+    .then((product) => {
+        dispatch({
+            action: POST_PRODUCT,
+            payload: product.data
+        })
+    }).catch((err) =>console.log("Error:", err.response))
 }
 
 export const editProduct = (product, subcategory, data) => (dispatch) => {

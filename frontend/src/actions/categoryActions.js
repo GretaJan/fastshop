@@ -50,44 +50,13 @@ export const getCategories = () => (dispatch) => {
 // }
 
 export const addCategory = (data) => (dispatch) => {
-    // // fetch(URL + '/addCategory', {method: 'POST'})
-    // //     .then(data => data.json())
-    // //     .then(category => {console.log("newCategory", category)
-    // //         dispatch({
-    // //             type: POST_CATEGORY,
-    // //             payload: {}
-    // //         })
-    // //         history.push('/dashboard')
-    // //     }
-    // //         ).catch(err =>
-    // //             console.log("Error:", err))
-    console.log("Sent data: ", data);
-    axios.post('http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addCategory', data)
-        .then((RetrievedData) => {
-            console.log("Done: ", RetrievedData);
-        }).catch((err, resp) =>console.log("Error:", err.response , " and " , resp, "data: ", data))
-    // data.map(item => {
-    //     console.log(item)
-    // })
-
-    // // {image: data._parts[0][1], name: data._parts[1][1]}
-    //  console.log("data fetch: ", data)
-    //  console.log("URL: "+ URL + '/addCategory', data)
-    // axios.post(URL + '/addCategory', data)
-    // .then(newCategory => 
-    //         dispatch({
-    //             type: POST_CATEGORY,
-    //             payload: newCategory.data.category,
-    //         })).catch((err, resp) =>console.log("Error:", err.response , " and " , resp))
-   
-    //  RNFetchBlob.fetch('POST', 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addCategory', 
-    //     {
-    //          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-    //          body: data})
-    //      .then((response) => response.json())
-    //      .then((RetrievedData) => {
-    //          console.log(RetrievedData);
-    //      }).catch((err, resp) =>console.log("Error:", err , " and " , resp, "data: ", data))
+    axios.post(URL + '/addCategory', data)
+        .then((newCategory) => {
+            dispatch({
+                type: POST_CATEGORY,
+                payload: newCategory.data.category,
+            })
+        }).catch((err) =>console.log("Error:", err.response))
 }
 
 

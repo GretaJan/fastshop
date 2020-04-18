@@ -6,7 +6,7 @@ use App\Subcategory;
 use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
-
+use File;
 
 class SubcategoryController extends Controller
 {
@@ -38,47 +38,24 @@ class SubcategoryController extends Controller
         // $subcategory->category_id = $request->subcategory_id;
         $subcategory->category_id = $category_id;
         $subcategory->name = $request->name; 
-            // var_dump("sub ID: ", $subcategory->category_id);
-        // $file = $request->file('image');
-        // if($request->hasFile('image')) {
-        //     if($file->isValid()) {
-        //         $path = public_path('/uploads/subcategories');
-        //         $path2 = asset('/uploads/subcategories');
-        //         $file->move($path, $file . '/' . $file->getClientOriginalName());
-        //         $subcategory->image = $path2 . '/' . $file->getClientOriginalName();
-        //     } else {
-        //         return response()->json(['file format is invalid'], 400);
-        //     }
-        // } else {
-        //     $subcategory->image = '';
-        // }
+        $base64 = $request->image;
 
-        // IMAGE
-        $file = $request->image;
-        if($file == null) {
-            $subcategory->image = null;
-        } else if($file->isValid()) {
-            // $path_info = pathinfo($file->getClientOriginalName());
-            // $extension =  $path_info['extension'];
-            $has_ext = 0;
-            $get_file_type = mime_content_type($file->getClientOriginalName());
-            $type_array = ['image/gif', 'image/jpeg', 'image/png', 'image/jp2'];
-
-            foreach($type_array as $type) {
-                if($get_file_type == $type) {
-                    $has_ext++;
-                }
-            }
-
-            if($has_ext > 0) {
-                $path = public_path('/uploads/subcategories');
-                $path2 = asset('/uploads/subcategories');
-                $file->move($path, $file->getClientOriginalName());
-                $subcategory->image = $path2 . '/' . $file->getClientOriginalName();
-            } else {
-                return $response()->json(["Message" => "Image must be a file"]);
-             }
-        } 
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
+            $data = substr($base64, strpos($base64, ',') + 1);
+            //Get file type
+            $type = explode(';', $base64)[0];
+            $type = explode('/', $type)[1]; // png or jpg etc
+            var_dump("TYPE: ". $type);
+            //Move image
+            $imageName = str_random(10) . '.' . $type;
+            \File::put(public_path('/uploads/categories') . '/' . $imageName, base64_decode($data));
+            $path2 = asset('/uploads/categories');
+            $category->image =  $path2 . '/' . $imageName; 
+        } else if ($base64 == null) {
+            $category->image = null;
+        } else {
+            return response()->json(['message' => 'Invalid file format'], 400);
+        }
 
         if($subcategory->save()) {
             $response = [
