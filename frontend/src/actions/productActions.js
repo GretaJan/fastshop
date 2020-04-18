@@ -16,7 +16,7 @@ export const getProducts = (subcategory) => dispatch => {
         type: LOADING_GET_PRODUCTS,
         loading: true
     });
-    axios.get( URL + '/products/' + subcategory)
+    RNFetchBlob.axios.get( URL + '/products/' + subcategory)
     .then(products => { 
             dispatch({
                 type: GET_PRODUCTS,

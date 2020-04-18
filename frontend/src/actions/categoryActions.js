@@ -1,5 +1,6 @@
 import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, GET_CATEGORY, POST_CATEGORY, URL, EDIT_CATEGORY, DELETE_CATEGORY } from './types';
 import axios from 'axios';
+import RNFetchBlob from 'react-native-fetch-blob'
 
 export const getCategories = () => (dispatch) => {
     // fetch('http://192.168.0.101:80/2019%20Reproduction/fastshop/backend/laravel/public/api/categories')
@@ -49,23 +50,44 @@ export const getCategories = () => (dispatch) => {
 // }
 
 export const addCategory = (data) => (dispatch) => {
-    // fetch(URL + '/addCategory', {method: 'POST'})
-    //     .then(data => data.json())
-    //     .then(category => {console.log("newCategory", category)
+    // // fetch(URL + '/addCategory', {method: 'POST'})
+    // //     .then(data => data.json())
+    // //     .then(category => {console.log("newCategory", category)
+    // //         dispatch({
+    // //             type: POST_CATEGORY,
+    // //             payload: {}
+    // //         })
+    // //         history.push('/dashboard')
+    // //     }
+    // //         ).catch(err =>
+    // //             console.log("Error:", err))
+    console.log("Sent data: ", data);
+    axios.post('http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addCategory', data)
+        .then((RetrievedData) => {
+            console.log("Done: ", RetrievedData);
+        }).catch((err, resp) =>console.log("Error:", err.response , " and " , resp, "data: ", data))
+    // data.map(item => {
+    //     console.log(item)
+    // })
+
+    // // {image: data._parts[0][1], name: data._parts[1][1]}
+    //  console.log("data fetch: ", data)
+    //  console.log("URL: "+ URL + '/addCategory', data)
+    // axios.post(URL + '/addCategory', data)
+    // .then(newCategory => 
     //         dispatch({
     //             type: POST_CATEGORY,
-    //             payload: {}
-    //         })
-    //         history.push('/dashboard')
-    //     }
-    //         ).catch(err =>
-    //             console.log("Error:", err))
-    axios.post(URL + '/addCategory', data)
-    .then(newCategory => 
-            dispatch({
-                type: POST_CATEGORY,
-                payload: newCategory.data.category,
-            })).catch(err =>console.log("Error:", err.response))
+    //             payload: newCategory.data.category,
+    //         })).catch((err, resp) =>console.log("Error:", err.response , " and " , resp))
+   
+    //  RNFetchBlob.fetch('POST', 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addCategory', 
+    //     {
+    //          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    //          body: data})
+    //      .then((response) => response.json())
+    //      .then((RetrievedData) => {
+    //          console.log(RetrievedData);
+    //      }).catch((err, resp) =>console.log("Error:", err , " and " , resp, "data: ", data))
 }
 
 
@@ -87,15 +109,32 @@ export const editCategory = (category, data) => (dispatch) => {
 
     // console.log("sudurtas",sudurtas);
 
-    axios.post( URL + `/updateCategory/${category}`, data)
-        .then(category => {
-            dispatch({
-                action: EDIT_CATEGORY,
-                payload: category.data,
-                id: category.data.id
-            }) 
-        }).catch(err => 
-            console.log("EDIT PRODUCT ERROR: ", err.response))
+    // axios.post( URL + `/updateCategory/${category}`, data)
+    //     .then(category => {
+    //         dispatch({
+    //             action: EDIT_CATEGORY,
+    //             payload: category.data,
+    //             id: category.data.id
+    //         }) 
+    //     }).catch(err => 
+    //         console.log("EDIT PRODUCT ERROR: ", err.response))
+        //   fetch('POST', 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addCategory', {
+        // headers: {
+        //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        //    },  body: data})
+        // .then((response) => response.json())
+        // .then((RetrievedData) => {
+        //     console.log(RetrievedData);
+        // }).catch((err, resp) =>console.log("Error:", err , " and " , resp, "data: ", data))
+          RNFetchBlob.fetch('POST', 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addCategory', 
+        {
+            // Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            body: data})
+        .then((response) => response.json())
+        .then((RetrievedData) => {
+            console.log(RetrievedData);
+        }).catch((err, resp) =>console.log("Error:", err , " and " , resp, "data: ", data))
 }
 
 export const deleteCategory = (category) => (dispatch) => {

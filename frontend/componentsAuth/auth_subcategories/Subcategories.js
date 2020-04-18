@@ -18,7 +18,6 @@ class Subcategories extends Component {
     }
 
     componentDidMount() {
-        console.log("ID", this.props.route.params);
         this.props.getSubcategories(this.state.id);
     }
 

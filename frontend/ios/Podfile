@@ -62,6 +62,8 @@ target 'frontend' do
 
   pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
 
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
+
   target 'frontendTests' do
     inherit! :complete
     # Pods for testing

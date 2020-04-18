@@ -7,7 +7,7 @@ use App\Subcategory;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\CategoryResource;
-
+use File;
 class CategoryController extends Controller
 {
 
@@ -40,31 +40,42 @@ class CategoryController extends Controller
         ]);
         $category->name = $request->name;
             // IMAGE
-        $file = $request->image;
-        if($file == null) {
-            $category->image = null;
-        } else if($file->isValid()) {
-            $has_ext = 0;
-            $get_file_type = mime_content_type($file->getClientOriginalName());
-            $type_array = ['image/gif', 'image/jpeg', 'image/png', 'image/jp2'];
+        // $file = $request->image; 
+        // if($file == null) {
+        //     $category->image = null;
+        // }
+        // // else if($file->isValid()) {
+        //     else if($file) {
+        //         $path = public_path('/uploads/categories');
+        //         $path2 = asset('/uploads/categories');
+        //         $file->move($path, $file->getClientOriginalName());
+        //         $category->image = $path2 . '/' . $file->getClientOriginalName();
+        //     } else {
+        //         return $response()->json(["Message" => "Image must be a file"]);
+        //      }
 
-            foreach($type_array as $type) {
-                if($get_file_type == $type) {
-                    $has_ext++;
-                }
-            }
+        $base64=$request->image;
 
-            if($has_ext > 0) {
-                $path = public_path('/uploads/categories');
-                $path2 = asset('/uploads/categories');
-                $file->move($path, $file->getClientOriginalName());
-                $category->image = $path2 . '/' . $file->getClientOriginalName();
-            } else {
-                return $response()->json(["Message" => "Image must be a file"]);
-             }
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
+            //     $data = substr($base64, strpos($base64, ',') + 1);
+            
+            //     $data = base64_decode($data);
+            //    var_dump("DATA TO DECODED: ",  $data );
+            //    $category->image = $data;
+            $data = substr($base64, strpos($base64, ',') + 1);
+            $imgName = preg_replace('/^data:image\/\w+;base64,/', '', $base64);
+            $type = explode(';', $imgName)[0];
+            $type = explode('/', $type)[1]; // png or jpg etc
+            $imageName = str_random(10) . '.' . 'png';
+            \File::put(storage_path(). '/' . $imageName, base64_decode($data));
+            $path2 = asset('/uploads/categories');
+            $category->image =  $path2 . '/' . $imageName; 
         } 
-     
-        
+        // else {
+        //     $category->image = null;
+        // }
+       
+
         if($category->save())
         {
             $response = ['category' => $category];
