@@ -19,6 +19,11 @@ class Categories extends Component {
   
     componentDidMount() {
         this.props.getCategories();
+        this.props.categories.map(item => {
+            console.log("Categories, ", item.image)
+        })
+        
+        
     }
 
     // componentDidUpdate(prevProps) {

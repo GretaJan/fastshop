@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { editCategory } from '../../src/actions/categoryActions';
@@ -71,6 +71,9 @@ class CategoryList extends Component {
                 <View style={styles.itemWrap} >
                     <Text key={this.props.item.id} onPress={this.goToSubcategories}>{this.state.name}</Text>
                     {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
+                    <View>
+                        <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
+                    </View>
                     <View style={styles.itemWrap}>
                         <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
                         <Icon name="remove" size={35} color="firebrick"  onPress={this.deleteFunction}/>
