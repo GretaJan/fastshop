@@ -45,14 +45,13 @@ class SubcategoryController extends Controller
             //Get file type
             $type = explode(';', $base64)[0];
             $type = explode('/', $type)[1]; // png or jpg etc
-            var_dump("TYPE: ". $type);
             //Move image
             $imageName = str_random(10) . '.' . $type;
-            \File::put(public_path('/uploads/categories') . '/' . $imageName, base64_decode($data));
-            $path2 = asset('/uploads/categories');
-            $category->image =  $path2 . '/' . $imageName; 
+            \File::put(public_path('/uploads/subcategories') . '/' . $imageName, base64_decode($data));
+            $path2 = asset('/uploads/subcategories');
+            $subcategory->image =  $path2 . '/' . $imageName; 
         } else if ($base64 == null) {
-            $category->image = null;
+            $subcategory->image = null;
         } else {
             return response()->json(['message' => 'Invalid file format'], 400);
         }

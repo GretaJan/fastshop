@@ -68,12 +68,12 @@ export const getProduct = (subcategory, product) => (dispatch) => {
 
 export const addProduct = (product, subcategory) => dispatch => {
     axios.post(URL + '/addProduct/' + subcategory, product)
-    .then((product) => {
+    .then((product) => { 
         dispatch({
             action: POST_PRODUCT,
-            payload: product.data
+            payload: product.data.product
         })
-    }).catch((err) =>console.log("Error:", err.response))
+    }).catch((err) =>console.log("Error:", err))
 }
 
 export const editProduct = (product, subcategory, data) => (dispatch) => {

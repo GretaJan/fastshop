@@ -39,14 +39,14 @@ class CategoryController extends Controller
             'name' => 'required|min:3|max:100',
         ]);
         $category->name = $request->name;
-        $base64 = $request->image;
+        $base64=$request->image;
 
         if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
             $data = substr($base64, strpos($base64, ',') + 1);
             //Get file type
             $type = explode(';', $base64)[0];
             $type = explode('/', $type)[1]; // png or jpg etc
-            var_dump("TYPE: ". $type);
+
             //Move image
             $imageName = str_random(10) . '.' . $type;
             \File::put(public_path('/uploads/categories') . '/' . $imageName, base64_decode($data));
@@ -57,6 +57,7 @@ class CategoryController extends Controller
         } else {
             return response()->json(['message' => 'Invalid file format'], 400);
         }
+       
 
         if($category->save())
         {

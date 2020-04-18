@@ -53,7 +53,6 @@ class AddProduct extends Component {
             noData: false
         };
         ImagePicker.launchImageLibrary(options, response => {
-
             if (response.uri) {
                 this.setState({image: response})
             }   
@@ -74,6 +73,7 @@ class AddProduct extends Component {
             vitamins: this.state.vitamins,
             image: "data:" + this.state.image.type + ";base64," + this.state.image.data,
         }
+        console.log("DATA: ", data);
         await this.props.addProduct(data, this.props.route.params.subcategoryId);
         this.props.navigation.navigate("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
     // this.props.navigation.goBack();

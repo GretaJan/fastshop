@@ -7,6 +7,7 @@ use App\Category;
 use App\Subcategory;
 use Illuminate\Http\Request;
 use App\Html\Resources\ProductResource;
+use File;
 
 class ProductController extends Controller
 {
@@ -29,7 +30,6 @@ class ProductController extends Controller
         $product = new Product();
         $request->validate([
             'name' => 'required|min:3|max:100',
-            'image' => 'nullable|image',
             // 'energy' => 'nullable|numeric',
             // 'fat' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
             // 'saturated' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
@@ -51,34 +51,29 @@ class ProductController extends Controller
         $product->protein = $request->protein;
         $product->salt = $request->salt;
         $product->vitamins = $request->vitamins;
+        $base64 = $request->image;
 
-        // $file = $request->file('image');
-        // if($request->hasFile('image')) {
-        //     if($file->isValid()){
-        //         $path = public_path('/uploads/products');
-        //         $path2 = asset('/uploads/products');
-        //         $file->move($path, $file . '/' . $file->getClientOriginalName());
-        //         $product->image = $path2 . '/' . $file->getClientOriginalName();
-        //     } else {
-        //         return response()->json(['File format is invalid'], 400);
-        //     }
-        // } else {
-        //     $product->image = '';
-        // }
-
-        // IMAGE
-        $file = $request->image;
-        if($file == null) {
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
+            $data = substr($base64, strpos($base64, ',') + 1);
+            //Get file type
+            $type = explode(';', $base64)[0];
+            $type = explode('/', $type)[1]; // png or jpg etc
+            //Move image
+            $imageName = str_random(10) . '.' . $type;
+            \File::put(public_path('/uploads/products') . '/' . $imageName, base64_decode($data));
+            $path2 = asset('/uploads/products');
+            $product->image =  $path2 . '/' . $imageName; 
+        } else if ($base64 == null) {
             $product->image = null;
-        } else if($file->isValid()) {
-            $path = public_path('/uploads/subcategories');
-            $path2 = asset('/uploads/subcategories');
-            $file->move($path, $file->getClientOriginalName());
-            $product->image = $path2 . '/' . $file->getClientOriginalName();
         } else {
-            return $response()->json(["Message" => "Image must be a file"]);
-         }
+            return response()->json(['message' => 'Invalid file format'], 400);
+        }
+ 
+        $product->save();
 
+        $response = ['product' => $product];
+
+        return response()->json($response, 201);
         if($product->save()) {
             $response = [
                 'product' => $product
