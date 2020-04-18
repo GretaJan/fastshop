@@ -63,11 +63,14 @@ class CategoryController extends Controller
             //    var_dump("DATA TO DECODED: ",  $data );
             //    $category->image = $data;
             $data = substr($base64, strpos($base64, ',') + 1);
-            $imgName = preg_replace('/^data:image\/\w+;base64,/', '', $base64);
-            $type = explode(';', $imgName)[0];
+            // $imgName = preg_replace('/^data:image\/\w+;base64,/', '', $base64);
+            //find image format:
+            $type = explode(';', $base64)[0];
             $type = explode('/', $type)[1]; // png or jpg etc
-            $imageName = str_random(10) . '.' . 'png';
-            \File::put(storage_path(). '/' . $imageName, base64_decode($data));
+            var_dump("TYPE: ". $type);
+
+            $imageName = str_random(10) . '.' . $type;
+            \File::put(public_path('/uploads/categories') . '/' . $imageName, base64_decode($data));
             $path2 = asset('/uploads/categories');
             $category->image =  $path2 . '/' . $imageName; 
         } 
