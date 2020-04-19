@@ -51,8 +51,10 @@ class ProductController extends Controller
         $product->protein = $request->protein;
         $product->salt = $request->salt;
         $product->vitamins = $request->vitamins;
-        $base64 = $request->image;
+        $product->background_color = $request->background_color;
+        $product->border_color = $request->border_color;
 
+        $base64 = $request->image;
         if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
             $data = substr($base64, strpos($base64, ',') + 1);
             //Get file type
@@ -79,7 +81,7 @@ class ProductController extends Controller
                 'product' => $product
             ];
         }
-
+        
         return response()->json($request, 201);
     }
 

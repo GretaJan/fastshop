@@ -18,6 +18,8 @@ class CreateSubcategoriesTable extends Migration
             $table->integer('category_id');
             $table->string('name')->nullable();
             $table->string('image')->nullable();
+            $table->string('background_color')->nullable();
+            $table->string('border_color')->nullable();
             $table->timestamps();
         });
     }

@@ -26,16 +26,6 @@ class Categories extends Component {
         
     }
 
-    // componentDidUpdate(prevProps) {
-    //     if (prevProps.categories !== this.props.categories){
-    //         console.log("NEW: ", this.props.categories);
-    //     } else {
-    //         console.log("old: ", this.props.categories);
-    //     }
-    // }
-
-    // static getDerivedStateFromProps()
-
     deleteCategory = async (id) => {
         await this.props.deleteCategory(id);
         this.props.getCategories();

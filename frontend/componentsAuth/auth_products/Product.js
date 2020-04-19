@@ -1,47 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Button, TextInput } from 'react-native';
+import { View, Text, Image, Button, TextInput, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
+import {styles} from '../../components_additional/styles/ProductStyles';
 import { getProduct, editProduct, deleteProduct } from '../../src/actions/productActions';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { withNavigation } from 'react-navigation';
+
 //Components:
 import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
-
-const styles = {
-    container: {
-        marginTop: 8,
-        // marginLeft: 10,
-        // marginRight: 10
-    },
-    itemWrap: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor:'lightgrey',
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 5,
-        height: 50
-    },
-    itemText: {
-        width: 'auto',
-        fontSize: 20
-    },
-    itemInput: {
-        backgroundColor: '#fff',
-        width: '75%',
-        fontSize: 20
-    },
-    itemButton: {
-        flexBasis: '40'
-    },
-    iconItem: {
-        paddingRight: 10
-    }
-
-}
 
 class Product extends Component {
     state = {
@@ -57,7 +25,9 @@ class Product extends Component {
         protein: this.props.product.protein,
         salt: this.props.product.salt,
         vitamins: this.props.product.vitamins,
-        image: this.props.product.image,
+        image: null,
+        background_color: this.props.product.background_color,
+        border_color:  this.props.product.border_color,
         nameInput: false,
         energyInput: false,
         fatInput: false,
@@ -68,12 +38,16 @@ class Product extends Component {
         proteinInput: false,
         saltInput: false,
         vitaminsInput: false,
+        backgroundInput: false,
+        borderInput: false,
+        imageInput: false,
     }
 
 
      async componentDidMount() {
 
         await this.props.getProduct(this.state.subcategoryId, this.state.productId);
+        console.log("BackgroundColor: ", this.props.product.background_color)
         // this.setState({
         //     name: this.props.product.name,
         //     energy: this.props.product.energy,
@@ -147,6 +121,15 @@ class Product extends Component {
     vitaminsInput = () => {
         this.setState({vitaminsInput: true});
     }
+    backgroundEdit = () => {
+        this.setState({backgroundInput: true});
+    }
+    borderEdit = () => {
+        this.setState({borderInput: true});
+    }
+    imageEdit = () => {
+        this.setState({imageInput: true});
+    }
     cancelNameEdit = () => {
         this.setState({nameInput: false});
     }
@@ -179,6 +162,15 @@ class Product extends Component {
     }
     cancelVitaminsEdit = () => {
         this.setState({vitaminsInput: false});
+    }
+    cancelBackgroundEdit = () => {
+        this.setState({backgroundInput: false});
+    }
+    cancelBorderEdit = () => {
+        this.setState({borderInput: false});
+    }
+    cancelImageEdit = () => {
+        this.setState({imageInput: false});
     }
 
     validation() {
@@ -215,6 +207,12 @@ class Product extends Component {
         if(this.state.image == null) {
             this.setState({image: this.props.product.image})
         }
+        if(this.state.background_color == null) {
+            this.setState({image: this.props.product.background_color})
+        }
+        if(this.state.border_color == null) {
+            this.setState({image: this.props.product.border_color})
+        }
     }
 
     getInputValue = (props) => {
@@ -234,6 +232,18 @@ class Product extends Component {
         this.props.navigation.push("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
     }
 
+    changeImage = () => {
+        const options = {
+            noData: false
+        }
+        ImagePicker.launchImageLibrary(options, response => {
+            if (response.uri) {
+                this.setState({image: response});
+                this.editProduct();
+            }   
+        })
+    }
+
     editProduct = async() => {
         // this.validation();
         const data = {
@@ -247,7 +257,9 @@ class Product extends Component {
             protein: this.state.protein,
             salt: this.state.salt,
             vitamins: this.state.vitamins,
-            image: this.state.image,
+            background_color: this.state.background_color,
+            border_color: this.state.border_color,
+            image: "data:" + image.type + ";base64," + image.data,
             "_method": "put"
         }
         await this.props.editProduct(this.props.route.params.subcategoryId, this.props.route.params.productId, data); 
@@ -264,13 +276,15 @@ class Product extends Component {
         this.cancelProteinEdit();
         this.cancelSaltEdit();
         this.cancelVitaminsEdit();
+        this.cancelBackgroundEdit();
+        this.cancelBorderEdit();
     }
 
     render() {
         // const { name, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, image } = this.props;
         // const { name, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, image, triggerEdit } = this.state;
         return (
-                <View style={styles.container}>
+                <View style={ styles(this.state.background_color, this.state.border_color).container }>
                     {(this.props.loading) ? (
                         <Loading />
                     ) : (
@@ -278,153 +292,187 @@ class Product extends Component {
                         <Error message={this.props.error} />
                     ) : (
                         <View>
-                            <Text>Auth Product</Text>
                             {(!this.state.nameInput) &&
-                                <View style={styles.itemWrap}>
-                                    <Text style={styles.itemText}>{this.state.name}</Text>
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                    <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.state.name}</Text>
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput}/>
                                 </View>
                             }{(this.state.nameInput) &&
-                                <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => this.setState({name: value})} defaultValue={this.state.name} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({name: value})} defaultValue={this.state.name} />
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({background_color: value})} defaultValue={this.state.background_color} />
+                                    <TextInput style={ Styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({border_color: value})} defaultValue={this.state.border_color} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelNameEdit} />
                                     </View>
                                 </View>
                             }
                             <View>                            
-                                <Icon style={styles.iconItem} name="check" size={35} color="firebrick" onPress={() => this.deleteProduct} />
+                                <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check" size={35} color="firebrick" onPress={() => this.deleteProduct} />
                             </View>
+                            {(!this.state.backgroundInput) &&
+                                <View style={ (this.state.background_color == null) ? 
+                                (styles(this.state.background_color, this.state.border_color).backgroundColorNull) : (styles(this.state.background_color, this.state.border_color).background_color) }>
+                                    <Text style={ styles(this.state.background_color, this.state.border_color).itemText } >Background</Text>
+                                    <Icon name="edit" size={35} color="firebrick" onPress={this.backgroundInput}/>
+                                </View>
+                            }{(this.state.backgroundInput) &&
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({background_color: value})} defaultValue={this.state.background_color} />
+                                    <View style={styles.itemWrap}>
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelBackgroundEdit} />
+                                    </View>
+                                </View>
+                            }
+                            {(!this.state.borderInput) &&
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                    <Text style={ styles(this.state.background_color, this.state.border_color).background_color } >Border</Text>
+                                    <Icon name="edit" size={35} color="firebrick" onPress={this.borderInput}/>
+                                </View>
+                            }{(this.state.borderInput) &&
+                                <View style={ (this.state.border_color == null) ? 
+                                    (styles(this.state.background_color, this.state.border_color).borderColorNull) : (styles(this.state.background_color, this.state.border_color).border_color) }>
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({border_color: value})} defaultValue={this.state.border_color} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelBorderEdit} />
+                                    </View>
+                                </View>
+                            }
                             {(!this.state.energyInput) &&
-                                <View style={styles.itemWrap}>
-                                    { (this.props.product.energy) && <Text style={styles.itemText}>{this.state.energy}</Text>}
-                                    { (!this.props.product.energy) && <Text style={styles.itemText}>No value</Text>}
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                    { (this.props.product.energy) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText } >{this.state.energy}</Text>}
+                                    { (!this.props.product.energy) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText } >No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.energyInput}/>
                                 </View>
                             }{(this.state.energyInput) &&
-                                <View style={styles.itemWrap}>  
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => this.setState({energy: value})} defaultValue={this.state.energy} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>  
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({energy: value})} defaultValue={this.state.energy} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelEnergyEdit} />
                                     </View>
                                 </View>  
                             }{(!this.state.fatInput) &&
-                                <View style={styles.itemWrap}>
-                                    { (this.props.product.fat) && <Text style={styles.itemText}>{this.state.fat}</Text>}
-                                    { (!this.props.product.fat) && <Text style={styles.itemText}>No value</Text>}
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                    { (this.props.product.fat) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.state.fat}</Text>}
+                                    { (!this.props.product.fat) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.fatInput} />
                                 </View>
                             }{(this.state.fatInput) &&
-                                <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fat: value})}} defaultValue={this.state.fat} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({fat: value})}} defaultValue={this.state.fat} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelFatEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.saturatedInput) &&
-                                <View style={styles.itemWrap}>
-                                    {(this.props.product.saturated) && <Text style={styles.itemText}>{this.state.saturated}</Text>}
-                                    {(!this.props.product.saturated) && <Text style={styles.itemText}>No value</Text>}
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                    {(this.props.product.saturated) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.state.saturated}</Text>}
+                                    {(!this.props.product.saturated) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText } >No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.saturatedInput} /> 
                                 </View>
                             }{(this.state.saturatedInput) &&
-                                <View style={styles.itemWrap}>
-                                    <TextInput  style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}}  defaultValue={this.state.saturated} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    <TextInput  style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}}  defaultValue={this.state.saturated} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelSaturatedEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.carbsInput) &&
-                                <View style={styles.itemWrap} >
-                                    {(this.props.product.carbs) && <Text style={styles.itemText}>{ this.state.carbs }</Text>}
-                                    {(!this.props.product.carbs) && <Text style={styles.itemText}>No value</Text>}
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    {(this.props.product.carbs) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{ this.state.carbs }</Text>}
+                                    {(!this.props.product.carbs) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.carbsInput} />
                                 </View>
                             }{(this.state.carbsInput) &&
-                                <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({carbs: value})}} defaultValue={this.state.carbs} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({carbs: value})}} defaultValue={this.state.carbs} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelCarbsEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.sugarInput) &&
-                                <View style={styles.itemWrap}>
-                                    {(this.state.sugar) && <Text style={styles.itemText}>{this.state.sugar}</Text>}
-                                    {(!this.state.sugar) && <Text style={styles.itemText}>No value</Text>}
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap } >
+                                    {(this.state.sugar) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.state.sugar}</Text>}
+                                    {(!this.state.sugar) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.sugarInput} /> 
                                 </View>
                             }{(this.state.sugarInput) &&
-                                <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue={this.state.sugar} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue={this.state.sugar} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelSugarEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.fiberInput) &&
-                                <View style={styles.itemWrap}>
-                                    {(this.state.fiber) && <Text style={styles.itemText}>{this.state.fiber }</Text>}
-                                    {(!this.state.fiber) && <Text style={styles.itemText}>No value</Text>}
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    {(this.state.fiber) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.state.fiber }</Text>}
+                                    {(!this.state.fiber) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.fiberInput} /> 
                                 </View>
                             }{(this.state.fiberInput) &&
-                                <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({fiber: value})}} defaultValue={this.state.fiber} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({fiber: value})}} defaultValue={this.state.fiber} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelFiberEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.proteinInput) &&
-                                <View style={styles.itemWrap}>
-                                    {(this.state.protein) && <Text style={styles.itemText}>{this.state.protein}</Text> }
-                                    {(!this.state.protein) && <Text style={styles.itemText}>No value</Text> }
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    {(this.state.protein) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.state.protein}</Text> }
+                                    {(!this.state.protein) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>No value</Text> }
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.proteinInput} /> 
                                 </View>
                             }{(this.state.proteinInput) &&
-                                <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({protein: value})}} defaultValue={this.state.protein} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({protein: value})}} defaultValue={this.state.protein} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelProteinEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.saltInput) &&
-                                <View style={styles.itemWrap}>
-                                    {(this.state.salt) && <Text style={styles.itemText}>{this.props.product.salt}</Text>}
-                                    {(!this.state.salt) && <Text style={styles.itemText}>No value</Text>}
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    {(this.state.salt) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.props.product.salt}</Text>}
+                                    {(!this.state.salt) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.saltInput} /> 
                                 </View>
                             }{(this.state.saltInput) &&
-                                <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({salt: value})}} defaultValue={this.state.salt} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({salt: value})}} defaultValue={this.state.salt} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelSaltEdit} />
                                     </View>
                                 </View>
                             }{(!this.state.vitaminsInput) &&
-                                <View style={styles.itemWrap}>
-                                    {(this.state.vitamins) && <Text style={styles.itemText}>{this.state.vitamins}</Text>}
-                                    {(!this.state.vitamins) && <Text style={styles.itemText}>No value</Text>}
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    {(this.state.vitamins) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.state.vitamins}</Text>}
+                                    {(!this.state.vitamins) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.vitaminsInput} /> 
                                 </View>
                             }{(this.state.vitaminsInput) &&
-                                <View style={styles.itemWrap}>
-                                    <TextInput style={styles.itemInput} type="text" autoCorrect={false} onChangeText={value => { this.setState({vitamins: value})}} defaultValue={this.state.vitamins} />
-                                    <View style={styles.itemWrap}>
-                                        <Icon style={styles.iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                    <TextInput style={ styles(this.state.background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({vitamins: value})}} defaultValue={this.state.vitamins} />
+                                    <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
+                                        <Icon style={ styles(this.state.background_color, this.state.border_color).iconItem } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelVitaminsEdit} />
                                     </View>
                                 </View>
-                            }{(this.props.image && (
-                                <Image source={{ uri: this.state.image}}/>
+                            }{(this.state.image ? (
+                                <Image style={ styles(this.state.background_color, this.state.border_color).image }source={{ uri: this.state.image}}/>
+                            ) : (
+                                <Image style={ styles(this.state.background_color, this.state.border_color).image } source={require('../../components_additional/images/noimage.jpeg')} />
                             ))}
+                            <Text onPress={ this.changeImage } >Change image</Text>
                         </View>
                     ))}
                </View>

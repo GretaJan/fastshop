@@ -38,6 +38,8 @@ class SubcategoryController extends Controller
         // $subcategory->category_id = $request->subcategory_id;
         $subcategory->category_id = $category_id;
         $subcategory->name = $request->name; 
+        $subcategory->background_color = $request->background_color;
+        $subcategory->border_color = $request->border_color;
         $base64 = $request->image;
 
         if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {

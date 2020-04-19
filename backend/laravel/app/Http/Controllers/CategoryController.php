@@ -39,6 +39,8 @@ class CategoryController extends Controller
             'name' => 'required|min:3|max:100',
         ]);
         $category->name = $request->name;
+        $category->background_color = $request->background_color;
+        $category->border_color = $request->border_color;
         $base64=$request->image;
 
         if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {

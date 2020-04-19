@@ -27,6 +27,8 @@ class CreateProductsTable extends Migration
             $table->decimal('protein', 3,1)->nullable();
             $table->decimal('salt', 3,1)->nullable();
             $table->text('vitamins')->nullable();
+            $table->string('background_color')->nullable();
+            $table->string('border_color')->nullable();
             $table->timestamps();
         });
     }

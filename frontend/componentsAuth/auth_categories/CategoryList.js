@@ -66,11 +66,12 @@ class CategoryList extends Component {
 
     render() {
         return (
-            <View>
+            <View  key={this.props.item.id} >
             {(!this.state.nameInput) &&
                 <View style={styles.itemWrap} >
-                    <Text key={this.props.item.id} onPress={this.goToSubcategories}>{this.state.name}</Text>
-                    {/* <Button style={styles.button} title="Edit" onPress={this.nameInput} />  */}
+                    <Text onPress={this.goToSubcategories}>{this.state.name}</Text>
+                    <Text style={this.props.item.background_color}>Background</Text>
+                    <Text style={this.props.item.border_color}>Border</Text>
                     <View>
                         <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
                     </View>

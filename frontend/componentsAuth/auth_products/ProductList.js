@@ -10,7 +10,7 @@ class ProductList extends Component {
 
     render() {
         return (
-            <View>
+            <View key={this.props.item.id}>
                 <View>
                     <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
                 </View>
