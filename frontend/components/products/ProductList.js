@@ -32,8 +32,7 @@ const styles = {
  
 class ProductList extends Component {
 
-    selectProduct = (e) => {
-        e.preventDefault();
+    selectProduct = () => {
         this.props.selectProduct(this.props.item.id, this.props.item.subcategory_id);
     }
 

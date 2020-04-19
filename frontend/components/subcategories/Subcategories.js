@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getSubcategories } from '../../src/actions/subcategoryActions';
 import { getCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -17,7 +18,8 @@ class Subcategories extends Component {
         // id:  this.props.navigation.getParam('categoryId', null),
         tempArray: this.props.subcategories,
         searchName: '',
-        inputTriggered: false
+        inputTriggered: false,
+        showSearchInput: false
     }
 
     componentDidMount() {
@@ -59,7 +61,13 @@ class Subcategories extends Component {
     }
 
     getInput = () => {
-        return <TextInput placeholder="Search by name" onChangeText={value => this.searchFunction(value)} value={this.state.searchName} />
+        return (
+            <View>
+                <Icon name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
+                { this.state.showSearchInput && 
+                    <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+            </View>
+        )
     }
 
     render() {

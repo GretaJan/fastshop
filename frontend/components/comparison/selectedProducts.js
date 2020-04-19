@@ -249,6 +249,7 @@ class Products extends Component {
                     saltGood = productOne.salt;
                     vitaminsGood = productOne.vitamins;
                     console.log("goodOne: ", bestQualityProduct);
+                    
                 } else if (goodComponents[i] < goodComponents[j]) {
                     //Quality
                     bestQualityProduct = productTwo.name;

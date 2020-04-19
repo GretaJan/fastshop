@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, Button, 
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { getCategories } from '../../src/actions/categoryActions';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+
 //Components
 import CategoryList from './CategoryList';
 import Loading from '../../components_additional/Loading';
@@ -12,7 +14,8 @@ import Error from '../../components_additional/Error';
 class Categories extends Component {
     state = {
         tempArray: this.props.categories,
-        searchName: ''
+        searchName: '',
+        showSearchInput: false
     }
   
     componentDidMount() {
@@ -40,7 +43,13 @@ class Categories extends Component {
     }
 
     getInput = () => {
-        return <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />
+        return (
+            <View>
+                <Icon name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
+                { this.state.showSearchInput && 
+                    <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+            </View>
+        )
     }
 
     goToSubcategories = (id) => {

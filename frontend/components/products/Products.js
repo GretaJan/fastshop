@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getProducts } from '../../src/actions/productActions';
 import { productSelected } from '../../src/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 //Components
 import Product from './ProductList';
@@ -15,7 +16,8 @@ class Products extends Component {
         id: this.props.route.params.subcategoryId,
         tempArray: this.props.products,
         searchName: '',
-        inputTriggered: false
+        inputTriggered: false,
+        showSearchInput: false
     }
 
     async componentDidMount() {
@@ -46,7 +48,13 @@ class Products extends Component {
     }
 
     getInput = () => {
-        return <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />
+        return (
+            <View>
+                <Icon name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
+                { this.state.showSearchInput && 
+                    <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+            </View>
+        )
     }
 
     selectProduct = (item1, item2) => {
