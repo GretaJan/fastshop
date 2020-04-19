@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { getProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
@@ -32,6 +32,15 @@ class Product extends Component {
         return (
             <View style={styles.container} >
                 <Text>{this.props.product.name}</Text>
+                {this.props.product.image ? (
+                        <View>
+                            <Image style={{width: 50, height: 50}} source={{ uri: this.props.product.image }} />
+                        </View>
+                        ) : (
+                        <View>
+                            <Image style={{width: 50, height: 50}} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                )}
                 <View style={styles.listContainer} >
                     <FlatList data={[
                                     { key: "Energy:" },
@@ -47,15 +56,15 @@ class Product extends Component {
                                                 <Text>{item.key}</Text>}
                     />
                     <FlatList data={[
-                                    { key: this.props.product.energy },
-                                    { key: this.props.product.fat },
-                                    { key: this.props.product.saturated },
-                                    { key: this.props.product.carbs },
-                                    { key: this.props.product.sugar },
-                                    { key: this.props.product.fiber },
-                                    { key: this.props.product.protein },
-                                    { key: this.props.product.salt },
-                                    { key: this.props.product.vitamins },
+                                    { key: (this.props.product.energy) ? (this.props.product.energy) : ('-') },
+                                    { key: (this.props.product.fat) ? (this.props.product.fat) : '-' },
+                                    { key: (this.props.product.saturated) ? (this.props.product.saturated) : '-' },
+                                    { key: (this.props.product.carbs) ? (this.props.product.carbs) : '-' },
+                                    { key: (this.props.product.sugar) ? (this.props.product.sugar) : '-' },
+                                    { key: (this.props.product.fiber) ? (this.props.product.fiber) : '-'  },
+                                    { key: (this.props.product.protein) ? (this.props.product.protein) : '-'  },
+                                    { key: (this.props.product.salt) ? (this.props.product.salt) : '-'  },
+                                    { key: (this.props.product.vitamins) ? (this.props.product.vitamins) : '-'  },
                                 ]} renderItem={({item}) => 
                                                 <Text>{item.key}</Text>}
                     />

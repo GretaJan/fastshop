@@ -11,9 +11,15 @@ class ProductList extends Component {
     render() {
         return (
             <View key={this.props.item.id}>
-                <View>
-                    <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
-                </View>
+                   {this.props.item.image ? (
+                        <View>
+                            <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
+                        </View>
+                        ) : (
+                        <View>
+                            <Image style={{width: 50, height: 50}} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
                 <Text key={this.props.item.id} onPress={this.goToProduct}>{this.props.item.name}</Text>
             </View>
         )

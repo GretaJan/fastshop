@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 // import { createStackNavigator, createAppContainer } from '@react-navigation/stack';
 import { connect } from 'react-redux';
@@ -39,6 +39,15 @@ class CategoryList extends Component {
             // <TouchableOpacity style={styles.itemWrap} onPress={this.goToSubcategories}>
             <TouchableOpacity key={this.props.item.id} style={styles.itemWrap} onPress={() => this.goToSubcategories()}>
                 <Text>{this.props.item.name}</Text>
+                {this.props.item.image ? (
+                    <View>
+                        <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
+                    </View>
+                    ) : (
+                    <View>
+                        <Image style={{width: 50, height: 50}} source={require('../../components_additional/images/noimage.jpeg')}  />
+                    </View> 
+                )}
                 <Icon name="arrow-circle-right" size={20} />
             </TouchableOpacity >
         )  
