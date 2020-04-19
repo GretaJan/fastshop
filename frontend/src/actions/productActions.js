@@ -58,12 +58,14 @@ export const getProduct = (subcategory, product) => (dispatch) => {
                 error: ''
             })
         }
-    ).catch(err =>  
+    ).catch(err => { console.log("Product Err: ", err.response)
         dispatch({
             type: GET_PRODUCTS_ERROR,
             error: 'Failed to load: ', err,
             loading: false
-        }))
+        })
+    })
+       
 } 
 
 export const addProduct = (product, subcategory) => dispatch => {

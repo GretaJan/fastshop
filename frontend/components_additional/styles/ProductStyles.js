@@ -35,7 +35,7 @@ export const styles = (background_color, border_color) => StyleSheet.create({
         height: 65,
         width: 65
     },
-    background_color: {
+    backgroundColorIs: {
         backgroundColor: background_color,
         display: 'flex',
         flexDirection: 'row',
@@ -57,17 +57,9 @@ export const styles = (background_color, border_color) => StyleSheet.create({
         paddingTop: 5,
         height: 50
     },
-    border_color: {
-        backgroundColor: border_color,
+    borderColorIs: {
+        borderColor: border_color,
         borderWidth: 2,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor:'lightgrey',
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 5,
-        height: 50
     },
     borderColorNull: {
         borderColor: '#989898',
