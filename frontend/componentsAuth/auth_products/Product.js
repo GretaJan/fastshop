@@ -43,7 +43,6 @@ class Product extends Component {
         imageInput: false,
     }
 
-
      async componentDidMount() {
         await this.props.getProduct(this.state.subcategoryId, this.state.productId);
         console.log("BackgroundColor: ", this.props.product.background_color)
@@ -441,7 +440,7 @@ class Product extends Component {
                                 </View>
                             }{(!this.state.saltInput) &&
                                 <View style={ styles(this.state.background_color, this.state.border_color).itemWrap }>
-                                    {(this.state.salt) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.state.salt}</Text>}
+                                    {(this.state.salt) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>{this.props.product.salt}</Text>}
                                     {(!this.state.salt) && <Text style={ styles(this.state.background_color, this.state.border_color).itemText }>No value</Text>}
                                     <Icon name="edit" size={35} color="firebrick" onPress={this.saltInput} /> 
                                 </View>
@@ -487,3 +486,4 @@ const mapStateToProps = (state) => (console.log("New: ", state.products.product)
 })
 
 export default withNavigation(connect(mapStateToProps, {getProduct, editProduct, deleteProduct})(Product))
+
