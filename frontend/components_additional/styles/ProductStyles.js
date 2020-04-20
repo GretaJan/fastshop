@@ -147,14 +147,56 @@ export const stylesGuest = () => StyleSheet.create( {
 
 export const stylesGuestSingle = () => StyleSheet.create( {
     container: {
-        flex: 1
+        flex: 1,
+        textAlign: 'center',
+        alignItems:'center',
+        backgroundColor: '#FFFFE0',
+    },
+    imageContainer: {
+        width: '50%',
+        height: 180,
+        textAlign: 'center',
+        alignItems:'center',
+        top: 10,
+    },
+    image: {
+        height: '100%',
+        resizeMode: 'contain',
+        // borderRadius: 10,
     },
     listContainer: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        backgroundColor: 'lightblue',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        // marginHorizontal: 20,
     },
-    image: {
-        height: 50,
-        width: 50
+    emptyItem: {
+        position: 'absolute',
+        // backgroundColor: '#f8f8f8',
+        backgroundColor: '#FFFFE0',
+        width: 45,
+        height: 45,
+        borderRadius: 45/2,
+        marginTop: 180,
+        zIndex: 2,
+    },
+    emptyIcon: {
+        fontSize: 20,
+        top: 12,
+        left: 18, 
+    },
+    listItemsTitleWrap: {
+        marginTop: 30,
+    },
+    listItemsTitle: {
+        fontSize: 16,
+    },
+    listItemsWrap: {
+        marginTop: 30,
+    },
+    listItems: {
+        fontSize: 16,
     }
 });

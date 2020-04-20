@@ -96,7 +96,7 @@ render() {
                                             color: '#394032',
                                         },
                                         headerStyle: {
-                                            backgroundColor: '#ffcc33',
+                                            backgroundColor: '#FFFFE0',
                                         },
                                         headerTitleAlign: 'center'
                                         }} /> 

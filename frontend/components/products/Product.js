@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 // const styles = StyleSheet.create({
 //     container: {
@@ -16,6 +17,10 @@ import { stylesGuestSingle } from '../../components_additional/styles/ProductSty
 // })
 
 class Product extends Component {
+    static navigationOptions = {
+        headerTitle: "PRODUCT DETAILS2",
+    };
+
     state = {
         productId: this.props.route.params.productId,
         subcategoryId: this.props.route.params.subcategoryId
@@ -34,16 +39,20 @@ class Product extends Component {
             <View style={stylesGuestSingle().container} >
                 <Text>{this.props.product.name}</Text>
                 {this.props.product.image ? (
-                        <View>
+                        <View style={stylesGuestSingle().imageContainer} >
                             <Image style={stylesGuestSingle().image} source={{ uri: this.props.product.image }} />
                         </View>
                         ) : (
-                        <View>
+                        <View style={stylesGuestSingle().imageContainer} >
                             <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                         </View> 
                 )}
+                <View style={stylesGuestSingle().emptyItem}>
+                    <Icon style={stylesGuestSingle().emptyIcon} name="info" />
+                </View>
                 <View style={stylesGuestSingle().listContainer} >
-                    <FlatList data={[
+                    <FlatList style={stylesGuestSingle().listItemsTitleWrap} 
+                                data={[
                                     { key: "Energy:" },
                                     { key: "Fat:" },
                                     { key: "Saturated:" },
@@ -54,9 +63,10 @@ class Product extends Component {
                                     { key: "Salt:" },
                                     { key: "Vitamins:" },
                                 ]} renderItem={({item}) => 
-                                                <Text>{item.key}</Text>}
+                                                <Text style={stylesGuestSingle().listItemsTitle } >{item.key}</Text>}
                     />
-                    <FlatList data={[
+                    <FlatList style={stylesGuestSingle().listItemsWrap}
+                                data={[
                                     { key: (this.props.product.energy) ? (this.props.product.energy) : ('-') },
                                     { key: (this.props.product.fat) ? (this.props.product.fat) : '-' },
                                     { key: (this.props.product.saturated) ? (this.props.product.saturated) : '-' },
@@ -67,7 +77,7 @@ class Product extends Component {
                                     { key: (this.props.product.salt) ? (this.props.product.salt) : '-'  },
                                     { key: (this.props.product.vitamins) ? (this.props.product.vitamins) : '-'  },
                                 ]} renderItem={({item}) => 
-                                                <Text>{item.key}</Text>}
+                                                <Text style={stylesGuestSingle().listItems } >{item.key}</Text>}
                     />
                 </View>
             </View>

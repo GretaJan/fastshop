@@ -12,10 +12,8 @@ import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
 
 class Product extends Component {
-    static navigationOptions = {
-        tabBarLabel: 'Home!',
-      };
-      
+ 
+
     state = {
         productId: this.props.route.params.productId,
         subcategoryId: this.props.route.params.subcategoryId,
