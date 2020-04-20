@@ -5,15 +5,15 @@ import { getProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    listContainer: {
-        flex: 1,
-        flexDirection: 'row'
-    }
-})
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1
+//     },
+//     listContainer: {
+//         flex: 1,
+//         flexDirection: 'row'
+//     }
+// })
 
 class Product extends Component {
     state = {

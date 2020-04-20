@@ -66,9 +66,7 @@ class Categories extends Component {
                 (this.props.error !== '') ? (
                     <Error message={this.props.error} />
                 ) : (
-                // <View style={stylesGuest().container} >
-                    {/* {this.getInput()} */}
-                    <View style={stylesGuest().categoriesContainer} >
+                    <View style={stylesGuest().container} >
                         <FlatList data={this.state.tempArray} renderItem={({item}) => (
                             <CategoryList key={item} item={item} 
                                             goToSubcategories={(item) => this.goToSubcategories(item)} 
@@ -76,7 +74,6 @@ class Categories extends Component {
                             )} >
                         </FlatList>
                     </View>
-                // </View>
                 )
             )
         )

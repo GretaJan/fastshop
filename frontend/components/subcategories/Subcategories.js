@@ -5,6 +5,7 @@ import { getSubcategories } from '../../src/actions/subcategoryActions';
 import { getCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { stylesGuest } from '../../components_additional/styles/SubcategoryStyles';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -62,10 +63,10 @@ class Subcategories extends Component {
 
     getInput = () => {
         return (
-            <View>
-                <Icon name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
+            <View style={stylesGuest().searchBarContainer} >
+                <Icon style={stylesGuest().searchBarIcon} name="search" onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
                 { this.state.showSearchInput && 
-                    <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+                    <TextInput style={stylesGuest().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.searchFunction(value)} value={this.state.searchName} />}
             </View>
         )
     }
@@ -81,18 +82,18 @@ class Subcategories extends Component {
                 (this.props.error !== '') ? (
                     <Error message={this.props.error} />
                 ) : (
-                <View>
-                    {this.getInput}
-                    {!this.state.inputTriggered ? (
-                        <FlatList ListHeaderComponent={this.getInput} data={this.props.subcategories} renderItem={({item}) => (
-                            <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
-                        )} />
-                    ) : (
-                        <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                            <Subcategory item={item} goToProducts={(items) => this.goToProducts(item)} />
-                        )} />
-                    )}  
-                </View>
+                    <View style={stylesGuest().container}>
+                    {this.getInput()}
+                        {!this.state.inputTriggered ? (
+                            <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.props.subcategories} renderItem={({item}) => (
+                                <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
+                            )} />
+                        ) : (
+                            <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.state.tempArray} renderItem={({item}) => (
+                                <Subcategory item={item} goToProducts={(items) => this.goToProducts(item)} />
+                            )} />
+                        )}  
+                    </View>
                 )
             )
         )

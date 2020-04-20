@@ -50,10 +50,10 @@ class Products extends Component {
 
     getInput = () => {
         return (
-            <View>
-                <Icon name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
+            <View style={stylesGuest().searchBarContainer} >
+                <Icon style={stylesGuest().searchBarIcon} name="search" onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
                 { this.state.showSearchInput && 
-                    <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+                    <TextInput style={stylesGuest().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
             </View>
         )
     }
@@ -74,7 +74,7 @@ class Products extends Component {
                     (this.props.error !== '') ? (
                         <Error message={this.props.error} />
                     ) : (
-                    <View>
+                    <View style={stylesGuest().container}>
                         {this.getInput()}
                         {!this.state.inputTriggered ? (
                             <FlatList data={this.props.products} renderItem={({item}) => (
