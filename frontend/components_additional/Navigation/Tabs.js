@@ -141,7 +141,9 @@ render() {
                     inactiveBackgroundColor: '#335c67',
                     activeBackgroundColor: '#335c67',
                     // inactiveBackgroundColor: '#ce7f75',
-                    // activeBackgroundColor: '#ce7f75',
+                    // activeBackgroundColor: '#ce7f75',3a434c
+                    inactiveBackgroundColor: '#3a434c',
+                    activeBackgroundColor: '#3a434c',
                     style: { 
                         // backgroundColor: '#335c67',
                         backgroundColor: '#ad9b9a',
