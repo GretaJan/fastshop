@@ -115,7 +115,7 @@ export const stylesGuest = () => StyleSheet.create({
         marginTop: 30,
     },
     itemWrap: {
-        backgroundColor: '#FFFFE0',
+        backgroundColor: 'lightblue',
         paddingVertical: 5,
         paddingHorizontal: 7,
         marginBottom: 5,

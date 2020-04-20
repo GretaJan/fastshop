@@ -110,11 +110,18 @@ export const stylesGuest = () => StyleSheet.create( {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems:'center',
-        height: 60,
+        height: 65,
+        marginHorizontal: 5,
+        marginVertical: 3,
         backgroundColor: 'rgba(255, 255, 255, .6)',
-        borderTopColor: '#fff', 
-        borderBottomColor: '#fff',
-        borderBottomWidth: 1,
+         // Shadow
+         elevation   : 1,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
     },
     itemText: {
         fontFamily: 'sans-serif-condensed',
@@ -138,7 +145,7 @@ export const stylesGuest = () => StyleSheet.create( {
         color: '#000'
     },
     iconWrap: {
-        marginRight: 2,
+        marginRight: 10,
     },
     iconItem: {
         fontSize: 20,
@@ -171,6 +178,8 @@ export const stylesGuestSingle = () => StyleSheet.create( {
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         // marginHorizontal: 20,
+        flexDirection: 'row',
+        paddingHorizontal: 20,
     },
     emptyItem: {
         position: 'absolute',
@@ -189,12 +198,17 @@ export const stylesGuestSingle = () => StyleSheet.create( {
     },
     listItemsTitleWrap: {
         marginTop: 30,
+        width: '40%',
+        backgroundColor: 'blue',
     },
     listItemsTitle: {
         fontSize: 16,
     },
     listItemsWrap: {
         marginTop: 30,
+        width: '40%',
+        backgroundColor: 'red',
+        textAlign: 'center',
     },
     listItems: {
         fontSize: 16,
