@@ -3,8 +3,6 @@ import { StyleSheet } from 'react-native';
 export const styles = (background_color, border_color) => StyleSheet.create({
     container: {
         marginTop: 8,
-        // marginLeft: 10,
-        // marginRight: 10
     },
     itemWrap: {
         display: 'flex',
@@ -74,3 +72,44 @@ export const styles = (background_color, border_color) => StyleSheet.create({
         height: 50
     },
 });
+
+export const stylesGuest = () => StyleSheet.create({
+    // itemWrap: {
+    //     display: 'flex',
+    //     flexDirection: 'row',
+    //     justifyContent: 'space-between',
+    // },
+    // image: {
+    //     height: 50,
+    //     width: 50
+    // }    
+    container: {
+        // display: 'flex',
+        backgroundColor: '#F7B801',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    searchBarContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    searchBarIcon: {
+        width: 'auto',
+        paddingTop: 10,
+        paddingBottom: 15,
+    },
+    searchBarInput: {
+        marginLeft: 5
+    },
+    image: {
+        width: 100,
+        height: 100,
+    },
+    categoriesContainer: {
+        // 
+        // flex: 1,
+        
+
+    }
+})

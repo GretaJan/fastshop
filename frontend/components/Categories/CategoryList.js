@@ -4,15 +4,8 @@ import { useRoute } from '@react-navigation/native';
 // import { createStackNavigator, createAppContainer } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { stylesGuest } from '../../components_additional/styles/CategoryStyles';
 
-
-const styles = StyleSheet.create({
-    itemWrap: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    }
-})
 
 class CategoryList extends Component {
 
@@ -37,18 +30,18 @@ class CategoryList extends Component {
     render() {
         return (
             // <TouchableOpacity style={styles.itemWrap} onPress={this.goToSubcategories}>
-            <TouchableOpacity key={this.props.item.id} style={styles.itemWrap} onPress={() => this.goToSubcategories()}>
-                <Text>{this.props.item.name}</Text>
+            <TouchableOpacity styles={stylesGuest().itemWrap} key={this.props.item.id} onPress={() => this.goToSubcategories()}>
                 {this.props.item.image ? (
                     <View>
-                        <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
+                        <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
                     </View>
                     ) : (
                     <View>
-                        <Image style={{width: 50, height: 50}} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        <Image style={stylesGuest().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                     </View> 
                 )}
-                <Icon name="arrow-circle-right" size={20} />
+                <Text>{this.props.item.name}</Text>
+                {/* <Icon name="arrow-circle-right" size={20} /> */}
             </TouchableOpacity >
         )  
     }

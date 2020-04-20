@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { getProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
+import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 
 const styles = StyleSheet.create({
     container: {
@@ -30,18 +31,18 @@ class Product extends Component {
 
     render() {
         return (
-            <View style={styles.container} >
+            <View style={stylesGuestSingle().container} >
                 <Text>{this.props.product.name}</Text>
                 {this.props.product.image ? (
                         <View>
-                            <Image style={{width: 50, height: 50}} source={{ uri: this.props.product.image }} />
+                            <Image style={stylesGuestSingle().image} source={{ uri: this.props.product.image }} />
                         </View>
                         ) : (
                         <View>
-                            <Image style={{width: 50, height: 50}} source={require('../../components_additional/images/noimage.jpeg')}  />
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                         </View> 
                 )}
-                <View style={styles.listContainer} >
+                <View style={stylesGuestSingle().listContainer} >
                     <FlatList data={[
                                     { key: "Energy:" },
                                     { key: "Fat:" },

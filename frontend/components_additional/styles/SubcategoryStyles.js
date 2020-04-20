@@ -74,3 +74,34 @@ export const styles = (background_color, border_color) => StyleSheet.create({
         height: 50
     },
 });
+
+export const stylesGuest = () => StyleSheet.create({
+    container: {
+        marginTop: 8,
+        // marginLeft: 10,
+        // marginRight: 10
+    },
+    itemWrap: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor:'lightgrey',
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 5,
+    },
+    itemText: {
+        width: 'auto',
+        fontSize: 20
+    },
+    itemButton: {
+        flexBasis: '40'
+    },
+    iconItem: {
+        paddingRight: 10
+    },
+    image: {
+        height: 50,
+        width: 50
+    }
+})

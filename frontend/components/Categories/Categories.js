@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { getCategories } from '../../src/actions/categoryActions';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { stylesGuest } from '../../components_additional/styles/CategoryStyles';
 
 //Components
 import CategoryList from './CategoryList';
@@ -44,10 +45,10 @@ class Categories extends Component {
 
     getInput = () => {
         return (
-            <View>
-                <Icon name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
+            <View style={stylesGuest().searchBarContainer} >
+                <Icon style={stylesGuest().searchBarIcon} name="search" size={25} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
                 { this.state.showSearchInput && 
-                    <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+                    <TextInput style={stylesGuest().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
             </View>
         )
     }
@@ -65,14 +66,17 @@ class Categories extends Component {
                 (this.props.error !== '') ? (
                     <Error message={this.props.error} />
                 ) : (
-                <View>
-                    <FlatList ListHeaderComponent={this.getInput} data={this.state.tempArray} renderItem={({item}) => (
-                        <CategoryList key={item} item={item} 
-                                        goToSubcategories={(item) => this.goToSubcategories(item)} 
-                        />
-                        )} >
-                    </FlatList>
-                </View>
+                // <View style={stylesGuest().container} >
+                    {/* {this.getInput()} */}
+                    <View style={stylesGuest().categoriesContainer} >
+                        <FlatList data={this.state.tempArray} renderItem={({item}) => (
+                            <CategoryList key={item} item={item} 
+                                            goToSubcategories={(item) => this.goToSubcategories(item)} 
+                            />
+                            )} >
+                        </FlatList>
+                    </View>
+                // </View>
                 )
             )
         )

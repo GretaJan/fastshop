@@ -5,6 +5,7 @@ import { getProducts } from '../../src/actions/productActions';
 import { productSelected } from '../../src/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 
 //Components
 import Product from './ProductList';

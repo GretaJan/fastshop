@@ -1,34 +1,7 @@
 import React, {Component} from 'react';
 import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-
-const styles = {
-    container: {
-        marginTop: 8,
-        // marginLeft: 10,
-        // marginRight: 10
-    },
-    itemWrap: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor:'lightgrey',
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 5,
-    },
-    itemText: {
-        width: 'auto',
-        fontSize: 20
-    },
-    itemButton: {
-        flexBasis: '40'
-    },
-    iconItem: {
-        paddingRight: 10
-    }
-
-}
+import { stylesGuest } from '../../components_additional/styles/ProductStyles';
  
 class ProductList extends Component {
 
@@ -42,18 +15,18 @@ class ProductList extends Component {
 
     render() {
         return (
-            <TouchableOpacity key={this.props.item.id} style={styles.itemWrap} onPress={this.goToProduct} >
+            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id} onPress={this.goToProduct} >
                 <Text key={this.props.item.id}>{this.props.item.name}</Text>
                 {this.props.item.image ? (
                     <View>
-                        <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
+                        <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
                     </View>
                     ) : (
                     <View>
-                        <Image style={{width: 50, height: 50}} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        <Image style={stylesGuest().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                     </View> 
                 )}
-                <View style={styles.itemWrap}>
+                <View style={stylesGuest().itemWrap}>
                     <Icon style={styles.iconItem} name="arrow-circle-right" size={35} color="firebrick" onPress={this.selectProduct} />
                 </View>
             </TouchableOpacity>
