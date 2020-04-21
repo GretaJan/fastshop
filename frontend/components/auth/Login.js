@@ -51,7 +51,7 @@ class Login extends Component {
                         <TextInput style={styles().textInput} type="text" autoCorrect={false}  secureTextEntry={true} placeholder="password" onChangeText={value => { this.setState({password: value})}} value={this.state.password} ref={ref => this.textInputRef = ref} />
                     </View>
                     <View style={styles().buttonsWrap} >
-                        <ButtonStyled color={colors.mediumGreen} title={"LOGIN"} func={ this.loginAdmin } />
+                        <ButtonStyled color={colors.mediumGreen} title={"LOGIN"} func={this.loginAdmin} />
                         <ButtonStyled color={colors.lightBurgundy} title={"CANCEL"} func={ this.cancelLogin }/>
                     </View>
                 </View>
