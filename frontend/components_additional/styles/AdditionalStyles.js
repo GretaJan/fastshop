@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import {Dimensions} from 'react-native';
 
 export const searchBar = () =>  StyleSheet.create({
     searchBarContainer: {
@@ -24,5 +25,29 @@ export const searchBar = () =>  StyleSheet.create({
         marginTop: 0,
         marginBottom: 30,
         fontSize: 14
+    },
+});
+
+export const buttonStyle = (color) =>  StyleSheet.create({
+    buttonSave: {
+        marginBottom: 20,
+        borderColor: "#000",
+        borderWidth: 1,
+        width: Dimensions.get('window').width /2,
+        height: 70,
+        alignItems: 'center',
+        justifyContent: 'center',   
+        backgroundColor: color, 
+          // Shadow
+          elevation   : 5,
+          overflow: 'hidden',
+          //iOS:
+          shadowColor: 'red',
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2, 
+    },
+    buttonTxt: {
+        fontSize: 25,
     },
 });

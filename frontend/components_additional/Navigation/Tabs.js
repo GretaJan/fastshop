@@ -120,7 +120,18 @@ render() {
 
     const SelectedProductsScreen = () => (
         <SelectedProductsNav.Navigator>
-            <SelectedProductsNav.Screen name="SelectedProducts" component={SelectedProducts} options={{title: (!this.props.calculated) ? "Calculate" : "Results"}} />
+            <SelectedProductsNav.Screen name="SelectedProducts" component={SelectedProducts} 
+                                    options={{
+                                        title: (!this.props.calculated) ? "Calculate" : "Results",
+                                        headerTitleStyle: {
+                                            fontWeight: 'bold',
+                                            color: '#394032',
+                                        },
+                                        headerStyle: {
+                                            backgroundColor: '#ffcc33',
+                                        },
+                                        headerTitleAlign: 'center',
+                                    }} />
         </SelectedProductsNav.Navigator>
     )
     const LoginScreen = () => (

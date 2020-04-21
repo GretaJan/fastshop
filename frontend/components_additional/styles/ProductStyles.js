@@ -101,6 +101,11 @@ export const stylesGuest = () => StyleSheet.create( {
          shadowOpacity: 0.8,
          shadowRadius: 2, 
     },
+    TextPicWrap: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     itemText: {
         fontFamily: 'sans-serif-condensed',
         width: '75%',
@@ -123,10 +128,10 @@ export const stylesGuest = () => StyleSheet.create( {
         color: '#000'
     },
     iconWrap: {
-        marginRight: 10,
+        paddingRight: 10,
     },
     iconItem: {
-        fontSize: 20,
+        fontSize: 30,
     }
 });
 
@@ -138,7 +143,8 @@ export const stylesGuestSingle = () => StyleSheet.create( {
         backgroundColor: '#FFFFE0',
     },
     imageContainer: {
-        width: '50%',
+        width: 100,
+        backgroundColor: 'red',
         height: 180,
         textAlign: 'center',
         alignItems:'center',

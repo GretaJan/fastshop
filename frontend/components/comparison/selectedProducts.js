@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Button } from 'react-native';
+import { View, Text, FlatList, Button, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { productSelected, deleteProductFromList, compare, clearResults } from '../../src/actions/comparisonActions';
+import { stylesGuest } from '../../components_additional/styles/ProductStyles';
+import { productWrap } from '../../components_additional/styles/CompareStyles';
+import ButtonStyled from '../../components_additional/Button';
+import { colors } from '../../components_additional/styles/Colors';
+import IonIcon from 'react-native-vector-icons/dist/Ionicons';
+
 
 //Components
 import Product from './selectedProductSingle';
@@ -372,26 +378,37 @@ class Products extends Component {
     }
 
     render() {
-        console.log("NEW ARRAY: ", this.props.result);
         return (
             (this.props.calculated == null) ? (
                 <View>
                   <Error message="No products have been selected yet. Please go back or select you products here:" />
-                  <Button title="Products" onPress={() => this.compareProducts()} />
+                  {/* <Button title="Products" onPress={() => this.compareProducts()} /> */}
                 </View>
             ) : (
                 (!this.props.calculated) ? (
-                    <View>
-                        <FlatList data={this.props.selectedProducts} renderItem={({item}) => (
+                    <View style={stylesGuest().container} >
+                        <FlatList contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
                             <Product key={item} item={item} 
                                     removeProduct={() => this.removeProduct(item)}
                                     goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
                             />
                         )} />
-                        <Text>Compare all products: </Text>
-                        <Button title="Calculate" onPress={() => this.findAll()} />
-                        <Text>Find best and worst products:</Text>
-                        <Button title="Calculate" onPress={() => this.findBestWorst()} />
+                        <View style={productWrap().btnsContainer} >
+                            <View style={productWrap().btnOne}>
+                                <Text style={productWrap().infoTxt} >Compare each component </Text>
+                                {/* <ButtonStyled color={colors.yellowGreenish} title="CALCULATE" func={() => this.findAll()} /> */}
+                                <View style={productWrap().iconWrapOne} >
+                                    <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.findAll()} />
+                                </View>
+                            </View>
+                            <View style={productWrap().btnTwo}>
+                                <Text style={productWrap().infoTxt}> Find best and worst products</Text>
+                                <View style={productWrap().iconWrapTwo} >
+                                    <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.findBestWorst()} />
+                                </View>
+                                {/* <ButtonStyled color={colors.orange} title="CALCULATE" func={() => this.findBestWorst()} /> */}
+                            </View>
+                        </View>
                     </View>
                 ) : (
                     (this.props.calculatedAll) ? (

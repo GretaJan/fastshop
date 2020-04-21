@@ -16,22 +16,24 @@ class ProductList extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id} onPress={this.goToProduct} >
-                {this.props.item.image ? (
-                    <View style={stylesGuest().imageWrap}>
-                        <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
-                    </View>
-                    ) : (
-                    <View style={stylesGuest().imageWrap}>
-                        <IonIcon style={stylesGuest().imageIcon} name="md-images" />
-                        {/* <Image style={stylesGuest().image} source={require('../../components_additional/images/noimage.jpeg')}  /> */}
-                    </View> 
-                )}
-                <Text style={stylesGuest().itemText} key={this.props.item.id}>{this.props.item.name}</Text>
-                <View style={stylesGuest().iconWrap}>
-                    <Icon style={stylesGuest().iconItem} name="arrow-circle-right" onPress={this.selectProduct} />
-                </View>
-            </TouchableOpacity>
+            <View style={stylesGuest().itemWrap}>
+                <TouchableOpacity style={stylesGuest().TextPicWrap} key={this.props.item.id} onPress={this.goToProduct} >
+                    {this.props.item.image ? (
+                        <View style={stylesGuest().imageWrap}>
+                            <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuest().imageWrap}>
+                            <IonIcon style={stylesGuest().imageIcon} name="md-images" />
+                            {/* <Image style={stylesGuest().image} source={require('../../components_additional/images/noimage.jpeg')}  /> */}
+                        </View> 
+                    )}
+                    <Text style={stylesGuest().itemText} key={this.props.item.id}>{this.props.item.name}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={stylesGuest().iconWrap}>
+                    <Icon style={stylesGuest().iconItem} name="plus-circle" onPress={this.selectProduct} />
+                </TouchableOpacity>
+            </View>
         )
     }
 }

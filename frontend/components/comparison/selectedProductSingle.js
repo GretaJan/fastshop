@@ -1,34 +1,37 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { stylesGuest } from '../../components_additional/styles/ProductStyles';
+import { compareSingle } from '../../components_additional/styles/CompareStyles';
+import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 
-const styles = {
-    container: {
-        marginTop: 8,
-        // marginLeft: 10,
-        // marginRight: 10
-    },
-    itemWrap: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor:'lightgrey',
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 5,
-    },
-    itemText: {
-        width: 'auto',
-        fontSize: 20
-    },
-    itemButton: {
-        flexBasis: '40'
-    },
-    iconItem: {
-        paddingRight: 10
-    }
+// const styles = {
+//     container: {
+//         marginTop: 8,
+//         // marginLeft: 10,
+//         // marginRight: 10
+//     },
+//     itemWrap: {
+//         display: 'flex',
+//         flexDirection: 'row',
+//         justifyContent: 'space-between',
+//         backgroundColor:'lightgrey',
+//         paddingLeft: 10,
+//         paddingRight: 10,
+//         paddingTop: 5,
+//     },
+//     itemText: {
+//         width: 'auto',
+//         fontSize: 20
+//     },
+//     itemButton: {
+//         flexBasis: '40'
+//     },
+//     iconItem: {
+//         paddingRight: 10
+//     }
 
-}
+// }
  
 class ProductList extends Component {
 
@@ -46,12 +49,21 @@ class ProductList extends Component {
 
     render() {
         return (
-            <View style={styles.itemWrap}>
-                <TouchableOpacity onPress={this.goToProduct}>
-                    <Text key={this.props.item.id}>{this.props.item.name}</Text>
+            <View style={stylesGuest().itemWrap}>
+                <TouchableOpacity style={stylesGuest().TextPicWrap} key={this.props.item.id} onPress={this.goToProduct} >
+                {this.props.item.image ? (
+                    <View style={stylesGuest().imageWrap}>
+                        <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
+                    </View>
+                    ) : (
+                    <View style={stylesGuest().imageWrap}>
+                        <IonIcon style={stylesGuest().imageIcon} name="md-images" />
+                    </View> 
+                )}
+                <Text style={stylesGuest().itemText} key={this.props.item.id}>{this.props.item.name}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemWrap} onPress={this.removeFromList} >
-                    <Icon style={styles.iconItem} name="check" size={35} color="firebrick" />
+                <TouchableOpacity style={stylesGuest().iconWrap} onPress={this.removeFromList}>
+                    <Icon style={stylesGuest().iconItem} name="times-circle" onPress={this.selectProduct} />
                 </TouchableOpacity>
             </View>
         )

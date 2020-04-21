@@ -7,7 +7,8 @@ import { styles } from '../../components_additional/styles/LoginStyles';
 import { withNavigation } from 'react-navigation';
 import { tryLogin } from '../../src/actions/authActions';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import ButtonStyled from '../../components_additional/Button';
+import { colors } from '../../components_additional/styles/Colors';
 
 class Login extends Component {
     
@@ -44,17 +45,15 @@ class Login extends Component {
         render() {
             return (
                 <View style={styles().container} > 
-                  
-                        <View style={styles().inputsWrap}>
-                            <TextInput style={styles().textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({admin_name: value})}} value={this.state.admin_name} ref={ref => this.textInputRef = ref} />
-                            <TextInput style={styles().textInput} type="email" autoCorrect={false}  placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} ref={ref => this.textInputRef = ref}/>
-                            <TextInput style={styles().textInput} type="text" autoCorrect={false}  secureTextEntry={true} placeholder="password" onChangeText={value => { this.setState({password: value})}} value={this.state.password} ref={ref => this.textInputRef = ref} />
-                        </View>
-                        <View style={styles().buttonsWrap}>
-                            <TouchableOpacity style={styles().ButtonSave} onPress={this.loginAdmin}  ><Text style={styles().buttonTxt} >LOGIN</Text></TouchableOpacity>
-                            <TouchableOpacity style={styles().ButtonCancel} onPress={this.cancelLogin} ><Text style={styles().buttonTxt} >CANCEL</Text></TouchableOpacity>
-                        </View>
-                  
+                    <View style={styles().inputsWrap} s>
+                        <TextInput style={styles().textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({admin_name: value})}} value={this.state.admin_name} ref={ref => this.textInputRef = ref} />
+                        <TextInput style={styles().textInput} type="email" autoCorrect={false}  placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} ref={ref => this.textInputRef = ref}/>
+                        <TextInput style={styles().textInput} type="text" autoCorrect={false}  secureTextEntry={true} placeholder="password" onChangeText={value => { this.setState({password: value})}} value={this.state.password} ref={ref => this.textInputRef = ref} />
+                    </View>
+                    <View style={styles().buttonsWrap} >
+                        <ButtonStyled color={colors.mediumGreen} title={"LOGIN"} func={ this.loginAdmin } />
+                        <ButtonStyled color={colors.lightBurgundy} title={"CANCEL"} func={ this.cancelLogin }/>
+                    </View>
                 </View>
             )
 

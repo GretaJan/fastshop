@@ -17,33 +17,19 @@ export const styles = () => StyleSheet.create({
         borderRadius: 10,
         marginBottom: 10,
         paddingHorizontal: 15,
+          // Shadow
+          elevation   : 5,
+          overflow: 'hidden',
+          //iOS:
+          shadowColor: 'red',
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2, 
     },
     buttonsWrap: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 140,
-    },
-    ButtonSave: {
-        marginBottom: 20,
-        borderColor: "#000",
-        borderWidth: 1,
-        width: Dimensions.get('window').width /2,
-        height: 70,
-        alignItems: 'center',
-        justifyContent: 'center',   
-        backgroundColor: '#aebd93', 
-    },
-    ButtonCancel: {
-        borderColor: "#000",
-        borderWidth: 1,
-        width: Dimensions.get('window').width /2,
-        height: 70,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f79f79',
-    },
-    buttonTxt: {
-        fontSize: 25,
     },
 });
