@@ -22,12 +22,14 @@ export const productWrap = () => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         alignContent: 'center',
+        marginHorizontal: 20,
     },
     btnTwo: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         alignContent: 'center',
+        marginHorizontal: 20,
     },
     iconWrapOne: {
         backgroundColor: colors.mediumGreen2,
@@ -60,5 +62,9 @@ export const productWrap = () => StyleSheet.create({
           shadowOffset: { width: 1, height: 1 },
           shadowOpacity: 0.8,
           shadowRadius: 2, 
+    },
+    textWrap: {
+        flex: 1,
+        marginLeft: 10,
     }
 })

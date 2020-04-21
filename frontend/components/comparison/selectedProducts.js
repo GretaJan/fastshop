@@ -395,16 +395,22 @@ class Products extends Component {
                         )} />
                         <View style={productWrap().btnsContainer} >
                             <View style={productWrap().btnOne}>
-                                <Text style={productWrap().infoTxt} >Compare each component </Text>
                                 {/* <ButtonStyled color={colors.yellowGreenish} title="CALCULATE" func={() => this.findAll()} /> */}
                                 <View style={productWrap().iconWrapOne} >
                                     <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.findAll()} />
                                 </View>
+                                <View style={productWrap().textWrap} >
+                                    <Text style={productWrap().infoTxt} >Compare each component</Text>
+                                    <Text>Click Me!</Text>
+                                </View>
                             </View>
                             <View style={productWrap().btnTwo}>
-                                <Text style={productWrap().infoTxt}> Find best and worst products</Text>
                                 <View style={productWrap().iconWrapTwo} >
                                     <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.findBestWorst()} />
+                                </View>
+                                <View style={productWrap().textWrap} >
+                                    <Text style={productWrap().infoTxt}>Find best and worst products</Text>
+                                    <Text>Click Me!</Text>
                                 </View>
                                 {/* <ButtonStyled color={colors.orange} title="CALCULATE" func={() => this.findBestWorst()} /> */}
                             </View>
