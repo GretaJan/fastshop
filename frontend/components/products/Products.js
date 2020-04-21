@@ -6,6 +6,7 @@ import { productSelected } from '../../src/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
+import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 
 //Components
 import Product from './ProductList';
@@ -50,10 +51,10 @@ class Products extends Component {
 
     getInput = () => {
         return (
-            <View style={stylesGuest().searchBarContainer} >
-                <Icon style={stylesGuest().searchBarIcon} name="search" onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
+            <View style={searchBar().searchBarContainer} >
+                <Icon style={searchBar().searchBarIcon} name="search" onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
                 { this.state.showSearchInput && 
-                    <TextInput style={stylesGuest().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+                    <TextInput style={searchBar().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
             </View>
         )
     }

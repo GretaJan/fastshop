@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
+import { View, Text, ScrollView, FlatList, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { getProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
@@ -47,39 +47,75 @@ class Product extends Component {
                             <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                         </View> 
                 )}
-                <View style={stylesGuestSingle().emptyItem}>
-                    <Icon style={stylesGuestSingle().emptyIcon} name="info" />
-                </View>
-                <View style={stylesGuestSingle().listContainer} >
-                    <FlatList style={stylesGuestSingle().listItemsTitleWrap} 
-                                data={[
-                                    { key: "Energy:" },
-                                    { key: "Fat:" },
-                                    { key: "Saturated:" },
-                                    { key: "Carbohidrates:" },
-                                    { key: "Sugar:" },
-                                    { key: "Fiber:" },
-                                    { key: "Protein:" },
-                                    { key: "Salt:" },
-                                    { key: "Vitamins:" },
-                                ]} renderItem={({item}) => 
-                                                <Text style={stylesGuestSingle().listItemsTitle } >{item.key}</Text>}
-                    />
-                    <FlatList style={stylesGuestSingle().listItemsWrap}
-                                data={[
-                                    { key: (this.props.product.energy) ? (this.props.product.energy) : ('-') },
-                                    { key: (this.props.product.fat) ? (this.props.product.fat) : '-' },
-                                    { key: (this.props.product.saturated) ? (this.props.product.saturated) : '-' },
-                                    { key: (this.props.product.carbs) ? (this.props.product.carbs) : '-' },
-                                    { key: (this.props.product.sugar) ? (this.props.product.sugar) : '-' },
-                                    { key: (this.props.product.fiber) ? (this.props.product.fiber) : '-'  },
-                                    { key: (this.props.product.protein) ? (this.props.product.protein) : '-'  },
-                                    { key: (this.props.product.salt) ? (this.props.product.salt) : '-'  },
-                                    { key: (this.props.product.vitamins) ? (this.props.product.vitamins) : '-'  },
-                                ]} renderItem={({item}) => 
-                                                <Text style={stylesGuestSingle().listItems } >{item.key}</Text>}
-                    />
-                </View>
+                    <View style={stylesGuestSingle().emptyItem}>
+                        <Icon style={stylesGuestSingle().emptyIcon} name="info" />
+                    </View>
+                    <View style={stylesGuestSingle().triangle} ></View>
+                    <ScrollView style={stylesGuestSingle().listContainer} >
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (this.props.product.energy) ? (this.props.product.energy) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >fat</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (this.props.product.fat) ? (this.props.product.fat) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >saturated fat</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (this.props.product.saturated) ? (this.props.product.saturated) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >Carbohidrates</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (this.props.product.carbs) ? (this.props.product.carbs) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >sugar</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (this.props.product.sugar) ? (this.props.product.sugar) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >fiber</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (this.props.product.fiber) ? (this.props.product.fiber) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >protein</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (this.props.product.protein) ? (this.props.product.protein) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >salt</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (this.props.product.salt) ? (this.props.product.salt) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >vitamins</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (this.props.product.vitamins) ? (this.props.product.vitamins) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                </ScrollView>
             </View>
         )
     }

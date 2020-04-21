@@ -49,6 +49,7 @@ render() {
     const GuestNavigation = createStackNavigator();
     const SelectedProductsNav = createStackNavigator();
     const AdminNavigation = createStackNavigator();
+    const LoginScreenNav = createStackNavigator();
 
     const GuestNavigationScreens = () => (
         <GuestNavigation.Navigator initialRouteName="Categories">
@@ -99,8 +100,20 @@ render() {
                                             backgroundColor: '#FFFFE0',
                                         },
                                         headerTitleAlign: 'center'
-                                        }} /> 
-            <GuestNavigation.Screen name="Login" component={LoginPage} options={{title: "Please Login"}} />
+                                    }} /> 
+            {/* <GuestNavigation.Screen name="Login" component={LoginPage} 
+                                    options={{
+                                        title: "PRODUCT DETAILS",
+                                        headerTitleStyle: {
+                                            fontWeight: 'bold',
+                                            color: '#394032',
+                                        },
+                                        headerStyle: {
+                                            backgroundColor: '#FFFFE0',
+                                        },
+                                        headerTitleAlign: 'center'
+                                    }} />   */}
+                                  
             {/* <GuestNavigation.Screen name="SelectedProducts" component={SelectedProducts} options={{title: "Calculate"}} /> */}
         </GuestNavigation.Navigator>
     )
@@ -110,7 +123,23 @@ render() {
             <SelectedProductsNav.Screen name="SelectedProducts" component={SelectedProducts} options={{title: (!this.props.calculated) ? "Calculate" : "Results"}} />
         </SelectedProductsNav.Navigator>
     )
-    
+    const LoginScreen = () => (
+        <LoginScreenNav.Navigator>
+            <LoginScreenNav.Screen name="Login" component={LoginPage} 
+              options={{
+                title: "LOGIN PAGE",
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: '#394032',
+                },
+                headerStyle: {
+                    backgroundColor: '#ffcc33',
+                },
+                headerTitleAlign: 'center'
+            }} />                                      
+        </LoginScreenNav.Navigator>
+    );
+
     const AdminNavigationScreens = () => (
         <AdminNavigation.Navigator >
             <AdminNavigation.Screen name="Dashboard" component={Categories_Auth} 
@@ -157,7 +186,7 @@ render() {
                             <IonIcon name="ios-home" style={styles().iconItem} />
                         )}
                     } />
-                    <Tabs.Screen name="Login" component={LoginPage} 
+                    <Tabs.Screen name="Login" component={LoginScreen} 
                     options = {{ 
                         tabBarLabel: () => (null),
                         tabBarIcon: () => (

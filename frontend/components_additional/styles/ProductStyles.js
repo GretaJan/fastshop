@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import {Dimensions} from 'react-native';
 
 export const styles = (background_color, border_color) => StyleSheet.create({
     container: {
@@ -82,29 +83,6 @@ export const stylesGuest = () => StyleSheet.create( {
         flex: 1,
         textAlign: 'center',
     },
-    searchBarContainer: {
-        flexDirection: 'row',
-        top: 0,
-    },
-    searchBarIcon: {
-        width: 'auto',
-        paddingTop: 10,
-        paddingRight: 10,
-        paddingBottom: 5,
-        marginBottom: 15,
-        fontSize: 20,
-        marginLeft: 5,
-    },
-    searchBarInput: {
-        position: 'absolute',
-        width: '85%',
-        marginLeft: 35,
-        borderBottomColor: '#000',
-        borderBottomWidth: 2,
-        paddingBottom: -20,
-        marginTop: 0,
-        marginBottom: 30,
-    },
     itemWrap: {
         display: 'flex',
         flexDirection: 'row',
@@ -165,21 +143,12 @@ export const stylesGuestSingle = () => StyleSheet.create( {
         textAlign: 'center',
         alignItems:'center',
         top: 10,
+        zIndex: 1,
     },
     image: {
         height: '100%',
         resizeMode: 'contain',
         // borderRadius: 10,
-    },
-    listContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'lightblue',
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        // marginHorizontal: 20,
-        flexDirection: 'row',
-        paddingHorizontal: 20,
     },
     emptyItem: {
         position: 'absolute',
@@ -196,21 +165,55 @@ export const stylesGuestSingle = () => StyleSheet.create( {
         top: 12,
         left: 18, 
     },
-    listItemsTitleWrap: {
-        marginTop: 30,
-        width: '40%',
-        backgroundColor: 'blue',
+    listContainer: {
+        backgroundColor: 'lightblue',
+        flex: 1,
+        // maxWidth: Dimensions.get('window').width /1,
+        width: Dimensions.get('window').width /1,
+        paddingHorizontal: 20,
+        paddingTop: 15,
     },
-    listItemsTitle: {
-        fontSize: 16,
+    //Items
+    listItemWrap: {
+        flex: 1,
+        flexDirection: 'row',
+        height: 80,
+        alignItems: 'center',
+        borderBottomColor: '#F7F7F7',
+        borderBottomWidth: 1,
+        justifyContent: 'space-between',
     },
-    listItemsWrap: {
-        marginTop: 30,
-        width: '40%',
-        backgroundColor: 'red',
-        textAlign: 'center',
+    listItemInfoWrap: {
+        flex: 1,
     },
-    listItems: {
-        fontSize: 16,
-    }
+    componentTitle: {
+       width: '79%',
+       fontSize: 20,
+       textTransform: 'uppercase',
+       paddingLeft: 20,
+    },
+    componentAmount: {
+        fontSize: 26,
+    },
+    componentMeasure: {
+        fontSize: 20,
+        color: '#615E49'
+    },
+    triangle: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderTopWidth: 0,
+        borderRightWidth: 250,
+        borderBottomWidth: 90,
+        borderLeftWidth: 250,
+        borderTopColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderBottomColor: 'lightblue',
+        borderLeftColor: 'transparent',
+        position: 'absolute',
+        top: 120,
+        zIndex: 0
+      },
 });
