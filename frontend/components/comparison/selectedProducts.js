@@ -86,6 +86,15 @@ class Products extends Component {
         var proteinN = '';
         var saltN = '';
         var vitaminsN = '';
+        var energyI = '';
+        var fatI = '';
+        var saturatedI = '';
+        var carbsI = '';
+        var sugarI = '';
+        var fiberI = '';
+        var proteinI = '';
+        var saltI = '';
+        var vitaminsI = '';
 
         for(var i = 0; i < array.length; i++) {
             var productOne = array[i];
@@ -97,56 +106,73 @@ class Products extends Component {
                 if ( productOne.fat < productTwo.fat ) {
                     fat = productTwo.fat;
                     fatN = productTwo.name;
+                    fatI = productTwo.image;
                 }
                 if ( productOne.saturated < productTwo.saturated ) {
                     saturated = productTwo.saturated;
                     saturatedN = productTwo.name;
+                    saturatedI = productTwo.image;
                 }
                 if ( productOne.carbs < productTwo.carbs ) {
                     carbs = productTwo.carbs;
                     carbsN = productTwo.name;
+                    carbsI = productTwo.image;
                 }
                 if ( productOne.sugar < productTwo.enesugarrgy ) {
                     sugar = productTwo.sugar;
                     sugarN = productTwo.name;
+                    sugarI = productTwo.image;
                 }
                 if ( productOne.fiber < productTwo.fiber ) {
                     fiber = productTwo.fiber;
                     fiberN = productTwo.name;
+                    fiberI = productTwo.image;
                 }
                 if ( productOne.protein < productTwo.protein ) {
                     protein = productTwo.protein;
                     proteinN = productTwo.name;
+                    proteinI = productTwo.image;
                 }
                 if ( productOne.salt < productTwo.salt ) {
                     salt = productTwo.salt;
                     saltN = productTwo.name;
+                    saltI = productTwo.image;
                 }
                 if ( productOne.vitamins < productTwo.vitamins ) {
                     vitamins = productTwo.vitamins;
                     vitaminsN = productTwo.name;
+                    vitaminsI = productTwo.image;
                 }
             }
         }
         var result = {
             mostEnergy: energy,
             nameEnergy: energyN,
+            mostEnergyImg: energyI,
             mostFat: fat,
             nameFat: fatN,
+            mostFatImg: fatI,
             mostSaturated:saturated,
             nameSaturated: saturatedN,
+            mostSaturatedImg: saturatedI,
             mostCarbs: carbs,
             nameCarbs: carbsN,
+            mostCarbsImg: carbsI,
             mostSugar: sugar,
             nameSugar: sugarN,
+            mostSugarImg: sugarI,
             mostFiber: fiber,
             nameFiber: fiberN,
+            mostFiberImg: fiberI,
             mostProtein: protein,
             nameProtein: proteinN,
+            mostProteinImg: proteinI,
             mostSalt: salt,
             nameSalt: saltN,
+            mostSaltImg: saltI,
             mostVitamins: vitamins,
             nameVitamins: vitaminsN, 
+            mostVitaminsImg: vitaminsI,
         }
         let countAll = true
         this.comparisonResults(result, countAll);
@@ -420,22 +446,31 @@ class Products extends Component {
                     (this.props.calculatedAll) ? (
                         <ResultsOfAll nameEnergy={this.props.result.nameEnergy} 
                                         mostEnergy={this.props.result.mostEnergy}
+                                        mostEnergyImg={this.props.result.mostEnergyImg}
                                         nameFat={this.props.result.nameFat}
                                         mostFat={this.props.result.mostFat}
+                                        mostFatImg={this.props.result.mostFatImg}
                                         nameFat={this.props.result.nameFat}
                                         nameSaturated={this.props.result.nameSaturated}
                                         mostSaturated={this.props.result.mostSaturated}
+                                        mostSaturatedImg={this.props.result.mostSaturatedImg}
                                         nameCarbs={this.props.result.nameCarbs}
                                         mostCarbs={this.props.result.mostCarbs}
+                                        mostCarbsImg={this.props.result.mostCarbsImg}
                                         nameSugar={this.props.result.nameSugar}
-                                        nameSugar={this.props.result.nameSugar}
+                                        mostSugar={this.props.result.mostSugar}
+                                        mostSugarImg={this.props.result.mostSugarImg}
                                         nameFiber={this.props.result.nameFiber}
+                                        mostFiber={this.props.result.mostFiber}
                                         nameProtein={this.props.result.nameProtein}
                                         mostProtein={this.props.result.mostProtein}
+                                        mostProteinImg={this.props.result.mostProteinImg}
                                         nameSalt={this.props.result.nameSalt}
                                         mostSalt={this.props.result.mostSalt}
+                                        mostSaltImg={this.props.result.mostSaltImg}
                                         nameVitamins={this.props.result.nameVitamins}
                                         mostVitamins={this.props.result.mostVitamins}
+                                        mostVitaminsImg={this.props.result.mostVitaminsImg}
                                         clearResults={() => this.clearResults()}
                         />
                     ) : (

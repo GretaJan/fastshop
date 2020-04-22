@@ -39,63 +39,170 @@ const styles = {
 //         this.props.removeProduct( this.props.item.id);
 //     }
 
-const ResultsOfAll = ({nameEnergy, mostEnergy, nameFat, mostFat, nameSaturated, mostSaturated, 
-                    nameCarbs, mostCarbs, nameSugar, mostSugar, nameFiber, mostFiber, nameProtein, mostProtein, 
-                    nameSalt, mostSalt, nameVitamins, mostVitamins, clearResults }) => {
+const ResultsOfAll = ({nameEnergy, mostEnergy, mostEnergyImg, nameFat, mostFat, mostFatImg, nameSaturated, mostSaturated, mostSaturatedImg,
+                    nameCarbs, mostCarbs, mostCarbsImg, nameSugar, mostSugar, mostSugarImg, nameFiber, mostFiber, mostFiberImg,nameProtein, 
+                    mostProtein, mostProteinImg, nameSalt, mostSalt, mostSaltImg, nameVitamins, mostVitamins, mostVitaminsImg, 
+                    clearResults }) => {
 
         return (
-            <View>
-                <Text>Calculations</Text>
-                <View>
-                    <FlatList data={[
-                            { key: "Product:" },
-                            { key: "Most energy:" },
-                            { key: "Product:" },
-                            { key: "Most fat:" },
-                            { key: "Product:" },
-                            { key: "Most saturated fat:" },
-                            { key: "Product:" },
-                            { key: "Most carbohidrates:" },
-                            { key: "Product:" },
-                            { key: "Most Sugar:" },
-                            { key: "Product:" },
-                            { key: "Most fiber:" },
-                            { key: "Product:" },
-                            { key: "Most protein:" },
-                            { key: "Product:" },
-                            { key: "Most salt:" },
-                            { key: "Product:" },
-                            { key: "Most Vitamins:" },
-                        ]} renderItem={({item}) => 
-                                <Text>{item.key}</Text>}
-                    />
+         <View style={stylesGuestSingle().container} >
+             <ScrollView style={stylesGuestSingle().listContainer} >
+                <View style={stylesGuestSingle().listItemWrap}>
+                {this.props.product.image ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: mostEnergyImg }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text style={stylesGuestSingle().componentTitle}>Least Energy</Text>
+                    <Text style={stylesGuestSingle().componentTitle}>{nameEnergy}</Text>
+                    <View style={stylesGuestSingle().listItemInfoWrap} >
+                        <Text style={stylesGuestSingle().componentAmount} >{ (mostEnergy) ? (mostEnergy) : ('0') }</Text>
+                        <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                    </View>
                 </View>
-                <View>
-                    <FlatList data={[
-                            { key: nameEnergy },
-                            { key: mostEnergy },
-                            { key: nameFat },
-                            { key: mostFat },
-                            { key: nameSaturated },
-                            { key: mostSaturated },
-                            { key: nameCarbs },
-                            { key: mostCarbs },
-                            { key: nameSugar },
-                            { key: mostSugar },
-                            { key: nameFiber },
-                            { key: mostFiber },
-                            { key: nameProtein },
-                            { key: mostProtein },
-                            { key: nameSalt },
-                            { key: mostSalt },
-                            { key: nameVitamins },
-                            { key: mostVitamins },
-                        ]} renderItem={({item}) => 
-                            <Text>{item.key}</Text>}
-                    />
-                </View>
-             <Button title="Clear results" onPress={clearResults} />
-         </View>
+                <View style={stylesGuestSingle().listItemWrap}>
+                    {mostFatImg ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: mostFatImg }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text style={stylesGuestSingle().componentTitle}>Least Energy</Text>
+                    <Text style={stylesGuestSingle().componentTitle}>{nameFat}</Text>
+                    <View style={stylesGuestSingle().listItemInfoWrap} >
+                        <Text style={stylesGuestSingle().componentAmount} >{ (mostFat) ? (mostFat) : ('0') }</Text>
+                        <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                    </View>
+                 </View>
+                 <View style={stylesGuestSingle().listItemWrap}>
+                    {this.props.product.mostSaturatedImg ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ mostSaturatedImge }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text style={stylesGuestSingle().componentTitle}>Least Energy</Text>
+                    <Text style={stylesGuestSingle().componentTitle}>{nameSaturated}</Text>
+                    <View style={stylesGuestSingle().listItemInfoWrap} >
+                        <Text style={stylesGuestSingle().componentAmount} >{ (mostSaturated) ? (mostSaturated) : ('0') }</Text>
+                        <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                    </View>
+                 </View>
+                 <View style={stylesGuestSingle().listItemWrap}>
+                    {mostCarbsImg  ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: mostCarbsImg }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text style={stylesGuestSingle().componentTitle}>Least Energy</Text>
+                    <Text style={stylesGuestSingle().componentTitle}>{nameCarbs}</Text>
+                    <View style={stylesGuestSingle().listItemInfoWrap} >
+                        <Text style={stylesGuestSingle().componentAmount} >{ (mostCarbs) ? (mostCarbs) : ('0') }</Text>
+                        <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                    </View>
+                 </View>
+                 <View style={stylesGuestSingle().listItemWrap}>
+                    {nameSugarImg  ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: nameSugarImg }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text style={stylesGuestSingle().componentTitle}>Least Energy</Text>
+                    <Text style={stylesGuestSingle().componentTitle}>{nameSugar}</Text>
+                    <View style={stylesGuestSingle().listItemInfoWrap} >
+                        <Text style={stylesGuestSingle().componentAmount} >{ (mostSugar) ? (mostSugar) : ('0') }</Text>
+                        <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                    </View>
+                 </View>
+                 <View style={stylesGuestSingle().listItemWrap}>
+                    {mostFiberImg  ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: mostFiberImg }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text style={stylesGuestSingle().componentTitle}>Least Energy</Text>
+                    <Text style={stylesGuestSingle().componentTitle}>{nameFiber}</Text>
+                    <View style={stylesGuestSingle().listItemInfoWrap} >
+                        <Text style={stylesGuestSingle().componentAmount} >{ (mostFiber) ? (mostFiber) : ('0') }</Text>
+                        <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                    </View>
+                 </View>
+                 <View style={stylesGuestSingle().listItemWrap}>
+                    {mostProteinImg  ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: mostProteinImg }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text style={stylesGuestSingle().componentTitle}>Least Energy</Text>
+                    <Text style={stylesGuestSingle().componentTitle}>{nameProtein}</Text>
+                    <View style={stylesGuestSingle().listItemInfoWrap} >
+                        <Text style={stylesGuestSingle().componentAmount} >{ (mostProtein) ? (mostProtein) : ('0') }</Text>
+                        <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                    </View>
+                 </View>
+                 <View style={stylesGuestSingle().listItemWrap}>
+                    {mostSaltImg  ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: mostSaltImg }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text style={stylesGuestSingle().componentTitle}>Least Energy</Text>
+                    <Text style={stylesGuestSingle().componentTitle}>{nameSalt}</Text>
+                    <View style={stylesGuestSingle().listItemInfoWrap} >
+                        <Text style={stylesGuestSingle().componentAmount} >{ (mostSalt) ? (mostSalt) : ('0') }</Text>
+                        <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                    </View>
+                 </View>
+                 <View style={stylesGuestSingle().listItemWrap}>
+                    {mostVitaminsImg  ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: mostVitaminsImg }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text style={stylesGuestSingle().componentTitle}>Least Energy</Text>
+                    <Text style={stylesGuestSingle().componentTitle}>{nameVitamins}</Text>
+                    <View style={stylesGuestSingle().listItemInfoWrap} >
+                        <Text style={stylesGuestSingle().componentAmount} >{ (mostVitamins) ? (mostVitamins) : ('0') }</Text>
+                        <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                    </View>
+                 </View>
+                <Button title="Clear results" onPress={clearResults} />
+            </ScrollView>
+        </View>
         )
 }
 
