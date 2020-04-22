@@ -44,4 +44,6 @@ export const LOG_OUT_FAILED = 'LOG_OUT_FAILED';
 export const PRODUCT_SELECTED = 'PRODUCT_SELECTED';
 export const REMOVE_SELECTED_PRODUCT = 'REMOVE_SELECTED_PRODUCT';
 export const COMPARE_RESULT = 'COMPARE_RESULT';
-export const CLEARE_RESULTS = 'CLEARE_RESULTS';
+export const clear_results = 'clear_results';
+export const SORT_ARRAY = 'SORT_ARRAY';
+export const GO_TO_LIST = 'GO_TO_LIST';

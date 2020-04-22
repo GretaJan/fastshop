@@ -1,4 +1,5 @@
-import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEARE_RESULTS, URL } from './types';
+import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, clear_results, 
+            SORT_ARRAY, GO_TO_LIST, URL } from './types';
 import axios from 'axios';
 
 export const productSelected = (product, subcategory) => dispatch => {
@@ -44,9 +45,24 @@ export const compare = (result, countAll) => dispatch => {
     }
 }
 
+export const sortArray = (sortedArray) => dispatch => {
+    dispatch({
+        type: SORT_ARRAY,
+        payload: sortedArray,
+        sorted: true
+    })
+}
+
+export const goToList = (show) => dispatch => {
+        dispatch({
+            type: GO_TO_LIST,
+            sorted: show
+        })
+}
+
 export const clearResults = () => dispatch => {
     dispatch({
-        type: CLEARE_RESULTS,
+        type: clear_results,
         array: [],
         result: {},
         calculated: null

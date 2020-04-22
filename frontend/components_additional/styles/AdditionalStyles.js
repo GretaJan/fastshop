@@ -51,3 +51,18 @@ export const buttonStyle = (color) =>  StyleSheet.create({
         fontSize: 25,
     },
 });
+
+export const modalStyle = () => StyleSheet.create({
+    container: {
+        position: 'absolute',
+    },
+    itemWrap: {
+
+    },
+    icon: {
+
+    },
+    text: {
+
+    }
+})

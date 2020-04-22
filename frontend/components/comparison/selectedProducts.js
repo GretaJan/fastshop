@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, Button, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { productSelected, deleteProductFromList, compare, clearResults } from '../../src/actions/comparisonActions';
+import { productSelected, deleteProductFromList, compare, clearResults, goToList, sortArray } from '../../src/actions/comparisonActions';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { productWrap } from '../../components_additional/styles/CompareStyles';
 import ButtonStyled from '../../components_additional/Button';
@@ -13,11 +13,15 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 //Components
 import Product from './selectedProductSingle';
 import Error from '../../components_additional/Error';
+import Modal from '../../components_additional/Modal';
 import DescAscend from './DescAscend';
 import ResultsOfBestWorst from './ResultsOfBestWorst';
 
 class Products extends Component {
     state = {
+        sortedArray: [],
+        show: true,
+        hide: false,
         // mostEnergy: '',
         // energyName: '',
         // mostFat: '',
@@ -178,14 +182,51 @@ class Products extends Component {
         this.comparisonResults(result, countAll);
     }
 
-    descendFunc = (array) => {
+    descAscEnergyFunc = (desc) => {
+        function compare(a, b) {
+            // if(a.energy == null) {
+            //     a.energy = 0;
+            // } 
+            // if(b.energy == null) {
+            //     b.energy = 0;
+            // }
+            const propA = a.energy;
+            const propB = b.energy;
 
+            let comparison = 0;
+
+            if(propA > propB) {
+                desc ? comparison = 1 : comparison = -1
+            } else if(propA < propB) {
+                desc ? comparison = -1 : comparison = 1
+            }
+            return comparison
+        }
+        console.log("Trigger", desc);
+        let sortedArray = this.props.selectedProducts.sort(compare);
+        console.log("SORTED: ", sortedArray);
+        this.props.sortArray(sortedArray);
+     
     }
+    descAscFatFunc = (desc) => {
+        function compare(a, b) {
 
-    ascendFunc = (array) => {
+            const propA = a.fat;
+            const propB = b.fat;
 
+            let comparison = 0;
+
+            if(propA > propB) {
+                desc ? comparison = 1 : comparison = -1
+            } else if(propA < propB) {
+                desc ? comparison = -1 : comparison = 1
+            }
+            return comparison
+        }
+        let sortedArray = selectedProducts.sort(compare);
+        this.props.sortArray(sortedArray);
+        console.log("FAT")
     }
-
 
     findBestWorst = () => {
         var array = this.props.selectedProducts;
@@ -306,8 +347,10 @@ class Products extends Component {
                   {/* <Button title="Products" onPress={() => this.compareProducts()} /> */}
                 </View>
             ) : (
-                (!this.props.calculated) ? (
-                    <View style={stylesGuest().container} >
+                <Modal />
+                (this.props.calculated == false) ? (
+                    (this.props.sorted !== false) ? (
+                        <View style={stylesGuest().container} >
                         <FlatList contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
                             <Product key={item} item={item} 
                                     removeProduct={() => this.removeProduct(item)}
@@ -316,10 +359,9 @@ class Products extends Component {
                         )} />
                         <View style={productWrap().btnsContainer} >
                             <View style={productWrap().btnOne}>
-                                {/* <ButtonStyled color={colors.yellowGreenish} title="CALCULATE" func={() => this.findAll()} /> */}
-                                <View style={productWrap().iconWrapOne} >
-                                    <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.findAll()} />
-                                </View>
+                                <TouchableOpacity style={productWrap().iconWrapOne} onPress={() => this.props.goToList(this.state.hide)} >
+                                    <IonIcon name="ios-calculator" style={productWrap().iconItem}  />
+                                </TouchableOpacity>
                                 <View style={productWrap().textWrap} >
                                     <Text style={productWrap().infoTxt} >Compare each component</Text>
                                     <Text>Click Me!</Text>
@@ -338,35 +380,31 @@ class Products extends Component {
                         </View>
                     </View>
                 ) : (
-                    this.props.calculatedAll ? (
-                        <DescAscend funcDesc={this.descendFunc} funcAsc={this.ascendFunc} energyDescend={} energyAscend={} fatDescend={} fatAscend={} saturatedDescend={} saturatedAscend={}
-                                    carbsDescend={} carbsAscend={} sugarDescend={} sugarAscend={} fiberDescend={} fiberAscend={} proteinDescend={} 
-                                    proteinAscend={} saltDescend={} saltAscend={} vitaminsDescend={} vitaminsAscend={} goBack={}
-                        />
-                    ) : (
-                        <ResultsOfBestWorst bestQualityName={this.props.result.goodQuality.productName} 
-                        energyGood={this.props.result.goodQuality.energy}
-                        fatGood={this.props.result.goodQuality.fat}
-                        saturatedGood={this.props.result.goodQuality.saturated}
-                        carbsGood={this.props.result.goodQuality.carbs}
-                        sugarGood={this.props.result.goodQuality.sugar}
-                        fiberGood={this.props.result.goodQuality.fiber}
-                        proteinGood={this.props.result.goodQuality.protein}
-                        saltGood={this.props.result.goodQuality.salt}
-                        vitaminsGood={this.props.result.goodQuality.vitamins}
-                        lowestQualityName={this.props.result.badQuality.productName}
-                        energyBad={this.props.result.goodQuality.energy}
-                        fatBad={this.props.result.badQuality.fat}
-                        saturatedBad={this.props.result.badQuality.saturated}
-                        carbsBad={this.props.result.badQuality.carbs}
-                        sugarBad={this.props.result.badQuality.sugar}
-                        fiberBad={this.props.result.badQuality.fiber}
-                        proteinBad={this.props.result.badQuality.protein}
-                        saltBad={this.props.result.badQuality.salt}
-                        vitaminsBad={this.props.result.badQuality.vitamins}
-                        clearResults={() => this.clearResults()}
-        />
-                    )
+                    <DescAscend goBack={() => this.props.goBack(this.state.show)} />
+                )
+                ) : (         
+                    <ResultsOfBestWorst bestQualityName={this.props.result.goodQuality.name} 
+                            energyGood={this.props.result.goodQuality.energy}
+                            fatGood={this.props.result.goodQuality.fat}
+                            saturatedGood={this.props.result.goodQuality.saturated}
+                            carbsGood={this.props.result.goodQuality.carbs}
+                            sugarGood={this.props.result.goodQuality.sugar}
+                            fiberGood={this.props.result.goodQuality.fiber}
+                            proteinGood={this.props.result.goodQuality.protein}
+                            saltGood={this.props.result.goodQuality.salt}
+                            vitaminsGood={this.props.result.goodQuality.vitamins}
+                            lowestQualityName={this.props.result.badQuality.name}
+                            energyBad={this.props.result.goodQuality.energy}
+                            fatBad={this.props.result.badQuality.fat}
+                            saturatedBad={this.props.result.badQuality.saturated}
+                            carbsBad={this.props.result.badQuality.carbs}
+                            sugarBad={this.props.result.badQuality.sugar}
+                            fiberBad={this.props.result.badQuality.fiber}
+                            proteinBad={this.props.result.badQuality.protein}
+                            saltBad={this.props.result.badQuality.salt}
+                            vitaminsBad={this.props.result.badQuality.vitamins}
+                            clearResults={() => this.clearResults()}
+                    />
                 )    
             )
         )
@@ -379,6 +417,7 @@ const mapStateToProps = state => ({
     result: state.selectedProducts.result,
     calculated: state.selectedProducts.calculated,
     calculatedAll: state.selectedProducts.calculatedAll,
+    sorted: state.selectedProducts.sorted,
 })
 
-export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearResults})(Products))
+export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearResults, goToList, sortArray})(Products))

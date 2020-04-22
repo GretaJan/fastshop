@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
@@ -32,6 +32,8 @@ const styles = {
 
 const ResultsOfBestWorst = ({ bestQualityName, imgGood, energyGood, fatGood, saturatedGood, carbsGood, sugarGood, fiberGood, proteinGood, saltGood, vitaminsGood, 
                     lowestQualityName, imgBad, saturatedBad, fatBad, sugarBad, fiberBad, proteinBad, saltBad, vitaminsBad, clearResults }) => {
+        const [showBest, setShowBest] = useState(false);
+        const [showWorst, setShowWorst] = useState(false);
 
         return (
             <View>
@@ -46,8 +48,11 @@ const ResultsOfBestWorst = ({ bestQualityName, imgGood, energyGood, fatGood, sat
                         </View> 
                     )}
                     <Text>{bestQualityName}</Text>
-                    <View style={stylesGuestSingle().buttonDropdown} >View components</View>
-                    <ScrollView style={stylesGuestSingle().dropdownContainer} >
+                    <TouchableOpacity style={stylesGuestSingle().buttonDropdown} onPress={() => setShowBest(true)}>
+                        <Text>View components</Text>
+                    </TouchableOpacity>
+                    {(setShowBest) && (
+                        <ScrollView style={stylesGuestSingle().dropdownContainer} >
                         <View style={stylesGuestSingle().listItemWrap}>
                             <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
                             <View style={stylesGuestSingle().listItemInfoWrap} >
@@ -111,7 +116,8 @@ const ResultsOfBestWorst = ({ bestQualityName, imgGood, energyGood, fatGood, sat
                                 <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                             </View>
                         </View>
-                    </ScrollView>
+                        </ScrollView>
+                    )}
                 </View>
                 <View>
                     <Text>We do not recommend:</Text> 
@@ -125,7 +131,10 @@ const ResultsOfBestWorst = ({ bestQualityName, imgGood, energyGood, fatGood, sat
                         </View> 
                     )}
                     <Text>{lowestQualityName}</Text>
-                    <View style={stylesGuestSingle().buttonDropdown} >View components</View>
+                    <TouchableOpacity style={stylesGuestSingle().buttonDropdown} onPress={() => setShowWorst(true)}>
+                        <Text>View components</Text>
+                    </TouchableOpacity>
+                    {(setShowBest) && (
                     <ScrollView style={stylesGuestSingle().dropdownContainer} >
                         <View style={stylesGuestSingle().listItemWrap}>
                             <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
@@ -191,6 +200,7 @@ const ResultsOfBestWorst = ({ bestQualityName, imgGood, energyGood, fatGood, sat
                             </View>
                         </View>
                     </ScrollView>
+                    )}
                     <ButtonStyled title="Clear results" func={clearResults} />
                 </View>
             </View>
