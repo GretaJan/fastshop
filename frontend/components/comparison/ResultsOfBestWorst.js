@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
+import ButtonStyled from '../../components_additional/Button';
 
 const styles = {
     container: {
         marginTop: 8,
-        // marginLeft: 10,
-        // marginRight: 10
     },
     itemWrap: {
         display: 'flex',
@@ -29,84 +29,172 @@ const styles = {
     }
 
 }
- 
-// class ResultsOfAll extends Component {
-//     goToProduct = () => {
-//         this.props.goToProduct(this.props.item.subcategory_id, this.props.item.id)
-//     }
 
-//     removeFromList = () => {
-//         this.props.removeProduct( this.props.item.id);
-//     }
-
-const ResultsOfBestWorst = ({ bestQuality, saturatedGood, carbsGood, sugarGood, fiberGood, proteinGood, saltGood, vitaminsGood, 
-                    lowestQuality, saturatedBad, carbsBad, sugarBad, fiberBad, proteinBad, saltBad, vitaminsBad, clearResults }) => {
+const ResultsOfBestWorst = ({ bestQualityName, imgGood, energyGood, fatGood, saturatedGood, carbsGood, sugarGood, fiberGood, proteinGood, saltGood, vitaminsGood, 
+                    lowestQualityName, imgBad, saturatedBad, fatBad, sugarBad, fiberBad, proteinBad, saltBad, vitaminsBad, clearResults }) => {
 
         return (
             <View>
-                <View>
-                    <Text>We recommend:</Text> 
-                    <Text>{bestQuality}</Text>
-                    <View>
-                        <FlatList data={[
-                                { key: "Saturated:" },
-                                { key: "Carbohydrates:" },
-                                { key: "Sugar:" },
-                                { key: "fiber:" },
-                                { key: "Protein:" },
-                                { key: "Salt:" },
-                                { key: "Vitamins:" },
-                            ]} renderItem={({item}) => 
-                                    <Text>{item.key}</Text>}
-                        />
-                    </View>
-                    <View>
-                        <FlatList data={[
-                                { key: saturatedGood },
-                                { key: carbsGood },
-                                { key: sugarGood },
-                                { key: fiberGood },
-                                { key: proteinGood },
-                                { key: saltGood },
-                                { key: vitaminsGood },
-                            ]} renderItem={({item}) => 
-                                <Text>{item.key}</Text>}
-                        />
-                    </View>
+                <View style={stylesGuestSingle().container} >
+                    {imgGood ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: imgGood }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text>{bestQualityName}</Text>
+                    <View style={stylesGuestSingle().buttonDropdown} >View components</View>
+                    <ScrollView style={stylesGuestSingle().dropdownContainer} >
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (energyGood) ? (energyGood) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >fat</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (fatGood) ? (fatGood) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >saturated fat</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (saturatedGood) ? (saturatedGood) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >Carbohidrates</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (carbsGood) ? (carbsGood) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >sugar</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (sugarGood) ? (sugarGood) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >fiber</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (fiberGood) ? (fiberGood) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >protein</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (proteinGood) ? (proteinGood) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >salt</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (saltGood) ? (saltGood) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >vitamins</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (vitaminsGood) ? (vitaminsGood) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                    </ScrollView>
                 </View>
                 <View>
-                <Text>We do not recommend:</Text> 
-                    <Text>{lowestQuality}</Text>
-                    <View>
-                        <FlatList data={[
-                                { key: "Saturated:" },
-                                { key: "Carbohydrates:" },
-                                { key: "Sugar:" },
-                                { key: "fiber:" },
-                                { key: "Protein:" },
-                                { key: "Salt:" },
-                                { key: "Vitamins:" },
-                            ]} renderItem={({item}) => 
-                                    <Text>{item.key}</Text>}
-                        />
-                    </View>
-                    <View>
-                        <FlatList data={[
-                                { key: saturatedBad },
-                                { key: carbsBad },
-                                { key: sugarBad },
-                                { key: fiberBad },
-                                { key: proteinBad },
-                                { key: saltBad },
-                                { key: vitaminsBad },
-                            ]} renderItem={({item}) => 
-                                <Text>{item.key}</Text>}
-                        />
-                    </View>
+                    <Text>We do not recommend:</Text> 
+                    {imgBad ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: imgBad }} />
+                        </View>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                    <Text>{lowestQualityName}</Text>
+                    <View style={stylesGuestSingle().buttonDropdown} >View components</View>
+                    <ScrollView style={stylesGuestSingle().dropdownContainer} >
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (energyBad) ? (energyBad) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >fat</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (fatBad) ? (fatBad) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >saturated fat</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (saturatedBad) ? (saturatedBad) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >Carbohidrates</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (carbsBad) ? (carbsBad) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >sugar</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (sugarBad) ? (sugarBad) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >fiber</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (fiberBad) ? (fiberBad) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >protein</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (proteinBad) ? (proteinBad) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >salt</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (saltBad) ? (saltBad) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                        <View style={stylesGuestSingle().listItemWrap}>
+                            <Text style={stylesGuestSingle().componentTitle} >vitamins</Text>
+                            <View style={stylesGuestSingle().listItemInfoWrap} >
+                                <Text style={stylesGuestSingle().componentAmount} >{ (vitaminsBad) ? (vitaminsBad) : ('-') }</Text>
+                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            </View>
+                        </View>
+                    </ScrollView>
+                    <ButtonStyled title="Clear results" func={clearResults} />
                 </View>
-             <Button title="Clear results" onPress={clearResults} />
-         </View>
-        )
+            </View>
+    )
 }
 
 export default ResultsOfBestWorst
