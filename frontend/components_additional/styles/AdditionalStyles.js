@@ -55,6 +55,7 @@ export const buttonStyle = (color) =>  StyleSheet.create({
 export const modalStyle = () => StyleSheet.create({
     container: {
         position: 'absolute',
+        zIndex: 3
     },
     itemWrap: {
 

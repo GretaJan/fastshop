@@ -22,6 +22,7 @@ class Products extends Component {
         sortedArray: [],
         show: true,
         hide: false,
+        modalMessage: false,
         // mostEnergy: '',
         // energyName: '',
         // mostFat: '',
@@ -238,7 +239,7 @@ class Products extends Component {
         var lowestQualitySubcategoryId = '';
 
         if(array.length == 1) {
-            console.log('Please select at least two products')
+            this.setState({modalMessage: true});
         } else {
             for(var i = 0; i < array.length; i++) {
                 var productOne = array[i];
@@ -313,10 +314,8 @@ class Products extends Component {
                     }
                 }
             }
-            console.log('lowestQualityId', lowestQualityId);
-            console.log('bestQualityId', bestQualityId);
             if(lowestQualityId == '' || bestQualityId == '') {
-                console.log("Unable to compare. Products have same qualities")
+                this.setState({modalMessage: false});
             } else {
                 var result = {
                     bestId: bestQualityId,
@@ -347,10 +346,10 @@ class Products extends Component {
                   {/* <Button title="Products" onPress={() => this.compareProducts()} /> */}
                 </View>
             ) : (
-                <Modal />
                 (this.props.calculated == false) ? (
                     (this.props.sorted !== false) ? (
                         <View style={stylesGuest().container} >
+                        <Modal message={!this.state.modalMessage ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} />
                         <FlatList contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
                             <Product key={item} item={item} 
                                     removeProduct={() => this.removeProduct(item)}
