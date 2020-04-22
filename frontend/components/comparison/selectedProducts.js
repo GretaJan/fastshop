@@ -13,8 +13,8 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 //Components
 import Product from './selectedProductSingle';
 import Error from '../../components_additional/Error';
-// import ResultsOfAll from './ResultsOfAll';
-// import ResultsOfBestWorst from './ResultsOfBestWorst';
+import DescAscend from './DescAscend';
+import ResultsOfBestWorst from './ResultsOfBestWorst';
 
 class Products extends Component {
     state = {
@@ -178,6 +178,15 @@ class Products extends Component {
         this.comparisonResults(result, countAll);
     }
 
+    descendFunc = (array) => {
+
+    }
+
+    ascendFunc = (array) => {
+
+    }
+
+
     findBestWorst = () => {
         var array = this.props.selectedProducts;
         var goodComponents = [];
@@ -187,87 +196,97 @@ class Products extends Component {
         var lowestQualityId = '';
         var lowestQualitySubcategoryId = '';
 
-        for(var i = 0; i < array.length; i++) {
-            var productOne = array[i];
-                goodComponents[i] = 0;
-                badComponents[i] = 0;
-            for(var j = 1; j < this.props.selectedProducts.length - 1; j++) {
-                var productTwo = this.props.selectedProducts[j];
-                goodComponents[j] = 0;
-                badComponents[j] = 0;
-
-                if ( productOne.saturated < productTwo.saturated ) {
-                    goodComponents[j]++; 
-                } else if ( productOne.fat > productTwo.fat ){
-                    goodComponents[i]++; 
-                }
-                if ( productOne.carbs < productTwo.carbs ) {
-                    badComponents[j]++;
-                } else if ( productOne.carbs > productTwo.carbs ) {
-                    badComponents[i]++;
-                }
-                if ( productOne.sugar < productTwo.sugar ) {
-                    badComponents[j]++;
-                } else if ( productOne.sugar > productTwo.sugar ){
-                    badComponents[i]++;
-                }
-                if ( productOne.fiber < productTwo.fiber ) {
-                    goodComponents[j]++; 
-                } else if ( productOne.fiber < productTwo.fiber ){
-                    goodComponents[i]++; 
-                }
-                if ( productOne.protein < productTwo.protein ) {
-                    goodComponents[j]++; 
-                    console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                } else if (productOne.protein > productTwo.protein) {
-                    goodComponents[i]++; 
-                    console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                }
-                if ( productOne.salt < productTwo.salt ) {
-                    badComponents[j]++;
-                    console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                } else if ( productOne.salt > productTwo.salt ) {
-                    badComponents[i]++;
-                    console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                }
-                if ( productOne.vitamins < productTwo.vitamins ) {
-                    goodComponents[j]++; 
-                    console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                } else if (productOne.vitamins > productTwo.vitamins) {
-                    goodComponents[i]++; 
-                    console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                }
-
-                if(goodComponents[i] > goodComponents[j]) {
-                    //Quality
-                    bestQualityId = productOne.id;
-                    bestQualitySubcategoryId = productOne.subcategory_id;
+        if(array.length == 1) {
+            console.log('Please select at least two products')
+        } else {
+            for(var i = 0; i < array.length; i++) {
+                var productOne = array[i];
+                    goodComponents[i] = 0;
+                    badComponents[i] = 0;
+                for(var j = 1; j < this.props.selectedProducts.length - 1; j++) {
+                    var productTwo = this.props.selectedProducts[j];
+                    goodComponents[j] = 0;
+                    badComponents[j] = 0;
+    
+                    if ( productOne.saturated < productTwo.saturated ) {
+                        goodComponents[j]++; 
+                    } else if ( productOne.fat > productTwo.fat ){
+                        goodComponents[i]++; 
+                    }
+                    if ( productOne.carbs < productTwo.carbs ) {
+                        badComponents[j]++;
+                    } else if ( productOne.carbs > productTwo.carbs ) {
+                        badComponents[i]++;
+                    }
+                    if ( productOne.sugar < productTwo.sugar ) {
+                        badComponents[j]++;
+                    } else if ( productOne.sugar > productTwo.sugar ){
+                        badComponents[i]++;
+                    }
+                    if ( productOne.fiber < productTwo.fiber ) {
+                        goodComponents[j]++; 
+                    } else if ( productOne.fiber < productTwo.fiber ){
+                        goodComponents[i]++; 
+                    }
+                    if ( productOne.protein < productTwo.protein ) {
+                        goodComponents[j]++; 
+                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
+                    } else if (productOne.protein > productTwo.protein) {
+                        goodComponents[i]++; 
+                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
+                    }
+                    if ( productOne.salt < productTwo.salt ) {
+                        badComponents[j]++;
+                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
+                    } else if ( productOne.salt > productTwo.salt ) {
+                        badComponents[i]++;
+                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
+                    }
+                    if ( productOne.vitamins < productTwo.vitamins ) {
+                        goodComponents[j]++; 
+                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
+                    } else if (productOne.vitamins > productTwo.vitamins) {
+                        goodComponents[i]++; 
+                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
+                    }
+    
+                    if(goodComponents[i] > goodComponents[j]) {
+                        //Quality
+                        bestQualityId = productOne.id;
+                        bestQualitySubcategoryId = productOne.subcategory_id;
+                        
+                    } else if (goodComponents[i] < goodComponents[j]) {
+                        //Quality
+                        bestQualityId = productTwo.id;
+                        bestQualitySubcategoryId= productTwo.subcategory_id;
+                    }
                     
-                } else if (goodComponents[i] < goodComponents[j]) {
-                    //Quality
-                    bestQualityId = productTwo.id;
-                    bestQualitySubcategoryId= productTwo.subcategory_id;
-                }
-                
-                if (badComponents[i] > badComponents[j]) {
-                    //Bad Quality
-                    lowestQualityId = productOne.id;
-                    lowestQualitySubcategoryId = productOne.subcategory_id;
-                } else if (badComponents[i] < badComponents[j]) {
-                     //Bad Quality
-                     lowestQualityId = productTwo.id;
-                     lowestQualitySubcategoryId = productTwo.subcategory_id;
+                    if (badComponents[i] > badComponents[j]) {
+                        //Bad Quality
+                        lowestQualityId = productOne.id;
+                        lowestQualitySubcategoryId = productOne.subcategory_id;
+                    } else if (badComponents[i] < badComponents[j]) {
+                         //Bad Quality
+                         lowestQualityId = productTwo.id;
+                         lowestQualitySubcategoryId = productTwo.subcategory_id;
+                    }
                 }
             }
+            console.log('lowestQualityId', lowestQualityId);
+            console.log('bestQualityId', bestQualityId);
+            if(lowestQualityId == '' || bestQualityId == '') {
+                console.log("Unable to compare. Products have same qualities")
+            } else {
+                var result = {
+                    bestId: bestQualityId,
+                    bestSubId: bestQualitySubcategoryId,
+                    lowestId: lowestQualityId,
+                    lowestSubId: lowestQualitySubcategoryId
+                }
+                let countAll = false;
+                this.comparisonResults(result, countAll);
+            }
         }
-        var result = {
-            bestId: bestQualityId,
-            bestSubId: bestQualitySubcategoryId,
-            lowestId: lowestQualityId,
-            lowestSubId: lowestQualitySubcategoryId
-        }
-        let countAll = false;
-        this.comparisonResults(result, countAll);
     }
 
     goToProduct = (subcategoryId, productId) => {
@@ -319,29 +338,35 @@ class Products extends Component {
                         </View>
                     </View>
                 ) : (
-                    // <ResultsOfBestWorst bestQualityName={this.props.result.goodQuality.productName} 
-                    //                 energyGood={this.props.result.goodQuality.energy}
-                    //                 fatGood={this.props.result.goodQuality.fat}
-                    //                 saturatedGood={this.props.result.goodQuality.saturated}
-                    //                 carbsGood={this.props.result.goodQuality.carbs}
-                    //                 sugarGood={this.props.result.goodQuality.sugar}
-                    //                 fiberGood={this.props.result.goodQuality.fiber}
-                    //                 proteinGood={this.props.result.goodQuality.protein}
-                    //                 saltGood={this.props.result.goodQuality.salt}
-                    //                 vitaminsGood={this.props.result.goodQuality.vitamins}
-                    //                 lowestQualityName={this.props.result.badQuality.productName}
-                    //                 energyBad={this.props.result.goodQuality.energy}
-                    //                 fatBad={this.props.result.badQuality.fat}
-                    //                 saturatedBad={this.props.result.badQuality.saturated}
-                    //                 carbsBad={this.props.result.badQuality.carbs}
-                    //                 sugarBad={this.props.result.badQuality.sugar}
-                    //                 fiberBad={this.props.result.badQuality.fiber}
-                    //                 proteinBad={this.props.result.badQuality.protein}
-                    //                 saltBad={this.props.result.badQuality.salt}
-                    //                 vitaminsBad={this.props.result.badQuality.vitamins}
-                    //                 clearResults={() => this.clearResults()}
-                    // />
-                    <Text>NEW</Text>
+                    this.props.calculatedAll ? (
+                        <DescAscend funcDesc={this.descendFunc} funcAsc={this.ascendFunc} energyDescend={} energyAscend={} fatDescend={} fatAscend={} saturatedDescend={} saturatedAscend={}
+                                    carbsDescend={} carbsAscend={} sugarDescend={} sugarAscend={} fiberDescend={} fiberAscend={} proteinDescend={} 
+                                    proteinAscend={} saltDescend={} saltAscend={} vitaminsDescend={} vitaminsAscend={} goBack={}
+                        />
+                    ) : (
+                        <ResultsOfBestWorst bestQualityName={this.props.result.goodQuality.productName} 
+                        energyGood={this.props.result.goodQuality.energy}
+                        fatGood={this.props.result.goodQuality.fat}
+                        saturatedGood={this.props.result.goodQuality.saturated}
+                        carbsGood={this.props.result.goodQuality.carbs}
+                        sugarGood={this.props.result.goodQuality.sugar}
+                        fiberGood={this.props.result.goodQuality.fiber}
+                        proteinGood={this.props.result.goodQuality.protein}
+                        saltGood={this.props.result.goodQuality.salt}
+                        vitaminsGood={this.props.result.goodQuality.vitamins}
+                        lowestQualityName={this.props.result.badQuality.productName}
+                        energyBad={this.props.result.goodQuality.energy}
+                        fatBad={this.props.result.badQuality.fat}
+                        saturatedBad={this.props.result.badQuality.saturated}
+                        carbsBad={this.props.result.badQuality.carbs}
+                        sugarBad={this.props.result.badQuality.sugar}
+                        fiberBad={this.props.result.badQuality.fiber}
+                        proteinBad={this.props.result.badQuality.protein}
+                        saltBad={this.props.result.badQuality.salt}
+                        vitaminsBad={this.props.result.badQuality.vitamins}
+                        clearResults={() => this.clearResults()}
+        />
+                    )
                 )    
             )
         )

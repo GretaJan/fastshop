@@ -19,12 +19,11 @@ export const deleteProductFromList = (product) => dispatch => {
     })
 }
 
-export const compare = async(result, countAll) => dispatch => {
-
-    await axios.get(URL + '/product/' + result.bestSubId + '/' +  bestId)
+export const compare = (result, countAll) => dispatch => {
+    axios.get(URL + '/product/' + result.bestSubId + '/' +  result.bestId)
         .then(result => {
             console.log("result", result)
-        }).catch(err => console.log("error: ", err))
+        }).catch(err => console.log("error: ", err.result))
 
     if(countAll) {
         dispatch({
