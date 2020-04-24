@@ -8,6 +8,7 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { styles } from '../styles/TabStyles';
 import { connect } from 'react-redux';
 import { logOut } from '../../src/actions/authActions';
+import { colors }  from '../styles/Colors';
 // Components:
 import Home from '../../components/Home';
 import Categories from '../../components/Categories/Categories';
@@ -57,7 +58,7 @@ render() {
                 options={{
                     title: "SPEEDSHOP",
                     headerStyle: {
-                        backgroundColor: '#ffcc33',
+                        backgroundColor: colors.mainYellow,
                       },
                       headerTitleStyle: {
                         fontWeight: 'bold',
@@ -69,7 +70,7 @@ render() {
                                 options={{
                                     title: "SUBCATEGORIES",  
                                     headerStyle: {
-                                    backgroundColor: '#ffcc33',
+                                    backgroundColor: colors.mainYellow,
                                 },
                                 headerTitleStyle: {
                                     fontWeight: 'bold',
@@ -81,7 +82,7 @@ render() {
                                 options={{
                                     title: "PRODUCTS LIST",
                                     headerStyle: {
-                                        backgroundColor: '#ffcc33',
+                                        backgroundColor: colors.mainYellow,
                                     },
                                     headerTitleStyle: {
                                         fontWeight: 'bold',
@@ -128,7 +129,7 @@ render() {
                                             color: '#394032',
                                         },
                                         headerStyle: {
-                                            backgroundColor: '#ffcc33',
+                                            backgroundColor: colors.mainYellow,
                                         },
                                         headerTitleAlign: 'center',
                                     }} />
@@ -144,7 +145,7 @@ render() {
                     color: '#394032',
                 },
                 headerStyle: {
-                    backgroundColor: '#ffcc33',
+                    backgroundColor: colors.mainYellow,
                 },
                 headerTitleAlign: 'center'
             }} />                                      
@@ -157,7 +158,7 @@ render() {
             options={{ 
                 title: "Dashboard",
                 headerStyle: {
-                    backgroundColor: '#ffcc33',
+                    backgroundColor: colors.mainYellow,
                   },
                   headerTitleStyle: {
                     fontWeight: 'bold',
@@ -178,15 +179,14 @@ render() {
             {(!this.props.isAuthorized) ? (
                 <Tabs.Navigator  tabBarOptions={{
                     // backgroundColor: '#335c67',
-                    inactiveBackgroundColor: '#335c67',
-                    activeBackgroundColor: '#335c67',
+                    // inactiveBackgroundColor: '#335c67',
+                    // activeBackgroundColor: '#335c67',
                     // inactiveBackgroundColor: '#ce7f75',
                     // activeBackgroundColor: '#ce7f75',3a434c
-                    inactiveBackgroundColor: '#3a434c',
-                    activeBackgroundColor: '#3a434c',
+                    inactiveBackgroundColor: colors.mainBlack,
+                    activeBackgroundColor: colors.mainBlack,
                     style: { 
                         // backgroundColor: '#335c67',
-                        backgroundColor: '#ad9b9a',
                         height: 60,
                     },
                   }}>

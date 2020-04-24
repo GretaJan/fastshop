@@ -66,7 +66,7 @@ export const modalStyle = () => StyleSheet.create({
     },
     itemContainer: {
         width: Dimensions.get('window').width /1.2,
-        backgroundColor: colors.whiteYellow,
+        backgroundColor: colors.mainWhiteYellow,
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 20,

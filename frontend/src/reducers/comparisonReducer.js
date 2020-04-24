@@ -6,6 +6,20 @@ const initialState = {
     calculated: false,
     calculatedAll: null,
     sorted: null,
+    activeEnergyDesc: false,
+    activeEnergyAsc: false,
+    activeFatDesc: false,
+    activeFatAsc: false,
+    activeSaturDesc: false,
+    activeSatursc: false,
+    activeCarbsDesc: false,
+    activeCarbsAsc: false,
+    activeSugarDesc: false,
+    activeSugarAsc: false,
+    activeSaltDesc: false,
+    activeSaltAsc: false,
+    activeVitaminsDesc: false,
+    activeVitaminsAsc: false,
 }
 
 export default function(state = initialState, action) {
