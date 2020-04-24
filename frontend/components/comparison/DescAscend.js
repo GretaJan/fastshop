@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { connect } from 'react-redux';
 import { sortArray } from '../../src/actions/comparisonActions';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
-import { descAsc } from '../../components_additional/styles/CompareStyles';
+import { descAscDropDown } from '../../components_additional/styles/CompareStyles';
 
 const styles = {
     container: {
@@ -47,6 +47,35 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
             // }
             const propA = a.energy;
             const propB = b.energy;
+
+            let comparison = 0;
+
+            if(propA > propB) {
+                descAsc ? comparison = 1 : comparison = -1
+            } else if(propA < propB) {
+                descAsc ? comparison = -1 : comparison = 1
+            }
+            return comparison
+        }
+
+        console.log("Trigger", desc);
+        console.log("SORTED: ", selectedProducts);
+
+        let sortedArray = selectedProducts.sort(compare);
+       
+        sortArray(sortedArray);
+    }
+    const descAscFatFunc = async (descAsc) => {
+
+        function compare(a, b) {
+            // if(a.energy == null) {
+            //     a.energy = 0;
+            // } 
+            // if(b.energy == null) {
+            //     b.energy = 0;
+            // }
+            const propA = a.fat;
+            const propB = b.fat;
 
             let comparison = 0;
 
@@ -238,89 +267,89 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
     }
 
     return (
-        <View style={descAsc().container}>  
-            <TouchableOpacity style={descAsc().btnWrap}>   
-                <View style={descAsc().iconWrap} onPress={() => goBack} >
-                    <IonIcon name="ios-arrow-dropleft" style={descAsc().btnIcon}  />
+        <View style={descAscDropDown().container}>  
+            <TouchableOpacity style={descAscDropDown().btnWrap} onPress={goBack}>   
+                <View style={descAscDropDown().iconWrap} >
+                    <IonIcon name="ios-arrow-dropleft" style={descAscDropDown().btnIcon}  />
                 </View>
-                <View style={descAsc().textWrap} >
-                    <Text style={descAsc().btnText}>Go Back</Text>
+                <View style={descAscDropDown().textWrap} >
+                    <Text style={descAscDropDown().btnText}>Go Back</Text>
                 </View>
             </TouchableOpacity>
-            <ScrollView  >
-               <TouchableOpacity style={descAsc().itemWrap} 
+            <ScrollView>
+               <TouchableOpacity style={descAscDropDown().itemWrap} 
                                 onPress={() => { descAscEnergyFunc(desc) }}>
-                   <Text style={descAsc().text} >Energy from largest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-up" />
+                   <Text style={descAscDropDown().text} >Energy from largest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-up" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} 
+               <TouchableOpacity style={descAscDropDown().itemWrap} 
                                 onPress={() => { descAscEnergyFunc(asc) }}>
-                   <Text style={descAsc().text} >Energy from smallest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-down" />
+                   <Text style={descAscDropDown().text} >Energy from smallest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-down" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscFatFunc(desc)}>
-                   <Text style={descAsc().text} >Fat from largest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-up" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscFatFunc(desc)}>
+                   <Text style={descAscDropDown().text} >Fat from largest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-up" />
                </TouchableOpacity> 
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscFatFunc(asc)}>
-                   <Text style={descAsc().text} >Fat from smallest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-down" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscFatFunc(asc)}>
+                   <Text style={descAscDropDown().text} >Fat from smallest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-down" />
                </TouchableOpacity> 
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscSaturatedFunc(desc)}>
-                   <Text style={descAsc().text} >Saturated fat from largest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-up" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscSaturatedFunc(desc)}>
+                   <Text style={descAscDropDown().text} >Saturated fat from largest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-up" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscSaturatedFunc(asc)}>
-                   <Text style={descAsc().text} >Saturated fat from smallest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-down" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscSaturatedFunc(asc)}>
+                   <Text style={descAscDropDown().text} >Saturated fat from smallest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-down" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscCarbsFunc(desc)}>
-                   <Text style={descAsc().text} >Carbohidrates from largest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-up" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscCarbsFunc(desc)}>
+                   <Text style={descAscDropDown().text} >Carbohidrates from largest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-up" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscCarbsFunc(asc)}>
-                   <Text style={descAsc().text} >Carbohidrates from smallest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-down" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscCarbsFunc(asc)}>
+                   <Text style={descAscDropDown().text} >Carbohidrates from smallest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-down" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscSugarFunc(desc)}>
-                   <Text style={descAsc().text} >Sugar from largest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-up" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscSugarFunc(desc)}>
+                   <Text style={descAscDropDown().text} >Sugar from largest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-up" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscSugarFunc(asc)}>
-                   <Text style={descAsc().text} >Sugar from smallest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-down" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscSugarFunc(asc)}>
+                   <Text style={descAscDropDown().text} >Sugar from smallest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-down" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscFiberFunc(desc)}>
-                   <Text style={descAsc().text} >Fiber from largest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-up" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscFiberFunc(desc)}>
+                   <Text style={descAscDropDown().text} >Fiber from largest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-up" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscFiberFunc(asc)}>
-                   <Text style={descAsc().text} >Fiber from smallest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-down" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscFiberFunc(asc)}>
+                   <Text style={descAscDropDown().text} >Fiber from smallest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-down" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscProteinFunc(desc)}>
-                   <Text style={descAsc().text} >Protein from largest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-up" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscProteinFunc(desc)}>
+                   <Text style={descAscDropDown().text} >Protein from largest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-up" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscProteinFunc(asc)}>
-                   <Text style={descAsc().text} >Protein from smallest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-down" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscProteinFunc(asc)}>
+                   <Text style={descAscDropDown().text} >Protein from smallest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-down" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscSaltFunc(desc)}>
-                   <Text style={descAsc().text} >Salt from largest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-up" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscSaltFunc(desc)}>
+                   <Text style={descAscDropDown().text} >Salt from largest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-up" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscSaltFunc(asc)}>
-                   <Text style={descAsc().text} >Salt from smallest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-down" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscSaltFunc(asc)}>
+                   <Text style={descAscDropDown().text} >Salt from smallest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-down" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscVitaminsFunc(desc)}>
-                   <Text style={descAsc().text} >Vitamins from largest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-up" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscVitaminsFunc(desc)}>
+                   <Text style={descAscDropDown().text} >Vitamins from largest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-up" />
                </TouchableOpacity>
-               <TouchableOpacity style={descAsc().itemWrap} onPress={() => descAscVitaminsFunc(asc)}>
-                   <Text style={descAsc().text} >Vitamins from smallest</Text>
-                   <Icon style={descAsc().icon} name="arrow-circle-down" />
+               <TouchableOpacity style={descAscDropDown().itemWrap} onPress={() => descAscVitaminsFunc(asc)}>
+                   <Text style={descAscDropDown().text} >Vitamins from smallest</Text>
+                   <Icon style={descAscDropDown().icon} name="arrow-circle-down" />
                </TouchableOpacity>
            </ScrollView>
        </View>

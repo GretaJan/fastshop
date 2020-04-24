@@ -31,6 +31,7 @@ import AddProduct from '../../componentsAuth/auth_products/AddProduct';
 // COMPARISON
 import SelectedProducts from '../../components/comparison/selectedProducts';
 import { StackActions } from 'react-navigation';
+import SortingPage from '../../components/comparison/DescAscend';
 
 
 

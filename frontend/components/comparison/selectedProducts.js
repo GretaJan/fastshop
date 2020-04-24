@@ -228,7 +228,7 @@ class Products extends Component {
                         </Text>
                     </TouchableOpacity>
                     {(this.props.sorted == false) && 
-                        <DescAscend goBack={() => {this.props.goBack(this.state.show)}, console.log("Go back", this.props.sorted)} /> }
+                        <DescAscend goBack={() => {this.props.goToList(this.state.show), console.log("Go back", this.props.sorted)}} /> }
                 </View>
                 ) : (         
                     <ResultsOfBestWorst bestQualityName={this.props.result.goodQuality.name} 
