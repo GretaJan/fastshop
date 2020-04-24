@@ -1,15 +1,27 @@
 import { StyleSheet } from 'react-native';
-import {BoxShadow} from 'react-native-shadow';
 import { colors } from './Colors';
+import {Dimensions} from 'react-native';
 
 export const productWrap = () => StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    flatListScrollSmall: {
+        height: Dimensions.get('window').height /2.4,
+    },
+    flatListScrollFull: {
+        height: Dimensions.get('window').height /1,
+        zIndex: 2
+    },
     arrayContainer: {
-        marginVertical: 10,
+        marginVertical: 5,
     },
     btnsContainer: {
         flex: 1,
         alignItems: 'center',
         alignContent: 'center',
+        // minHeight: Dimensions.get('window').height /5,
+        marginBottom: 40,
     },
     infoTxt: {
         fontSize: 20
@@ -33,7 +45,7 @@ export const productWrap = () => StyleSheet.create({
     },
     iconWrapOne: {
         backgroundColor: colors.mediumGreen2,
-        paddingHorizontal: 30,
+        paddingHorizontal: 27.5,
         paddingVertical: 20,
         alignItems: 'center',
         alignContent: 'center',
@@ -66,5 +78,19 @@ export const productWrap = () => StyleSheet.create({
     textWrap: {
         flex: 1,
         marginLeft: 10,
+    },
+    optionsBtnWrap: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.transparentLight,
+        position: 'absolute',
+        zIndex: 3,
+        // marginTop: 5,
+        height: 40,
+        bottom: 0,
+        width: Dimensions.get('window').width /1
+    },
+    optionsBtnText: {
+        fontSize: 22,
     }
 })

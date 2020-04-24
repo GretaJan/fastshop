@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {Dimensions} from 'react-native';
+import { colors } from './Colors';
 
 export const searchBar = () =>  StyleSheet.create({
     searchBarContainer: {
@@ -55,15 +56,21 @@ export const buttonStyle = (color) =>  StyleSheet.create({
 export const modalStyle = () => StyleSheet.create({
     container: {
         position: 'absolute',
-        zIndex: 3
+        zIndex: 3,
+        width: Dimensions.get('window').width /1,
+        height: Dimensions.get('window').width /1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     itemWrap: {
-
+        width: Dimensions.get('window').width /1.5,
+        backgroundColor: colors.transparentMedium,
     },
     icon: {
-
+        textAlign: 'left',
+        fontSize: 24
     },
     text: {
-
+        fontSize: 24
     }
 })

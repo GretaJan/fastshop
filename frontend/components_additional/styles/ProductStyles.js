@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {Dimensions} from 'react-native';
+import { colors } from './Colors';
 
 export const styles = (background_color, border_color) => StyleSheet.create({
     container: {
@@ -91,7 +92,7 @@ export const stylesGuest = () => StyleSheet.create( {
         height: 65,
         marginHorizontal: 5,
         marginVertical: 3,
-        backgroundColor: 'rgba(255, 255, 255, .6)',
+        backgroundColor: colors.transparentMedium,
          // Shadow
          elevation   : 1,
          overflow: 'hidden',

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { compareSingle } from '../../components_additional/styles/CompareStyles';
@@ -51,7 +51,7 @@ class ProductList extends Component {
         return (
             <View style={stylesGuest().itemWrap}>
                 <TouchableOpacity style={stylesGuest().TextPicWrap} key={this.props.item.id} onPress={this.goToProduct} >
-                {this.props.item.image ? (
+                {/* {this.props.item.image ? (
                     <View style={stylesGuest().imageWrap}>
                         <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
                     </View>
@@ -59,7 +59,7 @@ class ProductList extends Component {
                     <View style={stylesGuest().imageWrap}>
                         <IonIcon style={stylesGuest().imageIcon} name="md-images" />
                     </View> 
-                )}
+                )} */}
                 <Text style={stylesGuest().itemText} key={this.props.item.id}>{this.props.item.name}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={stylesGuest().iconWrap} onPress={this.removeFromList}>

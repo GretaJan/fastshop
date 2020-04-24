@@ -15,4 +15,6 @@ export const colors = {
     pinkOranage: '#f48668',
     orangeBright: '#ff7725',
     mediumGreen2: '#32bd81',
+    transparentLight: 'rgba(255,255,255,0.3)',
+    transparentMedium: 'rgba(255,255,255,0.6)',
 }

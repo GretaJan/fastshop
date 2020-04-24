@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Button, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { productSelected, deleteProductFromList, compare, clearResults, goToList, sortArray } from '../../src/actions/comparisonActions';
@@ -23,6 +23,7 @@ class Products extends Component {
         show: true,
         hide: false,
         modalMessage: false,
+        optionsDisplay: true,
         // mostEnergy: '',
         // energyName: '',
         // mostFat: '',
@@ -41,10 +42,6 @@ class Products extends Component {
         // nameSalt: '',
         // mostVitamins: '',
         // nameVitamins: '',
-    }
-
-    removeProduct = (product) => {
-        this.props.deleteProductFromList(product);
     }
 
     comparisonResults = (result, countAll) => {
@@ -347,19 +344,21 @@ class Products extends Component {
                 </View>
             ) : (
                 (this.props.calculated == false) ? (
-                    (this.props.sorted !== false) ? (
                         <View style={stylesGuest().container} >
-                        <Modal message={!this.state.modalMessage ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} />
-                        <FlatList contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
-                            <Product key={item} item={item} 
-                                    removeProduct={() => this.removeProduct(item)}
-                                    goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
-                            />
-                        )} />
+                            <Modal message={!this.state.modalMessage ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} />
+                            <View style={(this.state.optionsDisplay) ? (productWrap().flatListScrollSmall) : (productWrap().flatListScrollFull)}>
+                                <FlatList nestedScrollEnabled={true} contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
+                                    <Product key={item} item={item} 
+                                            removeProduct={() => this.props.deleteProductFromList(item)}
+                                            goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
+                                    />
+                                )} />
+                            </View>
+                        { (this.state.optionsDisplay) && (
                         <View style={productWrap().btnsContainer} >
                             <View style={productWrap().btnOne}>
                                 <TouchableOpacity style={productWrap().iconWrapOne} onPress={() => this.props.goToList(this.state.hide)} >
-                                    <IonIcon name="ios-calculator" style={productWrap().iconItem}  />
+                                    <IonIcon name="md-list" style={productWrap().iconItem}  />
                                 </TouchableOpacity>
                                 <View style={productWrap().textWrap} >
                                     <Text style={productWrap().infoTxt} >Compare each component</Text>
@@ -375,12 +374,17 @@ class Products extends Component {
                                     <Text>Click Me!</Text>
                                 </View>
                                 {/* <ButtonStyled color={colors.orange} title="CALCULATE" func={() => this.findBestWorst()} /> */}
-                            </View>
-                        </View>
-                    </View>
-                ) : (
-                    <DescAscend goBack={() => this.props.goBack(this.state.show)} />
-                )
+                            </View> 
+                        </View> 
+                        )}
+                        <TouchableOpacity style={productWrap().optionsBtnWrap} onPress={() => this.setState({optionsDisplay: !this.state.optionsDisplay})}>
+                        <Text style={productWrap().optionsBtnText}>
+                            {this.state.optionsDisplay ? ("Hide Options") : ("Show Options")}
+                        </Text>
+                    </TouchableOpacity>
+                    {(this.props.sorted == false) && 
+                        <DescAscend goBack={() => this.props.goBack(this.state.show)} /> }
+                </View>
                 ) : (         
                     <ResultsOfBestWorst bestQualityName={this.props.result.goodQuality.name} 
                             energyGood={this.props.result.goodQuality.energy}

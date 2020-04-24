@@ -9,7 +9,7 @@ const Modal = ({message}) => {
         <View style={modalStyle().container} >
             <View style={modalStyle().itemWrap} >
                 <Icon style={modalStyle().icon} name="times" />
-                <Text style={modalStyle().icon} >{message}</Text>
+                <Text style={modalStyle().text} >{message}</Text>
             </View>
         </View>
     )
