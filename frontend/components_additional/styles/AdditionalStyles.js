@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import {Dimensions} from 'react-native';
 import { colors } from './Colors';
+import {Platform} from 'react-native';
 
 export const searchBar = () =>  StyleSheet.create({
     searchBarContainer: {
@@ -56,21 +57,35 @@ export const buttonStyle = (color) =>  StyleSheet.create({
 export const modalStyle = () => StyleSheet.create({
     container: {
         position: 'absolute',
-        zIndex: 3,
+        zIndex: 10,
         width: Dimensions.get('window').width /1,
-        height: Dimensions.get('window').width /1,
+        height: Dimensions.get('window').height /1,
+        alignItems: 'center',
+        backgroundColor: colors.transparentLight,
+        paddingTop: Dimensions.get('window').height /8,
+    },
+    itemContainer: {
+        width: Dimensions.get('window').width /1.2,
+        backgroundColor: colors.whiteYellow,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingVertical: 20,
+        paddingHorizontal: 35,
+        paddingBottom: 30,
+        borderRadius: 10,
     },
-    itemWrap: {
-        width: Dimensions.get('window').width /1.5,
-        backgroundColor: colors.transparentMedium,
+    iconWrap: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginBottom: 20
     },
     icon: {
         textAlign: 'left',
         fontSize: 24
     },
     text: {
-        fontSize: 24
+        fontSize: 24,
+        lineHeight: Platform.OS === 'ios' ? 34 : 36
     }
 })

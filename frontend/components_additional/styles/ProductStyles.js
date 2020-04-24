@@ -110,8 +110,9 @@ export const stylesGuest = () => StyleSheet.create( {
     itemText: {
         fontFamily: 'sans-serif-condensed',
         width: '75%',
-        fontSize: 17,
+        fontSize: 18,
         textAlign: 'left',
+        paddingLeft: 10
     },
     imageWrap: {
         width: 60,

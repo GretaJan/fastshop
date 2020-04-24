@@ -1,17 +1,19 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import { modalStyle } from './styles/AdditionalStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
-const Modal = ({message}) => {
+const Modal = ({message, close}) => {
 
     return (
-        <View style={modalStyle().container} >
-            <View style={modalStyle().itemWrap} >
-                <Icon style={modalStyle().icon} name="times" />
+        <TouchableOpacity style={modalStyle().container} onPress={close} >
+            <View style={modalStyle().itemContainer} >
+                <View style={modalStyle().iconWrap}>
+                    <Icon style={modalStyle().icon} name="times" />
+                </View>
                 <Text style={modalStyle().text} >{message}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 } 
 

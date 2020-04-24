@@ -22,6 +22,7 @@ export const productWrap = () => StyleSheet.create({
         alignContent: 'center',
         // minHeight: Dimensions.get('window').height /5,
         marginBottom: 40,
+        zIndex: 0
     },
     infoTxt: {
         fontSize: 20

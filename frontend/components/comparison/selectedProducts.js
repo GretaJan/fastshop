@@ -22,7 +22,8 @@ class Products extends Component {
         sortedArray: [],
         show: true,
         hide: false,
-        modalMessage: false,
+        modalMessageNumber: false,
+        modalMessageEqual: false,
         optionsDisplay: true,
         // mostEnergy: '',
         // energyName: '',
@@ -68,164 +69,6 @@ class Products extends Component {
         this.props.compare(result, countAll);
     }
 
-    findAll = () => {
-        var array = this.props.selectedProducts;
-        var energy = '';
-        var fat = '';
-        var saturated = '';
-        var carbs = '';
-        var sugar = '';
-        var fiber = '';
-        var protein = '';
-        var salt = '';
-        var vitamins = '';
-        var energyN = '';
-        var fatN = '';
-        var saturatedN = '';
-        var carbsN = '';
-        var sugarN = '';
-        var fiberN = '';
-        var proteinN = '';
-        var saltN = '';
-        var vitaminsN = '';
-        var energyI = '';
-        var fatI = '';
-        var saturatedI = '';
-        var carbsI = '';
-        var sugarI = '';
-        var fiberI = '';
-        var proteinI = '';
-        var saltI = '';
-        var vitaminsI = '';
-
-        for(var i = 0; i < array.length; i++) {
-            var productOne = array[i];
-                energy = productOne.energy;
-                energyN = productOne.name;
-            for(var j = 1; j < this.props.selectedProducts.length - 1; j++) {
-                var productTwo = this.props.selectedProducts[j];
-
-                if ( productOne.fat < productTwo.fat ) {
-                    fat = productTwo.fat;
-                    fatN = productTwo.name;
-                    fatI = productTwo.image;
-                }
-                // if ( productOne.saturated > productTwo.saturated ) {
-                //     saturated = productTwo.saturated;
-                //     saturatedN = productTwo.name;
-                //     saturatedI = productTwo.image;
-                // }
-                if ( productOne.carbs > productTwo.carbs ) {
-                    carbs = productTwo.carbs;
-                    carbsN = productTwo.name;
-                    carbsI = productTwo.image;
-                }
-                if ( productOne.sugar > productTwo.sugar ) {
-                    sugar = productTwo.sugar;
-                    sugarN = productTwo.name;
-                    sugarI = productTwo.image;
-                }
-                if ( productOne.fiber < productTwo.fiber ) {
-                    fiber = productTwo.fiber;
-                    fiberN = productTwo.name;
-                    fiberI = productTwo.image;
-                }
-                if ( productOne.protein < productTwo.protein ) {
-                    protein = productTwo.protein;
-                    proteinN = productTwo.name;
-                    proteinI = productTwo.image;
-                }
-                if ( productOne.salt > productTwo.salt ) {
-                    salt = productTwo.salt;
-                    saltN = productTwo.name;
-                    saltI = productTwo.image;
-                }
-                if ( productOne.vitamins < productTwo.vitamins ) {
-                    vitamins = productTwo.vitamins;
-                    vitaminsN = productTwo.name;
-                    vitaminsI = productTwo.image;
-                }
-            }
-        }
-        var result = {
-            mostEnergy: energy,
-            nameEnergy: energyN,
-            mostEnergyImg: energyI,
-            mostFat: fat,
-            nameFat: fatN,
-            mostFatImg: fatI,
-            // mostSaturated:saturated,
-            // nameSaturated: saturatedN,
-            // mostSaturatedImg: saturatedI,
-            leastcarbs: carbs,
-            nameCarbs: carbsN,
-            leastcarbsImg: carbsI,
-            leastSugar: sugar,
-            nameSugar: sugarN,
-            leastSugarImg: sugarI,
-            mostFiber: fiber,
-            nameFiber: fiberN,
-            mostFiberImg: fiberI,
-            mostProtein: protein,
-            nameProtein: proteinN,
-            mostProteinImg: proteinI,
-            leastSalt: salt,
-            nameSalt: saltN,
-            leastSaltImg: saltI,
-            mostVitamins: vitamins,
-            nameVitamins: vitaminsN, 
-            mostVitaminsImg: vitaminsI,
-        }
-        let countAll = true
-        this.comparisonResults(result, countAll);
-    }
-
-    descAscEnergyFunc = (desc) => {
-        function compare(a, b) {
-            // if(a.energy == null) {
-            //     a.energy = 0;
-            // } 
-            // if(b.energy == null) {
-            //     b.energy = 0;
-            // }
-            const propA = a.energy;
-            const propB = b.energy;
-
-            let comparison = 0;
-
-            if(propA > propB) {
-                desc ? comparison = 1 : comparison = -1
-            } else if(propA < propB) {
-                desc ? comparison = -1 : comparison = 1
-            }
-            return comparison
-        }
-        console.log("Trigger", desc);
-        let sortedArray = this.props.selectedProducts.sort(compare);
-        console.log("SORTED: ", sortedArray);
-        this.props.sortArray(sortedArray);
-     
-    }
-    descAscFatFunc = (desc) => {
-        function compare(a, b) {
-
-            const propA = a.fat;
-            const propB = b.fat;
-
-            let comparison = 0;
-
-            if(propA > propB) {
-                desc ? comparison = 1 : comparison = -1
-            } else if(propA < propB) {
-                desc ? comparison = -1 : comparison = 1
-            }
-            return comparison
-        }
-        let sortedArray = selectedProducts.sort(compare);
-        this.props.sortArray(sortedArray);
-        console.log("FAT")
-    }
-
     findBestWorst = () => {
         var array = this.props.selectedProducts;
         var goodComponents = [];
@@ -236,7 +79,7 @@ class Products extends Component {
         var lowestQualitySubcategoryId = '';
 
         if(array.length == 1) {
-            this.setState({modalMessage: true});
+            this.setState({modalMessageNumber: true});
         } else {
             for(var i = 0; i < array.length; i++) {
                 var productOne = array[i];
@@ -312,7 +155,7 @@ class Products extends Component {
                 }
             }
             if(lowestQualityId == '' || bestQualityId == '') {
-                this.setState({modalMessage: false});
+                this.setState({modalMessageEqual: true});
             } else {
                 var result = {
                     bestId: bestQualityId,
@@ -345,7 +188,9 @@ class Products extends Component {
             ) : (
                 (this.props.calculated == false) ? (
                         <View style={stylesGuest().container} >
-                            <Modal message={!this.state.modalMessage ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} />
+                            {(this.state.modalMessageEqual || this.state.modalMessageNumber) && (
+                            <Modal message={!this.state.modalMessage ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})}/>
+                            )}
                             <View style={(this.state.optionsDisplay) ? (productWrap().flatListScrollSmall) : (productWrap().flatListScrollFull)}>
                                 <FlatList nestedScrollEnabled={true} contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
                                     <Product key={item} item={item} 
