@@ -103,7 +103,11 @@ export const descAscDropDown = () => StyleSheet.create({
         zIndex: 5,
         backgroundColor: colors.mainYellow,
         width: Dimensions.get('window').width /1,
-        minHeight: Dimensions.get('window').height /1,
+        // minHeight: Dimensions.get('window').height /1,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
      
     },
     itemWrap: {
@@ -123,7 +127,6 @@ export const descAscDropDown = () => StyleSheet.create({
         textTransform: 'uppercase'
     },
     btnWrap: {
-        flex: 1,
         flexDirection: 'row',
         paddingHorizontal: 30,
         alignItems: 'center',
