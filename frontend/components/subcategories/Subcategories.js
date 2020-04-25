@@ -24,9 +24,9 @@ class Subcategories extends Component {
         showSearchInput: false
     }
 
-    // componentDidMount() {
-    //     this.props.getSubcategories(this.state.id);
-    // }
+    componentDidMount() {
+        this.props.getSubcategories(this.props.route.params.categoryId);
+    }
 
     // static getDerivedStateFromProps(nextProps, prevState) {
     //     this.state.tempArray.map(item) {

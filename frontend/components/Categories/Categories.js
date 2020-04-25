@@ -19,9 +19,9 @@ class Categories extends Component {
         showSearchInput: false
     }
   
-    // componentDidMount() {
-    //     this.props.getCategories();
-    // }
+    componentDidMount() {
+        this.props.getCategories();
+    }
 
     findFunction = searchName => {
         const matchedData = this.props.categories.filter(item => {
@@ -67,7 +67,7 @@ class Categories extends Component {
                     <Error message={this.props.error} />
                 ) : (
                     <View style={stylesGuest().container} >
-                        <FlatList data={this.state.tempArray} renderItem={({item}) => (
+                        <FlatList data={this.props.categories} renderItem={({item}) => (
                             <CategoryList key={item} item={item} 
                                             goToSubcategories={(item) => this.goToSubcategories(item)} 
                             />

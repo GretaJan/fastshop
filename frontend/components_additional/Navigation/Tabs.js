@@ -9,6 +9,8 @@ import { styles } from '../styles/TabStyles';
 import { connect } from 'react-redux';
 import { logOut } from '../../src/actions/authActions';
 import { colors }  from '../styles/Colors';
+import ListIndicator from './ListIndicator';
+
 // Components:
 import Home from '../../components/Home';
 import Categories from '../../components/Categories/Categories';
@@ -31,7 +33,6 @@ import AddProduct from '../../componentsAuth/auth_products/AddProduct';
 // COMPARISON
 import SelectedProducts from '../../components/comparison/selectedProducts';
 import { StackActions } from 'react-navigation';
-import SortingPage from '../../components/comparison/DescAscend';
 
 
 
@@ -213,7 +214,7 @@ render() {
                             <View>
                                 <IonIcon name="ios-calculator" style={styles().iconItem} />
                                 <View style={styles().counter}>
-                                    {/* <Text style={styles().counterNo} > {this.props.selectedProducts.length}</Text> */}
+                                    <ListIndicator style={styles().counterNo}/> 
                                 </View>
                             </View>
                         )
@@ -249,7 +250,6 @@ render() {
 const mapStateToProps = state => ({
     admin: state.auth.admin,
     isAuthorized: state.auth.isAuthorized,
-    // selectedProducts: state.selectedProducts.comparisonArray,
     calculated: state.selectedProducts.calculated
 })
 

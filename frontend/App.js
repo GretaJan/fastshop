@@ -8,7 +8,6 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import configureStore from './store';
 const { store, persistor } = configureStore();
 
-import Routes from './components_additional/Navigation/Routes';
 import Tabs from './components_additional/Navigation/Tabs';
 
 

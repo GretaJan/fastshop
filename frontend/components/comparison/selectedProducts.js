@@ -70,6 +70,10 @@ class Products extends Component {
         this.props.compare(result);
     }
 
+    // componentDidMount() => {
+    //     this.props.productSelected
+    // }
+
     findBestWorst = () => {
         var array = this.props.selectedProducts;
         var goodComponents = [];
