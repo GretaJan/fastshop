@@ -7,7 +7,8 @@ export const styles = () => StyleSheet.create({
     counter: {
         position: 'absolute',
         top: -6,
-        left: 11,
+        // left: 11.3,
+        left: '5%',
         backgroundColor: '#ffcc33',
         width: 20,
         height: 20,
@@ -16,8 +17,6 @@ export const styles = () => StyleSheet.create({
     counterNo: {
         textAlign: 'center',
         textAlignVertical: 'center',
-        right: 1,
-        top: -1,
         fontWeight: 'bold',
         fontFamily: 'sans-serif-condensed'
     },

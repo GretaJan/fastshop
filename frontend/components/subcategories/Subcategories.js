@@ -84,16 +84,18 @@ class Subcategories extends Component {
                     <Error message={this.props.error} />
                 ) : (
                     <View style={stylesGuest().container}>
-                    {this.getInput()}
+                    {/* {this.getInput()}
                         {!this.state.inputTriggered ? (
                             <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.props.subcategories} renderItem={({item}) => (
                                 <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
                             )} />
                         ) : (
                             <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.state.tempArray} renderItem={({item}) => (
-                                <Subcategory item={item} goToProducts={(items) => this.goToProducts(item)} />
+                                <Subcategory key={item} item={item} goToProducts={(items) => this.goToProducts(item)} />
                             )} />
-                        )}  
+                            
+                        )}   */}
+                        <Text>one</Text>
                     </View>
                 )
             )
