@@ -213,7 +213,7 @@ render() {
                             <View>
                                 <IonIcon name="ios-calculator" style={styles().iconItem} />
                                 <View style={styles().counter}>
-                                    <Text style={styles().counterNo} > {this.props.selectedProducts.length}</Text>
+                                    {/* <Text style={styles().counterNo} > {this.props.selectedProducts.length}</Text> */}
                                 </View>
                             </View>
                         )
@@ -249,7 +249,7 @@ render() {
 const mapStateToProps = state => ({
     admin: state.auth.admin,
     isAuthorized: state.auth.isAuthorized,
-    selectedProducts: state.selectedProducts.comparisonArray,
+    // selectedProducts: state.selectedProducts.comparisonArray,
     calculated: state.selectedProducts.calculated
 })
 

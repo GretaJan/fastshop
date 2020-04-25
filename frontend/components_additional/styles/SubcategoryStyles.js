@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import {Dimensions} from 'react-native';
 
 export const styles = (background_color, border_color) => StyleSheet.create({
     container: {
@@ -93,11 +94,14 @@ export const stylesGuest = () => StyleSheet.create({
     itemWrap: {
         backgroundColor: 'lightblue',
         paddingVertical: 5,
-        paddingHorizontal: 7,
+        // paddingHorizontal: 7,
         marginBottom: 5,
         borderRadius: 10,
-        width: 120,
-        height: 110,
+        alignItems: 'center',
+        alignContent: 'center',
+        // width: 120,
+        width: Dimensions.get('window').width /3.5,
+        height: 114,
         // Shadow
         elevation   : 5,
         overflow: 'hidden',
@@ -108,7 +112,8 @@ export const stylesGuest = () => StyleSheet.create({
         shadowRadius: 2, 
     },
     imageWrap: {
-        width: 110,
+        // width: 110,
+        width: '95%',
         height: 60,
         paddingTop: 7,
     },

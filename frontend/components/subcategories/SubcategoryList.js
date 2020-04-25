@@ -13,7 +13,7 @@ class SubcategoryList extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id} onPress={this.goToProducts } >
+            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id.toString()} onPress={this.goToProducts } >
                 {this.props.item.image ? (
                     <View style={stylesGuest().imageWrap} >
                         <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
@@ -28,7 +28,7 @@ class SubcategoryList extends Component {
                     <Icon style={stylesGuest().iconItem} name="arrow-circle-right" size={20} onPress={this.selectProduct} />
                 </View> */}
                 <View style={stylesGuest().textWrap}>
-                    <Text style={stylesGuest().itemText} key={this.props.item.id} >{this.props.item.name}</Text>
+                    <Text style={stylesGuest().itemText} key={this.props.item.id.toString()} >{this.props.item.name}</Text>
                 </View>
                 {/* <View style={{flex:0.2}}></View> */}
             </TouchableOpacity>

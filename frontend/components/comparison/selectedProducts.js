@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { productSelected, deleteProductFromList, compare, clearResults, goToList, sortArray } from '../../src/actions/comparisonActions';
+import { productSelected, deleteProductFromList, compare, clearResults, goToList, sortArray, diagramResults } from '../../src/actions/comparisonActions';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { productWrap } from '../../components_additional/styles/CompareStyles';
 import ButtonStyled from '../../components_additional/Button';
@@ -25,6 +25,7 @@ class Products extends Component {
         modalMessageNumber: false,
         modalMessageEqual: false,
         optionsDisplay: true,
+        
         // mostEnergy: '',
         // energyName: '',
         // mostFat: '',
@@ -45,7 +46,7 @@ class Products extends Component {
         // nameVitamins: '',
     }
 
-    comparisonResults = (result, countAll) => {
+    comparisonResults = (result) => {
         // var result = {
         //         mostEnergy: this.state.mostEnergy,
         //         energyName: this.state.nameEnergy,
@@ -66,7 +67,7 @@ class Products extends Component {
         //         mostVitamins: this.state.mostVitamins,
         //         nameVitamins: this.state.nameVitamins, 
         //     }
-        this.props.compare(result, countAll);
+        this.props.compare(result);
     }
 
     findBestWorst = () => {
@@ -77,95 +78,90 @@ class Products extends Component {
         var bestQualitySubcategoryId = '';
         var lowestQualityId = '';
         var lowestQualitySubcategoryId = '';
+        var percentHealthyFoodOne = 0;
+        var percentUnhealthyFoodOne = 0;
+        var percentHealthyFoodTwo = 0;
+        var percentUnhealthyFoodTwo = 0;
 
-        if(array.length == 1) {
+    
+        if(array.length < 2) {
             this.setState({modalMessageNumber: true});
         } else {
+            this.setState({modalMessageNumber: false});
+
             for(var i = 0; i < array.length; i++) {
                 var productOne = array[i];
-                    goodComponents[i] = 0;
-                    badComponents[i] = 0;
-                for(var j = 1; j < this.props.selectedProducts.length - 1; j++) {
+                var goodComponent = array[0];
+                var badComponent = array[0];
+                const one = array[0];
+     
+                for(var j = 1; j < this.props.selectedProducts.length; j++) {
                     var productTwo = this.props.selectedProducts[j];
-                    goodComponents[j] = 0;
-                    badComponents[j] = 0;
-    
-                    if ( productOne.saturated < productTwo.saturated ) {
-                        goodComponents[j]++; 
-                    } else if ( productOne.fat > productTwo.fat ){
-                        goodComponents[i]++; 
+                    var percentHealthyFoodTwo = array[j];  
+                    const two = array[0];
+
+                    const oneSaturated = productOne.saturated == null ? parseInt(0) : parseFloat(productOne.saturated);
+                    const twoSaturated = productTwo.saturated == null ? parseInt(0) : parseFloat(productTwo.saturated);
+                    const oneFiber = productOne.fiber == null ? parseInt(0) : parseFloat(productOne.fiber);
+                    const twoFiber = productTwo.fiber == null ? parseInt(0) : parseFloat(productTwo.fiber);
+                    const oneProtein = productOne.protein == null ? parseInt(0) : parseFloat(productOne.protein);
+                    const twoProtein = productTwo.protein == null ? parseInt(0) : parseFloat(productTwo.protein);
+                    const oneVitamins = productOne.vitamins == null ? parseInt(0) : parseFloat(productOne.vitamins);
+                    const twoVitamins = productTwo.vitamins == null ? parseInt(0) : parseFloat(productTwo.vitamins);
+
+                    const oneSugar = productOne.sugar == null ? parseInt(0) : parseFloat(productOne.sugar);
+                    const twoSugar = productTwo.sugar == null ? parseInt(0) : parseFloat(productTwo.sugar);
+                    const oneCarbs = productOne.carbs == null ? parseInt(0) : (parseFloat(productOne.carbs) - oneSugar);
+                    const twoCarbs = productTwo.carbs == null ? parseInt(0) : (parseFloat(productTwo.carbs) - twoSugar);
+                    const oneSalt = productOne.salt == null ? parseInt(0) : parseFloat(productOne.salt);
+                    const twoSalt = productTwo.salt == null ? parseInt(0) : parseFloat(productTwo.salt);
+
+
+                    const goodQualitiesOne = oneSaturated + oneFiber + oneProtein + oneVitamins;
+                    const goodQualitiesTwo = twoSaturated + twoFiber + twoProtein + twoVitamins;
+                    const badQualitiesOne = oneCarbs + oneSugar + oneSalt;
+                    const badQualitiesTwo = twoCarbs + twoSugar + twoSalt;
+
+                    if ( goodQualitiesOne < goodQualitiesTwo ) {
+                        goodComponent = productTwo;
+                        percentHealthyFoodOne = goodQualitiesTwo;
+                        percentUnhealthyFoodOne = badQualitiesTwo;
+                    } else {
+                        goodComponent = productOne;
+                        percentHealthyFoodOne = goodQualitiesOne;
+                        percentUnhealthyFoodOne = badQualitiesOne;    
                     }
-                    if ( productOne.carbs < productTwo.carbs ) {
-                        badComponents[j]++;
-                    } else if ( productOne.carbs > productTwo.carbs ) {
-                        badComponents[i]++;
+                    if ( badQualitiesOne > badQualitiesTwo ) {
+                        badComponent = productOne;
+                        percentHealthyFoodTwo = goodQualitiesOne;
+                        percentUnhealthyFoodTwo = badQualitiesOne;
+                    } else {
+                        badComponent = productTwo;
+                        percentHealthyFoodTwo = goodQualitiesTwo;
+                        percentUnhealthyFoodTwo = badQualitiesTwo;
                     }
-                    if ( productOne.sugar < productTwo.sugar ) {
-                        badComponents[j]++;
-                    } else if ( productOne.sugar > productTwo.sugar ){
-                        badComponents[i]++;
-                    }
-                    if ( productOne.fiber < productTwo.fiber ) {
-                        goodComponents[j]++; 
-                    } else if ( productOne.fiber < productTwo.fiber ){
-                        goodComponents[i]++; 
-                    }
-                    if ( productOne.protein < productTwo.protein ) {
-                        goodComponents[j]++; 
-                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                    } else if (productOne.protein > productTwo.protein) {
-                        goodComponents[i]++; 
-                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                    }
-                    if ( productOne.salt < productTwo.salt ) {
-                        badComponents[j]++;
-                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                    } else if ( productOne.salt > productTwo.salt ) {
-                        badComponents[i]++;
-                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                    }
-                    if ( productOne.vitamins < productTwo.vitamins ) {
-                        goodComponents[j]++; 
-                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                    } else if (productOne.vitamins > productTwo.vitamins) {
-                        goodComponents[i]++; 
-                        console.log("productTwo.name", productTwo.name, " one, ", productOne.name);
-                    }
-    
-                    if(goodComponents[i] > goodComponents[j]) {
-                        //Quality
-                        bestQualityId = productOne.id;
-                        bestQualitySubcategoryId = productOne.subcategory_id;
-                        
-                    } else if (goodComponents[i] < goodComponents[j]) {
-                        //Quality
-                        bestQualityId = productTwo.id;
-                        bestQualitySubcategoryId= productTwo.subcategory_id;
-                    }
-                    
-                    if (badComponents[i] > badComponents[j]) {
-                        //Bad Quality
-                        lowestQualityId = productOne.id;
-                        lowestQualitySubcategoryId = productOne.subcategory_id;
-                    } else if (badComponents[i] < badComponents[j]) {
-                         //Bad Quality
-                         lowestQualityId = productTwo.id;
-                         lowestQualitySubcategoryId = productTwo.subcategory_id;
-                    }
+               
                 }
             }
-            if(lowestQualityId == '' || bestQualityId == '') {
-                this.setState({modalMessageEqual: true});
-            } else {
-                var result = {
-                    bestId: bestQualityId,
-                    bestSubId: bestQualitySubcategoryId,
-                    lowestId: lowestQualityId,
-                    lowestSubId: lowestQualitySubcategoryId
+
+            this.setState({modalMessageEqual: false});
+                const result = {
+                    healthier: {
+                        id: goodComponent.id,
+                        subId: goodComponent.subcategory_id,
+                        goodComponents: percentHealthyFoodOne,
+                        badComponents: percentUnhealthyFoodOne 
+                    },
+                    unhealthier: {
+                        id: badComponent.id,
+                        subId: badComponent.subcategory_id,
+                        goodComponents: percentHealthyFoodTwo,
+                        badComponents: percentUnhealthyFoodTwo
+                    } 
                 }
-                let countAll = false;
-                this.comparisonResults(result, countAll);
-            }
+                this.comparisonResults(result);
+                this.props.diagramResults(result);
+
         }
     }
 
@@ -189,7 +185,8 @@ class Products extends Component {
                 (this.props.calculated == false) ? (
                         <View style={stylesGuest().container} >
                             {(this.state.modalMessageEqual || this.state.modalMessageNumber) && (
-                            <Modal message={!this.state.modalMessage ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})}/>
+                            <Modal message={(!this.state.modalMessageEqual) ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} 
+                            close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})}/>
                             )}
                             <View style={(this.state.optionsDisplay) ? (productWrap().flatListScrollSmall) : (productWrap().flatListScrollFull)}>
                                 <FlatList nestedScrollEnabled={true} contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
@@ -227,30 +224,35 @@ class Products extends Component {
                             {this.state.optionsDisplay ? ("Hide Options") : ("Show Options")}
                         </Text>
                     </TouchableOpacity>
-                    {(this.props.sorted == false) && 
-                        <DescAscend goBack={() => {this.props.goToList(this.state.show), console.log("Go back", this.props.sorted)}} /> }
+                    {(this.props.sorted == false) && (
+                        <DescAscend goBack={() => {this.props.goToList(this.state.show), console.log("Go back", this.props.sorted)}} />
+                    )}
                 </View>
                 ) : (         
-                    <ResultsOfBestWorst bestQualityName={this.props.result.goodQuality.name} 
-                            energyGood={this.props.result.goodQuality.energy}
-                            fatGood={this.props.result.goodQuality.fat}
-                            saturatedGood={this.props.result.goodQuality.saturated}
-                            carbsGood={this.props.result.goodQuality.carbs}
-                            sugarGood={this.props.result.goodQuality.sugar}
-                            fiberGood={this.props.result.goodQuality.fiber}
-                            proteinGood={this.props.result.goodQuality.protein}
-                            saltGood={this.props.result.goodQuality.salt}
-                            vitaminsGood={this.props.result.goodQuality.vitamins}
-                            lowestQualityName={this.props.result.badQuality.name}
-                            energyBad={this.props.result.goodQuality.energy}
-                            fatBad={this.props.result.badQuality.fat}
-                            saturatedBad={this.props.result.badQuality.saturated}
-                            carbsBad={this.props.result.badQuality.carbs}
-                            sugarBad={this.props.result.badQuality.sugar}
-                            fiberBad={this.props.result.badQuality.fiber}
-                            proteinBad={this.props.result.badQuality.protein}
-                            saltBad={this.props.result.badQuality.salt}
-                            vitaminsBad={this.props.result.badQuality.vitamins}
+                    <ResultsOfBestWorst bestQualityName={this.props.result.healty.name} 
+                            energyGood={this.props.result.healty.energy}
+                            fatGood={this.props.result.healty.fat}
+                            saturatedGood={this.props.result.healty.saturated}
+                            carbsGood={this.props.result.healty.carbs}
+                            sugarGood={this.props.result.healty.sugar}
+                            fiberGood={this.props.result.healty.fiber}
+                            proteinGood={this.props.result.healty.protein}
+                            saltGood={this.props.result.healty.salt}
+                            vitaminsGood={this.props.result.healty.vitamins}
+                            lowestQualityName={this.props.result.unhealty.name}
+                            energyBad={this.props.result.unhealty.energy}
+                            fatBad={this.props.result.unhealty.fat}
+                            saturatedBad={this.props.result.unhealty.saturated}
+                            carbsBad={this.props.result.unhealty.carbs}
+                            sugarBad={this.props.result.unhealty.sugar}
+                            fiberBad={this.props.result.unhealty.fiber}
+                            proteinBad={this.props.result.unhealty.protein}
+                            saltBad={this.props.result.unhealty.salt}
+                            vitaminsBad={this.props.result.unhealty.vitamins}
+                            healthyDiagramGood={this.props.diagram.goodInHealthy}
+                            healthyDiagramBad={this.props.diagram.badInHealthy}
+                            unhealthyDiagramGood={this.props.diagram.goodInUnhealthy}
+                            unhealthyDiagramBad={this.props.diagram.badInUnhealthy}
                             clearResults={() => this.clearResults()}
                     />
                 )    
@@ -260,12 +262,13 @@ class Products extends Component {
 
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = state => (console.log("results map state to props: ", state.selectedProducts.comparisonArray),{ 
     selectedProducts: state.selectedProducts.comparisonArray,
     result: state.selectedProducts.result,
+    diagram: state.selectedProducts.diagram,
     calculated: state.selectedProducts.calculated,
     calculatedAll: state.selectedProducts.calculatedAll,
     sorted: state.selectedProducts.sorted,
 })
 
-export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearResults, goToList, sortArray})(Products))
+export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearResults, goToList, sortArray, diagramResults})(Products))

@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 
+
 //Components
 import Product from './ProductList';
 import Loading from '../../components_additional/Loading';
@@ -59,8 +60,9 @@ class Products extends Component {
         )
     }
 
-    selectProduct = (item1, item2) => {
+     selectProduct = (item1, item2) => {
         this.props.productSelected(item1, item2);
+        console.log("pressed: ",item1 );
     }
 
     goToProduct = (subcategoryId, productId) => {
@@ -100,7 +102,7 @@ class Products extends Component {
 const mapStateToProps = state => ({
     products: state.products.products,
     loading: state.products.loading,
-    error: state.products.error
+    error: state.products.error,
 })
 
 export default withNavigation(connect(mapStateToProps, {getProducts, productSelected})(Products))

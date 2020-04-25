@@ -19,9 +19,9 @@ class Categories extends Component {
         showSearchInput: false
     }
   
-    componentDidMount() {
-        this.props.getCategories();
-    }
+    // componentDidMount() {
+    //     this.props.getCategories();
+    // }
 
     findFunction = searchName => {
         const matchedData = this.props.categories.filter(item => {
@@ -88,7 +88,6 @@ const mapStateToProps = (state) => ({
     categories: state.categories.categories,
     loading: state.categories.loading,
     error: state.categories.error,
-    selectedProducts: state.selectedProducts.comparisonArray
 });
 
 export default withNavigation(connect(mapStateToProps, { getCategories })(Categories))

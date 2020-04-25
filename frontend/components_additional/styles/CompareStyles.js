@@ -98,7 +98,6 @@ export const productWrap = () => StyleSheet.create({
 
 export const descAscDropDown = () => StyleSheet.create({
     container: {
-        paddingTop: 10, 
         position: 'absolute',
         zIndex: 5,
         backgroundColor: colors.mainYellow,
@@ -129,6 +128,7 @@ export const descAscDropDown = () => StyleSheet.create({
     btnWrap: {
         flexDirection: 'row',
         paddingHorizontal: 30,
+        paddingVertical: 10,
         alignItems: 'center',
     },
     iconWrap: {

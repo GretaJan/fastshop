@@ -17,7 +17,7 @@ class CategoryList extends Component {
     //     export default function(props) {s
     //         return (
     //             <TouchableOpacity style={styles.itemWrap} onPress={() => { route.subcategories.this.props.item.id }}>
-    //                 <Text key={this.props.item.id} >{this.props.item.name}</Text>
+    //                 <Text key={this.props.item.id.toString()} >{this.props.item.name}</Text>
     //                 <Icon name="arrow-circle-right" size={20} />
     //             </TouchableOpacity >
     //         )
@@ -32,7 +32,7 @@ class CategoryList extends Component {
     render() {
         return (
             // <TouchableOpacity style={styles.itemWrap} onPress={this.goToSubcategories}>
-            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id} onPress={() => this.goToSubcategories()}>
+            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id.toString()} onPress={() => this.goToSubcategories()}>
                 {this.props.item.image ? (
                   
                         <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />

@@ -69,13 +69,14 @@ export const modalStyle = () => StyleSheet.create({
         backgroundColor: colors.mainWhiteYellow,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingLeft: 30,
         paddingVertical: 20,
-        paddingHorizontal: 35,
+        // paddingHorizontal: 35,
         paddingBottom: 30,
         borderRadius: 10,
     },
     iconWrap: {
-        width: '100%',
+        width: '80%',
         flexDirection: 'row',
         justifyContent: 'flex-end',
         marginBottom: 20
@@ -85,7 +86,8 @@ export const modalStyle = () => StyleSheet.create({
         fontSize: 24
     },
     text: {
+        width: '98%',
         fontSize: 24,
-        lineHeight: Platform.OS === 'ios' ? 34 : 36
+        lineHeight: Platform.OS === 'ios' ? 34 : 36,
     }
 })

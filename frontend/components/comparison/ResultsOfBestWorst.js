@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import ButtonStyled from '../../components_additional/Button';
@@ -31,7 +31,9 @@ const styles = {
 }
 
 const ResultsOfBestWorst = ({ bestQualityName, imgGood, energyGood, fatGood, saturatedGood, carbsGood, sugarGood, fiberGood, proteinGood, saltGood, vitaminsGood, 
-                    lowestQualityName, imgBad, saturatedBad, fatBad, sugarBad, fiberBad, proteinBad, saltBad, vitaminsBad, clearResults }) => {
+                    lowestQualityName, imgBad, energyBad, saturatedBad, fatBad, carbsBad, sugarBad, fiberBad, proteinBad, saltBad, vitaminsBad, clearResults,
+                    healthyDiagramGood, healthyDiagramBad, unhealthyDiagramGood, unhealthyDiagramBad }) => {
+                //    }) => {
         const [showBest, setShowBest] = useState(false);
         const [showWorst, setShowWorst] = useState(false);
 
@@ -48,6 +50,10 @@ const ResultsOfBestWorst = ({ bestQualityName, imgGood, energyGood, fatGood, sat
                         </View> 
                     )}
                     <Text>{bestQualityName}</Text>
+                    <Text>{healthyDiagramGood}</Text>
+                    <Text>{healthyDiagramBad}</Text>
+                    <Text>{unhealthyDiagramGood}</Text>
+                    <Text>{unhealthyDiagramBad}</Text>
                     <TouchableOpacity style={stylesGuestSingle().buttonDropdown} onPress={() => setShowBest(true)}>
                         <Text>View components</Text>
                     </TouchableOpacity>

@@ -96,7 +96,7 @@ class SubcategoryList extends Component {
 
     render() {
         return (
-            <View key={this.props.item.id} >
+            <View key={this.props.item.id.toString()} >
             {(!this.state.nameInput) &&
                 <View style={styles(null, null).itemWrap} >
                 <Text onPress={this.goToProducts}>{this.state.name}</Text>
