@@ -4,26 +4,18 @@ import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity, Button 
 import { connect } from 'react-redux';
 import { getCategories, deleteCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
+import { authCategory } from '../../components_additional/styles/CategoryStyles';
 //Components
 import CategoryList from './CategoryList';
 import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
+import StyledButton from '../../components_additional/Button';
 
-const styles = {
-    container: {
-        flex: 1
-    }
-}
 
 class Categories extends Component {
   
     componentDidMount() {
         this.props.getCategories();
-        this.props.categories.map(item => {
-            console.log("Categories, ", item.image)
-        })
-        
-        
     }
 
     deleteCategory = async (id) => {
@@ -43,16 +35,18 @@ class Categories extends Component {
                 (this.props.error !== '') ? (
                     <Error message={this.props.error} />
                 ) : (
-                <View style={styles.container}>
+                <View style={authCategory().container}>
                     <ScrollView>
-                        <FlatList data={this.props.categories} renderItem={({item}) => (
+                        <View style={authCategory().addBtn}>
+                            <StyledButton func={() => {this.props.navigation.push("Add_Category"), console.log("press")}} title="Add category" color={"lightblue"} />
+                        </View>
+                        <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} renderItem={({item}) => (
                         <CategoryList key={item} item={item} 
-                        goToSubcategories={(item) => this.goToSubcategories(item)}
+                                goToSubcategories={(item) => this.goToSubcategories(item)}
                                     deleteCategory = {item => this.deleteCategory(item)} />
                         )} >
                         </FlatList>
                     </ScrollView>
-                    <Button title="Add category" onPress={() => this.props.navigation.push("Add_Category")} ></Button>
                 </View>
             ))
         )

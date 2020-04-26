@@ -1,6 +1,5 @@
 import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, GET_CATEGORY, POST_CATEGORY, URL, EDIT_CATEGORY, DELETE_CATEGORY } from './types';
 import axios from 'axios';
-import RNFetchBlob from 'react-native-fetch-blob'
 
 export const getCategories = () => (dispatch) => {
     // fetch('http://192.168.0.101:80/2019%20Reproduction/fastshop/backend/laravel/public/api/categories')
@@ -61,49 +60,15 @@ export const addCategory = (data) => (dispatch) => {
 
 
 export const editCategory = (category, data) => (dispatch) => {
-    // console.log("SUBID: ", data );
-
-    // const NewArray = [{
-    //     id: 1,
-    //     name: 'Scott'
-    // },{
-    //     id: 3,
-    //     name: 'Benjamin'}];
-
-    // const sudurtas = Object.assign({}, NewArray, {
-    //     newArray: data
-    // });
-
-    // sudurtas.map(sudurtas)
-
-    // console.log("sudurtas",sudurtas);
-
-    // axios.post( URL + `/updateCategory/${category}`, data)
-    //     .then(category => {
-    //         dispatch({
-    //             action: EDIT_CATEGORY,
-    //             payload: category.data,
-    //             id: category.data.id
-    //         }) 
-    //     }).catch(err => 
-    //         console.log("EDIT PRODUCT ERROR: ", err.response))
-        //   fetch('POST', 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addCategory', {
-        // headers: {
-        //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        //    },  body: data})
-        // .then((response) => response.json())
-        // .then((RetrievedData) => {
-        //     console.log(RetrievedData);
-        // }).catch((err, resp) =>console.log("Error:", err , " and " , resp, "data: ", data))
-          RNFetchBlob.fetch('POST', 'http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addCategory', 
-        {
-            // Accept: 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-            body: data})
-        .then((response) => response.json())
-        .then((RetrievedData) => {
-            console.log(RetrievedData);
-        }).catch((err, resp) =>console.log("Error:", err , " and " , resp, "data: ", data))
+    axios.post( URL + `/updateCategory/${category}`, data)
+        .then(category => {
+            dispatch({
+                action: EDIT_CATEGORY,
+                payload: category.data,
+                id: category.data.id
+            }) 
+        }).catch(err => 
+            console.log("EDIT PRODUCT ERROR: ", err.response))
 }
 
 export const deleteCategory = (category) => (dispatch) => {

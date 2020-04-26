@@ -21,6 +21,7 @@ class Categories extends Component {
   
     componentDidMount() {
         this.props.getCategories();
+        console.log("category,", this.props.categories)
     }
 
     findFunction = searchName => {
@@ -67,7 +68,7 @@ class Categories extends Component {
                     <Error message={this.props.error} />
                 ) : (
                     <View style={stylesGuest().container} >
-                        <FlatList data={this.props.categories} renderItem={({item}) => (
+                        <FlatList contentContainerStyle={stylesGuest().flatList} data={this.props.categories} renderItem={({item}) => (
                             <CategoryList key={item} item={item} 
                                             goToSubcategories={(item) => this.goToSubcategories(item)} 
                             />

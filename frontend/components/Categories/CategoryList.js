@@ -34,13 +34,13 @@ class CategoryList extends Component {
             // <TouchableOpacity style={styles.itemWrap} onPress={this.goToSubcategories}>
             <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id.toString()} onPress={() => this.goToSubcategories()}>
                 {this.props.item.image ? (
-                  
-                        <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
-                   
+                    <View style={stylesGuest().imageWrap}>
+                        <Image style={stylesGuest().image} source={{uri: this.props.item.image}} />     
+                    </View>
                     ) : (
+                    <View style={stylesGuest().imageWrap}>
                         <IonIcon style={stylesGuest().imageIcon} name="md-images" />
-                        // <Image style={stylesGuest().image} source={require('../../components_additional/images/noimage.jpeg')}  />
-                
+                    </View>
                 )}
                 <Text style={stylesGuest().itemText} >{this.props.item.name}</Text>
                 {/* <Icon name="arrow-circle-right" size={20} /> */}

@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
-import { Directions } from 'react-native-gesture-handler';
 
 export const productWrap = () => StyleSheet.create({
     container: {

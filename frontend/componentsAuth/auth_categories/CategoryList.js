@@ -3,9 +3,11 @@ import { View, Text, TextInput, Button, ScrollView, StyleSheet, FlatList, Toucha
 import ImagePicker from 'react-native-image-picker';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { editCategory } from '../../src/actions/categoryActions';
-import {styles} from '../../components_additional/styles/CategoryStyles';
-
+import { authCategory } from '../../components_additional/styles/CategoryStyles';
+import StyledButton from '../../components_additional/AdminButton';
+import { colors } from '../../components_additional/styles/Colors';
 
 // const styles = {
 //     container: {
@@ -39,19 +41,22 @@ class CategoryList extends Component {
     state = {
         name: this.props.item.name,
         image: this.props.item.image,
-        nameInput: false
+        imageData: '',
+        background: this.props.background_color, 
+        changedImg: false,
+        triggerEdit: false
     }
 
     goToSubcategories = () => {
         this.props.goToSubcategories(this.props.item.id);
     }
 
-    nameInput = () => {
-        this.setState({nameInput: true})
+    triggerEdit = () => {
+        this.setState({triggerEdit: true})
     }
 
-    cancelNameEdit = () => {
-        this.setState({nameInput: false})
+    cancelEdit = () => {
+        this.setState({triggerEdit: false})
     }
 
     
@@ -61,9 +66,13 @@ class CategoryList extends Component {
         }
         ImagePicker.launchImageLibrary(options, response => {
             if (response.uri) {
-                this.setState({image: response});
-                this.editCategory();
-            }   
+                this.setState({ imageData: response, 
+                                image: "data:" + response.type + ";base64," + response.data, 
+                                changedImg: true
+                            });
+            }  else {
+                this.setState({changedImg: false});
+            }
         })
     }
 
@@ -71,11 +80,11 @@ class CategoryList extends Component {
 
         const data = {
             name: this.state.name,
-            image: "data:" + image.type + ";base64," + image.data,
+            image: "data:" + this.state.imageData.type + ";base64," + this.state.imageData.data,
             "_method": "put"
         }
         await this.props.editCategory(this.props.item.id, data);
-        this.cancelNameEdit();
+        this.cancelEdit();
     }
 
     deleteFunction = () => {
@@ -84,37 +93,76 @@ class CategoryList extends Component {
 
     render() {
         return (
-            <View  key={this.props.item.id.toString()} >
-            {(!this.state.nameInput) &&
-                <View style={styles(null, null).itemWrap} >
-                    <Text onPress={this.goToSubcategories} >{this.state.name}</Text>
-                    <Text style={this.props.item.background_color}>Background</Text>
-                    <Text style={this.props.item.border_color}>Border</Text>
-                    {this.props.item.image ? (
-                        <View>
-                            <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
+            !this.state.triggerEdit ? (
+                <View style={authCategory().itemContainer} key={this.props.item.id.toString()}  >
+                    <View style={authCategory().inactiveItemWrap}>
+                        {this.props.item.image ? (
+                            <View style={authCategory().imageWrap} >
+                                <Image style={authCategory().imageStyle} source={{ uri: this.state.image }} />
+                            </View>
+                            ) : (
+                            <View style={authCategory().imageWrap} >
+                                <IonIcon style={authCategory().imageIcon} name="md-images" />
+                            </View> 
+                        )}
+                        <View style={authCategory().nameTxtWrap}>
+                            <Text style={authCategory().nameTxt}>{this.props.item.name}</Text>
                         </View>
-                        ) : (
-                        <View>
-                            <Image style={{width: 50, height: 50}} source={require('../../components_additional/images/noimage.jpeg')}  />
-                        </View> 
-                    )}
-                     <Button title="Edit image" onPress={this.changeImage} />
-                    <View style={styles(null, null).itemWrap}>
-                        <Icon name="edit" size={35} color="firebrick" onPress={this.nameInput} />
-                        <Icon name="remove" size={35} color="firebrick"  onPress={this.deleteFunction}/>
+                        <View style={authCategory().goToSubBtn }>
+                            <StyledButton title="Subcategories" func={this.props.goToSubcategories} color={colors.orange} />
+                        </View>
+                    </View>
+                    <View style={authCategory().inactiveBtnsWrap} >
+                        <TouchableOpacity style={authCategory().editBtnWrap} onPress={this.triggerEdit}>
+                            <Icon style={authCategory().editBtn} name="edit"/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={authCategory().removeBtnWrap} onPress={this.deleteFunction}>
+                            <Icon style={authCategory().removeBtn} name="trash-o" />
+                        </TouchableOpacity>
                     </View>
                 </View>
-            }{(this.state.nameInput) &&
-                <View style={styles(null, null).itemWrap}>
-                    <TextInput style={styles(null, null).itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({name: value})}}  defaultValue={this.props.item.name} value={this.state.name}/>
-                    <View style={styles(null, null).itemWrap}>
-                        <Icon style={styles(null, null).iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editCategory} />
-                        <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelNameEdit} />
+            ) : (
+                <View style={authCategory().itemContainer} key={this.props.item.id.toString()}  >
+                    <View style={authCategory().inactiveItemWrap}>
+                        {this.state.image ? (
+                            this.state.changedImg ? (
+                                <TouchableOpacity style={authCategory().imageWrapActive} onPress={() => this.changeImage()} >
+                                    <Image style={authCategory().imageStyleActive} source={{ uri: "data:" + this.state.imageData.type + ";base64," + this.state.imageData.data }} />
+                                    <Icon style={authCategory().uploadIcon} name="upload"/>
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity style={authCategory().imageWrapActive} onPress={() => this.changeImage()} >
+                                    <Image style={authCategory().imageStyleActive} source={{ uri: this.props.item.image }} />
+                                    <Icon style={authCategory().uploadIcon} name="upload"/>
+                                </TouchableOpacity>
+                            )
+                            ) : (
+                            <View style={authCategory().imageWrapActive} onPress={() => this.changeImage} >
+                                <IonIcon style={authCategory().imageIcon} name="md-images" />
+                                <TouchableOpacity style={authCategory().imageStyle} onPress={() => this.changeImage}>
+                                    <Icon style={authCategory().uploadIcon} name="upload"/>
+                                </TouchableOpacity>
+                            </View> 
+                        )}
+                        <View style={authCategory().nameTxtWrap}>
+                            <TextInput style={authCategory().nameEdit} type="text" autoCorrect={false} onChangeText={value => { this.setState({name: value})}}  defaultValue={this.props.item.name} value={this.state.name}/>
+                        </View>
+                        <Text>Background color:</Text>
+                        <View style={authCategory().backgrounEditWrap}>
+                            <Text style={authCategory(this.props.item.background_color, null).backgroundColor} ></Text>
+                            <TextInput style={authCategory().backgroundEdit} type="text" autoCorrect={false} onChangeText={value => { this.setState({background: value})}}  defaultValue={this.props.item.background} value={this.state.background}/>
+                        </View>
+                    </View>
+                    <View style={authCategory().inactiveBtnsWrap} >
+                        <TouchableOpacity style={authCategory().editBtnWrap} onPress={() => this.editCategory()} >
+                            <Icon style={authCategory().editBtn} name="check-circle" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={authCategory().editBtnWrap} onPress={() =>  this.cancelEdit()} >
+                            <Icon style={authCategory().removeBtn} name="times-circle"/>
+                        </TouchableOpacity>
                     </View>
                  </View>
-            }
-             </View>
+            )
         )
     }
 }

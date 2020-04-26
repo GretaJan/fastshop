@@ -31,17 +31,18 @@ export const searchBar = () =>  StyleSheet.create({
 });
 
 export const buttonStyle = (color) =>  StyleSheet.create({
-    buttonSave: {
+    buttonWrap: {
         marginBottom: 20,
-        borderColor: "#000",
+        borderColor: colors.transparentLight,
         borderWidth: 1,
+        borderRadius: 5,
         width: Dimensions.get('window').width /2,
-        height: 70,
+        height: 60,
         alignItems: 'center',
         justifyContent: 'center',   
         backgroundColor: color, 
           // Shadow
-          elevation   : 5,
+          elevation   : 3,
           overflow: 'hidden',
           //iOS:
           shadowColor: 'red',
@@ -50,9 +51,29 @@ export const buttonStyle = (color) =>  StyleSheet.create({
           shadowRadius: 2, 
     },
     buttonTxt: {
-        fontSize: 25,
+        fontSize: 22,
     },
 });
+
+export const adminButtonStyle = (color) => StyleSheet.create({
+    buttonWrap: {
+        backgroundColor: color,
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        borderRadius: 3,
+         // Shadow
+         elevation: 3,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
+    },
+    buttonTxt: {
+        fontSize: 15,
+    }
+}) 
 
 export const modalStyle = () => StyleSheet.create({
     container: {
