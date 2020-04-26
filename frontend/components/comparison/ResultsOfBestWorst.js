@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { diagram } from '../../components_additional/styles/CompareStyles';
@@ -8,9 +8,10 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
 
-const ResultsOfBestWorst = ({ result }, props) => {
+const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
     const [showDropDown, setShowDropDown] = useState(false);
     const [scroll, setScroll] = useState(false);
+
 
     const { healthy, unhealthy } = result;
     const oneSaturated = healthy.saturated == null ? parseInt(0) : parseFloat(healthy.saturated);
@@ -34,20 +35,30 @@ const ResultsOfBestWorst = ({ result }, props) => {
     const badQualitiesHealthy = oneCarbs + oneSugar + oneSalt;
     const badQualitiesUnhealthy = twoCarbs + twoSugar + twoSalt;
 
-    const handleOnScroll = event => {
-        const offset = event.nativeEvent.contentOffset.y;
-        if(offset >= 95) {
-            setScroll(true);
-        } else if (offset < 95) {
-            setScroll(false);
-        }
+    // const handleOnScroll = event => {
+    //     const offset = event.nativeEvent.contentOffset.y;
+    //     if(offset >= 95) {
+    //         setScroll(true);
+    //     } else if (offset < 95) {
+    //         setScroll(false);
+    //     }
+    // }
+
+    const scrollUp = () => {
+        // React.useEffect(() => { window.scrollTo(0, 0); }, []);
+        console.log("clicked")
+        // InteractionManager.runAfterInteractions(() => this.scroll.current.scrollTo({ x }));
+        // console.log("event", event.nativeEvent.contentOffset.y)
+        // let offset = event.nativeEvent.contentOffset.y;
+        // offset = 0;
+
     }
 
         return (
-                <ScrollView style={diagram().container} onScroll={handleOnScroll} >
+                <ScrollView style={diagram().container} >
                     <View style={diagram().mainContentContainer}>
                         <View style={diagram().productsContainer} >
-                            <TouchableOpacity style={diagram().itemGoodWrap} onPress={() => props.navigation.push("Product", {subcategoryId: healthy.subcategory_id, productId: healthy.id})} >
+                            <TouchableOpacity style={diagram().itemGoodWrap} onPress={() => navigate("Product", {subcategoryId: healthy.subcategory_id, productId: healthy.id})} >
                                 { healthy.image ? (
                                     <View style={diagram().imageContainerGood} >
                                         <Image style={diagram().image} source={{ uri: healthy.image }} />
@@ -61,7 +72,7 @@ const ResultsOfBestWorst = ({ result }, props) => {
                                     <Text style={diagram().text}>{healthy.name}</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity style={diagram().itemBadWrap} onPress={() => props.navigation.push("Product", {subcategoryId: unhealthy.subcategory_id, productId: unhealthy.id})}>
+                            <TouchableOpacity style={diagram().itemBadWrap} onPress={() => navigate("Product", {subcategoryId: unhealthy.subcategory_id, productId: unhealthy.id})}>
                                 {unhealthy.image ? (
                                     <View style={diagram().imageContainerBad} >
                                         <Image style={diagram().image} source={{ uri: unhealthy.image }} />
@@ -358,8 +369,8 @@ const ResultsOfBestWorst = ({ result }, props) => {
                                 </View>
                             </View>
                         </View>
-                        <TouchableOpacity style={(diagram().dropDownIconWrapScroll)} onPress={() => setShowDropDown(!showDropDown)}>
-                            <IonIcon style={diagram().ViewMoreIcon} name={showDropDown ? ("ios-arrow-up") : ("ios-arrow-down")} />
+                        <TouchableOpacity style={(diagram().scrollUp)} onPress={() => scrollUp()}>
+                            <IonIcon style={diagram().scrollUpIcon} name="ios-arrow-up" />
                         </TouchableOpacity>
                     </View>
                     )}  

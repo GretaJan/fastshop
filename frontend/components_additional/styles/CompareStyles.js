@@ -350,24 +350,28 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     dropDownIconWrapNoScroll: {
         backgroundColor: colors.transparentLight,
-        height: Dimensions.get('window').height /9.5,
+        height: Dimensions.get('window').height /12.5,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 25,
         width: Dimensions.get('window').width /1.05,
         alignSelf: 'center',
     },
-    dropDownIconWrapScroll: {
+   scrollUp: {
         backgroundColor: colors.transparentLight,
-        height: Dimensions.get('window').height /9.5,
-        width: Dimensions.get('window').width /1.05,
+        height: Dimensions.get('window').height /12.5,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
+        position: 'absolute',
         bottom: 0,
-        marginTop: 25,
+        paddingHorizontal: 10,
+        right: '1%',
     },
     ViewMoreIcon: {
-        fontSize: 50
+        fontSize: 35
+    },
+    scrollUpIcon: {
+        fontSize: 25
     }
 })
