@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { getProduct } from '../../src/actions/productActions';
+import { productSelected } from '../../src/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-
+import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 // const styles = StyleSheet.create({
 //     container: {
 //         flex: 1
@@ -26,11 +27,8 @@ class Product extends Component {
         subcategoryId: this.props.route.params.subcategoryId
     }
 
-    // static getDerivedStateFromProps(props) {
-    //     console.log("Product is: ", props.product.name)
-    // }
     selectProduct = () => {
-        this.props.productSelected(this.props.subcategory_id, this.props.id);
+        this.props.productSelected(this.props.product.subcategory_id, this.props.product.id);
     }
 
 
@@ -44,7 +42,7 @@ class Product extends Component {
             <View style={stylesGuestSingle().container} >
                 <Text>{this.props.product.name}</Text>
                 {/* <TouchableOpacity style={stylesGuestSingle().iconSelectWrap}>
-                    <Icon style={stylesGuestSingle().selectItemIcon} name="plus-circle" onPress={() => this.selectProduct} />
+                    <Icon style={stylesGuestSingle().selectItemIcon} name="ios-checkmark-circle-outline" onPress={() => this.selectProduct} />
                 </TouchableOpacity> */}
                 {this.props.product.image ? (
                         <View style={stylesGuestSingle().imageContainer} >
@@ -55,9 +53,9 @@ class Product extends Component {
                             <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                         </View> 
                 )}
-                    <View style={stylesGuestSingle().emptyItem}>
-                        <Icon style={stylesGuestSingle().emptyIcon} name="plus-circle" />
-                    </View>
+                    <TouchableOpacity style={stylesGuestSingle().emptyItem} onPress={() => this.selectProduct()}>
+                        <IonIcon style={stylesGuestSingle().emptyIcon} name="ios-checkmark-circle-outline" />
+                    </TouchableOpacity>
                     <View style={stylesGuestSingle().triangle} ></View>
                     <ScrollView style={stylesGuestSingle().listContainer} >
                         <View style={stylesGuestSingle().listItemWrap}>
@@ -133,4 +131,4 @@ const mapStateToProps = (state) => ({
     product: state.products.product
 })
 
-export default withNavigation(connect(mapStateToProps, {getProduct})(Product))
+export default withNavigation(connect(mapStateToProps, {getProduct, productSelected})(Product))

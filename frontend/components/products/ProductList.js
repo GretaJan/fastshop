@@ -30,8 +30,8 @@ class ProductList extends Component {
                     )}
                     <Text style={stylesGuest().itemText} key={this.props.item.id.toString()}>{this.props.item.name}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={stylesGuest().iconWrap}>
-                    <Icon style={stylesGuest().iconItem} name="plus-circle" onPress={this.selectProduct} />
+                <TouchableOpacity style={stylesGuest().iconWrap} onPress={this.selectProduct} >
+                    <Icon style={stylesGuest().iconItem} name="check-circle-o" />
                 </TouchableOpacity>
             </View>
         )
