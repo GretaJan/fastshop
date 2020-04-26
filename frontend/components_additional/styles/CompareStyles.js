@@ -209,7 +209,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     // Diagram
     diagramContainer: {
         flex: 1,
-        marginBottom: 40,
+        marginBottom: 20,
         marginTop: 10
     },
     diagramWrap: {
@@ -361,14 +361,11 @@ export const diagram = (diagramLength) => StyleSheet.create({
         backgroundColor: colors.transparentLight,
         height: Dimensions.get('window').height /9.5,
         width: Dimensions.get('window').width /1.05,
-        position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        top: diagramLength,
-
-
-        zIndex: 2,
+        bottom: 0,
+        marginTop: 25,
     },
     ViewMoreIcon: {
         fontSize: 50

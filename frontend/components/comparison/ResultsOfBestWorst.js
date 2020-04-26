@@ -5,12 +5,12 @@ import { diagram } from '../../components_additional/styles/CompareStyles';
 import ButtonStyled from '../../components_additional/Button';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 
 
-const ResultsOfBestWorst = ({ result }) => {
+const ResultsOfBestWorst = ({ result }, props) => {
     const [showDropDown, setShowDropDown] = useState(false);
     const [scroll, setScroll] = useState(false);
-    const [scrollTrigger, setScrollTrigger] = useState(0);
 
     const { healthy, unhealthy } = result;
     const oneSaturated = healthy.saturated == null ? parseInt(0) : parseFloat(healthy.saturated);
@@ -35,21 +35,19 @@ const ResultsOfBestWorst = ({ result }) => {
     const badQualitiesUnhealthy = twoCarbs + twoSugar + twoSalt;
 
     const handleOnScroll = event => {
-        console.log("scroll: ", event.nativeEvent.contentOffset.y);
-
-        if(event.nativeEvent.contentOffset.y >= 95) {
+        const offset = event.nativeEvent.contentOffset.y;
+        if(offset >= 95) {
             setScroll(true);
-            setScrollTrigger(event.nativeEvent.contentOffset.y);
-        } else if (event.nativeEvent.contentOffset.y < 95) {
+        } else if (offset < 95) {
             setScroll(false);
-            setScrollTrigger(0);
         }
     }
+
         return (
                 <ScrollView style={diagram().container} onScroll={handleOnScroll} >
                     <View style={diagram().mainContentContainer}>
                         <View style={diagram().productsContainer} >
-                            <View style={diagram().itemGoodWrap}>
+                            <TouchableOpacity style={diagram().itemGoodWrap} onPress={() => props.navigation.push("Product", {subcategoryId: healthy.subcategory_id, productId: healthy.id})} >
                                 { healthy.image ? (
                                     <View style={diagram().imageContainerGood} >
                                         <Image style={diagram().image} source={{ uri: healthy.image }} />
@@ -62,8 +60,8 @@ const ResultsOfBestWorst = ({ result }) => {
                                 <View style={diagram().title} >
                                     <Text style={diagram().text}>{healthy.name}</Text>
                                 </View>
-                            </View>
-                            <View style={diagram().itemBadWrap}>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={diagram().itemBadWrap} onPress={() => props.navigation.push("Product", {subcategoryId: unhealthy.subcategory_id, productId: unhealthy.id})}>
                                 {unhealthy.image ? (
                                     <View style={diagram().imageContainerBad} >
                                         <Image style={diagram().image} source={{ uri: unhealthy.image }} />
@@ -76,7 +74,7 @@ const ResultsOfBestWorst = ({ result }) => {
                                 <View style={diagram().title} >
                                     <Text style={diagram().text}>{unhealthy.name}</Text>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         </View> 
                         {/* Diagram */}
                         <View style={diagram().mainDiagramWrap}>
@@ -129,7 +127,7 @@ const ResultsOfBestWorst = ({ result }) => {
                                 </View>
                             </View>
                         </View>
-                        <TouchableOpacity style={(scroll) ? (diagram(scrollTrigger).dropDownIconWrapScroll) : (diagram().dropDownIconWrapNoScroll)} onPress={() => setShowDropDown(!showDropDown)}>
+                        <TouchableOpacity style={(diagram().dropDownIconWrapNoScroll)} onPress={() => setShowDropDown(!showDropDown)}>
                             <IonIcon style={diagram().ViewMoreIcon} name={showDropDown ? ("ios-arrow-up") : ("ios-arrow-down")} />
                         </TouchableOpacity>
                     </View>
@@ -360,6 +358,9 @@ const ResultsOfBestWorst = ({ result }) => {
                                 </View>
                             </View>
                         </View>
+                        <TouchableOpacity style={(diagram().dropDownIconWrapScroll)} onPress={() => setShowDropDown(!showDropDown)}>
+                            <IonIcon style={diagram().ViewMoreIcon} name={showDropDown ? ("ios-arrow-up") : ("ios-arrow-down")} />
+                        </TouchableOpacity>
                     </View>
                     )}  
             </ScrollView>
@@ -370,4 +371,4 @@ const mapStateToProps = state => (console.log("rsultssss", state.selectedProduct
     result: state.selectedProducts.result,
 })
 
-export default connect(mapStateToProps)(ResultsOfBestWorst)
+export default withNavigation(connect(mapStateToProps)(ResultsOfBestWorst))
