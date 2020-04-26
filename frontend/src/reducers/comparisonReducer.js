@@ -3,7 +3,6 @@ import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, clear_result
 const initialState = {
     comparisonArray: [],
     result: {},
-    diagram: {},
     calculated: false,
     sorted: null,
     activeEnergyDesc: false,
@@ -51,14 +50,8 @@ export default function(state = initialState, action) {
         case COMPARE_RESULT:
             return {
                 ...state,
-                comparisonArray: action.array,
                 result: action.payload,
                 calculated: action.calculated,
-            }
-        case DIAGRAM_RESULTS: 
-            return {
-                ...state,
-                diagram: action.diagram
             }
         case SORT_ARRAY: 
         return {

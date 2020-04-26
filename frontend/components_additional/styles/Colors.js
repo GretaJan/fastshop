@@ -20,4 +20,5 @@ export const colors = {
     mediumGreen2: '#32bd81',
     transparentLight: 'rgba(255,255,255,0.3)',
     transparentMedium: 'rgba(255,255,255,0.6)',
+    lighterBlack: '#303030',
 }

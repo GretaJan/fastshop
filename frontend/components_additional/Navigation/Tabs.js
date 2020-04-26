@@ -32,7 +32,7 @@ import AddSubcategory from '../../componentsAuth/auth_subcategories/AddSubcatego
 import AddProduct from '../../componentsAuth/auth_products/AddProduct';
 // COMPARISON
 import SelectedProducts from '../../components/comparison/selectedProducts';
-import { StackActions } from 'react-navigation';
+import SelectedProductsResults from '../../components/comparison/ResultsOfBestWorst';
 
 
 
@@ -125,7 +125,7 @@ render() {
         <SelectedProductsNav.Navigator>
             <SelectedProductsNav.Screen name="SelectedProducts" component={SelectedProducts} 
                                     options={{
-                                        title: (!this.props.calculated) ? "Calculate" : "Results",
+                                        title: (!this.props.calculated) ? "Calculate" : "Sorting Options",
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
                                             color: '#394032',
@@ -134,7 +134,19 @@ render() {
                                             backgroundColor: colors.mainYellow,
                                         },
                                         headerTitleAlign: 'center',
-                                    }} />
+            }} />
+            <SelectedProductsNav.Screen name="Results" component={SelectedProductsResults} 
+                                    options={{
+                                        title: "Results",
+                                        headerTitleStyle: {
+                                            fontWeight: 'bold',
+                                            color: '#394032',
+                                        },
+                                        headerStyle: {
+                                            backgroundColor: colors.mainYellow,
+                                        },
+                                        headerTitleAlign: 'center',
+            }} />
         </SelectedProductsNav.Navigator>
     )
     const LoginScreen = () => (

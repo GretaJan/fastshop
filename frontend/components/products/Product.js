@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, FlatList, StyleSheet, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { getProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
@@ -29,15 +29,23 @@ class Product extends Component {
     // static getDerivedStateFromProps(props) {
     //     console.log("Product is: ", props.product.name)
     // }
+    selectProduct = () => {
+        this.props.productSelected(this.props.subcategory_id, this.props.id);
+    }
+
 
     async componentDidMount() {
         await this.props.getProduct( this.state.subcategoryId, this.state.productId);
+        console.log('image: ', this.props.product.image)
     }
 
     render() {
         return (
             <View style={stylesGuestSingle().container} >
                 <Text>{this.props.product.name}</Text>
+                {/* <TouchableOpacity style={stylesGuestSingle().iconSelectWrap}>
+                    <Icon style={stylesGuestSingle().selectItemIcon} name="plus-circle" onPress={() => this.selectProduct} />
+                </TouchableOpacity> */}
                 {this.props.product.image ? (
                         <View style={stylesGuestSingle().imageContainer} >
                             <Image style={stylesGuestSingle().image} source={{ uri: this.props.product.image }} />
@@ -48,7 +56,7 @@ class Product extends Component {
                         </View> 
                 )}
                     <View style={stylesGuestSingle().emptyItem}>
-                        <Icon style={stylesGuestSingle().emptyIcon} name="info" />
+                        <Icon style={stylesGuestSingle().emptyIcon} name="plus-circle" />
                     </View>
                     <View style={stylesGuestSingle().triangle} ></View>
                     <ScrollView style={stylesGuestSingle().listContainer} >

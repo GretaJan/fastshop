@@ -6,7 +6,6 @@ import { productSelected, deleteProductFromList, compare, clearResults, goToList
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { productWrap } from '../../components_additional/styles/CompareStyles';
 import ButtonStyled from '../../components_additional/Button';
-import { colors } from '../../components_additional/styles/Colors';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 
 
@@ -67,14 +66,15 @@ class Products extends Component {
         //         mostVitamins: this.state.mostVitamins,
         //         nameVitamins: this.state.nameVitamins, 
         //     }
-        this.props.compare(result);
+        
+        this.props.navigation.push('Results');
     }
 
     // componentDidMount() => {
     //     this.props.productSelected
     // }
 
-    findBestWorst = () => {
+    findBestWorst = async () => {
         var array = this.props.selectedProducts;
         var goodComponents = [];
         var badComponents = [];
@@ -120,7 +120,6 @@ class Products extends Component {
                     const oneSalt = productOne.salt == null ? parseInt(0) : parseFloat(productOne.salt);
                     const twoSalt = productTwo.salt == null ? parseInt(0) : parseFloat(productTwo.salt);
 
-
                     const goodQualitiesOne = oneSaturated + oneFiber + oneProtein + oneVitamins;
                     const goodQualitiesTwo = twoSaturated + twoFiber + twoProtein + twoVitamins;
                     const badQualitiesOne = oneCarbs + oneSugar + oneSalt;
@@ -147,25 +146,31 @@ class Products extends Component {
                
                 }
             }
-
             this.setState({modalMessageEqual: false});
-                const result = {
-                    healthier: {
-                        id: goodComponent.id,
-                        subId: goodComponent.subcategory_id,
-                        goodComponents: percentHealthyFoodOne,
-                        badComponents: percentUnhealthyFoodOne 
-                    },
-                    unhealthier: {
-                        id: badComponent.id,
-                        subId: badComponent.subcategory_id,
-                        goodComponents: percentHealthyFoodTwo,
-                        badComponents: percentUnhealthyFoodTwo
-                    } 
-                }
-                this.comparisonResults(result);
-                this.props.diagramResults(result);
+            const result = {
+                healthier: {
+                    id: goodComponent.id,
+                    subId: goodComponent.subcategory_id,
+                },
+                unhealthier: {
+                    id: badComponent.id,
+                    subId: badComponent.subcategory_id,
+                } 
+            }
 
+            const resultTwo = {
+                healthier: {
+                    goodComponents: percentHealthyFoodOne,
+                    badComponents: percentUnhealthyFoodOne 
+                },
+                unhealthier: {
+                    goodComponents: percentHealthyFoodTwo,
+                    badComponents: percentUnhealthyFoodTwo
+                }
+                
+            }
+            await this.props.compare(result);            
+            this.comparisonResults();
         }
     }
 
@@ -180,98 +185,66 @@ class Products extends Component {
 
     render() {
         return (
-            (this.props.calculated == null) ? (
+            (this.props.selectedProducts.length == 0) ? (
                 <View>
                   <Error message="No products have been selected yet. Please go back or select you products here:" />
                   {/* <Button title="Products" onPress={() => this.compareProducts()} /> */}
                 </View>
             ) : (
-                (this.props.calculated == false) ? (
-                        <View style={stylesGuest().container} >
-                            {(this.state.modalMessageEqual || this.state.modalMessageNumber) && (
-                            <Modal message={(!this.state.modalMessageEqual) ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} 
-                            close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})}/>
-                            )}
-                            <View style={(this.state.optionsDisplay) ? (productWrap().flatListScrollSmall) : (productWrap().flatListScrollFull)}>
-                                <FlatList nestedScrollEnabled={true} contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
-                                    <Product key={item} item={item} 
-                                            removeProduct={() => this.props.deleteProductFromList(item)}
-                                            goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
-                                    />
-                                )} />
-                            </View>
-                        { (this.state.optionsDisplay) && (
-                        <View style={productWrap().btnsContainer} >
-                            <View style={productWrap().btnOne}>
-                                <TouchableOpacity style={productWrap().iconWrapOne} onPress={() => this.props.goToList(this.state.hide)} >
-                                    <IonIcon name="md-list" style={productWrap().iconItem}  />
-                                </TouchableOpacity>
-                                <View style={productWrap().textWrap} >
-                                    <Text style={productWrap().infoTxt} >Compare each component</Text>
-                                    <Text>Click Me!</Text>
-                                </View>
-                            </View>
-                            <View style={productWrap().btnTwo}>
-                                <View style={productWrap().iconWrapTwo} >
-                                    <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.findBestWorst()} />
-                                </View>
-                                <View style={productWrap().textWrap} >
-                                    <Text style={productWrap().infoTxt}>Find best and worst products</Text>
-                                    <Text>Click Me!</Text>
-                                </View>
-                                {/* <ButtonStyled color={colors.orange} title="CALCULATE" func={() => this.findBestWorst()} /> */}
-                            </View> 
-                        </View> 
-                        )}
-                        <TouchableOpacity style={productWrap().optionsBtnWrap} onPress={() => this.setState({optionsDisplay: !this.state.optionsDisplay})}>
-                        <Text style={productWrap().optionsBtnText}>
-                            {this.state.optionsDisplay ? ("Hide Options") : ("Show Options")}
-                        </Text>
-                    </TouchableOpacity>
-                    {(this.props.sorted == false) && (
-                        <DescAscend goBack={() => {this.props.goToList(this.state.show), console.log("Go back", this.props.sorted)}} />
+                <View style={stylesGuest().container} >
+                    {(this.state.modalMessageEqual || this.state.modalMessageNumber) && (
+                    <Modal message={(!this.state.modalMessageEqual) ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} 
+                    close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})}/>
                     )}
-                </View>
-                ) : (         
-                    <ResultsOfBestWorst bestQualityName={this.props.result.healty.name} 
-                            energyGood={this.props.result.healty.energy}
-                            fatGood={this.props.result.healty.fat}
-                            saturatedGood={this.props.result.healty.saturated}
-                            carbsGood={this.props.result.healty.carbs}
-                            sugarGood={this.props.result.healty.sugar}
-                            fiberGood={this.props.result.healty.fiber}
-                            proteinGood={this.props.result.healty.protein}
-                            saltGood={this.props.result.healty.salt}
-                            vitaminsGood={this.props.result.healty.vitamins}
-                            lowestQualityName={this.props.result.unhealty.name}
-                            energyBad={this.props.result.unhealty.energy}
-                            fatBad={this.props.result.unhealty.fat}
-                            saturatedBad={this.props.result.unhealty.saturated}
-                            carbsBad={this.props.result.unhealty.carbs}
-                            sugarBad={this.props.result.unhealty.sugar}
-                            fiberBad={this.props.result.unhealty.fiber}
-                            proteinBad={this.props.result.unhealty.protein}
-                            saltBad={this.props.result.unhealty.salt}
-                            vitaminsBad={this.props.result.unhealty.vitamins}
-                            healthyDiagramGood={this.props.diagram.goodInHealthy}
-                            healthyDiagramBad={this.props.diagram.badInHealthy}
-                            unhealthyDiagramGood={this.props.diagram.goodInUnhealthy}
-                            unhealthyDiagramBad={this.props.diagram.badInUnhealthy}
-                            clearResults={() => this.clearResults()}
-                    />
-                )    
+                    <View style={(this.state.optionsDisplay) ? (productWrap().flatListScrollSmall) : (productWrap().flatListScrollFull)}>
+                        <FlatList nestedScrollEnabled={true} contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
+                            <Product key={item} item={item} 
+                                    removeProduct={() => this.props.deleteProductFromList(item)}
+                                    goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
+                            />
+                        )} />
+                    </View>
+                { (this.state.optionsDisplay) && (
+                <View style={productWrap().btnsContainer} >
+                    <View style={productWrap().btnOne}>
+                        <TouchableOpacity style={productWrap().iconWrapOne} onPress={() => this.props.goToList(this.state.hide)} >
+                            <IonIcon name="md-list" style={productWrap().iconItem}  />
+                        </TouchableOpacity>
+                        <View style={productWrap().textWrap} >
+                            <Text style={productWrap().infoTxt} >Compare each component</Text>
+                            <Text>Click Me!</Text>
+                        </View>
+                    </View>
+                    <View style={productWrap().btnTwo}>
+                        <View style={productWrap().iconWrapTwo} >
+                            <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.findBestWorst()} />
+                        </View>
+                        <View style={productWrap().textWrap} >
+                            <Text style={productWrap().infoTxt}>Find best and worst products</Text>
+                            <Text>Click Me!</Text>
+                        </View>
+                        {/* <ButtonStyled color={colors.orange} title="CALCULATE" func={() => this.findBestWorst()} /> */}
+                    </View> 
+                </View> 
+                )}
+                <TouchableOpacity style={productWrap().optionsBtnWrap} onPress={() => this.setState({optionsDisplay: !this.state.optionsDisplay})}>
+                    <Text style={productWrap().optionsBtnText}>
+                        {this.state.optionsDisplay ? ("Hide Options") : ("Show Options")}
+                    </Text>
+                </TouchableOpacity>
+                {(this.props.sorted == false) && (
+                    <DescAscend goBack={() => {this.props.goToList(this.state.show), console.log("Go back", this.props.sorted)}} />
+                )}
+            </View>
             )
         )
     }
 
 }
 
-const mapStateToProps = state => (console.log("results map state to props: ", state.selectedProducts.comparisonArray),{ 
+const mapStateToProps = state => ({ 
     selectedProducts: state.selectedProducts.comparisonArray,
-    result: state.selectedProducts.result,
-    diagram: state.selectedProducts.diagram,
     calculated: state.selectedProducts.calculated,
-    calculatedAll: state.selectedProducts.calculatedAll,
     sorted: state.selectedProducts.sorted,
 })
 

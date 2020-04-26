@@ -25,6 +25,7 @@ class Products extends Component {
 
     async componentDidMount() {
         await this.props.getProducts(this.state.id);
+        console.log('products: ', this.props.products)
     }
 
     
@@ -62,7 +63,6 @@ class Products extends Component {
 
      selectProduct = (item1, item2) => {
         this.props.productSelected(item1, item2);
-        console.log("pressed: ",item1 );
     }
 
     goToProduct = (subcategoryId, productId) => {

@@ -1,5 +1,5 @@
 import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, clear_results, 
-            SORT_ARRAY, GO_TO_LIST, DIAGRAM_RESULTS, URL } from './types';
+            SORT_ARRAY, GO_TO_LIST, URL } from './types';
 import axios from 'axios';
 
 // export const allSelectedProducts = () => dispatch => {
@@ -40,13 +40,12 @@ export const compare = (result) => dispatch => {
             const responseOne = responses[0];
             const responseTwo = responses[1];
             const result = {
-                healty: responseOne.data.product,
-                unhealty: responseTwo.data.product,
+                healthy: responseOne.data.product,
+                unhealthy: responseTwo.data.product,
             }
             dispatch({
                 type: COMPARE_RESULT,
                 payload: result,
-                array: [],
                 calculated: true
             })
         })).catch(err => {console.log("Error", err.response)})
@@ -59,21 +58,6 @@ export const compare = (result) => dispatch => {
     // .then(result => {
     //     const worstProduct = result.data.product;
     // }).catch(err => console.log("error: ", err.result));
-
-}
-
-export const diagramResults = (result) => dispatch => {
-    const diagram = {
-        goodInHealthy: result.healthier.goodComponents,
-        badInHealthy: result.healthier.badComponents,
-        goodInUnhealthy: result.unhealthier.goodComponents,
-        badInUnhealthy: result.unhealthier.badComponents,
-    }
-    console.log('diagram', diagram);
-    dispatch({
-        type: DIAGRAM_RESULTS,
-        diagram: diagram,
-    })
 
 }
 

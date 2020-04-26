@@ -142,11 +142,10 @@ export const stylesGuestSingle = () => StyleSheet.create( {
         flex: 1,
         textAlign: 'center',
         alignItems:'center',
-        backgroundColor: '#FFFFE0',
+        backgroundColor: colors.mainWhiteYellow,
     },
     imageContainer: {
-        width: 100,
-        backgroundColor: 'red',
+        height: Dimensions.get('window').width /2.3,
         height: 180,
         textAlign: 'center',
         alignItems:'center',
@@ -155,23 +154,26 @@ export const stylesGuestSingle = () => StyleSheet.create( {
     },
     image: {
         height: '100%',
-        resizeMode: 'contain',
+        resizeMode: 'cover',
         // borderRadius: 10,
     },
     emptyItem: {
         position: 'absolute',
         // backgroundColor: '#f8f8f8',
-        backgroundColor: '#FFFFE0',
+        backgroundColor: colors.mainWhiteYellow,
         width: 45,
         height: 45,
         borderRadius: 45/2,
         marginTop: 180,
         zIndex: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     emptyIcon: {
-        fontSize: 20,
-        top: 12,
-        left: 18, 
+        fontSize: 45,
+        color: colors.mainYellow
+        // top: 12,
+        // left: 18, 
     },
     listContainer: {
         backgroundColor: 'lightblue',
@@ -185,7 +187,7 @@ export const stylesGuestSingle = () => StyleSheet.create( {
     listItemWrap: {
         flex: 1,
         flexDirection: 'row',
-        height: 80,
+        height: 65,
         alignItems: 'center',
         borderBottomColor: '#F7F7F7',
         borderBottomWidth: 1,
@@ -193,19 +195,25 @@ export const stylesGuestSingle = () => StyleSheet.create( {
     },
     listItemInfoWrap: {
         flex: 1,
+        flexDirection: 'row',
+        // alignContent: 'center',
+        // justifyContent: 'center'
+        alignItems: 'flex-start',
     },
     componentTitle: {
-       width: '79%',
+       width: '65%',
        fontSize: 20,
        textTransform: 'uppercase',
        paddingLeft: 20,
     },
     componentAmount: {
-        fontSize: 26,
+        fontSize: 24,
+        flex: 0.5,
     },
     componentMeasure: {
         fontSize: 20,
-        color: '#615E49'
+        color: colors.mainBlack,
+        flex: 0.5,
     },
     triangle: {
         width: 0,

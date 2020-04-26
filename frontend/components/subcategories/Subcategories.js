@@ -39,6 +39,7 @@ class Subcategories extends Component {
 
     goToProducts = (id) => {
         this.props.navigation.push("Products", {subcategoryId: id});
+  
     }
 
     searchFunction = searchName => {
@@ -84,7 +85,7 @@ class Subcategories extends Component {
                     <Error message={this.props.error} />
                 ) : (
                     <View style={stylesGuest().container}>
-                    {/* {this.getInput()}
+                    {this.getInput()}
                         {!this.state.inputTriggered ? (
                             <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.props.subcategories} renderItem={({item}) => (
                                 <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
@@ -94,8 +95,7 @@ class Subcategories extends Component {
                                 <Subcategory key={item} item={item} goToProducts={(items) => this.goToProducts(item)} />
                             )} />
                             
-                        )}   */}
-                        <Text>one</Text>
+                        )}  
                     </View>
                 )
             )

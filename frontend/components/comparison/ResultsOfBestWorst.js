@@ -1,216 +1,373 @@
 import React, {useState} from 'react';
 import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
+import { diagram } from '../../components_additional/styles/CompareStyles';
 import ButtonStyled from '../../components_additional/Button';
+import IonIcon from 'react-native-vector-icons/dist/Ionicons';
+import { connect } from 'react-redux';
 
-const styles = {
-    container: {
-        marginTop: 8,
-    },
-    itemWrap: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor:'lightgrey',
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 5,
-    },
-    itemText: {
-        width: 'auto',
-        fontSize: 20
-    },
-    itemButton: {
-        flexBasis: '40'
-    },
-    iconItem: {
-        paddingRight: 10
+
+const ResultsOfBestWorst = ({ result }) => {
+    const [showDropDown, setShowDropDown] = useState(false);
+    const [scroll, setScroll] = useState(false);
+    const [scrollTrigger, setScrollTrigger] = useState(0);
+
+    const { healthy, unhealthy } = result;
+    const oneSaturated = healthy.saturated == null ? parseInt(0) : parseFloat(healthy.saturated);
+    const twoSaturated = unhealthy.saturated == null ? parseInt(0) : parseFloat(unhealthy.saturated);
+    const oneFiber = healthy.fiber == null ? parseInt(0) : parseFloat(healthy.fiber);
+    const twoFiber = unhealthy.fiber == null ? parseInt(0) : parseFloat(unhealthy.fiber);
+    const oneProtein = healthy.protein == null ? parseInt(0) : parseFloat(healthy.protein);
+    const twoProtein = unhealthy.protein == null ? parseInt(0) : parseFloat(unhealthy.protein);
+    const oneVitamins = healthy.vitamins == null ? parseInt(0) : parseFloat(healthy.vitamins);
+    const twoVitamins = unhealthy.vitamins == null ? parseInt(0) : parseFloat(unhealthy.vitamins);
+
+    const oneSugar = healthy.sugar == null ? parseInt(0) : parseFloat(healthy.sugar);
+    const twoSugar = unhealthy.sugar == null ? parseInt(0) : parseFloat(unhealthy.sugar);
+    const oneCarbs = healthy.carbs == null ? parseInt(0) : (parseFloat(healthy.carbs) - oneSugar);
+    const twoCarbs = unhealthy.carbs == null ? parseInt(0) : (parseFloat(unhealthy.carbs) - twoSugar);
+    const oneSalt = healthy.salt == null ? parseInt(0) : parseFloat(healthy.salt);
+    const twoSalt = unhealthy.salt == null ? parseInt(0) : parseFloat(unhealthy.salt);
+
+    const goodQualitiesHealthy = oneSaturated + oneFiber + oneProtein + oneVitamins;
+    const goodQualitiesUnhealthy = twoSaturated + twoFiber + twoProtein + twoVitamins;
+    const badQualitiesHealthy = oneCarbs + oneSugar + oneSalt;
+    const badQualitiesUnhealthy = twoCarbs + twoSugar + twoSalt;
+
+    const handleOnScroll = event => {
+        console.log("scroll: ", event.nativeEvent.contentOffset.y);
+
+        if(event.nativeEvent.contentOffset.y >= 95) {
+            setScroll(true);
+            setScrollTrigger(event.nativeEvent.contentOffset.y);
+        } else if (event.nativeEvent.contentOffset.y < 95) {
+            setScroll(false);
+            setScrollTrigger(0);
+        }
     }
-
-}
-
-const ResultsOfBestWorst = ({ bestQualityName, imgGood, energyGood, fatGood, saturatedGood, carbsGood, sugarGood, fiberGood, proteinGood, saltGood, vitaminsGood, 
-                    lowestQualityName, imgBad, energyBad, saturatedBad, fatBad, carbsBad, sugarBad, fiberBad, proteinBad, saltBad, vitaminsBad, clearResults,
-                    healthyDiagramGood, healthyDiagramBad, unhealthyDiagramGood, unhealthyDiagramBad }) => {
-                //    }) => {
-        const [showBest, setShowBest] = useState(false);
-        const [showWorst, setShowWorst] = useState(false);
-
         return (
-            <View>
-                <View style={stylesGuestSingle().container} >
-                    {imgGood ? (
-                        <View style={stylesGuestSingle().imageContainer} >
-                            <Image style={stylesGuestSingle().image} source={{ uri: imgGood }} />
-                        </View>
-                        ) : (
-                        <View style={stylesGuestSingle().imageContainer} >
-                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                <ScrollView style={diagram().container} onScroll={handleOnScroll} >
+                    <View style={diagram().mainContentContainer}>
+                        <View style={diagram().productsContainer} >
+                            <View style={diagram().itemGoodWrap}>
+                                { healthy.image ? (
+                                    <View style={diagram().imageContainerGood} >
+                                        <Image style={diagram().image} source={{ uri: healthy.image }} />
+                                    </View>
+                                    ) : (
+                                    <View style={diagram().imageContainerGood} >
+                                        <Image style={diagram().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                                    </View> 
+                                )}
+                                <View style={diagram().title} >
+                                    <Text style={diagram().text}>{healthy.name}</Text>
+                                </View>
+                            </View>
+                            <View style={diagram().itemBadWrap}>
+                                {unhealthy.image ? (
+                                    <View style={diagram().imageContainerBad} >
+                                        <Image style={diagram().image} source={{ uri: unhealthy.image }} />
+                                    </View>
+                                    ) : (
+                                    <View style={diagram().imageContainerBad} >
+                                        <Image style={diagram().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                                    </View> 
+                                )}
+                                <View style={diagram().title} >
+                                    <Text style={diagram().text}>{unhealthy.name}</Text>
+                                </View>
+                            </View>
                         </View> 
-                    )}
-                    <Text>{bestQualityName}</Text>
-                    <Text>{healthyDiagramGood}</Text>
-                    <Text>{healthyDiagramBad}</Text>
-                    <Text>{unhealthyDiagramGood}</Text>
-                    <Text>{unhealthyDiagramBad}</Text>
-                    <TouchableOpacity style={stylesGuestSingle().buttonDropdown} onPress={() => setShowBest(true)}>
-                        <Text>View components</Text>
-                    </TouchableOpacity>
-                    {(setShowBest) && (
-                        <ScrollView style={stylesGuestSingle().dropdownContainer} >
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (energyGood) ? (energyGood) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                        {/* Diagram */}
+                        <View style={diagram().mainDiagramWrap}>
+                            <View style={diagram().mainLinesWrap} >
+                                <Text style={diagram().mainComponentTitle}>Healthy Feed</Text>
+                            </View>
+                            <View style={diagram().mainDiagramLineWrap}>
+                                <View style={diagram().mainNumberDiagramWrap}>
+                                    <View style={diagram().mainSingleLineWrap}>
+                                        <Text style={diagram(goodQualitiesHealthy ).mainLineOne}></Text>
+                                    </View>
+                                    <View style={diagram().mainItemNumberWrap} >
+                                        <Text style={diagram().mainNumber} >{goodQualitiesHealthy}</Text>
+                                        <Text style={diagram().mainMeasure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().mainNumberDiagramWrap}>
+                                    <View style={diagram().mainSingleLineWrap}>
+                                        <Text style={diagram(goodQualitiesUnhealthy).mainLineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().mainItemNumberWrap} >
+                                        <Text style={diagram().mainNumber} >{goodQualitiesUnhealthy}</Text>
+                                        <Text style={diagram().mainMeasure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >fat</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (fatGood) ? (fatGood) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        <View style={diagram().mainDiagramWrap}>
+                            <View style={diagram().mainLinesWrap} >
+                                <Text style={diagram().mainComponentTitle}>Less Healthy Feed</Text>
+                            </View>
+                            <View style={diagram().mainDiagramLineWrap}>
+                                <View style={diagram().mainNumberDiagramWrap}>
+                                    <View style={diagram().mainSingleLineWrap}>
+                                        <Text style={diagram(badQualitiesHealthy).mainLineOne}></Text>
+                                    </View>
+                                    <View style={diagram().mainItemNumberWrap} >
+                                        <Text style={diagram().mainNumber} >{badQualitiesHealthy}</Text>
+                                        <Text style={diagram().mainMeasure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().mainNumberDiagramWrap}>
+                                    <View style={diagram().mainSingleLineWrap}>
+                                        <Text style={diagram(badQualitiesUnhealthy).mainLineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().mainItemNumberWrap} >
+                                        <Text style={diagram().mainNumber} >{badQualitiesUnhealthy}</Text>
+                                        <Text style={diagram().mainMeasure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >saturated fat</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (saturatedGood) ? (saturatedGood) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        <TouchableOpacity style={(scroll) ? (diagram(scrollTrigger).dropDownIconWrapScroll) : (diagram().dropDownIconWrapNoScroll)} onPress={() => setShowDropDown(!showDropDown)}>
+                            <IonIcon style={diagram().ViewMoreIcon} name={showDropDown ? ("ios-arrow-up") : ("ios-arrow-down")} />
+                        </TouchableOpacity>
+                    </View>
+                    {showDropDown && (
+                    <View style={diagram().diagramContainer}>
+                        <View style={diagram().diagramWrap}>
+                            <View style={diagram().linesWrap} >
+                                <Text style={diagram().componentTitle} >Energy</Text>
+                            </View>
+                            <View style={diagram().diagramLineWrap}>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(healthy.energy == null ? '0' : healthy.energy).lineOne}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{healthy.energy  == null ? '0' : healthy.energy}</Text>
+                                        <Text style={diagram().measure} >kcal</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(unhealthy.energy == null ? '0' : unhealthy.energy).lineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{unhealthy.energy  == null ? '0' : unhealthy.energy}</Text>
+                                        <Text style={diagram().measure} >kcal</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >Carbohidrates</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (carbsGood) ? (carbsGood) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        <View style={diagram().diagramWrap}>
+                            <View style={diagram().linesWrap} >
+                                <Text style={diagram().componentTitle} >Fat</Text>
+                            </View>
+                            <View style={diagram().diagramLineWrap}>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(healthy.fat == null ? '0' : healthy.fat).lineOne}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{healthy.fat  == null ? '0' : healthy.fat}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(unhealthy.fat == null ? '0' : unhealthy.fat).lineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{unhealthy.fat  == null ? '0' : unhealthy.fat}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >sugar</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (sugarGood) ? (sugarGood) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        <View style={diagram().diagramWrap}>
+                            <View style={diagram().linesWrap} >
+                                <Text style={diagram().componentTitle} >Saturated fat</Text>
+                            </View>
+                            <View style={diagram().diagramLineWrap}>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(healthy.saturated == null ? '0' : healthy.saturated).lineOne}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{healthy.saturated  == null ? '0' : healthy.saturated}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(unhealthy.saturated == null ? '0' : unhealthy.saturated).lineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{unhealthy.saturated  == null ? '0' : unhealthy.saturated}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >fiber</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (fiberGood) ? (fiberGood) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        <View style={diagram().diagramWrap}>
+                            <View style={diagram().linesWrap} >
+                                <Text style={diagram().componentTitle} >Carbohidrates</Text>
+                            </View>
+                            <View style={diagram().diagramLineWrap}>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(healthy.carbs == null ? '0' : healthy.carbs).lineOne}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{healthy.carbs  == null ? '0' : healthy.carbs}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(unhealthy.carbs == null ? '0' : unhealthy.carbs).lineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{unhealthy.carbs  == null ? '0' : unhealthy.carbs}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >protein</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (proteinGood) ? (proteinGood) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        <View style={diagram().diagramWrap}>
+                            <View style={diagram().linesWrap} >
+                                <Text style={diagram().componentTitle} >Sugar</Text>
+                            </View>
+                            <View style={diagram().diagramLineWrap}>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(healthy.sugar == null ? '0' : healthy.sugar).lineOne}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{healthy.sugar  == null ? '0' : healthy.sugar}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(unhealthy.sugar == null ? '0' : unhealthy.sugar).lineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{unhealthy.sugar  == null ? '0' : unhealthy.sugar}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >salt</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (saltGood) ? (saltGood) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        <View style={diagram().diagramWrap}>
+                            <View style={diagram().linesWrap} >
+                                <Text style={diagram().componentTitle} >Fiber</Text>
+                            </View>
+                            <View style={diagram().diagramLineWrap}>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(healthy.fiber == null ? '0' : healthy.fiber).lineOne}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{healthy.fiber  == null ? '0' : healthy.fiber}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(unhealthy.fiber == null ? '0' : unhealthy.fiber).lineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{unhealthy.fiber  == null ? '0' : unhealthy.fiber}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >vitamins</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (vitaminsGood) ? (vitaminsGood) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        <View style={diagram().diagramWrap}>
+                            <View style={diagram().linesWrap} >
+                                <Text style={diagram().componentTitle} >Protein</Text>
+                            </View>
+                            <View style={diagram().diagramLineWrap}>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(healthy.protein == null ? '0' : healthy.protein).lineOne}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{healthy.protein  == null ? '0' : healthy.protein}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(unhealthy.protein == null ? '0' : unhealthy.protein).lineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{unhealthy.protein  == null ? '0' : unhealthy.protein}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        </ScrollView>
-                    )}
-                </View>
-                <View>
-                    <Text>We do not recommend:</Text> 
-                    {imgBad ? (
-                        <View style={stylesGuestSingle().imageContainer} >
-                            <Image style={stylesGuestSingle().image} source={{ uri: imgBad }} />
-                        </View>
-                        ) : (
-                        <View style={stylesGuestSingle().imageContainer} >
-                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
-                        </View> 
-                    )}
-                    <Text>{lowestQualityName}</Text>
-                    <TouchableOpacity style={stylesGuestSingle().buttonDropdown} onPress={() => setShowWorst(true)}>
-                        <Text>View components</Text>
-                    </TouchableOpacity>
-                    {(setShowBest) && (
-                    <ScrollView style={stylesGuestSingle().dropdownContainer} >
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (energyBad) ? (energyBad) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                        <View style={diagram().diagramWrap}>
+                            <View style={diagram().linesWrap} >
+                                <Text style={diagram().componentTitle} >Salt</Text>
+                            </View>
+                            <View style={diagram().diagramLineWrap}>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(healthy.salt == null ? '0' : healthy.salt).lineOne}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{healthy.salt  == null ? '0' : healthy.salt}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(unhealthy.salt == null ? '0' : unhealthy.salt).lineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{unhealthy.salt  == null ? '0' : unhealthy.salt}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >fat</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (fatBad) ? (fatBad) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        <View style={diagram().diagramWrap}>
+                            <View style={diagram().linesWrap} >
+                                <Text style={diagram().componentTitle} >Vitamins</Text>
+                            </View>
+                            <View style={diagram().diagramLineWrap}>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(healthy.vitamins == null ? '0' : healthy.vitamins).lineOne}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{healthy.vitamins  == null ? '0' : healthy.vitamins}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
+                                <View style={diagram().numberDiagramWrap}>
+                                    <View style={diagram().singleLineWrap}>
+                                        <Text style={diagram(unhealthy.vitamins == null ? '0' : unhealthy.vitamins).lineTwo}></Text>
+                                    </View>
+                                    <View style={diagram().itemNumberWrap} >
+                                        <Text style={diagram().number} >{unhealthy.vitamins == null ? '0' : unhealthy.vitamins}</Text>
+                                        <Text style={diagram().measure} >g</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >saturated fat</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (saturatedBad) ? (saturatedBad) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                            </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >Carbohidrates</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (carbsBad) ? (carbsBad) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                            </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >sugar</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (sugarBad) ? (sugarBad) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                            </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >fiber</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (fiberBad) ? (fiberBad) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                            </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >protein</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (proteinBad) ? (proteinBad) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                            </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >salt</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (saltBad) ? (saltBad) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                            </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >vitamins</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (vitaminsBad) ? (vitaminsBad) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                            </View>
-                        </View>
-                    </ScrollView>
-                    )}
-                    <ButtonStyled title="Clear results" func={clearResults} />
-                </View>
-            </View>
+                    </View>
+                    )}  
+            </ScrollView>
     )
 }
 
-export default ResultsOfBestWorst
+const mapStateToProps = state => (console.log("rsultssss", state.selectedProducts.result),{
+    result: state.selectedProducts.result,
+})
+
+export default connect(mapStateToProps)(ResultsOfBestWorst)

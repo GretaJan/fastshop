@@ -95,7 +95,7 @@ export const stylesGuest = () => StyleSheet.create({
         backgroundColor: 'lightblue',
         paddingVertical: 5,
         // paddingHorizontal: 7,
-        marginBottom: 5,
+        marginBottom: 6,
         borderRadius: 10,
         alignItems: 'center',
         alignContent: 'center',
@@ -131,6 +131,7 @@ export const stylesGuest = () => StyleSheet.create({
         fontSize: 15,
         paddingTop: 5,
         textAlign: 'center',
+        textTransform: 'capitalize'
     },
     imageIcon: {
         textAlign: 'center',

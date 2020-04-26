@@ -18,11 +18,22 @@ export const getSubcategories = (category) => (dispatch) => {
         type: LOADING_GET_SUBCATEGORIES,
         loading: true
     })
+    const sorting = (a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+
+        if(nameA < nameB) {
+            return -1;
+        } else if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    }
     axios.get(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/subcategories/${category}`)
     .then(resp => {
             dispatch({
                 type: GET_SUBCATEGORIES,
-                payload: resp.data.subcategories,
+                payload: resp.data.subcategories.sort(sorting),
                 loading: false,
                 error: ''
             })   

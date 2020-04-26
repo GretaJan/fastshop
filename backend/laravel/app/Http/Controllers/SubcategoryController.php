@@ -15,8 +15,8 @@ class SubcategoryController extends Controller
     {
         $category = Category::findOrFail($category_id);
         // $subcategories = Subcategory::where('category_id', $category->id);
-        $subcategories = $category->subcategories->sortBy('name');
-        // $subcategories = $category->subcategories;
+        // $subcategories = $category->subcategories->sortBy('name');
+        $subcategories = $category->subcategories;
         // $subcategories=Subcategory::all();
         
         $response = [

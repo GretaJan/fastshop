@@ -16,11 +16,22 @@ export const getProducts = (subcategory) => dispatch => {
         type: LOADING_GET_PRODUCTS,
         loading: true
     });
+    const sorting = (a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+     
+        if(nameA < nameB) {
+            return -1;
+        } else if(nameA > nameB) {
+            return 1;
+        } 
+        return 0;
+    }
     axios.get( URL + '/products/' + subcategory)
     .then(products => { 
             dispatch({
                 type: GET_PRODUCTS,
-                payload: products.data.products,
+                payload: products.data.products.sort(sorting),
                 loading: false,
                 error: ''
             })

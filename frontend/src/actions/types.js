@@ -47,4 +47,3 @@ export const COMPARE_RESULT = 'COMPARE_RESULT';
 export const clear_results = 'clear_results';
 export const SORT_ARRAY = 'SORT_ARRAY';
 export const GO_TO_LIST = 'GO_TO_LIST';
-export const DIAGRAM_RESULTS = 'DIAGRAM_RESULTS';

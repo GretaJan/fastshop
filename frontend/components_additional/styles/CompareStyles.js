@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
+import { Directions } from 'react-native-gesture-handler';
 
 export const productWrap = () => StyleSheet.create({
     container: {
@@ -10,7 +11,7 @@ export const productWrap = () => StyleSheet.create({
         height: Dimensions.get('window').height /2.4,
     },
     flatListScrollFull: {
-        height: Dimensions.get('window').height /1,
+        height: Dimensions.get('window').height /1.4,
         zIndex: 2
     },
     arrayContainer: {
@@ -146,5 +147,230 @@ export const descAscDropDown = () => StyleSheet.create({
     icon: {
         fontSize: 20,
         color: colors.mainBlack,
+    }
+})
+
+export const diagram = (diagramLength) => StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colors.mainYellow,
+        paddingTop: 10
+    },
+    mainContentContainer: {
+    },
+    productsContainer: {
+        flexDirection: 'row',
+        // alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10
+    },
+    itemGoodWrap: {
+        flex: 0.5,
+         alignItems: 'center'
+    },
+    itemBadWrap: {
+        flex: 0.5,
+        alignItems: 'center'
+    },
+    imageContainerGood: {
+        width: '95%',
+        height: 150,
+        backgroundColor: colors.mediumGreen2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10
+    },
+    image: {
+        width: '75%',
+        height: '75%',
+        // borderRadius: 10
+    },
+    imageContainerBad: {
+        width: '95%',
+        height: 150,
+        backgroundColor: colors.orangeBright,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10
+    },
+    title: {
+        marginTop: 5,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    text: {
+        paddingHorizontal: 12,
+        textAlign: 'center',
+        fontSize: 20,
+        textTransform: 'capitalize',
+    },
+    // Diagram
+    diagramContainer: {
+        flex: 1,
+        marginBottom: 40,
+        marginTop: 10
+    },
+    diagramWrap: {
+        paddingHorizontal: 20,
+    },
+    linesWrap: {
+
+    },
+    componentTitle: {
+        fontSize: 18,
+    },
+    number: {
+        fontSize: 18,
+    },
+    measure: {
+        fontSize: 15,
+        marginLeft: 5,
+        color: colors.mainBlack,
+    },
+    diagramLineWrap: {
+    },
+    numberDiagramWrap: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+    },
+    singleLineWrap: {
+        flex: .78,
+        backgroundColor: colors.transparentLight,
+        height: 10,
+        // alignItems: 'flex-start',
+    },
+    itemNumberWrap: {
+        flex: .22,
+        paddingLeft: 20,
+        // textAlign: 'center',
+        flexDirection: 'row',
+
+    },
+    lineOne: {
+        backgroundColor: colors.mediumGreen2,
+        width: diagramLength !== 0 ? (diagramLength + '%') : (1),
+        maxWidth: '100%',
+        height: 10,
+        // Shadow
+        elevation: 3,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+    },
+    lineTwo: {
+        backgroundColor: colors.orangeBright,
+        width: diagramLength !== 0 ? (diagramLength + '%') : (1),
+        maxWidth: '100%',
+        height: 10,
+        // Shadow
+        elevation: 3,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+    },
+    // Main Diagram style:
+    mainDiagramWrap: {
+        flex: 1,
+        paddingHorizontal: 18,
+        marginTop: 4,
+        marginBottom: 5
+    },
+    mainLinesWrap: {
+
+    },
+    mainComponentTitle: {
+        fontSize: 20
+    },
+    mainDiagramLineWrap: {
+    },
+    mainNumberDiagramWrap: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    mainSingleLineWrap: {
+        flex: .7,
+        backgroundColor: colors.transparentLight,
+        height: 11,
+        
+    },
+    mainLineOne: {
+        backgroundColor: colors.mediumGreen2,
+        width: diagramLength !== 0 ? (diagramLength + '%') : (1),
+        maxWidth: '100%',
+        height: 11,
+        borderColor: colors.transparentLight,
+        borderWidth: 2,
+         // Shadow
+         elevation: 3,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
+    },
+    mainLineTwo: {
+        backgroundColor: colors.orangeBright,
+        width: diagramLength !== 0 ? (diagramLength + '%') : (1),
+        maxWidth: '100%',
+        height: 11,
+         // Shadow
+         elevation: 3,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
+    },
+    mainItemNumberWrap: {
+        flex: .3,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    mainNumber: {
+        fontSize: 20,
+    },
+    mainMeasure: {
+        fontSize: 16,
+        marginLeft: 5,
+        color: colors.mainBlack,
+    },
+    dropDownIconWrapNoScroll: {
+        backgroundColor: colors.transparentLight,
+        height: Dimensions.get('window').height /9.5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 25,
+        width: Dimensions.get('window').width /1.05,
+        alignSelf: 'center',
+    },
+    dropDownIconWrapScroll: {
+        backgroundColor: colors.transparentLight,
+        height: Dimensions.get('window').height /9.5,
+        width: Dimensions.get('window').width /1.05,
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        top: diagramLength,
+
+
+        zIndex: 2,
+    },
+    ViewMoreIcon: {
+        fontSize: 50
     }
 })
