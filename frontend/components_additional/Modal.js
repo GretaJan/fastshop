@@ -5,13 +5,13 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import StyledButton from './AdminButton';
 
-const Modal = ({message, close, title, ok, color, horizontal, vertical}) => {
+const Modal = ({message, close, title, ok, color, borderColor, horizontal, vertical}) => {
 
     return (
         <TouchableOpacity style={modalStyle().container} onPress={close} >
             <View style={modalStyle().itemContainer} >
-                <View style={modalStyle().iconWrap}>
-                    <IonIcon style={modalStyle().icon} name="ios-alert" />
+                <View style={modalStyle(null, borderColor).iconWrap}>
+                    <IonIcon style={modalStyle(color).icon} name="ios-alert" />
                     <Text style={modalStyle().title}>{title}</Text>
                 </View>
                 <View style={modalStyle().textWrap}>

@@ -78,16 +78,14 @@ class CategoryController extends Controller
             return response()->json(['Category not found'], 404);
         }
 
-        var_dump($id);
-
         $request->validate([
-            'name' => 'min:3|max:100',
+            'name' => 'min:3|max:100'
         ]);
 
         $category->name = $request->name;
         $category->background_color = $request->background_color;
         $category->border_color = $request->border_color;
-        $base64=$request->image;
+        $base64 = $request->image;
 
         if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
             $data = substr($base64, strpos($base64, ',') + 1);
@@ -100,11 +98,11 @@ class CategoryController extends Controller
             \File::put(public_path('/uploads/categories') . '/' . $imageName, base64_decode($data));
             $path2 = asset('/uploads/categories');
             $category->image =  $path2 . '/' . $imageName; 
-
-        } else if ($base64 == null) {
-            $category->image = null;
+        } else if(preg_match('/^data:image\/(\w+);base64,/', !$base64)) {
+            var_dump('isString' . $category->image . ' ' . is_string($base64));
+            $category->image = $category->image;
         } else {
-            return response()->json(['message' => 'Invalid file format'], 400);
+            $category->image = null;
         }
        
        

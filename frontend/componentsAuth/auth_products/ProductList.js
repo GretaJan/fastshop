@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image} from 'react-native';
 import { withNavigation } from 'react-navigation';
- 
+import { stylesGuest } from '../../components_additional/styles/ProductStyles';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import IonIcon from 'react-native-vector-icons/dist/Ionicons';
+
 class ProductList extends Component {
 
     goToProduct = () => {
@@ -10,17 +13,22 @@ class ProductList extends Component {
 
     render() {
         return (
-            <View key={this.props.item.id.toString()}>
-                   {this.props.item.image ? (
-                        <View>
-                            <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
+            <View style={stylesGuest().itemWrap} key={this.props.item.id.toString()} >
+                <TouchableOpacity style={stylesGuest().TextPicWrap} onPress={this.goToProduct} >
+                    {this.props.item.image ? (
+                        <View style={stylesGuest().imageWrap}>
+                            <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
                         </View>
                         ) : (
-                        <View>
-                            <Image style={{width: 50, height: 50}} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        <View style={stylesGuest().imageWrap}>
+                            <IonIcon style={stylesGuest().imageIcon} name="md-images" />
                         </View> 
                     )}
-                <Text key={this.props.item.id.toString()} onPress={this.goToProduct}>{this.props.item.name}</Text>
+                    <Text style={stylesGuest().itemText} >{this.props.item.name}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={stylesGuest().iconWrap} >
+                    <Icon style={stylesGuest().iconItem} name="pencil" />
+                </TouchableOpacity>
             </View>
         )
     }

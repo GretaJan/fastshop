@@ -56,7 +56,7 @@ class AddCategory extends Component {
         const { image, name } = this.state;
 
         const data = {
-            image: "data:" + image.type + ";base64," + image.data,
+            image: image !== null ? ("data:" + image.type + ";base64," + image.data) : null,
             name: name
         }
 

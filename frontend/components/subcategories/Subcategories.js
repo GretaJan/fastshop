@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, TextInput } from 'react-native';
+import { View, Text, FlatList, TextInput, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { getSubcategories } from '../../src/actions/subcategoryActions';
+import { getSubcategories, deleteSubcategory } from '../../src/actions/subcategoryActions';
 import { getCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -26,6 +26,7 @@ class Subcategories extends Component {
         showSearchInput: false
     }
 
+
     componentDidMount() {
         this.props.getSubcategories(this.props.route.params.categoryId);
     }
@@ -38,11 +39,6 @@ class Subcategories extends Component {
     //     }
 
     //   }
-
-    goToProducts = (id) => {
-        this.props.navigation.push("Products", {subcategoryId: id});
-  
-    }
 
     searchFunction = searchName => {
         this.setState({inputTriggered: true});
@@ -64,7 +60,7 @@ class Subcategories extends Component {
             })
         }
     }
-
+    
     getInput = () => {
         return (
             <View style={searchBar().searchBarContainer} >
@@ -74,6 +70,11 @@ class Subcategories extends Component {
             </View>
         )
     }
+    
+    goToProducts = (item) => {
+        this.props.navigation.push("Products", {subcategoryId: item.id, backgroundColor: item.background_color});
+  
+    }
 
     render() {
         return (
@@ -81,24 +82,30 @@ class Subcategories extends Component {
                 <Loading />
             ) : (
                 (this.props.error !== '') ? (
-                    <Error message={this.props.error} />
+                    <Modal title="Warning" 
+                        message={this.props.error} 
+                        close={() => this.props.navigation.goBack()} 
+                        ok="OK" color={colors.bordo} 
+                        borderColor={colors.bordoTransparent}
+                        horizontal={20} vertical={10}/>
                 ) : (
                     <View style={stylesGuest().container}>
                     {this.getInput()}
                         {(this.props.subcategories.length == 0) ? (
                             <Modal title="Warning" 
-                                message="The list is empty. Please go back." 
+                                message="The List is emptyPlease go back." 
                                 close={() => this.props.navigation.goBack()} 
                                 ok="OK" color={colors.mainYellow} 
+                                borderColor={colors.mainYellowTransparent}
                                 horizontal={20} vertical={10}/>
                         ) : (
                             !this.state.inputTriggered ? (
                                 <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.props.subcategories} renderItem={({item}) => (
-                                    <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
+                                    <Subcategory item={item} goToProducts={() => this.goToProducts(item)} />
                                 )} />
                             ) : (
                                 <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.state.tempArray} renderItem={({item}) => (
-                                    <Subcategory key={item} item={item} goToProducts={(items) => this.goToProducts(item)} />
+                                    <Subcategory key={item} item={item} goToProducts={() => this.goToProducts(item)} />
                                 )} />
                             )    
                         )}  
@@ -118,4 +125,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default withNavigation(connect(mapStateToProps, {getSubcategories, getCategory})(Subcategories))
+export default withNavigation(connect(mapStateToProps, {getSubcategories, deleteSubcategory})(Subcategories))

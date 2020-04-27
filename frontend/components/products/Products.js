@@ -76,15 +76,21 @@ class Products extends Component {
                 <Loading />
                 ) : (
                     (this.props.error !== '') ? (
-                        <Error message={this.props.error} />
+                        <Modal title="Warning" 
+                            message={this.props.error} 
+                            close={() => this.props.navigation.goBack()} 
+                            ok="OK" color={colors.bordo} 
+                            borderColor={colors.bordoTransparent}
+                            horizontal={20} vertical={10}/>
                     ) : (
                     <View style={stylesGuest().container}>
                         {this.getInput()}
                         {(this.props.products.length == 0) ? (
                             <Modal title="Warning" 
-                                message="The list is empty. Please go back." 
+                                message="The List is emptyPlease go back." 
                                 close={() => this.props.navigation.goBack()} 
                                 ok="Go back" color={colors.mainYellow} 
+                                borderColor={colors.mainYellowTransparent}
                                 horizontal={20} vertical={10}/>
                             ) : (
                             !this.state.inputTriggered ? (

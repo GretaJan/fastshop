@@ -30,7 +30,7 @@ export const searchBar = () =>  StyleSheet.create({
     },
 });
 
-export const buttonStyle = (color, vertical, horizontal) =>  StyleSheet.create({
+export const buttonStyle = (color) =>  StyleSheet.create({
     buttonWrap: {
         marginBottom: 20,
         borderColor: colors.transparentLight,
@@ -76,7 +76,7 @@ export const adminButtonStyle = (color, horizontal, vertical) => StyleSheet.crea
     }
 }) 
 
-export const modalStyle = () => StyleSheet.create({
+export const modalStyle = (color, borderColor) => StyleSheet.create({
     container: {
         position: 'absolute',
         zIndex: 10,
@@ -108,14 +108,14 @@ export const modalStyle = () => StyleSheet.create({
         width: 220,
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomColor: colors.mainYellowTransparent,
+        borderBottomColor: borderColor,
         borderBottomWidth: 2,
         paddingBottom: 5,
         marginBottom: 10,
     },
     icon: {
         fontSize: 35,
-        color: colors.mainYellow,
+        color: color,
     },
     title: {
         marginLeft: '3%',
@@ -159,5 +159,58 @@ export const modalConfirm = (color) => StyleSheet.create({
     },
     btnTwo: {
 
+    }
+});
+
+export const emptyList = (backgroundColor) => StyleSheet.create({
+    container: {
+        backgroundColor: backgroundColor ? backgroundColor : colors.mainYellow,
+        height: Dimensions.get('window').height /1,
+        width: Dimensions.get('window').width /1,
+        position: 'absolute',
+        zIndex: -1,
+        // alignContent: 'center',
+        // justifyContent: 'center',
+        alignItems: 'center',
+    },
+    itemContainer: {
+        flex: 1,
+        marginTop: -(Dimensions.get('window').height /5),
+        paddingHorizontal: 60,
+          alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    iconWrap: {
+
+    },
+    icon: {
+        fontSize: 45,
+    },
+    text: {
+        fontSize: 20,
+    }
+});
+
+export const roundButton = (color) => StyleSheet.create({
+    buttonWrap: {
+        position: 'absolute',
+        zIndex: 10,
+        top: Dimensions.get('window').height /1.5,
+        right: 20,
+        paddingLeft: 20,
+        paddingTop: 20,
+        // Shadow
+        elevation: 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+    },
+    icon: {
+        color: color ? color : colors.mainWhiteYellow,
+        fontSize: 70,
     }
 })

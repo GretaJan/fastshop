@@ -5,6 +5,7 @@ export const colors = {
     mainYellow: '#ffcc33',
     mainYellowTransparent: 'rgba(255, 204, 51, .5)',
     mainBlack: '#3a434c',
+    titleBlack: '#394032',
     lightGreen: '#FFFFE0',
     mediumGreen: '#aebd93',
     lightBurgundy: '#f79f79',
@@ -24,4 +25,5 @@ export const colors = {
     lighterBlack: '#303030',
     inputOrange: '#ffe4b2',
     bordo: 'firebrick',
+    bordoTransparent: 'rgba(178,34,34,0.5)',
 }

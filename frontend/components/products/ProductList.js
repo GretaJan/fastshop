@@ -16,8 +16,8 @@ class ProductList extends Component {
 
     render() {
         return (
-            <View style={stylesGuest().itemWrap}>
-                <TouchableOpacity style={stylesGuest().TextPicWrap} key={this.props.item.id.toString()} onPress={this.goToProduct} >
+            <View style={stylesGuest().itemWrap} key={this.props.item.id.toString()} >
+                <TouchableOpacity style={stylesGuest().TextPicWrap} onPress={this.goToProduct} >
                     {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>
                             <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
@@ -28,7 +28,7 @@ class ProductList extends Component {
                             {/* <Image style={stylesGuest().image} source={require('../../components_additional/images/noimage.jpeg')}  /> */}
                         </View> 
                     )}
-                    <Text style={stylesGuest().itemText} key={this.props.item.id.toString()}>{this.props.item.name}</Text>
+                    <Text style={stylesGuest().itemText} >{this.props.item.name}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={stylesGuest().iconWrap} onPress={this.selectProduct} >
                     <Icon style={stylesGuest().iconItem} name="check-circle-o" />

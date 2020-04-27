@@ -119,31 +119,27 @@ class ProductController extends Controller
         $product->protein = $request->protein;
         $product->salt = $request->salt;
         $product->vitamins = $request->vitamins;
-        // $file = $request->file('image');
-        // if($request->hasFile('image')) {
-        //     if($file->isValid()){
-        //         $path = public_path('/uploads/products');
-        //         $path2 = asset('/uploads/products');
-        //         $file->move($path, $file . '/' . $file->getClientOriginalName());
-        //         $product->image = $path2 . '/' . $file->getClientOriginalName();
-        //     } else {
-        //         $product->image = '';
-        //     }
-        // }
-
+        $product->background_color = $request->background_color;
+        $product->border_color = $request->border_color;
         // IMAGE
-        $file = $request->image;
-        if($file == null) {
-            $product->image = null;
-        } else if($file->isValid()) {
-            $path = public_path('/uploads/products');
+        $base64 = $request->image;
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
+            $data = substr($base64, strpos($base64, ',') + 1);
+            //Get file type
+            $type = explode(';', $base64)[0];
+            $type = explode('/', $type)[1]; // png or jpg etc
+            //Move image
+            $imageName = str_random(10) . '.' . $type;
+            \File::put(public_path('/uploads/products') . '/' . $imageName, base64_decode($data));
             $path2 = asset('/uploads/products');
-            $file->move($path, $file->getClientOriginalName());
-            $product->image = $path2 . '/' . $file->getClientOriginalName();
+            $product->image =  $path2 . '/' . $imageName; 
+        } else if(preg_match('/^data:image\/(\w+);base64,/', !$base64)) {
+            var_dump('isString' . $product->image . ' ' . is_string($base64));
+            $product->image = $product->image;
         } else {
-            return $response()->json(["Message" => "Image must be a file"]);
-         }
-
+            $product->image = null;
+        }
+ 
         if($product->save()) {
             $response = [
                 'product' => $product

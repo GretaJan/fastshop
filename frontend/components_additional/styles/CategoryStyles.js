@@ -3,7 +3,7 @@ import {BoxShadow} from 'react-native-shadow';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
-export const authCategory = (background_color, border_color) => StyleSheet.create({
+export const authCategory = (backgroundColor, border_color) => StyleSheet.create({
     container: {
         backgroundColor: colors.mainYellow,
         flex: 1,
@@ -12,11 +12,6 @@ export const authCategory = (background_color, border_color) => StyleSheet.creat
     },
     flatList: {
         marginTop: 20,
-    },
-    addBtn: {
-        top: 10,
-        height: 80,
-        alignSelf: 'center',
     },
     itemContainer: {
        flex: 1,
@@ -31,8 +26,13 @@ export const authCategory = (background_color, border_color) => StyleSheet.creat
         justifyContent: 'center',
     },
     imageStyle: {
-        height: '100%',
+        height: 100,
         resizeMode: 'contain' 
+    },
+    imageActiveStyle: {
+        width: 100,
+        height: 100,
+        resizeMode: 'cover' 
     },
     imageIcon: {
         textAlign: 'center',
@@ -104,11 +104,6 @@ export const authCategory = (background_color, border_color) => StyleSheet.creat
         width: 100,
         height: 100,
     },
-    imageStyleActive: {
-        width: 100,
-        height: 100,
-        resizeMode: 'contain' 
-    },
     uploadIcon: {
         position: 'absolute',
         fontSize: 35,
@@ -137,7 +132,7 @@ export const authCategory = (background_color, border_color) => StyleSheet.creat
     cancelIcon: {
 
     },
-    backgrounEditWrap: {
+    backgroundEditWrap: {
         flex: 1,
         flexDirection: 'row',
         // justifyContent: 'center',
@@ -145,7 +140,7 @@ export const authCategory = (background_color, border_color) => StyleSheet.creat
         width: 150,
     },
     backgroundColor: {
-        backgroundColor: background_color ? background_color : colors.mainWhiteYellow,
+        backgroundColor: backgroundColor ? backgroundColor : colors.mainWhiteYellow,
         height: 35,
         width: 35,
         borderColor: colors.mainBlack,

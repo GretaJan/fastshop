@@ -64,7 +64,7 @@ render() {
                       },
                       headerTitleStyle: {
                         fontWeight: 'bold',
-                        color: '#394032',
+                        color: colors.titleBlack,
                       },
                       headerTitleAlign: 'center'
                     }} />
@@ -76,7 +76,7 @@ render() {
                                 },
                                 headerTitleStyle: {
                                     fontWeight: 'bold',
-                                    color: '#394032',
+                                    color: colors.titleBlack,
                                 },
                                 headerTitleAlign: 'center'
             }} />
@@ -88,7 +88,7 @@ render() {
                                     },
                                     headerTitleStyle: {
                                         fontWeight: 'bold',
-                                        color: '#394032',
+                                        color: colors.titleBlack,
                                     },
                                     headerTitleAlign: 'center'
                                     }} /> 
@@ -97,10 +97,10 @@ render() {
                                         title: "PRODUCT DETAILS",
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
-                                            color: '#394032',
+                                            color: colors.titleBlack,
                                         },
                                         headerStyle: {
-                                            backgroundColor: '#FFFFE0',
+                                            backgroundColor: colors.yellowGreenish,
                                         },
                                         headerTitleAlign: 'center'
                                     }} /> 
@@ -109,7 +109,7 @@ render() {
                                         title: "PRODUCT DETAILS",
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
-                                            color: '#394032',
+                                            color: 'colors.titleBlack',
                                         },
                                         headerStyle: {
                                             backgroundColor: '#FFFFE0',
@@ -128,7 +128,7 @@ render() {
                                         title: (!this.props.calculated) ? "Calculate" : "Sorting Options",
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
-                                            color: '#394032',
+                                            color: colors.titleBlack,
                                         },
                                         headerStyle: {
                                             backgroundColor: colors.mainYellow,
@@ -140,7 +140,7 @@ render() {
                                         title: "Results",
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
-                                            color: '#394032',
+                                            color: colors.titleBlack,
                                         },
                                         headerStyle: {
                                             backgroundColor: colors.mainYellow,
@@ -156,7 +156,7 @@ render() {
                 title: "LOGIN PAGE",
                 headerTitleStyle: {
                     fontWeight: 'bold',
-                    color: '#394032',
+                    color: colors.titleBlack,
                 },
                 headerStyle: {
                     backgroundColor: colors.mainYellow,
@@ -176,11 +176,11 @@ render() {
                   },
                   headerTitleStyle: {
                     fontWeight: 'bold',
-                    color: '#394032', 
+                    color: 'colors.titleBlack', 
                   },
                   headerTitleAlign: 'center'
             }} />
-            <AdminNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} options={{ title: "Subcategories"}} />
+            <AdminNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} options={{ title: "Subcategories"}} options={Subcategories_Auth.navigationOptions}/>
             <AdminNavigation.Screen name="Products_Auth" component={Products_Auth} options={{ title: "Products"}}  />
             <AdminNavigation.Screen name="Product_Auth" component={Product_Auth} options={{ title: "Product"}}  /> 
             <AdminNavigation.Screen name="Add_Category" component={AddCategory} options={{ title: "Add Category"}}  />

@@ -6,25 +6,40 @@ import { authCategory } from '../../components_additional/styles/CategoryStyles'
 import { getCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { searchBar } from '../../components_additional/styles/AdditionalStyles';
+import { styles } from '../../components_additional/styles/SubcategoryStyles';
 
 //Components
 import Subcategory from './SubcategoryList';
 import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
-
+import Modal from '../../components_additional/Modal';
+import EmptyList from '../../components_additional/EmptyList';
+import CircleButton from '../../components_additional/CircleButton';
 
 class Subcategories extends Component {
 
     state = {
         id: this.props.route.params.categoryId,
+        backgroundColor: this.props.route.params.backgroundColor,
         tempArray: this.props.subcategories,
         searchName: '',
         inputTriggered: false,
         showSearchInput: false
     }
 
+    static navigationOptions = {
+        headerTitle: "Hello",
+        headerStyle: {
+            backgroundColor: 'red',
+        },
+    }
+
+
     componentDidMount(){
+    
         this.props.getSubcategories(this.state.id);
+     
     }
 
     searchFunction = searchName => {
@@ -50,10 +65,10 @@ class Subcategories extends Component {
 
     getInput = () => {
         return (
-            <View>
-                <Icon name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
+            <View style={searchBar().searchBarContainer}>
+                <Icon style={searchBar().searchBarIcon} name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
                 { this.state.showSearchInput && 
-                    <TextInput placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+                    <TextInput style={searchBar().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
             </View>
         )
     }
@@ -67,41 +82,39 @@ class Subcategories extends Component {
         this.props.getSubcategories(this.state.id);
     }
 
-    goToProducts = (id) => {
-        this.props.navigation.push("Products_Auth", {subcategoryId: id});
+    goToProducts = (item) => {
+        this.props.navigation.push("Products_Auth", {subcategoryId: item.id, backgroundColor: item.background_color});
     }
 
     render() {
+        const {backgroundColor} = this.props.route.params;
         return (
             (this.props.loading) ? (
                 <Loading />
             ) : (
-                (this.props.error !== '') ? (
-                    <Error message={this.props.error} />
-                ) : (
-                    <View>
-                        {this.getInput()}
-                        <View style={authCategory().addBtn}>
-                            <StyledButton func={() => {this.props.navigation.push("Add_Category"), console.log("press")}} title="Add category" color={"lightblue"} />
-                        </View>
-                        {!this.state.inputTriggered ? (
+                <View style={styles(backgroundColor).container}>
+                    {this.getInput()}
+                    <CircleButton func={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id}) }} />
+                    {this.props.subcategories.length == 0 ? (
+                            <EmptyList message="The List is empty" />
+                        ) : (
+                        !this.state.inputTriggered ? (
                             <FlatList data={this.props.subcategories} renderItem={({item}) => (
-                                <Subcategory item={item} 
+                                <Subcategory item={item} background_color={backgroundColor}
                                             deleteSubcategory={(item) => this.deleteSubcategory(item)} 
-                                            goToProducts={(item) => this.goToProducts(item)}
+                                            goToProducts={() => this.goToProducts(item)}
                                 />
                         )} />
                         ) : (
                             <FlatList data={this.state.tempArray} renderItem={({item}) => (
-                                <Subcategory item={item} 
+                                <Subcategory item={item} background_color={backgroundColor}
                                             deleteSubcategory={(item) => this.deleteSubcategory(item)} 
-                                            goToProducts={(item) => this.goToProducts(item)}
+                                            goToProducts={() => this.goToProducts(item)}
                                 />
                             )} />
-                        )}
-                        <Button title="Add subcategory" onPress={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id}) }} ></Button>
-                    </View>
-                )
+                        )
+                    )}
+                </View>
             )
         )
     }

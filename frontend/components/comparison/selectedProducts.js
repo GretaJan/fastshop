@@ -188,8 +188,12 @@ class Products extends Component {
         return (
             (this.props.selectedProducts.length == 0) ? (
                 <View>
-                  <Error message="No products have been selected yet. Please go back or select you products here:" />
-                  {/* <Button title="Products" onPress={() => this.compareProducts()} /> */}
+                  <Modal title="Message" 
+                                message="No products have been selected yet. Please go back." 
+                                close={() => this.props.navigation.navigate("Categories")} 
+                                ok="OK" color={colors.mainYellow} 
+                                borderColor={colors.mainYellowTransparent}
+                                horizontal={20} vertical={10}/>
                 </View>
             ) : (
                 <View style={stylesGuest().container} >

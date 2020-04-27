@@ -82,7 +82,6 @@ class SubcategoryController extends Controller
 
         $request->validate([
             'name' => 'nullable|min:3|max:100',
-            'image' => 'nullable|image',
         ]);
 
         if(!$id) {
@@ -90,33 +89,27 @@ class SubcategoryController extends Controller
         }
 
         $subcategory->name = $request->name; 
-
-        // $file = $request->file('image');
-        // if($request->hasFile('image')) {
-        //     if($file->isValid()) {
-        //         $path = public_path('/uploads/subcategories');
-        //         $path2 = asset('/uploads/subcategories');
-        //         $file->move($path, $file . '/' . $file->getClientOriginalName());
-        //         $subcategory->image = $path2 . '/' . $file->getClientOriginalName();
-        //     } else {
-        //         return response()->json(['file format is invalid'], 400);
-        //     }
-        // } else {
-        //     $subcategory->image = '';
-        // }
-
+        $subcategory->background_color = $request->background_color;
+        $subcategory->border_color = $request->border_color;
+        $base64 = $request->image;
          // IMAGE
-         $file = $request->image;
-         if($file == null) {
-             $subcategory->image = null;
-         } else if($file->isValid()) {
-             $path = public_path('/uploads/products');
-             $path2 = asset('/uploads/products');
-             $file->move($path, $file->getClientOriginalName());
-             $subcategory->image = $path2 . '/' . $file->getClientOriginalName();
-         } else {
-             return $response()->json(["Message" => "Image must be a file"]);
-          }
+         if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
+            $data = substr($base64, strpos($base64, ',') + 1);
+            //Get file type
+            $type = explode(';', $base64)[0];
+            $type = explode('/', $type)[1]; // png or jpg etc
+            //Move image
+            $imageName = str_random(10) . '.' . $type;
+            \File::put(public_path('/uploads/subcategories') . '/' . $imageName, base64_decode($data));
+            $path2 = asset('/uploads/subcategories');
+            $subcategory->image =  $path2 . '/' . $imageName; 
+            } else if(preg_match('/^data:image\/(\w+);base64,/', !$base64)) {
+                var_dump('isString' . $subcategory->image . ' ' . is_string($base64));
+                $subcategory->image = $subcategory->image;
+            } else {
+                $subcategory->image = null;
+            }
+
 
         if($subcategory->save()) {
             $response = [

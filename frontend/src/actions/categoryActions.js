@@ -50,7 +50,7 @@ export const getCategories = () => (dispatch) => {
 
 export const addCategory = (data) => (dispatch) => {
     axios.post(URL + '/addCategory', data)
-        .then((newCategory) => {
+        .then((newCategory) => { console.log(newCategory.data)
             dispatch({
                 type: POST_CATEGORY,
                 payload: newCategory.data.category,
@@ -60,11 +60,12 @@ export const addCategory = (data) => (dispatch) => {
 
 
 export const editCategory = (category, data) => (dispatch) => {
+    console.log("Cat: ", data)
     axios.post( URL + `/updateCategory/${category}`, data)
-        .then(category => {
+        .then(category => { console.log("categories: ", category.data.category)
             dispatch({
                 action: EDIT_CATEGORY,
-                payload: category.data,
+                payload: category.data.category,
                 id: category.data.id
             }) 
         }).catch(err => 

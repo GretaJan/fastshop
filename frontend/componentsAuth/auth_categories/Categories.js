@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import { getCategories, deleteCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
 import { authCategory } from '../../components_additional/styles/CategoryStyles';
+
 //Components
 import CategoryList from './CategoryList';
 import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
-import StyledButton from '../../components_additional/Button';
-
+import CircleButton from '../../components_additional/CircleButton';
+import Modal from '../../components_additional/Modal';
+import EmptyList from '../../components_additional/EmptyList';
 
 class Categories extends Component {
   
@@ -18,13 +20,8 @@ class Categories extends Component {
         this.props.getCategories();
     }
 
-    deleteCategory = async (id) => {
-        await this.props.deleteCategory(id);
-        this.props.getCategories();
-    }
-
-    goToSubcategories = (id) => {
-         this.props.navigation.push("Subcategories_Auth", {categoryId: id});
+    goToSubcategories = (item) => {
+         this.props.navigation.push("Subcategories_Auth", {categoryId: item.id, backgroundColor: item.background_color});
     }
 
     render() {
@@ -32,23 +29,20 @@ class Categories extends Component {
             (this.props.loading) ? (
                 <Loading />
             ) : (
-                (this.props.error !== '') ? (
-                    <Error message={this.props.error} />
-                ) : (
-                <View style={authCategory().container}>
-                    {/* <ScrollView> */}
-                        <View style={authCategory().addBtn}>
-                            <StyledButton func={() => {this.props.navigation.push("Add_Category"), console.log("press")}} title="Add category" color={"lightblue"} />
-                        </View>
+                this.props.categories.length == 0 ? (
+                    <EmptyList message="The List is empty" />
+                    ) : (
+                    <View style={authCategory().container}>
+                        <CircleButton func={() => { this.props.navigation.push("Add_Category") }} />
                         <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} renderItem={({item}) => (
                         <CategoryList key={item} item={item} 
-                                goToSubcategories={(item) => this.goToSubcategories(item)}
-                                    deleteCategory = {item => this.deleteCategory(item)} />
+                                goToSubcategories={() => this.goToSubcategories(item)}
+                                    deleteCategory = { (item)=> this.deleteCategory(item)} />
                         )} >
                         </FlatList>
-                    {/* </ScrollView> */}
-                </View>
-            ))
+                    </View>
+                )
+            )
         )
     }
 }
