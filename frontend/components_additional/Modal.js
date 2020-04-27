@@ -3,8 +3,9 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import { modalStyle } from './styles/AdditionalStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
+import StyledButton from './AdminButton';
 
-const Modal = ({message, close, title, ok}) => {
+const Modal = ({message, close, title, ok, color, horizontal, vertical}) => {
 
     return (
         <TouchableOpacity style={modalStyle().container} onPress={close} >
@@ -16,9 +17,9 @@ const Modal = ({message, close, title, ok}) => {
                 <View style={modalStyle().textWrap}>
                     <Text style={modalStyle().text} >{message}</Text>
                 </View>
-                {/* <View style={modalStyle().okWrap}> */}
-                    <Text style={modalStyle().okTxt} >{ok}</Text>
-                {/* </View> */}
+                <View style={modalStyle().okTxt} >
+                    <StyledButton func={close} title={ok} horizontal={horizontal} vertical={vertical} color={color}/>
+                </View>
             </View>
         </TouchableOpacity>
     )

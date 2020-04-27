@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, Button, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { getSubcategories, deleteSubcategory } from '../../src/actions/subcategoryActions';
+import { authCategory } from '../../components_additional/styles/CategoryStyles';
 import { getCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -20,6 +21,10 @@ class Subcategories extends Component {
         searchName: '',
         inputTriggered: false,
         showSearchInput: false
+    }
+
+    componentDidMount(){
+        this.props.getSubcategories(this.state.id);
     }
 
     searchFunction = searchName => {
@@ -76,6 +81,9 @@ class Subcategories extends Component {
                 ) : (
                     <View>
                         {this.getInput()}
+                        <View style={authCategory().addBtn}>
+                            <StyledButton func={() => {this.props.navigation.push("Add_Category"), console.log("press")}} title="Add category" color={"lightblue"} />
+                        </View>
                         {!this.state.inputTriggered ? (
                             <FlatList data={this.props.subcategories} renderItem={({item}) => (
                                 <Subcategory item={item} 

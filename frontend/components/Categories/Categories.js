@@ -6,11 +6,13 @@ import { withNavigation } from 'react-navigation';
 import { getCategories } from '../../src/actions/categoryActions';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/CategoryStyles';
+import { colors } from '../../components_additional/styles/Colors';
 
 //Components
 import CategoryList from './CategoryList';
 import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
+import Modal from '../../components_additional/Modal';
 
 class Categories extends Component {
     state = {
@@ -68,12 +70,20 @@ class Categories extends Component {
                     <Error message={this.props.error} />
                 ) : (
                     <View style={stylesGuest().container} >
-                        <FlatList contentContainerStyle={stylesGuest().flatList} data={this.props.categories} renderItem={({item}) => (
-                            <CategoryList key={item} item={item} 
-                                            goToSubcategories={(item) => this.goToSubcategories(item)} 
-                            />
-                            )} >
-                        </FlatList>
+                        {(this.props.categories.length == 0) ? (
+                            <Modal title="Warning" 
+                            message="The list is empty. Please go back." 
+                            close={() => this.props.navigation.goBack()} 
+                            ok="OK" color={colors.mainYellow} 
+                            horizontal={20} vertical={10}/>
+                        ) : (
+                            <FlatList contentContainerStyle={stylesGuest().flatList} data={this.props.categories} renderItem={({item}) => (
+                                <CategoryList key={item} item={item} 
+                                                goToSubcategories={(item) => this.goToSubcategories(item)} 
+                                />
+                                )} >
+                            </FlatList>
+                        )}
                     </View>
                 )
             )

@@ -11,7 +11,7 @@ export const authCategory = (background_color, border_color) => StyleSheet.creat
         paddingTop: '2%',
     },
     flatList: {
-        marginTop: 30,
+        marginTop: 20,
     },
     addBtn: {
         top: 10,

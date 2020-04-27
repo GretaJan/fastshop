@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/SubcategoryStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 
-
 class SubcategoryList extends Component {
 
     goToProducts = () => {

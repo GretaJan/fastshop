@@ -15,6 +15,7 @@ import Error from '../../components_additional/Error';
 import Modal from '../../components_additional/Modal';
 import DescAscend from './DescAscend';
 import ResultsOfBestWorst from './ResultsOfBestWorst';
+import { colors } from '../../components_additional/styles/Colors';
 
 class Products extends Component {
     state = {
@@ -193,8 +194,11 @@ class Products extends Component {
             ) : (
                 <View style={stylesGuest().container} >
                     {(this.state.modalMessageEqual || this.state.modalMessageNumber) && (
-                    <Modal title="Warning" message={(!this.state.modalMessageEqual) ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} 
-                    close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})} ok="OK"/>
+                    <Modal title="Warning" 
+                        message={(!this.state.modalMessageEqual) ? ('Please select at least two products.') : ('Unable to compare. Products have same qualities.')} 
+                        close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})} 
+                        ok="OK" color={colors.mainYellow} 
+                        horizontal={20} vertical={10}/>
                     )}
                     <View style={(this.state.optionsDisplay) ? (productWrap().flatListScrollSmall) : (productWrap().flatListScrollFull)}>
                         <FlatList nestedScrollEnabled={true} contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (

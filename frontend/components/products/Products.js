@@ -7,12 +7,13 @@ import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
-
+import { colors } from '../../components_additional/styles/Colors';
 
 //Components
 import Product from './ProductList';
 import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
+import Modal from '../../components_additional/Modal';
 
 class Products extends Component {
     state = {
@@ -79,18 +80,26 @@ class Products extends Component {
                     ) : (
                     <View style={stylesGuest().container}>
                         {this.getInput()}
-                        {!this.state.inputTriggered ? (
-                            <FlatList data={this.props.products} renderItem={({item}) => (
-                            <Product key={item} item={item} 
-                                    selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
-                                    goToProduct={(id1, id2) => this.goToProduct(id1, id2)} />
-                                )} />
-                        ) : (
-                            <FlatList data={this.state.tempArray} renderItem={({item}) => (
-                                <Product key={item} item={item} 
+                        {(this.props.products.length == 0) ? (
+                            <Modal title="Warning" 
+                                message="The list is empty. Please go back." 
+                                close={() => this.props.navigation.goBack()} 
+                                ok="Go back" color={colors.mainYellow} 
+                                horizontal={20} vertical={10}/>
+                            ) : (
+                            !this.state.inputTriggered ? (
+                                <FlatList data={this.props.products} renderItem={({item}) => (
+                                    <Product key={item} item={item} 
                                         selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
                                         goToProduct={(id1, id2) => this.goToProduct(id1, id2)} />
-                            )} />
+                                    )} />
+                            ) : (
+                                <FlatList data={this.state.tempArray} renderItem={({item}) => (
+                                    <Product key={item} item={item} 
+                                        selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
+                                        goToProduct={(id1, id2) => this.goToProduct(id1, id2)} />
+                                )} />
+                            )
                         )}
                     </View>
                 )

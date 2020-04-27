@@ -7,11 +7,13 @@ import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/SubcategoryStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
+import { colors } from '../../components_additional/styles/Colors';
 
 //Components
 import Subcategory from './SubcategoryList';
 import Loading from '../../components_additional/Loading';
 import Error from '../../components_additional/Error';
+import Modal from '../../components_additional/Modal';
 
 class Subcategories extends Component {
     state = {
@@ -74,9 +76,6 @@ class Subcategories extends Component {
     }
 
     render() {
-        // const { navigation } = this.props;
-        // const categoryId = this.props.navigation.getParam('categoryId');
-        // console.log('nav id: ', categoryId);
         return (
             (this.props.loading) ? (
                 <Loading />
@@ -86,15 +85,22 @@ class Subcategories extends Component {
                 ) : (
                     <View style={stylesGuest().container}>
                     {this.getInput()}
-                        {!this.state.inputTriggered ? (
-                            <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.props.subcategories} renderItem={({item}) => (
-                                <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
-                            )} />
+                        {(this.props.subcategories.length == 0) ? (
+                            <Modal title="Warning" 
+                                message="The list is empty. Please go back." 
+                                close={() => this.props.navigation.goBack()} 
+                                ok="OK" color={colors.mainYellow} 
+                                horizontal={20} vertical={10}/>
                         ) : (
-                            <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.state.tempArray} renderItem={({item}) => (
-                                <Subcategory key={item} item={item} goToProducts={(items) => this.goToProducts(item)} />
-                            )} />
-                            
+                            !this.state.inputTriggered ? (
+                                <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.props.subcategories} renderItem={({item}) => (
+                                    <Subcategory item={item} goToProducts={(item) => this.goToProducts(item)} />
+                                )} />
+                            ) : (
+                                <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.state.tempArray} renderItem={({item}) => (
+                                    <Subcategory key={item} item={item} goToProducts={(items) => this.goToProducts(item)} />
+                                )} />
+                            )    
                         )}  
                     </View>
                 )

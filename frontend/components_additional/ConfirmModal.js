@@ -5,13 +5,14 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import StyledButton from './AdminButton';
 import { colors } from './styles/Colors';
 
-const Modal = ({message, confirm, close, background, colorOne, colorTwo, height, horizontal, vertical}) => {
+const Modal = ({message, confirm, title, close, background, colorOne, colorTwo, height, horizontal, vertical}) => {
 
     return (
         <View style={modalStyle().container} >
             <View style={modalConfirm(background).itemContainer} >
                 <View style={modalStyle().iconWrap}>
                     <Icon style={modalStyle().icon} name="times" onPress={close} />
+                    <Text style={modalStyle().title}>{title}</Text>
                 </View>
                 <Text style={modalStyle().text} >{message}</Text>
                 <View style={modalConfirm().btnsWrap}>

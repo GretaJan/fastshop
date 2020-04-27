@@ -79,11 +79,12 @@ class CategoryList extends Component {
                         }}>  
                         <ConfirmModal message="Are you sure you want to delete this item? " 
                                 confirm={this.deleteFunction}
+                                title="Delete action"
                                 close={() => this.setState({confirm: false})}
-                                background={colors.orange}
+                                background={colors.mainWhiteYellow}
                                 colorOne={colors.lightBurgundy}
                                 colorTwo={colors.mediumGreen}
-                                height={0}
+                                horizontal={20} vertical={15}
                         />
                     </Modal>
                     <View style={authCategory().inactiveItemWrap}>

@@ -30,14 +30,14 @@ export const searchBar = () =>  StyleSheet.create({
     },
 });
 
-export const buttonStyle = (color) =>  StyleSheet.create({
+export const buttonStyle = (color, vertical, horizontal) =>  StyleSheet.create({
     buttonWrap: {
         marginBottom: 20,
         borderColor: colors.transparentLight,
         borderWidth: 1,
         borderRadius: 5,
-        width: Dimensions.get('window').width /2,
-        height: 60,
+        width: Dimensions.get('window').width /2.2,
+        height: 50,
         alignItems: 'center',
         justifyContent: 'center',   
         backgroundColor: color, 
@@ -51,15 +51,14 @@ export const buttonStyle = (color) =>  StyleSheet.create({
           shadowRadius: 2, 
     },
     buttonTxt: {
-        fontSize: 22,
+        fontSize: 18,
     },
 });
 
 export const adminButtonStyle = (color, horizontal, vertical) => StyleSheet.create({
     buttonWrap: {
         backgroundColor: color,
-        paddingHorizontal: 20,
-        paddingVertical: 15,
+        
         borderRadius: 3,
          // Shadow
          elevation: 3,
@@ -72,6 +71,8 @@ export const adminButtonStyle = (color, horizontal, vertical) => StyleSheet.crea
     },
     buttonTxt: {
         fontSize: 15,
+        paddingHorizontal: horizontal,
+        paddingVertical: vertical,
     }
 }) 
 
@@ -129,7 +130,7 @@ export const modalStyle = () => StyleSheet.create({
     },
     okTxt: {
         // marginLeft: Dimensions.get('window').width /6,
-        marginLeft: '65%',
+        marginLeft: '55%',
         fontSize: 18,
         marginTop: 10,
     }

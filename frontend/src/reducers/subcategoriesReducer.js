@@ -12,7 +12,7 @@ export default function(state = initialState, action) {
         case LOADING_GET_SUBCATEGORIES:
             return {
                 ...state,
-                loading: true
+                loading: action.loading,
             }
         case GET_SUBCATEGORIES:
             return {
