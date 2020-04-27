@@ -83,8 +83,6 @@ class CategoryList extends Component {
                                 background={colors.orange}
                                 colorOne={colors.lightBurgundy}
                                 colorTwo={colors.mediumGreen}
-                                horizontal={30}
-                                vertical={20}
                                 height={0}
                         />
                     </Modal>

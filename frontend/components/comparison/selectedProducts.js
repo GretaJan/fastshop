@@ -193,8 +193,8 @@ class Products extends Component {
             ) : (
                 <View style={stylesGuest().container} >
                     {(this.state.modalMessageEqual || this.state.modalMessageNumber) && (
-                    <Modal message={(!this.state.modalMessageEqual) ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} 
-                    close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})}/>
+                    <Modal title="Warning" message={(!this.state.modalMessageEqual) ? ('Please select at least two products') : ('Unable to compare. Products have same qualities')} 
+                    close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})} ok="OK"/>
                     )}
                     <View style={(this.state.optionsDisplay) ? (productWrap().flatListScrollSmall) : (productWrap().flatListScrollFull)}>
                         <FlatList nestedScrollEnabled={true} contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (

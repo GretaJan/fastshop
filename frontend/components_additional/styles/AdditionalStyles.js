@@ -79,37 +79,59 @@ export const modalStyle = () => StyleSheet.create({
     container: {
         position: 'absolute',
         zIndex: 10,
+        flex: 1,
         width: Dimensions.get('window').width /1,
         height: Dimensions.get('window').height /1,
         alignItems: 'center',
         backgroundColor: colors.transparentLight,
-        paddingTop: Dimensions.get('window').height /8,
+        paddingTop: Dimensions.get('window').height /6,
     },
     itemContainer: {
-        width: Dimensions.get('window').width /1.2,
+        width: Dimensions.get('window').width /1.4,
         backgroundColor: colors.mainWhiteYellow,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingLeft: 30,
-        paddingVertical: 20,
-        // paddingHorizontal: 35,
-        paddingBottom: 30,
+        paddingVertical: 10,
+        paddingBottom: 15,
         borderRadius: 10,
+         // Shadow
+         elevation: 2,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
     },
     iconWrap: {
-        width: '80%',
+        width: 220,
         flexDirection: 'row',
-        justifyContent: 'flex-end',
-        marginBottom: 10
+        alignItems: 'center',
+        borderBottomColor: colors.mainYellowTransparent,
+        borderBottomWidth: 2,
+        paddingBottom: 5,
+        marginBottom: 10,
     },
     icon: {
-        textAlign: 'left',
-        fontSize: 24
+        fontSize: 35,
+        color: colors.mainYellow,
+    },
+    title: {
+        marginLeft: '3%',
+        fontSize: 20,
+    },
+    textWrap: {
     },
     text: {
-        width: '85%',
-        fontSize: 22,
-        lineHeight: Platform.OS === 'ios' ? 34 : 36,
+        width: 220,
+        fontSize: 18,
+        lineHeight: Platform.OS === 'ios' ? 26 : 28,
+    },
+    okTxt: {
+        // marginLeft: Dimensions.get('window').width /6,
+        marginLeft: '65%',
+        fontSize: 18,
+        marginTop: 10,
     }
 });
 

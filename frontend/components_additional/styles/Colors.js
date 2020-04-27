@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 export const colors = {
     mainWhiteYellow: '#FFFFE0',
     mainYellow: '#ffcc33',
+    mainYellowTransparent: 'rgba(255, 204, 51, .5)',
     mainBlack: '#3a434c',
     lightGreen: '#FFFFE0',
     mediumGreen: '#aebd93',
