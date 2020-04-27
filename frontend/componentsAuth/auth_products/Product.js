@@ -267,7 +267,7 @@ class Product extends Component {
     render() {
         // const { name, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, image } = this.props;
         const { name, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, image, nameInput, energyInput, fatInput, 
-            saturatedInput, carbsInput, sugarInput, fiberInput, proteinInput, saltInput, vitaminsInput, backgroundInput, borderInput, imageInput, nameInput } = this.state;
+            saturatedInput, carbsInput, sugarInput, fiberInput, proteinInput, saltInput, vitaminsInput, background_color, backgroundInput, borderInput, imageInput } = this.state;
    
         return (
             (this.props.loading) ? (
