@@ -1,41 +1,17 @@
 import React, {Component} from 'react';
-import { View, Text, TextInput, Button, ScrollView, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, Button, ScrollView, StyleSheet, FlatList, TouchableOpacity, Image, Modal } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { editCategory } from '../../src/actions/categoryActions';
 import { authCategory } from '../../components_additional/styles/CategoryStyles';
-import StyledButton from '../../components_additional/AdminButton';
 import { colors } from '../../components_additional/styles/Colors';
 
-// const styles = {
-//     container: {
-//         marginTop: 8,
-//         // marginLeft: 10,
-//         // marginRight: 10
-//     },
-//     itemWrap: {
-//         display: 'flex',
-//         flexDirection: 'row',
-//         justifyContent: 'space-between',
-//         backgroundColor:'lightgrey',
-//         paddingLeft: 10,
-//         paddingRight: 10,
-//         paddingTop: 5,
-//     },
-//     itemText: {
-//         width: 'auto',
-//         fontSize: 20
-//     },
-//     itemButton: {
-//         flexBasis: '40'
-//     },
-//     iconItem: {
-//         paddingRight: 10
-//     }
+//Components
 
-// }
+import StyledButton from '../../components_additional/AdminButton';
+import ConfirmModal from '../../components_additional/ConfirmModal';
 
 class CategoryList extends Component {
     state = {
@@ -44,7 +20,8 @@ class CategoryList extends Component {
         imageData: '',
         background: this.props.background_color, 
         changedImg: false,
-        triggerEdit: false
+        triggerEdit: false,
+        confirm: false,
     }
 
     goToSubcategories = () => {
@@ -94,8 +71,34 @@ class CategoryList extends Component {
     render() {
         return (
             !this.state.triggerEdit ? (
-                <View style={authCategory().itemContainer} key={this.props.item.id.toString()}  >
+                <View style={authCategory().itemContainer} key={this.props.item.id.toString()} >
+                    <Modal  transparent={true}
+                        visible={this.state.confirm}
+                        onRequestClose={() => {
+                        Alert.alert('Modal has now been closed.');
+                        }}>  
+                        <ConfirmModal message="Are you sure you want to delete this item? " 
+                                confirm={this.deleteFunction}
+                                close={() => this.setState({confirm: false})}
+                                background={colors.orange}
+                                colorOne={colors.lightBurgundy}
+                                colorTwo={colors.mediumGreen}
+                                horizontal={30}
+                                vertical={20}
+                                height={0}
+                        />
+                    </Modal>
                     <View style={authCategory().inactiveItemWrap}>
+                    {/* {this.state.confirm && (
+                        <ConfirmModal message="Are you sure you want to delete this item? " 
+                            confirm={this.deleteFunction}
+                            close={() => this.setState({confirm: false})}
+                            background={colors.orange}
+                            colorOne={colors.lightBurgundy}
+                            colorTwo={colors.mediumGreen}
+                            height={0}
+                        />
+                    )} */}
                         {this.props.item.image ? (
                             <View style={authCategory().imageWrap} >
                                 <Image style={authCategory().imageStyle} source={{ uri: this.state.image }} />
@@ -109,14 +112,14 @@ class CategoryList extends Component {
                             <Text style={authCategory().nameTxt}>{this.props.item.name}</Text>
                         </View>
                         <View style={authCategory().goToSubBtn }>
-                            <StyledButton title="Subcategories" func={this.props.goToSubcategories} color={colors.orange} />
+                            <StyledButton horizontal={20} vertical={15} title="Subcategories" func={this.props.goToSubcategories} color={colors.orange} />
                         </View>
                     </View>
                     <View style={authCategory().inactiveBtnsWrap} >
                         <TouchableOpacity style={authCategory().editBtnWrap} onPress={this.triggerEdit}>
                             <Icon style={authCategory().editBtn} name="edit"/>
                         </TouchableOpacity>
-                        <TouchableOpacity style={authCategory().removeBtnWrap} onPress={this.deleteFunction}>
+                        <TouchableOpacity style={authCategory().removeBtnWrap} onPress={() => this.setState({confirm: true})}>
                             <Icon style={authCategory().removeBtn} name="trash-o" />
                         </TouchableOpacity>
                     </View>

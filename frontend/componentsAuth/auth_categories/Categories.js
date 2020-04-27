@@ -36,7 +36,7 @@ class Categories extends Component {
                     <Error message={this.props.error} />
                 ) : (
                 <View style={authCategory().container}>
-                    <ScrollView>
+                    {/* <ScrollView> */}
                         <View style={authCategory().addBtn}>
                             <StyledButton func={() => {this.props.navigation.push("Add_Category"), console.log("press")}} title="Add category" color={"lightblue"} />
                         </View>
@@ -46,7 +46,7 @@ class Categories extends Component {
                                     deleteCategory = {item => this.deleteCategory(item)} />
                         )} >
                         </FlatList>
-                    </ScrollView>
+                    {/* </ScrollView> */}
                 </View>
             ))
         )

@@ -6,6 +6,7 @@ export const styles = (background_color, border_color) => StyleSheet.create({
         marginTop: 8,
         // marginLeft: 10,
         // marginRight: 10
+        zIndex: -1,
     },
     itemWrap: {
         display: 'flex',
@@ -15,7 +16,7 @@ export const styles = (background_color, border_color) => StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 5,
-        height: 50
+        height: 50,
     },
     itemText: {
         width: 'auto',

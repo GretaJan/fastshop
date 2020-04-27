@@ -55,7 +55,7 @@ export const buttonStyle = (color) =>  StyleSheet.create({
     },
 });
 
-export const adminButtonStyle = (color) => StyleSheet.create({
+export const adminButtonStyle = (color, horizontal, vertical) => StyleSheet.create({
     buttonWrap: {
         backgroundColor: color,
         paddingHorizontal: 20,
@@ -100,15 +100,41 @@ export const modalStyle = () => StyleSheet.create({
         width: '80%',
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        marginBottom: 20
+        marginBottom: 10
     },
     icon: {
         textAlign: 'left',
         fontSize: 24
     },
     text: {
-        width: '98%',
-        fontSize: 24,
+        width: '85%',
+        fontSize: 22,
         lineHeight: Platform.OS === 'ios' ? 34 : 36,
+    }
+});
+
+export const modalConfirm = (color) => StyleSheet.create({
+    itemContainer: {
+        width: Dimensions.get('window').width /1.2,
+        backgroundColor: color,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 20,
+        // paddingHorizontal: 35,
+        top: '10%',
+        paddingBottom: 30,
+        borderRadius: 10,
+    },
+    btnsWrap: {
+        flexDirection: 'row',
+        width: '60%',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: 20,
+    },
+    btnOne: {
+    },
+    btnTwo: {
+
     }
 })
