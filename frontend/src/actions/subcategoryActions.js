@@ -60,7 +60,7 @@ export const editSubcategory = (subcategory, category, data) => (dispatch) => {
     axios.post( URL + `/updateSubcategory/${category}/${subcategory}`, data)
         .then(subcategory => { console.log("show: ", subcategory)
             dispatch({
-                action: EDIT_SUBCATEGORY,
+                type: EDIT_SUBCATEGORY,
                 payload: subcategory.data,
                 id: subcategory.data.id,
             })
@@ -83,7 +83,7 @@ export const deleteSubcategory = (subcategory) => (dispatch) => {
     axios.delete( URL + `/deleteSubcategory/${subcategory}`)
         .then(() => { 
             dispatch({
-                action: DELETE_SUBCATEGORY,
+                type: DELETE_SUBCATEGORY,
                 payload: subcategory,
             })
         }).catch(err => 

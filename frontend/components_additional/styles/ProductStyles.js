@@ -131,11 +131,9 @@ export const stylesGuest = () => StyleSheet.create( {
         fontSize: 50,
         color: '#000'
     },
-    iconWrap: {
-        paddingRight: 10,
-    },
     iconItem: {
         fontSize: 30,
+        paddingRight: 10,
     }
 });
 
@@ -168,7 +166,7 @@ export const stylesGuestSingle = (color) => StyleSheet.create( {
         width: 45,
         height: 45,
         borderRadius: 45/2,
-        marginTop: 180,
+        marginTop: 160,
         zIndex: 2,
         justifyContent: 'center',
         alignItems: 'center',
@@ -184,9 +182,6 @@ export const stylesGuestSingle = (color) => StyleSheet.create( {
         flex: 1,
         // maxWidth: Dimensions.get('window').width /1,
         width: Dimensions.get('window').width /1,
-        paddingHorizontal: 20,
-        paddingTop: 15,
-        marginTop: 10,
     },
     //Items
     listItemWrap: {
@@ -234,9 +229,14 @@ export const stylesGuestSingle = (color) => StyleSheet.create( {
         borderBottomColor: color ? color : colors.yellowGreenish,
         borderLeftColor: 'transparent',
         position: 'absolute',
-        top: 120,
+        top: 100,
         zIndex: 0
       },
+      underTriangle: {
+        height: 50,
+        width: Dimensions.get('window').width /1,
+        backgroundColor: color ? color : colors.yellowGreenish,
+    },
 });
 
 export const authProducts = () => StyleSheet.create({
@@ -252,8 +252,8 @@ export const authProducts = () => StyleSheet.create({
 export const authProduct = (color) => StyleSheet.create({
     imageIconWrap: {
         zIndex: 10,
+        width: '100%'    
     },
-  
     triangle: {
         width: 0,
         height: 0,
@@ -270,25 +270,30 @@ export const authProduct = (color) => StyleSheet.create({
         position: 'absolute',
         top: 100,
         zIndex: 0
-      },
+    },
+    underTriangle: {
+        height: 50,
+        width: Dimensions.get('window').width /1,
+        backgroundColor: color ? color : colors.yellowGreenish,
+    },
     listContainer: {
         flex: 1,
-        paddingHorizontal: 20,
-        paddingTop: 40,
+        paddingHorizontal: 10,
         backgroundColor: color ? color : colors.yellowGreenish,
         width: Dimensions.get('window').width /1,
-        marginTop: 10,
     },
     backgroundRectangle: {
-        width: 80,
+        // width: 80,
         height: 40,
         borderColor: colors.mainWhiteYellow,
         borderWidth: 2,
+        flex: 1,
+        marginRight: 55,
     },
     editBtnWrap: {
         position: 'absolute',
-        right: 50,
-        zIndex: 10,
+        right: 55,
+        zIndex: 12,
         top: 25,
     },
     editIcon: {
@@ -301,10 +306,9 @@ export const authProduct = (color) => StyleSheet.create({
         // zIndex: 10,
         top: 50,
     },
-    iconsWrap: {
+    iconsImgWrap: {
         position: 'absolute',
-        right: 50,
-        zIndex: 10,
+        right: 53,
         top: 22,
         zIndex: 11,
     },
@@ -331,6 +335,10 @@ export const authProduct = (color) => StyleSheet.create({
     },
     editImgIcon: {
         fontSize: 35,
+        position: 'absolute',
+        right: 53,
+        top: 22,
+        zIndex: 9,
     },
     iconImgCancel: {
         fontSize: 42,
@@ -349,4 +357,33 @@ export const authProduct = (color) => StyleSheet.create({
         color: colors.bordo,
         padding: 5,
     },
+
+    // INPUTS:
+    componentTitle: {
+        width: '49%',
+        fontSize: 20,
+        textTransform: 'uppercase',
+        paddingLeft: 0,
+     },
+     listItemWrap: {
+        flex: 1,
+        flexDirection: 'row',
+        height: 85,
+        alignItems: 'center',
+        borderBottomColor: '#F7F7F7',
+        borderBottomWidth: 1,
+        justifyContent: 'space-between',
+     },
+     iconsWrap: {
+         flex: 1, 
+         flexDirection: 'row',
+        //  paddingRight: 5,
+     },
+     itemInput: {
+         flex: 1,
+         backgroundColor: colors.mainWhiteYellow,
+         fontSize: 24,
+         left: -4,
+     }  
+
 }) 

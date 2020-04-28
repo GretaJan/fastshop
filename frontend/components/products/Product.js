@@ -31,7 +31,6 @@ class Product extends Component {
         const { subcategory_id, image, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, background_color } = this.props.product;
         return (
             <View style={stylesGuestSingle().container} >
-                <Text>{this.props.product.name}</Text>
                 {/* <TouchableOpacity style={stylesGuestSingle().iconSelectWrap}>
                     <Icon style={stylesGuestSingle().selectItemIcon} name="ios-checkmark-circle-outline" onPress={() => this.selectProduct} />
                 </TouchableOpacity> */}
@@ -48,6 +47,7 @@ class Product extends Component {
                         <IonIcon style={stylesGuestSingle().emptyIcon} name="ios-checkmark-circle-outline" />
                     </TouchableOpacity>
                     <View style={stylesGuestSingle().triangle} ></View>
+                    <View style={stylesGuestSingle().underTriangle} ></View>
                     <ScrollView style={stylesGuestSingle().listContainer} >
                         <View style={stylesGuestSingle().listItemWrap}>
                             <Text style={stylesGuestSingle().componentTitle} >Energy</Text>

@@ -55,7 +55,6 @@ class CategoryList extends Component {
     }
 
     editCategory = async() => {
-        console.log("Type:", typeof(this.state.image) )
         const data = {
             name: this.state.name,
             background_color: this.state.backgroundColor == undefined ? null :this.state.backgroundColor,

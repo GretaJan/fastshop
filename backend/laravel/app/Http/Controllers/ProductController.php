@@ -98,7 +98,6 @@ class ProductController extends Controller
 
         $request->validate([
             'name' => 'nullable|min:3|max:100',
-            'image' => 'nullable|image',
             // 'energy' => 'nullable|numeric|min:2',
             // 'fat' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
             // 'saturated' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
@@ -134,7 +133,6 @@ class ProductController extends Controller
             $path2 = asset('/uploads/products');
             $product->image =  $path2 . '/' . $imageName; 
         } else if(preg_match('/^data:image\/(\w+);base64,/', !$base64)) {
-            var_dump('isString' . $product->image . ' ' . is_string($base64));
             $product->image = $product->image;
         } else {
             $product->image = null;

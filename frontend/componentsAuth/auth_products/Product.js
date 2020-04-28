@@ -28,7 +28,6 @@ class Product extends Component {
         protein: this.props.product.protein,
         salt: this.props.product.salt,
         vitamins: this.props.product.vitamins,
-        image: null,
         background: this.props.product.background_color,
         border_color:  this.props.product.border_color,
         nameInput: false,
@@ -45,12 +44,13 @@ class Product extends Component {
         borderInput: false,
         imageInput: false,
         title: this.props.route.params.name,
+        changedImg: false,
+        imageData: null,
     }
 
 
     async componentDidMount() {
         await this.props.getProduct( this.state.subcategoryId, this.state.productId);
-        console.log('image: ', this.props.route.params.name)
     }
 
     imageInput = () => {
@@ -207,9 +207,13 @@ class Product extends Component {
         }
         ImagePicker.launchImageLibrary(options, response => {
             if (response.uri) {
-                this.setState({image: response});
-                this.editProduct();
-            }   
+                this.setState({
+                            imageData: response,
+                            changedImg: true
+                            });
+            } else {
+                this.setState({changedImg: false});
+            }  
         })
     }
 
@@ -228,7 +232,7 @@ class Product extends Component {
             vitamins: this.state.vitamins,
             background_color: this.state.background,
             border_color: this.state.border_color,
-            image: "data:" + image.type + ";base64," + image.data,
+            image: this.state.changedImg ? "data:" + this.state.imageData.type + ";base64," + this.state.imageData.data : this.state.image,
             "_method": "put"
         }
         await this.props.editProduct(this.props.route.params.subcategoryId, this.props.route.params.productId, data); 
@@ -258,7 +262,7 @@ class Product extends Component {
 
     render() {
         const { image, name, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, nameInput, imageInput, energyInput, fatInput, 
-            saturatedInput, carbsInput, sugarInput, fiberInput, proteinInput, saltInput, vitaminsInput, background, backgroundInput, borderInput } = this.state;
+            saturatedInput, carbsInput, sugarInput, fiberInput, proteinInput, saltInput, vitaminsInput, background, backgroundInput, changedImg, imageData } = this.state;
         return (
                  this.props.loading ? (
                     <Loading />
@@ -269,23 +273,27 @@ class Product extends Component {
                         <View style={stylesGuestSingle().container}>
                         {!imageInput ? (
                             image ? (
-                                <TouchableOpacity style={authProduct().imageIconWrap}  onPress={this.imageInput}>
+                                <TouchableOpacity style={authProduct().imageIconWrap}  onPress={() => {this.imageInput()}}>
                                     <View style={stylesGuestSingle().imageContainer} >
-                                        <Image style={stylesGuestSingle().image} source={{ uri: image }} />
+                                    {changedImg ? (
+                                      <Image style={stylesGuestSingle().image} source={{ uri: "data:" + imageData.type + ";base64," + imageData.data }}  onPress={() => this.imageInput()} />
+                                    ) : (
+                                        <Image style={stylesGuestSingle().image} source={{ uri: image }}  onPress={() => this.imageInput()} />
+                                    )}
                                     </View>
-                                    <TouchableOpacity style={authProduct().editBtnWrap}>
-                                        <Icon style={authProduct().editImgIcon} name="pencil"/>
-                                    </TouchableOpacity>
+                                    <Icon style={authProduct().editImgIcon} name="pencil"/>
                                 </TouchableOpacity>
                                 ) : (
-                                    <View style={authProduct().imageIconWrap}>
-                                        <View style={stylesGuestSingle().imageContainer} >
-                                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
-                                        </View> 
-                                        <TouchableOpacity style={authProduct().editBtnWrap} onPress={this.imageInput}>
+                                    <TouchableOpacity style={authProduct().imageIconWrap} >
+                                        <TouchableOpacity style={stylesGuestSingle().imageContainer} >
+                                        {changedImg ? (
+                                            <Image style={stylesGuestSingle().image} source={{ uri: "data:" + imageData.type + ";base64," + imageData.data }} onPress={() => this.imageInput()} />
+                                        ) : (
+                                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')} onPress={() => this.imageInput()} />
+                                            )}
+                                        </TouchableOpacity> 
                                             <Icon style={authProduct().editImgIcon} name="pencil"/>
-                                        </TouchableOpacity>
-                                    </View>
+                                    </TouchableOpacity>
                                 )   
                                 ) : (
                                     image ? (
@@ -294,7 +302,7 @@ class Product extends Component {
                                             <Image style={stylesGuestSingle().image} source={{ uri: image }} />
                                             <Icon style={authProduct().uploadIcon} name="upload"/>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={ authProduct().iconsWrap } >
+                                        <TouchableOpacity style={ authProduct().iconsImgWrap } >
                                             <Icon style={ authProduct().iconImgSave } name="check-circle" onPress={() => this.editProduct()} />
                                             <Icon style={ authProduct().iconImgCancel } name="times-circle" style={ authProduct().iconCancel } onPress={() => this.cancelImageEdit()} />
                                         </TouchableOpacity>
@@ -305,7 +313,7 @@ class Product extends Component {
                                             <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                                             <Icon style={authProduct().uploadIcon} name="upload"/>
                                         </TouchableOpacity> 
-                                        <TouchableOpacity style={ authProduct().iconsWrap } >
+                                        <TouchableOpacity style={ authProduct().iconsImgWrap } >
                                             <Icon style={ authProduct().iconSave } name="check-circle" onPress={() => this.editProduct()} />
                                             <Icon style={ authProduct().iconCancel } name="times-circle"  onPress={() => this.cancelImageEdit()} />
                                         </TouchableOpacity>
@@ -316,9 +324,10 @@ class Product extends Component {
                                     <Icon style={authProduct().emptyIcon} name="trash-o" />
                                 </TouchableOpacity>
                                 <View style={authProduct().triangle} ></View>
+                                <View style={authProduct().underTriangle} ></View>
                                 <ScrollView style={authProduct().listContainer} >
-                                <View style={stylesGuestSingle().listItemWrap}>
-                                    <Text style={stylesGuestSingle().componentTitle} >Background:</Text>
+                                <View style={authProduct().listItemWrap}>
+                                    <Text style={authProduct().componentTitle} >Background:</Text>
                                     {!backgroundInput ? (
                                         <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap} onPress={() => this.backgroundInput()} >
                                             <Text style={authProduct().backgroundRectangle} ></Text>
@@ -335,17 +344,16 @@ class Product extends Component {
                                         )}
                                 </View>
                                 <View style={stylesGuestSingle().listItemWrap}>
-                                    <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
+                                    <Text style={authProduct().componentTitle} >Energy</Text>
                                     {!energyInput ? (
                                     <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap} onPress={() => this.energyInput()} >
-                                        <Text style={stylesGuestSingle().componentAmount} >{ (energy) ? (energy) : ('-') }</Text>
+                                        <Text style={stylesGuestSingle().componentAmount}>{ (energy) ? (energy) : ('-') }</Text>
                                         <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
                                         <Icon  style={ authProduct().iconEdit } name="pencil"/>
                                     </TouchableOpacity>
                                         ) : (
                                         <View style={stylesGuestSingle().listItemInfoWrap}>
-                                            <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({energy: value})} defaultValue={(energy) ? (energy) : ('-')} />
-                                            <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                                            <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({energy: value})} defaultValue={(energy) ? (energy.toString()) : ('-')} />
                                             <TouchableOpacity style={ authProduct().iconsWrap } >
                                                 <Icon style={ authProduct().iconSave } name="check-circle" onPress={() =>{ this.editProduct(), console.log("hey")}} />
                                                 <Icon  style={ authProduct().iconCancel } name="times-circle"  onPress={() => this.cancelEnergyEdit()} />
@@ -354,36 +362,34 @@ class Product extends Component {
                                         )}
                                 </View>
                                     <View style={stylesGuestSingle().listItemWrap}>
-                                        <Text style={stylesGuestSingle().componentTitle} >fat</Text>
+                                        <Text style={authProduct().componentTitle} >fat</Text>
                                         {!fatInput ? (
                                         <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap} onPress={() => this.fatInput()} >
                                             <Text style={stylesGuestSingle().componentAmount} >{ (fat) ? (fat) : ('-') }</Text>
                                             <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                                            <Icon  style={ authProduct().iconEdit }name="pencil"  />
+                                            <Icon  style={ authProduct().iconEdit } name="pencil"  />
                                         </TouchableOpacity>
                                         ) : (
                                             <View style={stylesGuestSingle().listItemInfoWrap} >
                                                 <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({fat: value})}} defaultValue={(fat) ? (fat) : ('-') } />
-                                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                                                <View style={ styles().iconsWrap }>
-                                                    <Icon style={ styles().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
+                                                <View style={ authProduct().iconsWrap }>
+                                                    <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                                     <Icon  style={ authProduct().iconCancel }name="times-circle" onPress={() => this.cancelFatEdit()} />
                                                 </View>
                                             </View>
                                         )}
                                     </View>
-                                    <View style={stylesGuestSingle().listItemWrap}>
-                                        <Text style={stylesGuestSingle().componentTitle} >saturated fat</Text>
+                                    <View style={authProduct().listItemWrap}>
+                                        <Text style={authProduct().componentTitle} >saturated fat</Text>
                                         {!saturatedInput ? (
                                         <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap} onPress={() => this.saturatedInput()}>
                                             <Text style={stylesGuestSingle().componentAmount} >{ (saturated) ? (saturated) : ('-') }</Text>
                                             <Text style={stylesGuestSingle().componentMeasure} >g</Text>
-                                            <Icon  style={ authProduct().iconEdit }name="pencil" /> 
+                                            <Icon  style={ authProduct().iconEdit } name="pencil" /> 
                                         </TouchableOpacity>
                                             ) : (
                                             <View style={stylesGuestSingle().listItemInfoWrap} >
-                                                <TextInput  style={ authProduct(background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}}  defaultValue={(saturated) ? (saturated) : ('-')} />
-                                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                                <TextInput  style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}}  defaultValue={(saturated) ? (saturated) : ('-')} />
                                                 <View style={ authProduct().iconsWrap } >
                                                     <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                                     <Icon  style={ authProduct().iconCancel }name="times-circle" onPress={() => this.cancelSaturatedEdit()} />
@@ -391,8 +397,8 @@ class Product extends Component {
                                             </View>
                                         )}
                                     </View>
-                                    <View style={stylesGuestSingle().listItemWrap}>
-                                        <Text style={stylesGuestSingle().componentTitle} >Carbohidrates</Text>
+                                    <View style={authProduct().listItemWrap}>
+                                        <Text style={authProduct().componentTitle} >Carbohidrates</Text>
                                         {!carbsInput ? (
                                         <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap} onPress={() => this.carbsInput()} >
                                             <Text style={stylesGuestSingle().componentAmount} >{ (carbs) ? (carbs) : ('-') }</Text>
@@ -402,16 +408,15 @@ class Product extends Component {
                                         ) : (
                                             <View style={stylesGuestSingle().listItemInfoWrap} >
                                                 <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({carbs: value})}} defaultValue={(carbs) ? (carbs) : ('-')} />
-                                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                                                 <View style={ authProduct().iconsWrap }>
-                                                    <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
-                                                    <Icon  style={ authProduct().iconCancel } name="times-circle" onPress={() => this.cancelCarbsEdit} />
+                                                    <Icon style={ authProduct().iconSave } name="check-circle" onPress={() => this.editProduct()} />
+                                                    <Icon  style={ authProduct().iconCancel } name="times-circle" onPress={() => this.cancelCarbsEdit()} />
                                                 </View>
                                             </View>
                                         )}
                                     </View>
-                                    <View style={stylesGuestSingle().listItemWrap}>
-                                        <Text style={stylesGuestSingle().componentTitle} >sugar</Text>
+                                    <View style={authProduct().listItemWrap}>
+                                        <Text style={authProduct().componentTitle} >sugar</Text>
                                         {!sugarInput ? (
                                         <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap} onPress={() => this.sugarInput()} >
                                             <Text style={stylesGuestSingle().componentAmount} >{ (sugar) ? (sugar) : ('-') }</Text>
@@ -420,8 +425,7 @@ class Product extends Component {
                                         </TouchableOpacity>
                                         ) : (
                                             <View style={stylesGuestSingle().listItemInfoWrap} >
-                                                <TextInput style={ authProduct(background_color, this.state.border_color).itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue={(sugar) ? (sugar) : ('-')} />
-                                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                                <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue={(sugar) ? (sugar) : ('-')} />
                                                 <View style={ authProduct().iconsWrap }>
                                                     <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                                     <Icon  style={ authProduct().iconCancel }name="times-circle" onPress={this.cancelSugarEdit} />
@@ -429,8 +433,8 @@ class Product extends Component {
                                             </View>
                                         )}
                                     </View>
-                                    <View style={stylesGuestSingle().listItemWrap}>
-                                        <Text style={stylesGuestSingle().componentTitle} >fiber</Text>
+                                    <View style={authProduct().listItemWrap}>
+                                        <Text style={authProduct().componentTitle} >fiber</Text>
                                         {!fiberInput ? (
                                         <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap} onPress={() => this.fiberInput()}  >
                                             <Text style={stylesGuestSingle().componentAmount} >{ (fiber) ? (fiber) : ('-') }</Text>
@@ -440,7 +444,6 @@ class Product extends Component {
                                         ) : (
                                             <View style={stylesGuestSingle().listItemInfoWrap} >
                                                 <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({fiber: value})}} defaultValue={(fiber) ? (fiber) : ('-')} />
-                                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                                                 <View style={ authProduct().iconsWrap }>
                                                     <Icon style={ authProduct().iconSave } name="check-circle"  onPress={this.editProduct} />
                                                     <Icon  style={ authProduct().iconCancel } name="times-circle"  onPress={() => this.cancelFiberEdit()} />
@@ -448,8 +451,8 @@ class Product extends Component {
                                             </View>    
                                         )}
                                     </View>
-                                    <View style={stylesGuestSingle().listItemWrap}>
-                                        <Text style={stylesGuestSingle().componentTitle} >protein</Text>
+                                    <View style={authProduct().listItemWrap}>
+                                        <Text style={authProduct().componentTitle} >protein</Text>
                                         {!proteinInput ? (
                                         <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap} onPress={() => this.proteinInput()} >
                                             <Text style={stylesGuestSingle().componentAmount} >{ (protein) ? (protein) : ('-') }</Text>
@@ -459,7 +462,6 @@ class Product extends Component {
                                         ) : (
                                             <View style={stylesGuestSingle().listItemInfoWrap} >
                                                 <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({protein: value})}} defaultValue={(protein) ? (protein) : ('-')} />
-                                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                                                 <View style={ authProduct().iconsWrap }>
                                                     <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                                     <Icon  style={ authProduct().iconCancel } name="times-circle" onPress={() => this.cancelProteinEdit()} />
@@ -467,8 +469,8 @@ class Product extends Component {
                                             </View>
                                         )}
                                     </View>
-                                    <View style={stylesGuestSingle().listItemWrap}>
-                                        <Text style={stylesGuestSingle().componentTitle} >salt</Text>
+                                    <View style={authProduct().listItemWrap}>
+                                        <Text style={authProduct().componentTitle} >salt</Text>
                                         {!saltInput ? (
                                         <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap}  onPress={() => this.saltInput()} >
                                             <Text style={stylesGuestSingle().componentAmount} >{ (salt) ? (salt) : ('-') }</Text>
@@ -478,7 +480,6 @@ class Product extends Component {
                                         ) : (
                                             <View style={stylesGuestSingle().listItemInfoWrap} >
                                                 <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({salt: value})}} defaultValue={(salt) ? (salt) : ('-')} />
-                                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                                                 <View style={ authProduct().iconsWrap }>
                                                     <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
                                                     <Icon  style={ authProduct().iconCancel } name="times-circle" onPress={() => this.cancelSaltEdit()} />
@@ -486,8 +487,8 @@ class Product extends Component {
                                             </View> 
                                         )}
                                     </View>
-                                    <View style={stylesGuestSingle().listItemWrap}>
-                                        <Text style={stylesGuestSingle().componentTitle} >vitamins</Text>
+                                    <View style={authProduct().listItemWrap}>
+                                        <Text style={authProduct().componentTitle} >vitamins</Text>
                                         {!vitaminsInput ? (
                                         <TouchableOpacity style={stylesGuestSingle().listItemInfoWrap} onPress={() => this.vitaminsInput()} >
                                             <Text style={stylesGuestSingle().componentAmount} >{ (vitamins) ? (vitamins) : ('-') }</Text>
@@ -496,8 +497,7 @@ class Product extends Component {
                                         </TouchableOpacity>
                                     ) : (
                                         <View style={stylesGuestSingle().listItemInfoWrap} >
-                                            <Text style={stylesGuestSingle().componentAmount} >{ (vitamins) ? (vitamins) : ('-') }</Text>
-                                            <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                            <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({vitamins: value})}} defaultValue={(vitamins) ? (vitamins) : ('-')} />
                                             <View style={ authProduct().iconsWrap }>
                                                 <Icon style={ authProduct().iconSave } name="check-circle" onPress={this.editProduct} />
                                                 <Icon  style={ authProduct().iconCancel } name="times-circle" onPress={() => this.cancelVitaminsEdit()} />
