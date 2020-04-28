@@ -66,8 +66,8 @@ class Products extends Component {
         this.props.productSelected(item1, item2);
     }
 
-    goToProduct = (subcategoryId, productId) => {
-        this.props.navigation.push("Product", {subcategoryId: subcategoryId, productId: productId});
+    goToProduct = (item) => {
+        this.props.navigation.push("Product", {subcategoryId: item.subcategory_id, productId: item.id, name: item.name, background: item.background_color});
     }
 
     render() {
@@ -97,13 +97,13 @@ class Products extends Component {
                                 <FlatList data={this.props.products} renderItem={({item}) => (
                                     <Product key={item} item={item} 
                                         selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
-                                        goToProduct={(id1, id2) => this.goToProduct(id1, id2)} />
+                                        goToProduct={() => this.goToProduct(item)} />
                                     )} />
                             ) : (
                                 <FlatList data={this.state.tempArray} renderItem={({item}) => (
                                     <Product key={item} item={item} 
                                         selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
-                                        goToProduct={(id1, id2) => this.goToProduct(id1, id2)} />
+                                        goToProduct={() => this.goToProduct(item)} />
                                 )} />
                             )
                         )}

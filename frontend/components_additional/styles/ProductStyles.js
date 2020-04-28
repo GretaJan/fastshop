@@ -76,15 +76,15 @@ export const styles = (background_color, border_color) => StyleSheet.create({
     //     height: 50
     // },
 
+   
 
 });
 
 export const stylesGuest = () => StyleSheet.create( {
     container: {
-        // backgroundColor: '#ffdc75',
-        backgroundColor: '#ffcc33',
         flex: 1,
         textAlign: 'center',
+        backgroundColor: colors.mainWhiteYellow,
     },
     itemWrap: {
         display: 'flex',
@@ -139,7 +139,7 @@ export const stylesGuest = () => StyleSheet.create( {
     }
 });
 
-export const stylesGuestSingle = () => StyleSheet.create( {
+export const stylesGuestSingle = (color) => StyleSheet.create( {
     container: {
         flex: 1,
         textAlign: 'center',
@@ -147,11 +147,13 @@ export const stylesGuestSingle = () => StyleSheet.create( {
         backgroundColor: colors.mainWhiteYellow,
     },
     imageContainer: {
-        height: Dimensions.get('window').width /2.3,
+        width: Dimensions.get('window').width /2.3,
         height: 180,
         textAlign: 'center',
         alignItems:'center',
-        top: 10,
+        // justifyContent: 'center',
+        alignSelf: 'center',
+        top: 5,
         zIndex: 1,
     },
     image: {
@@ -178,12 +180,13 @@ export const stylesGuestSingle = () => StyleSheet.create( {
         // left: 18, 
     },
     listContainer: {
-        backgroundColor: 'lightblue',
+        backgroundColor: color ? color : colors.yellowGreenish,
         flex: 1,
         // maxWidth: Dimensions.get('window').width /1,
         width: Dimensions.get('window').width /1,
         paddingHorizontal: 20,
         paddingTop: 15,
+        marginTop: 10,
     },
     //Items
     listItemWrap: {
@@ -228,7 +231,7 @@ export const stylesGuestSingle = () => StyleSheet.create( {
         borderLeftWidth: 250,
         borderTopColor: 'transparent',
         borderRightColor: 'transparent',
-        borderBottomColor: 'lightblue',
+        borderBottomColor: color ? color : colors.yellowGreenish,
         borderLeftColor: 'transparent',
         position: 'absolute',
         top: 120,
@@ -243,4 +246,91 @@ export const authProducts = () => StyleSheet.create({
         backgroundColor: colors.mainYellow,
         zIndex: 0,
     }
-})
+}) 
+
+
+export const authProduct = (color) => StyleSheet.create({
+    imageIconWrap: {
+        zIndex: 10,
+    },
+    editBtnWrap: {
+        position: 'absolute',
+        right: 50,
+        zIndex: 10,
+        top: 25,
+    },
+    editIcon: {
+        fontSize: 45,
+    },
+    uploadIcon: {
+        fontSize: 45,
+        position: 'absolute',
+        // right: 50,
+        // zIndex: 10,
+        top: 50,
+    },
+    iconsWrap: {
+        position: 'absolute',
+        right: 50,
+        zIndex: 10,
+        top: 22,
+        zIndex: 11,
+    },
+    iconSave: {
+        fontSize: 45,
+        color: colors.mediumGreen2,
+        padding: 5,
+    },
+    iconCancel: {
+        fontSize: 45,
+        color: colors.bordo,
+        padding: 5,
+    },
+    emptyItem: {
+        position: 'absolute',
+        zIndex: 12,
+        alignSelf: 'center',
+        justifyContent:'center',
+        alignItems: 'center',
+        backgroundColor: colors.mainWhiteYellow,
+        height: 50,
+        width: 50,
+        borderRadius: 45/2,
+        top: 160,
+    },
+    emptyIcon: {
+        fontSize: 42,
+        color: colors.bordo,
+    },
+    triangle: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderTopWidth: 0,
+        borderRightWidth: 250,
+        borderBottomWidth: 90,
+        borderLeftWidth: 250,
+        borderTopColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderBottomColor: color ? color : colors.yellowGreenish,
+        borderLeftColor: 'transparent',
+        position: 'absolute',
+        top: 100,
+        zIndex: 0
+      },
+    listContainer: {
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingTop: 40,
+        backgroundColor: color ? color : colors.yellowGreenish,
+        width: Dimensions.get('window').width /1,
+        marginTop: 10,
+    },
+    backgroundRectangle: {
+        width: 80,
+        height: 40,
+        borderColor: colors.mainWhiteYellow,
+        borderWidth: 2,
+    }
+}) 

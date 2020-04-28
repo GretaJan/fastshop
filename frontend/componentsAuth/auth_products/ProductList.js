@@ -8,7 +8,7 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 class ProductList extends Component {
 
     goToProduct = () => {
-        this.props.goToProduct(this.props.item.subcategory_id, this.props.item.id)
+        this.props.goToProduct()
     }
 
     render() {

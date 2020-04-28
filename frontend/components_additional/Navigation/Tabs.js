@@ -100,7 +100,7 @@ render() {
                                             color: colors.titleBlack,
                                         },
                                         headerStyle: {
-                                            backgroundColor: colors.yellowGreenish,
+                                            backgroundColor: colors.mainWhiteYellow,
                                         },
                                         headerTitleAlign: 'center'
                                     }} /> 
@@ -180,9 +180,21 @@ render() {
                   },
                   headerTitleAlign: 'center'
             }} />
-            <AdminNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} options={{ title: "Subcategories"}} options={Subcategories_Auth.navigationOptions}/>
+            <AdminNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} 
+                                options={{ title: "Subcategories"}} options={Subcategories_Auth.navigationOptions}/>
             <AdminNavigation.Screen name="Products_Auth" component={Products_Auth} options={{ title: "Products"}}  />
-            <AdminNavigation.Screen name="Product_Auth" component={Product_Auth} options={{ title: "Product"}}  /> 
+            <AdminNavigation.Screen name="Product_Auth" component={Product_Auth} 
+                                options={({ route }) => ({ 
+                                    title: route.params.name,
+                                    headerStyle: {
+                                        backgroundColor: colors.mainWhiteYellow,
+                                      },
+                                    headerTitleStyle: {
+                                        fontWeight: 'bold',
+                                        color: 'colors.titleBlack',
+                                    },
+                                    headerTitleAlign: 'center'
+                                })} /> 
             <AdminNavigation.Screen name="Add_Category" component={AddCategory} options={{ title: "Add Category"}}  />
             <AdminNavigation.Screen name="Add_Subcategory" component={AddSubcategory} options={{ title: "Add Subcategory"}}  />
             <AdminNavigation.Screen name="Add_Product" component={AddProduct} options={{ title: "Add Product" }}  />
