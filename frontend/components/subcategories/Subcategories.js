@@ -93,7 +93,7 @@ class Subcategories extends Component {
                     {this.getInput()}
                         {(this.props.subcategories.length == 0) ? (
                             <Modal title="Warning" 
-                                message="The List is emptyPlease go back." 
+                                message="The list is empty. PLease go back." 
                                 close={() => this.props.navigation.goBack()} 
                                 ok="OK" color={colors.mainYellow} 
                                 borderColor={colors.mainYellowTransparent}

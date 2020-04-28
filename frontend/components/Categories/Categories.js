@@ -77,7 +77,7 @@ class Categories extends Component {
                     <View style={stylesGuest().container} >
                         {(this.props.categories.length == 0) ? (
                             <Modal title="Warning" 
-                                message="The List is emptyPlease go back." 
+                                message="The list is empty. PLease go back." 
                                 close={() => this.props.navigation.push("Login")} 
                                 ok="OK" color={colors.mainYellow} 
                                 borderColor={colors.mainYellowTransparent}

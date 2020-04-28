@@ -115,7 +115,7 @@ class CategoryList extends Component {
                     </View>
                     <View style={authCategory().inactiveBtnsWrap} >
                         <TouchableOpacity style={authCategory().editBtnWrap} onPress={this.triggerEdit}>
-                            <Icon style={authCategory().editBtn} name="edit"/>
+                            <Icon style={authCategory().editBtn} name="pencil"/>
                         </TouchableOpacity>
                         <TouchableOpacity style={authCategory().removeBtnWrap} onPress={() => this.setState({confirm: true})}>
                             <Icon style={authCategory().removeBtn} name="trash-o" />

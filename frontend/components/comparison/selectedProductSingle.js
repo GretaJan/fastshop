@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { compareSingle } from '../../components_additional/styles/CompareStyles';

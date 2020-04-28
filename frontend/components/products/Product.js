@@ -25,7 +25,6 @@ class Product extends Component {
 
     async componentDidMount() {
         await this.props.getProduct( this.state.subcategoryId, this.state.productId);
-        console.log('image: ', image)
     }
 
     render() {
@@ -37,13 +36,13 @@ class Product extends Component {
                     <Icon style={stylesGuestSingle().selectItemIcon} name="ios-checkmark-circle-outline" onPress={() => this.selectProduct} />
                 </TouchableOpacity> */}
                 {image ? (
-                        <View style={stylesGuestSingle().imageContainer} >
-                            <Image style={stylesGuestSingle().image} source={{ uri: image }} />
-                        </View>
-                        ) : (
-                        <View style={stylesGuestSingle().imageContainer} >
-                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
-                        </View> 
+                    <View style={stylesGuestSingle().imageContainer} >
+                        <Image style={stylesGuestSingle().image} source={{ uri: image }} />
+                    </View>
+                    ) : (
+                    <View style={stylesGuestSingle().imageContainer} >
+                        <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                    </View> 
                 )}
                     <TouchableOpacity style={stylesGuestSingle().emptyItem} onPress={() => this.selectProduct()}>
                         <IonIcon style={stylesGuestSingle().emptyIcon} name="ios-checkmark-circle-outline" />

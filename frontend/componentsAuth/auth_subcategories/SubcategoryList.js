@@ -89,7 +89,7 @@ class SubcategoryList extends Component {
 //                     )}
 //                     <Button title="Edit image" onPress={this.changeImage} />
 //                     <View style={styles(null, null).itemWrap} >
-//                         <Icon name="edit" size={35} color="firebrick" onPress={this.triggerEdit} />
+//                         <Icon name="pencil" size={35} color="firebrick" onPress={this.triggerEdit} />
 //                         <Icon name="remove" size={35} color="firebrick" onPress={this.deleteFunction} />
 //                     </View>
 //                 </View>
@@ -153,7 +153,7 @@ render() {
                 </View>
                 <View style={authCategory().inactiveBtnsWrap} >
                     <TouchableOpacity style={authCategory().editBtnWrap} onPress={this.triggerEdit}>
-                        <Icon style={authCategory().editBtn} name="edit"/>
+                        <Icon style={authCategory().editBtn} name="pencil"/>
                     </TouchableOpacity>
                     <TouchableOpacity style={authCategory().removeBtnWrap} onPress={() => this.setState({confirm: true})}>
                         <Icon style={authCategory().removeBtn} name="trash-o" />

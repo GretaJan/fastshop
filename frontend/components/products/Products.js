@@ -87,7 +87,7 @@ class Products extends Component {
                         {this.getInput()}
                         {(this.props.products.length == 0) ? (
                             <Modal title="Warning" 
-                                message="The List is emptyPlease go back." 
+                                message="The list is empty. PLease go back." 
                                 close={() => this.props.navigation.goBack()} 
                                 ok="Go back" color={colors.mainYellow} 
                                 borderColor={colors.mainYellowTransparent}
