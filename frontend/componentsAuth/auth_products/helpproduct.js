@@ -9,6 +9,37 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 
 class Product extends Component {
+    state = {
+        productId: this.props.route.params.productId,
+        subcategoryId: this.props.route.params.subcategoryId,
+        name: this.props.product.name,
+        energy: this.props.product.energy,
+        fat: this.props.product.fat,
+        saturated: this.props.product.saturated,
+        carbs: this.props.product.carbs,
+        sugar: this.props.product.sugar,
+        fiber: this.props.product.fiber,
+        protein: this.props.product.protein,
+        salt: this.props.product.salt,
+        vitamins: this.props.product.vitamins,
+        image: null,
+        background_color: this.props.product.background_color,
+        border_color:  this.props.product.border_color,
+        nameInput: false,
+        energyInput: false,
+        fatInput: false,
+        saturatedInput: false,
+        carbsInput: false,
+        sugarInput: false,
+        fiberInput: false,
+        proteinInput: false,
+        saltInput: false,
+        vitaminsInput: false,
+        backgroundInput: false,
+        borderInput: false,
+        imageInput: false,
+    }
+    
     static navigationOptions = {
         headerTitle: "PRODUCT DETAILS2",
     };
@@ -29,13 +60,10 @@ class Product extends Component {
     }
 
     render() {
-        const { subcategory_id, image, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, background_color } = this.props.
+        const { name, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, image, nameInput, imageInput, energyInput, fatInput, 
+            saturatedInput, carbsInput, sugarInput, fiberInput, proteinInput, saltInput, vitaminsInput, background_color, backgroundInput, borderInput, imageInput } = this.state;
         return (
             <View style={stylesGuestSingle().container} >
-                <Text>{this.props.product.name}</Text>
-                {/* <TouchableOpacity style={stylesGuestSingle().iconSelectWrap}>
-                    <Icon style={stylesGuestSingle().selectItemIcon} name="ios-checkmark-circle-outline" onPress={() => this.selectProduct} />
-                </TouchableOpacity> */}
                 {image ? (
                         <View style={stylesGuestSingle().imageContainer} >
                             <Image style={stylesGuestSingle().image} source={{ uri: image }} />
@@ -44,6 +72,7 @@ class Product extends Component {
                         <View style={stylesGuestSingle().imageContainer} >
                             <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                         </View> 
+
                 )}
                     <TouchableOpacity style={stylesGuestSingle().emptyItem} onPress={() => this.selectProduct()}>
                         <IonIcon style={stylesGuestSingle().emptyIcon} name="ios-checkmark-circle-outline" />

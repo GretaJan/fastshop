@@ -29,7 +29,7 @@ class Product extends Component {
     }
 
     render() {
-        const { subcategory_id, image, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, background_color } = this.props.
+        const { subcategory_id, image, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, background_color } = this.props.product;
         return (
             <View style={stylesGuestSingle().container} >
                 <Text>{this.props.product.name}</Text>
