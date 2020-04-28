@@ -253,55 +253,7 @@ export const authProduct = (color) => StyleSheet.create({
     imageIconWrap: {
         zIndex: 10,
     },
-    editBtnWrap: {
-        position: 'absolute',
-        right: 50,
-        zIndex: 10,
-        top: 25,
-    },
-    editIcon: {
-        fontSize: 45,
-    },
-    uploadIcon: {
-        fontSize: 45,
-        position: 'absolute',
-        // right: 50,
-        // zIndex: 10,
-        top: 50,
-    },
-    iconsWrap: {
-        position: 'absolute',
-        right: 50,
-        zIndex: 10,
-        top: 22,
-        zIndex: 11,
-    },
-    iconSave: {
-        fontSize: 45,
-        color: colors.mediumGreen2,
-        padding: 5,
-    },
-    iconCancel: {
-        fontSize: 45,
-        color: colors.bordo,
-        padding: 5,
-    },
-    emptyItem: {
-        position: 'absolute',
-        zIndex: 12,
-        alignSelf: 'center',
-        justifyContent:'center',
-        alignItems: 'center',
-        backgroundColor: colors.mainWhiteYellow,
-        height: 50,
-        width: 50,
-        borderRadius: 45/2,
-        top: 160,
-    },
-    emptyIcon: {
-        fontSize: 42,
-        color: colors.bordo,
-    },
+  
     triangle: {
         width: 0,
         height: 0,
@@ -332,5 +284,69 @@ export const authProduct = (color) => StyleSheet.create({
         height: 40,
         borderColor: colors.mainWhiteYellow,
         borderWidth: 2,
-    }
+    },
+    editBtnWrap: {
+        position: 'absolute',
+        right: 50,
+        zIndex: 10,
+        top: 25,
+    },
+    editIcon: {
+        fontSize: 45,
+    },
+    uploadIcon: {
+        fontSize: 45,
+        position: 'absolute',
+        // right: 50,
+        // zIndex: 10,
+        top: 50,
+    },
+    iconsWrap: {
+        position: 'absolute',
+        right: 50,
+        zIndex: 10,
+        top: 22,
+        zIndex: 11,
+    },
+    emptyItem: {
+        position: 'absolute',
+        zIndex: 12,
+        alignSelf: 'center',
+        justifyContent:'center',
+        alignItems: 'center',
+        backgroundColor: colors.mainWhiteYellow,
+        height: 50,
+        width: 50,
+        borderRadius: 45/2,
+        top: 160,
+    },
+    emptyIcon: {
+        fontSize: 42,
+        color: colors.bordo,
+    },
+    iconImgSave: {
+        fontSize: 45,
+        color: colors.mediumGreen2,
+        padding: 5,
+    },
+    editImgIcon: {
+        fontSize: 35,
+    },
+    iconImgCancel: {
+        fontSize: 42,
+        color: colors.bordo,
+    },
+    iconEdit: {
+        fontSize: 35,
+    },
+    iconSave: {
+        fontSize: 45,
+        color: colors.mediumGreen2,
+        padding: 5,
+    },
+    iconCancel: {
+        fontSize: 45,
+        color: colors.bordo,
+        padding: 5,
+    },
 }) 
