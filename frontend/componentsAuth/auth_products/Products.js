@@ -100,7 +100,7 @@ class Products extends Component {
 
 const mapStateToProps = state => ({
     products: state.products.products,
-    updated: state.products.updated,
+    // updated: state.products.updated,
     loading: state.products.loading,
     error: state.products.error
 })

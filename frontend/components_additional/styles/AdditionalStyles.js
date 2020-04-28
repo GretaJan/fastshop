@@ -197,7 +197,7 @@ export const roundButton = (color) => StyleSheet.create({
         position: 'absolute',
         zIndex: 10,
         top: Dimensions.get('window').height /1.5,
-        right: 20,
+        right: 15,
         paddingLeft: 20,
         paddingTop: 20,
         // Shadow

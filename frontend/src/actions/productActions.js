@@ -28,7 +28,7 @@ export const getProducts = (subcategory) => dispatch => {
         return 0;
     }
     axios.get( URL + '/products/' + subcategory)
-    .then(products => { 
+    .then(products => {
             dispatch({
                 type: GET_PRODUCTS,
                 payload: products.data.products.sort(sorting),
@@ -89,13 +89,12 @@ export const addProduct = (product, subcategory) => dispatch => {
     }).catch((err) =>console.log("Error:", err))
 }
 
-export const editProduct = (product, subcategory, data) => (dispatch) => {
+export const editProduct = (subcategory, product, data) => (dispatch) => {
     axios.post( URL + `/updateProduct/${subcategory}/${product}`, data)
         .then(product => { 
             dispatch({
                 type: EDIT_PRODUCT,
                 payload: product.data,
-                edited: true
             })
         }).catch(err => 
             console.log("EDIT PRODUCT ERROR: ", err))

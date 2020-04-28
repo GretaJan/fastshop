@@ -156,7 +156,8 @@ export const stylesGuestSingle = (color) => StyleSheet.create( {
     },
     image: {
         height: '100%',
-        resizeMode: 'cover',
+        width: '100%',
+        resizeMode: 'contain',
         // borderRadius: 10,
     },
     emptyItem: {

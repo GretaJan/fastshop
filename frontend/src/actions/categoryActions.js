@@ -69,7 +69,7 @@ export const editCategory = (category, data) => (dispatch) => {
                 id: category.data.id
             }) 
         }).catch(err => 
-            console.log("EDIT PRODUCT ERROR: ", err.response))
+            console.log("EDIT CATEGORY ERROR: ", err.response))
 }
 
 export const deleteCategory = (category) => (dispatch) => {

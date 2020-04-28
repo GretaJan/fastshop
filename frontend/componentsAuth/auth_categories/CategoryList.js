@@ -91,6 +91,14 @@ class CategoryList extends Component {
                                 horizontal={20} vertical={15}
                         />
                     </Modal>
+                    <View style={authCategory().inactiveBtnsWrap} >
+                        <TouchableOpacity style={authCategory().editBtnWrap} onPress={this.triggerEdit}>
+                            <Icon style={authCategory().editBtn} name="pencil"/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={authCategory().removeBtnWrap} onPress={() => this.setState({confirm: true})}>
+                            <Icon style={authCategory().removeBtn} name="trash-o" />
+                        </TouchableOpacity>
+                    </View>
                     <View style={authCategory().inactiveItemWrap}>
                         {this.state.image ? (
                             <View style={authCategory().imageWrap} >
@@ -112,17 +120,18 @@ class CategoryList extends Component {
                             <StyledButton horizontal={20} vertical={15} title="Subcategories" func={() => this.props.goToSubcategories()} color={colors.orange} />
                         </View>
                     </View>
-                    <View style={authCategory().inactiveBtnsWrap} >
-                        <TouchableOpacity style={authCategory().editBtnWrap} onPress={this.triggerEdit}>
-                            <Icon style={authCategory().editBtn} name="pencil"/>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={authCategory().removeBtnWrap} onPress={() => this.setState({confirm: true})}>
-                            <Icon style={authCategory().removeBtn} name="trash-o" />
-                        </TouchableOpacity>
-                    </View>
+                    
                 </View>
             ) : (
                 <View style={authCategory().itemContainer} key={this.props.item.id.toString()}  >
+                    <View style={authCategory().inactiveBtnsWrap} >
+                        <TouchableOpacity style={authCategory().editBtnWrap} onPress={() => this.editCategory()} >
+                            <Icon style={authCategory().editBtn} name="check-circle" />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={authCategory().removeBtnWrap} onPress={() =>  this.cancelEdit()} >
+                            <Icon style={authCategory().removeBtn} name="times-circle"/>
+                        </TouchableOpacity>
+                    </View>
                     <View style={authCategory().inactiveItemWrap}>
                         {this.state.image ? (
                             this.state.changedImg ? (
@@ -150,14 +159,6 @@ class CategoryList extends Component {
                             <Text style={authCategory(this.props.item.background_color , null).backgroundColor}></Text>
                             <TextInput style={authCategory().backgroundEdit} type="text" autoCorrect={false} onChangeText={value => { this.setState({ backgroundColor: value })}}  defaultValue={this.props.item.background_color} value={this.state.backgroundColor}/>
                         </View>
-                    </View>
-                    <View style={authCategory().inactiveBtnsWrap} >
-                        <TouchableOpacity style={authCategory().editBtnWrap} onPress={() => this.editCategory()} >
-                            <Icon style={authCategory().editBtn} name="check-circle" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={authCategory().editBtnWrap} onPress={() =>  this.cancelEdit()} >
-                            <Icon style={authCategory().removeBtn} name="times-circle"/>
-                        </TouchableOpacity>
                     </View>
                  </View>
             )

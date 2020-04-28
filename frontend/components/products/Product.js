@@ -19,7 +19,8 @@ class Product extends Component {
     }
 
     selectProduct = () => {
-        this.props.productSelected(this.props.product.subcategory_id, this.props.product.id);
+        // this.props.productSelected(this.props.product.subcategory_id, this.props.product.id);
+        this.props.productSelected( this.props.route.params.subcategoryId,this.props.route.params.productId)
     }
 
 

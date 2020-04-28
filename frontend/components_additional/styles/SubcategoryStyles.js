@@ -87,11 +87,11 @@ export const stylesGuest = () => StyleSheet.create({
         textAlign: 'center',
     },
     horizontalWrap: {
-        // display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap', 
         justifyContent: 'space-around',
         marginTop: 30,
+        width: Dimensions.get('window').width /1,
     },
     itemWrap: {
         backgroundColor: 'lightblue',

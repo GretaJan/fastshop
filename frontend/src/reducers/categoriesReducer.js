@@ -42,16 +42,20 @@ export default function(state = initialState, action) {
             //     })
             
         case EDIT_CATEGORY:
-            return state.categories.map((item) => {
-                if (item.id === action.id) {
-                    return {
-                        ...state, 
-                        categories: state.categories.concat(action.payload),
-                    }
-                } else {
-                    return item
-                }
-            })
+            // return state.categories.map((item) => {
+            //     if (item.id === action.id) {
+            //         return {
+            //             ...state, 
+            //             categories: state.categories.concat(action.payload),
+            //         }
+            //     } else {
+            //         return item
+            //     }
+            // })
+            return {
+                ...state, 
+                // categories: state.categories.concat(action.payload),
+            }
         case DELETE_CATEGORY:
             return {
                 ...state,

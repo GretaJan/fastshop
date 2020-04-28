@@ -5,7 +5,6 @@ const initialState = {
     product: {},
     loading: null,
     error: '',
-    updated: null
 }
 
 export default function(state = initialState, action) {
@@ -13,7 +12,7 @@ export default function(state = initialState, action) {
         case LOADING_GET_PRODUCTS:
             return {
                 ...state,
-                loading:  action.loading
+                loading: action.loading
             }
         case GET_PRODUCTS:
             return {
@@ -40,35 +39,23 @@ export default function(state = initialState, action) {
                 products: state.products.concat(action.payload)
             }
         case EDIT_PRODUCT:
-            // return {
-            //     ...state,
-            //     // products: state.products
-            // }
-
             // return state.products.map(item => {
-            //     if(item.id === action.id) {
+            //     if(item.id === action.payload.id) {
             //         return {
             //             ...state,
-            //             edited: action.edited,
-            //             products: this.products.concat(action.payload)
+            //             products: state.products.concat(action.payload) 
             //         }
             //     } else {
-            //         return item
-            //     }
+            //         return {
+            //             ...state,
+            //             item
+            //         }
+            //     }   
             // })
-
-            return state.products.map(item => {
-                if(item.id === action.id) {
-                    return {
-                        ...state,
-                        updated: true,
-                        products: state.products.concat(action.payload) 
-                    }
-                } else {
-                    item
-                }
-            })
-
+            return {
+                ...state,
+                // products: state.products.concat(action.payload) 
+            }
         case DELETE_PRODUCT:
             return {
                 ...state,

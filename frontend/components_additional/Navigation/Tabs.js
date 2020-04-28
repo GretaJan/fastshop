@@ -153,7 +153,7 @@ render() {
         <LoginScreenNav.Navigator>
             <LoginScreenNav.Screen name="Login" component={LoginPage} 
               options={{
-                title: "LOGIN PAGE",
+                title: "Login Page",
                 headerTitleStyle: {
                     fontWeight: 'bold',
                     color: colors.titleBlack,
@@ -192,6 +192,7 @@ render() {
                                     headerTitleStyle: {
                                         fontWeight: 'bold',
                                         color: 'colors.titleBlack',
+                                        fontSize: 15
                                     },
                                     headerTitleAlign: 'center'
                                 })} /> 
@@ -209,8 +210,8 @@ render() {
                     // activeBackgroundColor: '#335c67',
                     // inactiveBackgroundColor: '#ce7f75',
                     // activeBackgroundColor: '#ce7f75',3a434c
-                    inactiveBackgroundColor: colors.mainBlack,
-                    activeBackgroundColor: colors.mainBlack,
+                    inactiveBackgroundColor: colors.titleBlack,
+                    activeBackgroundColor: colors.titleBlack,
                     style: { 
                         // backgroundColor: '#335c67',
                         height: 60,

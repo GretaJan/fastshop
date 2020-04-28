@@ -51,7 +51,7 @@ Categories.propTypes = {
     categories: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (console.log("sub", state.subcategories.subcategories),{
     categories: state.categories.categories,
     loading: state.categories.loading,
     error: state.categories.error

@@ -12,6 +12,7 @@ export const authCategory = (backgroundColor, border_color) => StyleSheet.create
     },
     flatList: {
         marginTop: 20,
+        width: Dimensions.get('window').width /1,
     },
     itemContainer: {
        flex: 1,
@@ -58,7 +59,7 @@ export const authCategory = (backgroundColor, border_color) => StyleSheet.create
         backgroundColor: colors.mainWhiteYellow,
         paddingVertical: 10,
         // paddingHorizontal: 50,
-        width: Dimensions.get('window').width /1.7,
+        width: Dimensions.get('window').width /1.8,
         marginBottom: 30,
         borderRadius: 10,
         justifyContent: 'center',
@@ -71,12 +72,12 @@ export const authCategory = (backgroundColor, border_color) => StyleSheet.create
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: 0.8,
         shadowRadius: 2, 
-        marginLeft: 60,
+        marginRight: 60,
     },  
     inactiveBtnsWrap: {
         width: 50,
         alignItems: 'center',
-        marginLeft: 10,
+        marginRight: 20,
     },
     editBtnWrap: {
         marginBottom: 20,
@@ -168,7 +169,6 @@ export const stylesGuest = () => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignContent: 'center',
-        paddingTop: '20%',
     },
     searchBarContainer: {
         display: 'flex',
@@ -192,6 +192,10 @@ export const stylesGuest = () => StyleSheet.create({
         resizeMode: 'contain' 
     },
     flatList: {
+        width: Dimensions.get('window').width /1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: '25%',
     },
     itemWrap: {
         backgroundColor: colors.mainWhiteYellow,
@@ -201,6 +205,8 @@ export const stylesGuest = () => StyleSheet.create({
         paddingHorizontal: 35,
         marginBottom: 30,
         borderRadius: 10,
+        width: 175,
+        // height: 135,
         // Shadow
         elevation   : 5,
         overflow: 'hidden',
@@ -223,13 +229,26 @@ export const stylesGuest = () => StyleSheet.create({
     }
 })
 
-// export const shadow = () => ({
-//     width:100,
-// 	height:100,
-// 	color:"#000",
-// 	border:2,
-// 	radius:3,
-// 	opacity:0.2,
-// 	x:0,
-// 	y:3,
-// })
+export const categoryAdd = () => StyleSheet.create({
+    imageBtnWrap: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    uploadIcon: {
+        position: 'absolute',
+        fontSize: 35
+    },
+    imageWrap: {
+        width: 130,
+        height: 130,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imageStyle: {
+        width: 130,
+        height: 130,
+        resizeMode: 'contain' 
+    }
+
+})

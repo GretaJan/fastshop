@@ -7,6 +7,7 @@ import { getCategories } from '../../src/actions/categoryActions';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/CategoryStyles';
 import { colors } from '../../components_additional/styles/Colors';
+import { getSubcategories } from '../../src/actions/subcategoryActions';
 
 //Components
 import CategoryList from './CategoryList';
@@ -23,7 +24,7 @@ class Categories extends Component {
   
     componentDidMount() {
         this.props.getCategories();
-        console.log("category,", this.props.categories)
+        this.props.getSubcategories();
     }
 
     findFunction = searchName => {
@@ -101,10 +102,11 @@ Categories.propTypes = {
     categories: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ( console.log("sub", state.subcategories.subcategories),{
     categories: state.categories.categories,
     loading: state.categories.loading,
     error: state.categories.error,
+    
 });
 
-export default withNavigation(connect(mapStateToProps, { getCategories })(Categories))
+export default withNavigation(connect(mapStateToProps, { getCategories, getSubcategories })(Categories))

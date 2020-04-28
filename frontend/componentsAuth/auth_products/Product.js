@@ -15,21 +15,19 @@ import Error from '../../components_additional/Error';
 
 class Product extends Component {
     state = {
-        productId: this.props.route.params.productId,
-        subcategoryId: this.props.route.params.subcategoryId,
-        image: this.props.product.image,
-        name: this.props.product.name,
-        energy: this.props.product.energy,
-        fat: this.props.product.fat,
-        saturated: this.props.product.saturated,
-        carbs: this.props.product.carbs,
-        sugar: this.props.product.sugar,
-        fiber: this.props.product.fiber,
-        protein: this.props.product.protein,
-        salt: this.props.product.salt,
-        vitamins: this.props.product.vitamins,
-        background: this.props.product.background_color,
-        border_color:  this.props.product.border_color,
+        image: null,
+        name: '',
+        energy: '',
+        fat: '',
+        saturated: '',
+        carbs: '',
+        sugar: '',
+        fiber: '',
+        protein: '',
+        salt: '',
+        vitamins: '',
+        background: '',
+        border_color:  '',
         nameInput: false,
         energyInput: false,
         fatInput: false,
@@ -49,8 +47,27 @@ class Product extends Component {
     }
 
 
-    async componentDidMount() {
-        await this.props.getProduct( this.state.subcategoryId, this.state.productId);
+    componentDidMount() {
+
+        setTimeout(() => {
+            this.props.getProduct( this.props.route.params.productId, this.props.route.params.subcategoryId,);
+            this.setState({
+                image: this.props.product.image,
+                name: this.props.product.name,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated: this.props.product.saturated,
+                carbs: this.props.product.carbs,
+                sugar: this.props.product.sugar,
+                fiber: this.props.product.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                background: this.props.product.background_color,
+                border_color:  this.props.product.border_color,
+            })
+        }, 1200)
+    
     }
 
     imageInput = () => {
@@ -208,8 +225,10 @@ class Product extends Component {
         ImagePicker.launchImageLibrary(options, response => {
             if (response.uri) {
                 this.setState({
+                            image: response.uri,
                             imageData: response,
-                            changedImg: true
+                            changedImg: true,
+
                             });
             } else {
                 this.setState({changedImg: false});
@@ -232,7 +251,7 @@ class Product extends Component {
             vitamins: this.state.vitamins,
             background_color: this.state.background,
             border_color: this.state.border_color,
-            image: this.state.changedImg ? "data:" + this.state.imageData.type + ";base64," + this.state.imageData.data : this.state.image,
+            image: this.state.changedImg ? "data:" + this.state.imageData.type + ";base64," + this.state.imageData.data : this.props.product.image,
             "_method": "put"
         }
         await this.props.editProduct(this.props.route.params.subcategoryId, this.props.route.params.productId, data); 
@@ -255,7 +274,6 @@ class Product extends Component {
     }
 
     deleteProduct = async() => {
-        console.log(this.props.product.id)
         await this.props.deleteProduct(this.props.product.id);
         this.props.navigation.push("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
     }
@@ -275,22 +293,14 @@ class Product extends Component {
                             image ? (
                                 <TouchableOpacity style={authProduct().imageIconWrap}  onPress={() => {this.imageInput()}}>
                                     <View style={stylesGuestSingle().imageContainer} >
-                                    {changedImg ? (
-                                      <Image style={stylesGuestSingle().image} source={{ uri: "data:" + imageData.type + ";base64," + imageData.data }}  onPress={() => this.imageInput()} />
-                                    ) : (
                                         <Image style={stylesGuestSingle().image} source={{ uri: image }}  onPress={() => this.imageInput()} />
-                                    )}
                                     </View>
                                     <Icon style={authProduct().editImgIcon} name="pencil"/>
                                 </TouchableOpacity>
                                 ) : (
                                     <TouchableOpacity style={authProduct().imageIconWrap} >
                                         <TouchableOpacity style={stylesGuestSingle().imageContainer} >
-                                        {changedImg ? (
-                                            <Image style={stylesGuestSingle().image} source={{ uri: "data:" + imageData.type + ";base64," + imageData.data }} onPress={() => this.imageInput()} />
-                                        ) : (
                                             <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')} onPress={() => this.imageInput()} />
-                                            )}
                                         </TouchableOpacity> 
                                             <Icon style={authProduct().editImgIcon} name="pencil"/>
                                     </TouchableOpacity>

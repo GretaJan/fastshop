@@ -56,13 +56,12 @@ export const addSubcategory = (subcategory, category) => dispatch => {
     }).catch((err) =>console.log("Error:", err.response))
 }
 
-export const editSubcategory = (subcategory, category, data) => (dispatch) => {
+export const editSubcategory = (category, subcategory, data) => (dispatch) => {
     axios.post( URL + `/updateSubcategory/${category}/${subcategory}`, data)
-        .then(subcategory => { console.log("show: ", subcategory)
+        .then(subcategory => {
             dispatch({
                 type: EDIT_SUBCATEGORY,
-                payload: subcategory.data,
-                id: subcategory.data.id,
+                payload: subcategory.data.subcategory,
             })
         }).catch(err => 
             console.log("EDIT SUBCATEGORY ERROR: ", err.response))
