@@ -91,7 +91,8 @@ class Subcategories extends Component {
         const {background} = this.props.route.params;
         return (
             (this.props.loading) ? (
-                <Loading background={background}/>
+                // <Loading background={background}/>
+                <Text>Load</Text>
             ) : (
                 <View style={styles(background).container}>
                     {this.getInput()}
