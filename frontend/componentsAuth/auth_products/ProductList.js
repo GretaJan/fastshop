@@ -13,7 +13,7 @@ class ProductList extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id.toString()} onPress={this.goToProduct} >
+            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id.toString()} onPress={() => this.props.goToProduct() } >
                 <View style={stylesGuest().TextPicWrap} >
                     {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>

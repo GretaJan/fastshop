@@ -27,6 +27,7 @@ class Products extends Component {
     }
 
     async componentDidMount() {
+        console.log("list: ", this.props.products, " id: ", this.state.id); 
         await this.props.getProducts(this.state.id);
     }
 
@@ -62,7 +63,7 @@ class Products extends Component {
     }
 
     goToProduct = (item) => {
-        this.props.navigation.navigate("Product_Auth", {subcategoryId: item.subcategory_id, productId: item.id,  name: item.name, backgroundColor: item.background_color});
+        this.props.navigation.push("Product_Auth", {subcategoryId: item.subcategory_id, productId: item.id,  name: item.name, backgroundColor: item.background_color});
     }
 
     render() {

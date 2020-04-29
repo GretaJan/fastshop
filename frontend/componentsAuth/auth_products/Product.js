@@ -49,10 +49,10 @@ class Product extends Component {
     }
 
 
-    componentDidMount() {
+    async componentDidMount() {
+        console.log("list: ", this.props.product, " id: ", this.state.id, "cat ID: ", this.state.subcategoryId); 
+        await this.props.getProduct( this.props.route.params.productId, this.props.route.params.subcategoryId);
 
-        setTimeout(() => {
-            this.props.getProduct( this.props.route.params.productId, this.props.route.params.subcategoryId,);
             this.setState({
                 image: this.props.product.image,
                 name: this.props.product.name,
@@ -68,7 +68,7 @@ class Product extends Component {
                 background: this.props.product.background_color,
                 border_color:  this.props.product.border_color,
             })
-        }, 1200)
+  
     
     }
 
@@ -256,7 +256,7 @@ class Product extends Component {
             image: this.state.changedImg ? "data:" + this.state.imageData.type + ";base64," + this.state.imageData.data : this.props.product.image,
             "_method": "put"
         }
-        await this.props.editProduct(this.state.subcategoryId, this.state.id, data); 
+        await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
         // this.props.getProduct(this.props.route.params.subcategoryId, this.props.route.params.productId);
         // this.setState({edited: true})
         this.cancelNameEdit();
@@ -281,8 +281,9 @@ class Product extends Component {
     }
 
     render() {
-        const { image, name, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, nameInput, imageInput, energyInput, fatInput, 
+        const {  name, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, nameInput, imageInput, energyInput, fatInput, 
             saturatedInput, carbsInput, sugarInput, fiberInput, proteinInput, saltInput, vitaminsInput, background, backgroundInput, changedImg, imageData } = this.state;
+            const {image} = this.state;
         return (
                  this.props.loading ? (
                     <Loading />
@@ -293,19 +294,19 @@ class Product extends Component {
                         <View style={stylesGuestSingle().container}>
                         {!imageInput ? (
                             image ? (
-                                <TouchableOpacity style={authProduct().imageIconWrap}  onPress={() => {this.imageInput()}}>
-                                    <View style={stylesGuestSingle().imageContainer} >
-                                        <Image style={stylesGuestSingle().image} source={{ uri: image }}  onPress={() => this.imageInput()} />
+                                <TouchableOpacity style={authProduct().imageIconWrap} onPress={() => this.imageInput()} >
+                                    <View style={stylesGuestSingle().imageContainer}>
+                                        <Image style={stylesGuestSingle().image} source={{ uri: image }} />
                                     </View>
                                     <Icon style={authProduct().editImgIcon} name="pencil"/>
                                 </TouchableOpacity>
                                 ) : (
-                                    <TouchableOpacity style={authProduct().imageIconWrap} >
-                                        <TouchableOpacity style={stylesGuestSingle().imageContainer} >
+                                    <View style={authProduct().imageIconWrap}  >
+                                        <TouchableOpacity style={stylesGuestSingle().imageContainer} onPress={() => this.imageInput()} >
                                             <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')} onPress={() => this.imageInput()} />
                                         </TouchableOpacity> 
                                             <Icon style={authProduct().editImgIcon} name="pencil"/>
-                                    </TouchableOpacity>
+                                    </View>
                                 )   
                                 ) : (
                                     image ? (
