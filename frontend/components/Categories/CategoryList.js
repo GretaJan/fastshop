@@ -26,7 +26,7 @@ class CategoryList extends Component {
     // }
 
     goToSubcategories = () => {
-        this.props.goToSubcategories(this.props.item.id)
+        this.props.goToSubcategories()
     }
 
     render() {

@@ -2,89 +2,12 @@ import { StyleSheet } from 'react-native';
 import {Dimensions} from 'react-native';
 import { colors } from './Colors';
 
-export const styles = (background_color, border_color) => StyleSheet.create({
-    // container: {
-    //     marginTop: 8,
-    //     // marginLeft: 10,
-    //     // marginRight: 10
-    // },
-    // itemWrap: {
-    //     display: 'flex',
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between',
-    //     backgroundColor:'lightgrey',
-    //     paddingLeft: 10,
-    //     paddingRight: 10,
-    //     paddingTop: 5,
-    //     height: 50
-    // },
-    // itemText: {
-    //     width: 'auto',
-    //     fontSize: 20
-    // },
-    // itemInput: {
-    //     backgroundColor: '#fff',
-    //     width: '75%',
-    //     fontSize: 20
-    // },
-    // itemButton: {
-    //     flexBasis: '40'
-    // },
-    // iconItem: {
-    //     paddingRight: 10
-    // },
-    // image: {
-    //     height: 65,
-    //     width: 65
-    // },
-    // backgroundColorIs: {
-    //     backgroundColor: background_color,
-    //     display: 'flex',
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between',
-    //     backgroundColor:'lightgrey',
-    //     paddingLeft: 10,
-    //     paddingRight: 10,
-    //     paddingTop: 5,
-    //     height: 50
-    // },
-    // backgroundColorNull: {
-    //     backgroundColor: '#E8E8E8',
-    //     display: 'flex',
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between',
-    //     backgroundColor:'lightgrey',
-    //     paddingLeft: 10,
-    //     paddingRight: 10,
-    //     paddingTop: 5,
-    //     height: 50
-    // },
-    // borderColorIs: {
-    //     borderColor: border_color,
-    //     borderWidth: 2,
-    // },
-    // borderColorNull: {
-    //     borderColor: '#989898',
-    //     borderWidth: 2,
-    //     display: 'flex',
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between',
-    //     backgroundColor:'lightgrey',
-    //     paddingLeft: 10,
-    //     paddingRight: 10,
-    //     paddingTop: 5,
-    //     height: 50
-    // },
 
-   
-
-});
-
-export const stylesGuest = () => StyleSheet.create( {
+export const stylesGuest = (background) => StyleSheet.create( {
     container: {
         flex: 1,
         textAlign: 'center',
-        backgroundColor: colors.mainWhiteYellow,
+        backgroundColor: background ? background : colors.mainYellow,
     },
     itemWrap: {
         display: 'flex',
@@ -137,7 +60,7 @@ export const stylesGuest = () => StyleSheet.create( {
     }
 });
 
-export const stylesGuestSingle = (color) => StyleSheet.create( {
+export const stylesGuestSingle = (background) => StyleSheet.create( {
     container: {
         flex: 1,
         textAlign: 'center',
@@ -180,7 +103,7 @@ export const stylesGuestSingle = (color) => StyleSheet.create( {
         // left: 18, 
     },
     listContainer: {
-        backgroundColor: color ? color : colors.yellowGreenish,
+        backgroundColor: background ? background : colors.yellowGreenish,
         flex: 1,
         // maxWidth: Dimensions.get('window').width /1,
         width: Dimensions.get('window').width /1,
@@ -228,7 +151,7 @@ export const stylesGuestSingle = (color) => StyleSheet.create( {
         borderLeftWidth: 250,
         borderTopColor: 'transparent',
         borderRightColor: 'transparent',
-        borderBottomColor: color ? color : colors.yellowGreenish,
+        borderBottomColor: background ? background : colors.yellowGreenish,
         borderLeftColor: 'transparent',
         position: 'absolute',
         top: 100,
@@ -237,17 +160,17 @@ export const stylesGuestSingle = (color) => StyleSheet.create( {
       underTriangle: {
         height: 50,
         width: Dimensions.get('window').width /1,
-        backgroundColor: color ? color : colors.yellowGreenish,
+        backgroundColor: background ? background : colors.yellowGreenish,
     },
 });
 
-export const authProducts = () => StyleSheet.create({
+export const authProducts = (background) => StyleSheet.create({
     container: {
         flex: 1,
         minHeight: Dimensions.get('window').height /1,
-        backgroundColor: colors.mainYellow,
+        backgroundColor: background ? background : colors.mainYellow,
         zIndex: 0,
-    }
+    },
 }) 
 
 
@@ -386,7 +309,16 @@ export const authProduct = (color) => StyleSheet.create({
          backgroundColor: colors.mainWhiteYellow,
          fontSize: 24,
          left: -4,
-     }  
+     },
+     listItemInfoWrap: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    listItemBackground: {
+        fontSize: 18,
+    }
 });
 
 export const postProductStyle = () => StyleSheet.create({

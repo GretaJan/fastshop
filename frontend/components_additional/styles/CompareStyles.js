@@ -21,8 +21,15 @@ export const productWrap = () => StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         // minHeight: Dimensions.get('window').height /5,
-        marginBottom: 40,
-        zIndex: 0
+        marginBottom: 45,
+        zIndex: 0,
+    },
+    transparentStripe: {
+        width: '92%',
+        height: 1,
+        backgroundColor: colors.transparentLight,
+        zIndex: 10,
+        marginBottom: 10,
     },
     infoTxt: {
         fontSize: 20
@@ -93,7 +100,7 @@ export const productWrap = () => StyleSheet.create({
     },
     optionsBtnText: {
         fontSize: 22,
-    }
+    },
 });
 
 export const descAscDropDown = () => StyleSheet.create({

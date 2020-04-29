@@ -7,6 +7,7 @@ import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/SubcategoryStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
+import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
 
 //Components
@@ -72,24 +73,29 @@ class Subcategories extends Component {
     }
     
     goToProducts = (item) => {
-        this.props.navigation.push("Products", {subcategoryId: item.id, backgroundColor: item.background_color});
+        this.props.navigation.push("Products", {subcategoryId: item.id, name: item.name, background: item.background_color});
   
     }
 
     render() {
+        const { background } = this.props.route.params;
         return (
             (this.props.loading) ? (
-                <Loading />
+                <View style={backgroundForPages(background).backgroundContainer} >
+                    <Loading />
+                </View>
             ) : (
                 (this.props.error !== '') ? (
-                    <Modal title="Warning" 
-                        message={this.props.error} 
-                        close={() => this.props.navigation.goBack()} 
-                        ok="OK" color={colors.bordo} 
-                        borderColor={colors.bordoTransparent}
-                        horizontal={20} vertical={10}/>
+                    <View style={backgroundForPages(background).backgroundContainer} >
+                        <Modal title="Warning" 
+                            message={this.props.error} 
+                            close={() => this.props.navigation.goBack()} 
+                            ok="OK" color={colors.bordo} 
+                            borderColor={colors.bordoTransparent}
+                            horizontal={20} vertical={10}/>
+                    </View>
                 ) : (
-                    <View style={stylesGuest().container}>
+                    <View style={stylesGuest(background).container}>
                     {this.getInput()}
                         {(this.props.subcategories.length == 0) ? (
                             <Modal title="Warning" 

@@ -12,7 +12,7 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 //Components
 import Product from './selectedProductSingle';
 import Error from '../../components_additional/Error';
-import Modal from '../../components_additional/Modal';
+import EmptyList from '../../components_additional/EmptyListSelected';
 import DescAscend from './DescAscend';
 import ResultsOfBestWorst from './ResultsOfBestWorst';
 import { colors } from '../../components_additional/styles/Colors';
@@ -186,16 +186,6 @@ class Products extends Component {
 
     render() {
         return (
-            (this.props.selectedProducts.length == 0) ? (
-                <View>
-                  <Modal title="Message" 
-                                message="No products have been selected yet. Please go back." 
-                                close={() => this.props.navigation.navigate("Categories")} 
-                                ok="OK" color={colors.mainYellow} 
-                                borderColor={colors.mainYellowTransparent}
-                                horizontal={20} vertical={10}/>
-                </View>
-            ) : (
                 <View style={stylesGuest().container} >
                     {(this.state.modalMessageEqual || this.state.modalMessageNumber) && (
                     <Modal title="Warning" 
@@ -204,6 +194,9 @@ class Products extends Component {
                         ok="OK" color={colors.mainYellow} 
                         horizontal={20} vertical={10}/>
                     )}
+                    {(this.props.selectedProducts.length == 0) ? (
+                        <EmptyList message={'Products have not been selected yet'} />
+                    ) : (
                     <View style={(this.state.optionsDisplay) ? (productWrap().flatListScrollSmall) : (productWrap().flatListScrollFull)}>
                         <FlatList nestedScrollEnabled={true} contentContainerStyle={productWrap().arrayContainer } data={this.props.selectedProducts} renderItem={({item}) => (
                             <Product key={item} item={item} 
@@ -212,8 +205,10 @@ class Products extends Component {
                             />
                         )} />
                     </View>
+                    )}
                 { (this.state.optionsDisplay) && (
                 <View style={productWrap().btnsContainer} >
+                    <Text style={productWrap().transparentStripe} ></Text>
                     <View style={productWrap().btnOne}>
                         <TouchableOpacity style={productWrap().iconWrapOne} onPress={() => this.props.goToList(this.state.hide)} >
                             <IonIcon name="md-list" style={productWrap().iconItem}  />
@@ -245,7 +240,6 @@ class Products extends Component {
                 )}
             </View>
             )
-        )
     }
 
 }

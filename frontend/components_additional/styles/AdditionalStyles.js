@@ -168,27 +168,21 @@ export const emptyList = (backgroundColor) => StyleSheet.create({
         height: Dimensions.get('window').height /1,
         width: Dimensions.get('window').width /1,
         position: 'absolute',
-        zIndex: -1,
-        // alignContent: 'center',
-        // justifyContent: 'center',
         alignItems: 'center',
     },
     itemContainer: {
-        flex: 1,
-        marginTop: -(Dimensions.get('window').height /5),
-        paddingHorizontal: 60,
-          alignContent: 'center',
-        justifyContent: 'center',
         alignItems: 'center',
+        top: (Dimensions.get('window').height /4),
     },
-    iconWrap: {
-
-    },
-    icon: {
-        fontSize: 45,
+    imageWrap: {
+        backgroundColor: colors.bordo,
+        paddingVertical: 16,
+        paddingHorizontal: 15,
+        borderRadius: 10,
     },
     text: {
-        fontSize: 20,
+        marginTop: 55,
+        fontSize: 18,
     }
 });
 
@@ -196,7 +190,7 @@ export const roundButton = (color) => StyleSheet.create({
     buttonWrap: {
         position: 'absolute',
         zIndex: 20,
-        top: Dimensions.get('window').height /1.5,
+        top: Dimensions.get('window').height /1.55,
         right: 15,
         paddingLeft: 20,
         paddingTop: 20,
@@ -214,3 +208,32 @@ export const roundButton = (color) => StyleSheet.create({
         fontSize: 70,
     }
 })
+export const backgroundForPages = (background) => StyleSheet.create({
+    backgroundContainer: {
+        backgroundColor: background ? background : colors.mainYellow, 
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+});
+
+export const emptyListSelected = () => StyleSheet.create({
+    container: {
+       height: Dimensions.get('window').height /2.4,
+       backgroundColor: colors.mainYellow,
+       alignItems: 'center',
+       justifyContent: 'center',
+    },
+    itemContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    image: {
+        marginBottom: 30,
+    },
+    text: {
+        fontSize: 16,
+    }
+})
+
+

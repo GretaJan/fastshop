@@ -26,4 +26,5 @@ export const colors = {
     inputOrange: '#ffe4b2',
     bordo: 'firebrick',
     bordoTransparent: 'rgba(178,34,34,0.5)',
+    editGreen: '#006400',
 }

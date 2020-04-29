@@ -6,6 +6,7 @@ import { withNavigation } from 'react-navigation';
 import { getCategories } from '../../src/actions/categoryActions';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/CategoryStyles';
+import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
 import { getSubcategories } from '../../src/actions/subcategoryActions';
 
@@ -57,23 +58,28 @@ class Categories extends Component {
         )
     }
 
-    goToSubcategories = (id) => {
-        this.props.navigation.push("Subcategories", {categoryId: id});
+    goToSubcategories = (item) => {
+        this.props.navigation.push("Subcategories", {categoryId: item.id, name: item.name, background: item.background_color});
     }
 
     render() {
 
         return (
+           
             (this.props.loading) ? (
-                <Loading />
+                <View style={backgroundForPages().backgroundContainer} >
+                    <Loading />
+                </View>
                 ) : (
                 (this.props.error !== '') ? (
-                    <Modal title="Warning" 
-                        message={this.props.error} 
-                        close={() => this.props.navigation.navigate("Login")} 
-                        ok="OK" color={colors.bordo} 
-                        borderColor={colors.bordoTransparent}
-                        horizontal={20} vertical={10}/>
+                    <View style={backgroundForPages().backgroundContainer} >
+                        <Modal title="Warning" 
+                            message={this.props.error} 
+                            close={() => this.props.navigation.navigate("Login")} 
+                            ok="OK" color={colors.bordo} 
+                            borderColor={colors.bordoTransparent}
+                            horizontal={20} vertical={10}/>
+                    </View>
                 ) : (
                     <View style={stylesGuest().container} >
                         {(this.props.categories.length == 0) ? (
@@ -86,7 +92,7 @@ class Categories extends Component {
                         ) : (
                             <FlatList contentContainerStyle={stylesGuest().flatList} data={this.props.categories} renderItem={({item}) => (
                                 <CategoryList key={item} item={item} 
-                                                goToSubcategories={(item) => this.goToSubcategories(item)} 
+                                                goToSubcategories={() => this.goToSubcategories(item)} 
                                 />
                                 )} >
                             </FlatList>
@@ -95,6 +101,7 @@ class Categories extends Component {
                 )
             )
         )
+       
     }
 }
 Categories.propTypes = {

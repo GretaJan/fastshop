@@ -1,17 +1,17 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import { emptyList } from './styles/AdditionalStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import StyledButton from './AdminButton';
 import { colors } from './styles/Colors';
 
-const EmptyList = ({ message, backgroundColor }) => {
+const EmptyList = ({ message, background }) => {
 
     return (
-        <View style={emptyList().container} >
+        <View style={emptyList(background ? background : colors.mainYellow).container} >
             <View style={emptyList().itemContainer} >
-                <View style={emptyList().iconWrap}>
-                    <Icon style={emptyList().icon} name="list-ol"/>
+                <View style={emptyList().imageWrap}>
+                    <Image style={emptyList().image} name="list-ol" source={require('./images/List_04.png')} />
                 </View>
                 <Text style={emptyList().text} >{message}</Text>
             </View>

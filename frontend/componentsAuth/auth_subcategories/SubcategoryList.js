@@ -156,7 +156,7 @@ render() {
                         <Text style={authCategory().nameTxt}>{this.props.item.name}</Text>
                     </View>
                     <View style={authCategory().goToSubBtn }>
-                        <StyledButton horizontal={20} vertical={15} title="Products" func={() => this.props.goToProducts()} color={colors.orange} />
+                        <StyledButton horizontal={20} vertical={15} title="Products" func={() => this.props.goToProducts()} color={colors.mainWhiteYellow} />
                     </View>
                 </View>
             </View>
@@ -194,7 +194,7 @@ render() {
                     </View>
                     <Text>Background color:</Text>
                     <View style={authCategory().backgroundEditWrap}>
-                        <Text style={authCategory(this.props.item.background_color , null).backgroundColor}></Text>
+                        <Text style={authCategory().backgroundColor}></Text>
                         <TextInput style={authCategory().backgroundEdit} type="text" autoCorrect={false} onChangeText={value => { this.setState({ backgroundColor: value })}}  defaultValue={this.props.item.background_color} value={this.state.backgroundColor}/>
                     </View>
                 </View>

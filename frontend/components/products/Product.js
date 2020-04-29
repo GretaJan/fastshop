@@ -5,8 +5,12 @@ import { getProduct } from '../../src/actions/productActions';
 import { productSelected } from '../../src/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
+import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
+import { colors } from '../../components_additional/styles/Colors';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
+import Loading from '../../components_additional/Loading';
+import Modal from '../../components_additional/Modal';
 
 class Product extends Component {
     static navigationOptions = {
@@ -29,98 +33,118 @@ class Product extends Component {
     }
 
     render() {
+        const { background } = this.props.route.params;
         const { subcategory_id, image, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, background_color } = this.props.product;
         return (
-            <View style={stylesGuestSingle().container} >
-                {/* <TouchableOpacity style={stylesGuestSingle().iconSelectWrap}>
-                    <Icon style={stylesGuestSingle().selectItemIcon} name="ios-checkmark-circle-outline" onPress={() => this.selectProduct} />
-                </TouchableOpacity> */}
-                {image ? (
-                    <View style={stylesGuestSingle().imageContainer} >
-                        <Image style={stylesGuestSingle().image} source={{ uri: image }} />
+            (this.props.loading) ? (
+                <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
+                    <Loading />
+                </View>
+                ) : (
+                (this.props.error !== '') ? (
+                    <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
+                        <Modal title="Warning" 
+                            message={this.props.error} 
+                            close={() => this.props.navigation.navigate("Login")} 
+                            ok="OK" color={colors.bordo} 
+                            borderColor={colors.bordoTransparent}
+                            horizontal={20} vertical={10}/>
                     </View>
-                    ) : (
-                    <View style={stylesGuestSingle().imageContainer} >
-                        <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
-                    </View> 
-                )}
-                    <TouchableOpacity style={stylesGuestSingle().emptyItem} onPress={() => this.selectProduct()}>
-                        <IonIcon style={stylesGuestSingle().emptyIcon} name="ios-checkmark-circle-outline" />
-                    </TouchableOpacity>
-                    <View style={stylesGuestSingle().triangle} ></View>
-                    <View style={stylesGuestSingle().underTriangle} ></View>
-                    <ScrollView style={stylesGuestSingle().listContainer} >
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (energy) ? (energy) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
-                            </View>
+                ) : (
+                <View style={stylesGuestSingle(background).container} >
+                    {/* <TouchableOpacity style={stylesGuestSingle().iconSelectWrap}>
+                        <Icon style={stylesGuestSingle().selectItemIcon} name="ios-checkmark-circle-outline" onPress={() => this.selectProduct} />
+                    </TouchableOpacity> */}
+                    {image ? (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={{ uri: image }} />
                         </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >fat</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (fat) ? (fat) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                        ) : (
+                        <View style={stylesGuestSingle().imageContainer} >
+                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')}  />
+                        </View> 
+                    )}
+                        <TouchableOpacity style={stylesGuestSingle().emptyItem} onPress={() => this.selectProduct()}>
+                            <IonIcon style={stylesGuestSingle().emptyIcon} name="ios-checkmark-circle-outline" />
+                        </TouchableOpacity>
+                        <View style={stylesGuestSingle().triangle} ></View>
+                        <View style={stylesGuestSingle().underTriangle} ></View>
+                        <ScrollView style={stylesGuestSingle().listContainer} >
+                            <View style={stylesGuestSingle().listItemWrap}>
+                                <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
+                                <View style={stylesGuestSingle().listItemInfoWrap} >
+                                    <Text style={stylesGuestSingle().componentAmount} >{ (energy) ? (energy) : ('-') }</Text>
+                                    <Text style={stylesGuestSingle().componentMeasure} >kcal</Text>
+                                </View>
                             </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >saturated fat</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (saturated) ? (saturated) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            <View style={stylesGuestSingle().listItemWrap}>
+                                <Text style={stylesGuestSingle().componentTitle} >fat</Text>
+                                <View style={stylesGuestSingle().listItemInfoWrap} >
+                                    <Text style={stylesGuestSingle().componentAmount} >{ (fat) ? (fat) : ('-') }</Text>
+                                    <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                </View>
                             </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >Carbohidrates</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (carbs) ? (carbs) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            <View style={stylesGuestSingle().listItemWrap}>
+                                <Text style={stylesGuestSingle().componentTitle} >saturated fat</Text>
+                                <View style={stylesGuestSingle().listItemInfoWrap} >
+                                    <Text style={stylesGuestSingle().componentAmount} >{ (saturated) ? (saturated) : ('-') }</Text>
+                                    <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                </View>
                             </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >sugar</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (sugar) ? (sugar) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            <View style={stylesGuestSingle().listItemWrap}>
+                                <Text style={stylesGuestSingle().componentTitle} >Carbohidrates</Text>
+                                <View style={stylesGuestSingle().listItemInfoWrap} >
+                                    <Text style={stylesGuestSingle().componentAmount} >{ (carbs) ? (carbs) : ('-') }</Text>
+                                    <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                </View>
                             </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >fiber</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (fiber) ? (fiber) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            <View style={stylesGuestSingle().listItemWrap}>
+                                <Text style={stylesGuestSingle().componentTitle} >sugar</Text>
+                                <View style={stylesGuestSingle().listItemInfoWrap} >
+                                    <Text style={stylesGuestSingle().componentAmount} >{ (sugar) ? (sugar) : ('-') }</Text>
+                                    <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                </View>
                             </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >protein</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (protein) ? (protein) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            <View style={stylesGuestSingle().listItemWrap}>
+                                <Text style={stylesGuestSingle().componentTitle} >fiber</Text>
+                                <View style={stylesGuestSingle().listItemInfoWrap} >
+                                    <Text style={stylesGuestSingle().componentAmount} >{ (fiber) ? (fiber) : ('-') }</Text>
+                                    <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                </View>
                             </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >salt</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (salt) ? (salt) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            <View style={stylesGuestSingle().listItemWrap}>
+                                <Text style={stylesGuestSingle().componentTitle} >protein</Text>
+                                <View style={stylesGuestSingle().listItemInfoWrap} >
+                                    <Text style={stylesGuestSingle().componentAmount} >{ (protein) ? (protein) : ('-') }</Text>
+                                    <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                </View>
                             </View>
-                        </View>
-                        <View style={stylesGuestSingle().listItemWrap}>
-                            <Text style={stylesGuestSingle().componentTitle} >vitamins</Text>
-                            <View style={stylesGuestSingle().listItemInfoWrap} >
-                                <Text style={stylesGuestSingle().componentAmount} >{ (vitamins) ? (vitamins) : ('-') }</Text>
-                                <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                            <View style={stylesGuestSingle().listItemWrap}>
+                                <Text style={stylesGuestSingle().componentTitle} >salt</Text>
+                                <View style={stylesGuestSingle().listItemInfoWrap} >
+                                    <Text style={stylesGuestSingle().componentAmount} >{ (salt) ? (salt) : ('-') }</Text>
+                                    <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                </View>
                             </View>
-                        </View>
-                </ScrollView>
-            </View>
+                            <View style={stylesGuestSingle().listItemWrap}>
+                                <Text style={stylesGuestSingle().componentTitle} >vitamins</Text>
+                                <View style={stylesGuestSingle().listItemInfoWrap} >
+                                    <Text style={stylesGuestSingle().componentAmount} >{ (vitamins) ? (vitamins) : ('-') }</Text>
+                                    <Text style={stylesGuestSingle().componentMeasure} >g</Text>
+                                </View>
+                            </View>
+                    </ScrollView>
+                </View>
+            )
+        )
         )
     }
 }
 
 const mapStateToProps = (state) => ({
-    product: state.products.product
+    product: state.products.product,
+    error: state.categories.error,
+    loading: state.categories.loading,
 })
 
 export default withNavigation(connect(mapStateToProps, {getProduct, productSelected})(Product))

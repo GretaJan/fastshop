@@ -6,6 +6,7 @@ import { productSelected } from '../../src/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
+import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
 
@@ -71,19 +72,24 @@ class Products extends Component {
     }
 
     render() {
+        const { background } = this.props.route.params;
         return (
             (this.props.loading) ? (
-                <Loading />
+                <View style={backgroundForPages(background).backgroundContainer} >
+                    <Loading />
+                </View>
                 ) : (
                     (this.props.error !== '') ? (
-                        <Modal title="Warning" 
-                            message={this.props.error} 
-                            close={() => this.props.navigation.goBack()} 
-                            ok="OK" color={colors.bordo} 
-                            borderColor={colors.bordoTransparent}
-                            horizontal={20} vertical={10}/>
+                        <View style={backgroundForPages(background).backgroundContainer} >
+                            <Modal title="Warning" 
+                                message={this.props.error} 
+                                close={() => this.props.navigation.goBack()} 
+                                ok="OK" color={colors.bordo} 
+                                borderColor={colors.bordoTransparent}
+                                horizontal={20} vertical={10}/>
+                        </View>
                     ) : (
-                    <View style={stylesGuest().container}>
+                    <View style={stylesGuest(background).container}>
                         {this.getInput()}
                         {(this.props.products.length == 0) ? (
                             <Modal title="Warning" 

@@ -3,7 +3,7 @@ import {BoxShadow} from 'react-native-shadow';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
-export const authCategory = (backgroundColor, border_color) => StyleSheet.create({
+export const authCategory = (background) => StyleSheet.create({
     container: {
         backgroundColor: colors.mainYellow,
         flex: 1,
@@ -56,7 +56,7 @@ export const authCategory = (backgroundColor, border_color) => StyleSheet.create
         fontFamily: 'sans-serif-condensed',
     },
     inactiveItemWrap: {
-        backgroundColor: colors.mainWhiteYellow,
+        backgroundColor: background ? background : colors.mainWhiteYellow,
         paddingVertical: 10,
         // paddingHorizontal: 50,
         width: Dimensions.get('window').width /1.8,
@@ -75,25 +75,33 @@ export const authCategory = (backgroundColor, border_color) => StyleSheet.create
         marginRight: 60,
     },  
     inactiveBtnsWrap: {
-        width: 50,
         alignItems: 'center',
+        justifyContent: 'center',
         marginRight: 20,
     },
     editBtnWrap: {
-        marginBottom: 20,
-        paddingVertical: 5,
+        backgroundColor: colors.mediumGreen2,
+        height: 55,
+        width: 55,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: -15,
     },
     editBtn: {
         fontSize: 45,
-        paddingVertical: 5,
-        color: colors.mediumGreen2,
+       
     },
     removeBtnWrap: {
-        fontSize: 45,
+        backgroundColor: colors.orangeBright,
+        height: 55,
+        width: 55,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     removeBtn: {
         fontSize: 45,
-        color: colors.bordo,
     },
     goToSubBtnWrap: {
     },
@@ -141,10 +149,10 @@ export const authCategory = (backgroundColor, border_color) => StyleSheet.create
         width: 150,
     },
     backgroundColor: {
-        backgroundColor: backgroundColor ? backgroundColor : colors.mainWhiteYellow,
+        // backgroundColor: backgroundColor ? backgroundColor : colors.mainWhiteYellow,
         height: 35,
         width: 35,
-        borderColor: colors.mainBlack,
+        borderColor: colors.mainWhiteYellow,
         borderWidth: 1,
         borderRadius: 3,
     },
@@ -183,11 +191,13 @@ export const stylesGuest = () => StyleSheet.create({
         marginLeft: 5
     },
     imageWrap: {
-        height: 100,
-        width: 100,
-        marginBottom: 5,
+        height: 120,
+        width: 120,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     image: {
+        width: '100%',
         height: '100%',
         resizeMode: 'contain' 
     },
@@ -199,14 +209,12 @@ export const stylesGuest = () => StyleSheet.create({
     },
     itemWrap: {
         backgroundColor: colors.mainWhiteYellow,
-        // paddingVertical: 15,
-        paddingTop: 7,
-        paddingBottom: 10,
-        paddingHorizontal: 35,
-        marginBottom: 30,
+        marginBottom: 20,
         borderRadius: 10,
-        width: 175,
-        // height: 135,
+        height: 155,
+        width: 160,
+        justifyContent: 'center',
+        alignItems: 'center',
         // Shadow
         elevation   : 5,
         overflow: 'hidden',
@@ -219,12 +227,12 @@ export const stylesGuest = () => StyleSheet.create({
     itemText: {
         textAlign: 'center',
         fontFamily: 'sans-serif-condensed',
-        fontSize: 15
+        fontSize: 18,
     },
     imageIcon: {
         textAlign: 'center',
         fontFamily: 'sans-serif-condensed',
-        fontSize: 50,
+        fontSize: 100,
         color: '#000'
     }
 })

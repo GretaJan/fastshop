@@ -8,6 +8,7 @@ import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { styles } from '../../components_additional/styles/SubcategoryStyles';
+import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -83,16 +84,18 @@ class Subcategories extends Component {
     }
 
     goToProducts = (item) => {
-        this.props.navigation.push("Products_Auth", {subcategoryId: item.id, backgroundColor: item.background_color});
+        this.props.navigation.push("Products_Auth", {subcategoryId: item.id, name: item.name, background: item.background_color});
     }
 
     render() {
-        const {backgroundColor} = this.props.route.params;
+        const {background} = this.props.route.params;
         return (
             (this.props.loading) ? (
-                <Loading />
+                <View style={backgroundForPages(background).backgroundContainer} >
+                    <Loading />
+                </View>
             ) : (
-                <View style={styles(backgroundColor).container}>
+                <View style={styles(background).container}>
                     {this.getInput()}
                     <CircleButton func={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id}) }} />
                     {this.props.subcategories.length == 0 ? (
@@ -100,14 +103,14 @@ class Subcategories extends Component {
                         ) : (
                         !this.state.inputTriggered ? (
                             <FlatList data={this.props.subcategories} renderItem={({item}) => (
-                                <Subcategory item={item} background_color={backgroundColor}
+                                <Subcategory item={item}
                                             deleteSubcategory={(item) => this.deleteSubcategory(item)} 
                                             goToProducts={() => this.goToProducts(item)}
                                 />
                         )} />
                         ) : (
                             <FlatList data={this.state.tempArray} renderItem={({item}) => (
-                                <Subcategory item={item} background_color={backgroundColor}
+                                <Subcategory item={item} 
                                             deleteSubcategory={(item) => this.deleteSubcategory(item)} 
                                             goToProducts={() => this.goToProducts(item)}
                                 />
@@ -121,6 +124,7 @@ class Subcategories extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log("products:::: ",state.products.products)
    return {
     subcategories: state.subcategories.subcategories,
     loading: state.subcategories.loading,

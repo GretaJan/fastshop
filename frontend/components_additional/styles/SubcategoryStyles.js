@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 import {Dimensions} from 'react-native';
 import { colors } from './Colors';
 
-export const styles = (background_color, border_color) => StyleSheet.create({
+export const styles = (background) => StyleSheet.create({
     container: {
-        backgroundColor: background_color ? background_color : colors.mainYellow,
+        backgroundColor: background ? background : colors.mainYellow,
         flex: 1,
     },
     itemWrap: {
@@ -37,7 +37,7 @@ export const styles = (background_color, border_color) => StyleSheet.create({
         width: 65
     },
     backgroundColorIs: {
-        backgroundColor: background_color,
+        backgroundColor: background ? background : colors.mainYellow,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -58,10 +58,10 @@ export const styles = (background_color, border_color) => StyleSheet.create({
         paddingTop: 5,
         height: 50
     },
-    borderColorIs: {
-        borderColor: border_color,
-        borderWidth: 2,
-    },
+    // borderColorIs: {
+    //     borderColor: border_color,
+    //     borderWidth: 2,
+    // },
     borderColorNull: {
         borderColor: '#989898',
         borderWidth: 2,
@@ -76,10 +76,10 @@ export const styles = (background_color, border_color) => StyleSheet.create({
     },
 });
 
-export const stylesGuest = () => StyleSheet.create({
+export const stylesGuest = (backgroundCategory, backgroundSubcategory) => StyleSheet.create({
     container: {
         // backgroundColor: '#ffdc75',
-        backgroundColor: '#ffcc33',
+        backgroundColor: backgroundCategory ? backgroundCategory : colors.mainYellow,
         flex: 1,
         paddingHorizontal: 16,
         textAlign: 'center',
@@ -92,7 +92,7 @@ export const stylesGuest = () => StyleSheet.create({
         width: Dimensions.get('window').width /1,
     },
     itemWrap: {
-        backgroundColor: 'lightblue',
+        backgroundColor: backgroundSubcategory ? backgroundSubcategory : colors.mainWhiteYellow,
         paddingVertical: 5,
         // paddingHorizontal: 7,
         marginBottom: 6,

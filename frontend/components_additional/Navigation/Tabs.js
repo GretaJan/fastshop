@@ -69,32 +69,32 @@ render() {
                       headerTitleAlign: 'center'
                     }} />
             <GuestNavigation.Screen name="Subcategories" component={Subcategories} 
-                                options={{
-                                    title: "SUBCATEGORIES",  
+                                options={({ route }) => ({
+                                    title: route.params.name,  
                                     headerStyle: {
-                                    backgroundColor: colors.mainYellow,
+                                    backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
                                 },
                                 headerTitleStyle: {
                                     fontWeight: 'bold',
                                     color: colors.titleBlack,
                                 },
                                 headerTitleAlign: 'center'
-            }} />
+            })} />
             <GuestNavigation.Screen name="Products" component={Products} 
-                                options={{
-                                    title: "PRODUCTS LIST",
+                                options={({route}) => ({
+                                    title: route.params.name,
                                     headerStyle: {
-                                        backgroundColor: colors.mainYellow,
+                                        backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
                                     },
                                     headerTitleStyle: {
                                         fontWeight: 'bold',
                                         color: colors.titleBlack,
                                     },
                                     headerTitleAlign: 'center'
-                                    }} /> 
+                                    })} /> 
             <GuestNavigation.Screen name="Product" component={Product} 
-                                    options={{
-                                        title: "PRODUCT DETAILS",
+                                    options={({route}) => ({
+                                        title: route.params.name,
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
                                             color: colors.titleBlack,
@@ -102,8 +102,8 @@ render() {
                                         headerStyle: {
                                             backgroundColor: colors.mainWhiteYellow,
                                         },
-                                        headerTitleAlign: 'center'
-                                    }} /> 
+                                        headerTitleAlign: 'center'   
+                                    })} /> 
             {/* <GuestNavigation.Screen name="Login" component={LoginPage} 
                                     options={{
                                         title: "PRODUCT DETAILS",
@@ -136,7 +136,7 @@ render() {
                                         headerTitleAlign: 'center',
             }} />
             <SelectedProductsNav.Screen name="Results" component={SelectedProductsResults} 
-                                    options={{
+                                    options = {{
                                         title: "Results",
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
@@ -146,6 +146,7 @@ render() {
                                             backgroundColor: colors.mainYellow,
                                         },
                                         headerTitleAlign: 'center',
+                                  
             }} />
         </SelectedProductsNav.Navigator>
     )
@@ -153,7 +154,7 @@ render() {
         <LoginScreenNav.Navigator>
             <LoginScreenNav.Screen name="Login" component={LoginPage} 
               options={{
-                title: "Login Page",
+                title: "Login to Admin Dashboard",
                 headerTitleStyle: {
                     fontWeight: 'bold',
                     color: colors.titleBlack,
@@ -176,13 +177,34 @@ render() {
                   },
                   headerTitleStyle: {
                     fontWeight: 'bold',
-                    color: 'colors.titleBlack', 
+                    color: colors.titleBlack, 
                   },
                   headerTitleAlign: 'center'
             }} />
             <AdminNavigation.Screen name="Subcategories_Auth" component={Subcategories_Auth} 
-                                options={{ title: "Subcategories"}} options={Subcategories_Auth.navigationOptions}/>
-            <AdminNavigation.Screen name="Products_Auth" component={Products_Auth} options={{ title: "Products"}}  />
+                               options={({ route }) => ({ 
+                                    title: route.params.name,
+                                    headerStyle: {
+                                        backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                      },
+                                    headerTitleStyle: {
+                                        fontWeight: 'bold',
+                                        color: colors.titleBlack,
+                                    },
+                                    headerTitleAlign: 'center'
+            })} />  
+            <AdminNavigation.Screen name="Products_Auth" component={Products_Auth}  
+                        options={({ route }) => ({ 
+                                    title: route.params.name,
+                                    headerStyle: {
+                                        backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                      },
+                                    headerTitleStyle: {
+                                        fontWeight: 'bold',
+                                        color: colors.titleBlack,
+                                    },
+                                    headerTitleAlign: 'center'
+            })} />  
             <AdminNavigation.Screen name="Product_Auth" component={Product_Auth} 
                                 options={({ route }) => ({ 
                                     title: route.params.name,
@@ -191,11 +213,11 @@ render() {
                                       },
                                     headerTitleStyle: {
                                         fontWeight: 'bold',
-                                        color: 'colors.titleBlack',
+                                        color: colors.titleBlack,
                                         fontSize: 15
                                     },
                                     headerTitleAlign: 'center'
-                                })} /> 
+             })} /> 
             <AdminNavigation.Screen name="Add_Category" component={AddCategory} options={{ title: "Add Category"}}  />
             <AdminNavigation.Screen name="Add_Subcategory" component={AddSubcategory} options={{ title: "Add Subcategory"}}  />
             <AdminNavigation.Screen name="Add_Product" component={AddProduct} options={{ title: "Add Product" }}  />
@@ -205,15 +227,8 @@ render() {
         <NavigationContainer>
             {(!this.props.isAuthorized) ? (
                 <Tabs.Navigator tabBarOptions={{
-                    // backgroundColor: '#335c67',
-                    // inactiveBackgroundColor: '#335c67',
-                    // activeBackgroundColor: '#335c67',
-                    // inactiveBackgroundColor: '#ce7f75',
-                    // activeBackgroundColor: '#ce7f75',3a434c
-                    inactiveBackgroundColor: colors.titleBlack,
-                    activeBackgroundColor: colors.titleBlack,
                     style: { 
-                        // backgroundColor: '#335c67',
+                        backgroundColor: colors.mainBlack,
                         height: 60,
                     },
                   }}>

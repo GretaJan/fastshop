@@ -107,6 +107,8 @@ class ProductController extends Controller
             // 'salt' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
             // 'vitamins' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
         ]);
+
+       
         $product->name = $request->name;
         $product->energy = $request->energy;
         $product->fat = $request->fat;
@@ -115,34 +117,38 @@ class ProductController extends Controller
         $product->sugar = $request->sugar;
         $product->fiber = $request->fiber;
         $product->protein = $request->protein;
-        $product->salt = $request->salt;
         $product->vitamins = $request->vitamins;
+        $product->salt = $request->salt;
+        $product->salt = $request->salt;
         $product->background_color = $request->background_color;
         $product->border_color = $request->border_color;
+        
+
         // IMAGE
-        $base64 = $request->image;
-        if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
-            $data = substr($base64, strpos($base64, ',') + 1);
-            //Get file type
-            $type = explode(';', $base64)[0];
-            $type = explode('/', $type)[1]; // png or jpg etc
-            //Move image
-            $imageName = str_random(10) . '.' . $type;
-            \File::put(public_path('/uploads/products') . '/' . $imageName, base64_decode($data));
-            $path2 = asset('/uploads/products');
-            $product->image =  $path2 . '/' . $imageName; 
-        } else if(preg_match('/^data:image\/(\w+);base64,/', !$base64)) {
-            $product->image = $product->image;
-        } else {
-            $product->image = null;
+        if ($product->image !== null) {
+            $base64 = $request->image;
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
+                $data = substr($base64, strpos($base64, ',') + 1);
+                //Get file type
+                $type = explode(';', $base64)[0];
+                $type = explode('/', $type)[1]; // png or jpg etc
+                //Move image
+                $imageName = str_random(10) . '.' . $type;
+                \File::put(public_path('/uploads/products') . '/' . $imageName, base64_decode($data));
+                $path2 = asset('/uploads/products');
+                $product->image =  $path2 . '/' . $imageName; 
+            } else if(preg_match('/^data:image\/(\w+);base64,/', !$base64)) {
+                $product->image = $product->image;
+            } 
         }
+       
  
         if($product->save()) {
             $response = [
                 'product' => $product
             ];
         }
-var_dump("stored product", $product);
+
         return response()->json($request, 201);
     }
 

@@ -117,7 +117,7 @@ class CategoryList extends Component {
                             <Text style={authCategory().nameTxt}>{this.props.item.name}</Text>
                         </View>
                         <View style={authCategory().goToSubBtn }>
-                            <StyledButton horizontal={20} vertical={15} title="Subcategories" func={() => this.props.goToSubcategories()} color={colors.orange} />
+                            <StyledButton horizontal={20} vertical={15} title="Subcategories" func={() => this.props.goToSubcategories()} color={colors.mainYellow} />
                         </View>
                     </View>
                     

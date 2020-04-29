@@ -8,6 +8,7 @@ import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { authCategory } from '../../components_additional/styles/CategoryStyles';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { authProducts } from '../../components_additional/styles/ProductStyles';
+import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 
 //Components
 import Product from './ProductList';
@@ -64,16 +65,19 @@ class Products extends Component {
 
     goToProduct = async (item) => {
         // await this.props.getProduct();
-        this.props.navigation.push("Product_Auth", {subcategoryId: item.subcategory_id, productId: item.id,  name: item.name, backgroundColor: item.background_color});
+        this.props.navigation.push("Product_Auth", { subcategoryId: item.subcategory_id, productId: item.id,  name: item.name });
     }
 
     render() {
+        const { background } = this.props.route.params;
         return (
             <View>
                  {this.props.loading ? (
-                     <Loading />
+                    <View style={backgroundForPages(background).backgroundContainer} >
+                        <Loading />
+                    </View>
                  ) : (
-                     <View style={authProducts().container}>
+                     <View style={authProducts(background).container}>
                         {this.getInput() }
                         <CircleButton func={() => { this.props.navigation.push("Add_Product",  {subcategoryId: this.state.id}) }} />
                         {this.props.products.length == 0 ? (

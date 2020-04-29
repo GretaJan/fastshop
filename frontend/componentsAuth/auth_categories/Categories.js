@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getCategories, deleteCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
 import { authCategory } from '../../components_additional/styles/CategoryStyles';
+import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 
 //Components
 import CategoryList from './CategoryList';
@@ -21,16 +22,20 @@ class Categories extends Component {
     }
 
     goToSubcategories = (item) => {
-         this.props.navigation.push("Subcategories_Auth", {categoryId: item.id, backgroundColor: item.background_color});
+         this.props.navigation.push("Subcategories_Auth", {categoryId: item.id, name: item.name, background: item.background_color});
     }
 
     render() {
         return (
             (this.props.loading) ? (
-                <Loading />
+                <View style={backgroundForPages().backgroundContainer} >
+                    <Loading />
+                </View>
             ) : (
                 this.props.categories.length == 0 ? (
-                    <EmptyList message="The List is empty" />
+                    <View style={backgroundForPages().backgroundContainer} >
+                        <EmptyList message="The List is empty" />
+                    </View>
                     ) : (
                     <View style={authCategory().container}>
                         <CircleButton func={() => { this.props.navigation.push("Add_Category") }} />
@@ -51,7 +56,7 @@ Categories.propTypes = {
     categories: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = (state) => (console.log("sub", state.products.products),{
+const mapStateToProps = (state) => ({
     categories: state.categories.categories,
     loading: state.categories.loading,
     error: state.categories.error
