@@ -52,14 +52,18 @@ export default function(state = initialState, action) {
             //         }
             //     }   
             // })
+            let tempArray = state.products.filter(item => item.id !== action.payload.id);
             return {
                 ...state,
-                // products: state.products.concat(action.payload) 
+                products: tempArray.concat(action.payload) 
+
             }
         case DELETE_PRODUCT:
             return {
                 ...state,
-                products: state.products.filter(item => (item.id !== action.payload))
+                product: action.payload,
+                products: state.products.filter(item => (item.id !== action.payload)),
+                
             }
         default:
             return state

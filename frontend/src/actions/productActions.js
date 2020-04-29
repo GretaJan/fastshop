@@ -90,11 +90,18 @@ export const addProduct = (product, subcategory) => dispatch => {
 }
 
 export const editProduct = (subcategory, product, data) => (dispatch) => {
+    console.log("subcategory id: ", subcategory, "product id: ", product);
     axios.post( URL + `/updateProduct/${subcategory}/${product}`, data)
         .then(product => { 
+            let productTemp = product.data;
+            productTemp.id = product;
+            productTemp.subcategory_id = product.subcategory;
+            console.log('product.data', productTemp)
             dispatch({
                 type: EDIT_PRODUCT,
-                payload: product.data,
+                payload: product,
+                id: product,
+                subcategoryId: subcategory
             })
         }).catch(err => 
             console.log("EDIT PRODUCT ERROR: ", err))

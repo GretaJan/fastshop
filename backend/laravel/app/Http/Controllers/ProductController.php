@@ -85,7 +85,7 @@ class ProductController extends Controller
         return response()->json($request, 201);
     }
 
-    public function show($subcategory_id, $id )
+    public function show( $id, $subcategory_id )
     {
         $product = Product::findOrFail($id);
 
@@ -95,7 +95,6 @@ class ProductController extends Controller
     public function update(Request $request, $id, $subcategory_id)
     {
         $product = Product::findOrFail($id);
-
         $request->validate([
             'name' => 'nullable|min:3|max:100',
             // 'energy' => 'nullable|numeric|min:2',
@@ -143,7 +142,7 @@ class ProductController extends Controller
                 'product' => $product
             ];
         }
-
+var_dump("stored product", $product);
         return response()->json($request, 201);
     }
 

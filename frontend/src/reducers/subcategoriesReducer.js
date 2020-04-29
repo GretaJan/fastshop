@@ -33,10 +33,10 @@ export default function(state = initialState, action) {
                 subcategories: state.subcategories.concat(action.payload)
             }
         case EDIT_SUBCATEGORY:
-            const tempArray = state.subcategories.filter(item => item.id === action.payload.id );
+            let tempArray = state.subcategories.filter(item => item.id !== action.payload.id);
             return {
                 ...state,
-                // subcategories: tempArray
+                subcategories: tempArray.concat(action.payload)
             }
                
         case DELETE_SUBCATEGORY:

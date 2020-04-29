@@ -10,7 +10,7 @@ export const styles = () => StyleSheet.create({
         marginTop: Dimensions.get('window').height /10,
     },
     textInput: {
-        fontSize: 20,
+        fontSize: 18,
         marginHorizontal: 30,
         height: 50,
         backgroundColor: '#FFFFE0',

@@ -52,9 +52,10 @@ export default function(state = initialState, action) {
             //         return item
             //     }
             // })
+            let tempArray = state.categories.filter(item => item.id !== action.payload.id )
             return {
                 ...state, 
-                // categories: state.categories.concat(action.payload),
+                categories: tempArray.concat(action.payload),
             }
         case DELETE_CATEGORY:
             return {

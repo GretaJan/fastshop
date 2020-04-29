@@ -15,6 +15,8 @@ import Error from '../../components_additional/Error';
 
 class Product extends Component {
     state = {
+        id: this.props.route.params.productId,
+        subcategoryId: this.props.route.params.subcategoryId,
         image: null,
         name: '',
         energy: '',
@@ -254,7 +256,7 @@ class Product extends Component {
             image: this.state.changedImg ? "data:" + this.state.imageData.type + ";base64," + this.state.imageData.data : this.props.product.image,
             "_method": "put"
         }
-        await this.props.editProduct(this.props.route.params.subcategoryId, this.props.route.params.productId, data); 
+        await this.props.editProduct(this.state.subcategoryId, this.state.id, data); 
         // this.props.getProduct(this.props.route.params.subcategoryId, this.props.route.params.productId);
         // this.setState({edited: true})
         this.cancelNameEdit();
