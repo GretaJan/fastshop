@@ -204,7 +204,7 @@ render() {
     return ( 
         <NavigationContainer>
             {(!this.props.isAuthorized) ? (
-                <Tabs.Navigator  tabBarOptions={{
+                <Tabs.Navigator tabBarOptions={{
                     // backgroundColor: '#335c67',
                     // inactiveBackgroundColor: '#335c67',
                     // activeBackgroundColor: '#335c67',
@@ -246,16 +246,22 @@ render() {
                         }} />
                 </Tabs.Navigator>           
             ) : (
-                <Tabs.Navigator>
+                <Tabs.Navigator tabBarOptions={{
+                    style: { 
+                        backgroundColor:  colors.titleBlack,
+                        height: 60,
+                    } }}>
                     <Tabs.Screen name="Dashboard" component={AdminNavigationScreens} 
-                        options = {
-                            { tabBarIcon: () => (
+                        options = {{
+                            tabBarLabel: () => (null),
+                            tabBarIcon: () => (
                                 <Icon name="list-alt" style={styles().iconItem} />
                             )}
                     } />
                     <Tabs.Screen name="Logout" component={null} component={Categories}
-                        options = {
-                            { tabBarIcon: () => (
+                        options = {{ 
+                            tabBarLabel: () => (null),
+                            tabBarIcon: () => (
                                 <Icon name="sign-out" style={styles().iconItem} />
                             )}
                         }

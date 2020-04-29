@@ -30,14 +30,14 @@ export const searchBar = () =>  StyleSheet.create({
     },
 });
 
-export const buttonStyle = (color) =>  StyleSheet.create({
+export const buttonStyle = (color, width, height) =>  StyleSheet.create({
     buttonWrap: {
         marginBottom: 20,
         borderColor: colors.transparentLight,
         borderWidth: 1,
         borderRadius: 5,
-        width: Dimensions.get('window').width /2.2,
-        height: 50,
+        width: width ? width : Dimensions.get('window').width /2.2,
+        height: height ? height : 50,
         alignItems: 'center',
         justifyContent: 'center',   
         backgroundColor: color, 
@@ -195,7 +195,7 @@ export const emptyList = (backgroundColor) => StyleSheet.create({
 export const roundButton = (color) => StyleSheet.create({
     buttonWrap: {
         position: 'absolute',
-        zIndex: 10,
+        zIndex: 20,
         top: Dimensions.get('window').height /1.5,
         right: 15,
         paddingLeft: 20,

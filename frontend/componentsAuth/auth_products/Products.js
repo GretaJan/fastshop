@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, Button, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { getProducts } from '../../src/actions/productActions';
+import { getProducts, getProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
@@ -62,7 +62,8 @@ class Products extends Component {
         )
     }
 
-    goToProduct = (item) => {
+    goToProduct = async (item) => {
+        // await this.props.getProduct();
         this.props.navigation.push("Product_Auth", {subcategoryId: item.subcategory_id, productId: item.id,  name: item.name, backgroundColor: item.background_color});
     }
 
@@ -106,4 +107,4 @@ const mapStateToProps = state => ({
     error: state.products.error
 })
 
-export default withNavigation(connect(mapStateToProps, {getProducts})(Products))
+export default withNavigation(connect(mapStateToProps, {getProducts, getProduct})(Products))

@@ -1,13 +1,11 @@
 import { StyleSheet } from 'react-native';
 import {Dimensions} from 'react-native';
+import { colors } from './Colors';
 
 export const styles = (background_color, border_color) => StyleSheet.create({
     container: {
-        marginTop: 8,
-        // marginLeft: 10,
-        // marginRight: 10
-        zIndex: -1,
-        backgroundColor: background_color
+        backgroundColor: background_color ? background_color : colors.mainYellow,
+        flex: 1,
     },
     itemWrap: {
         display: 'flex',

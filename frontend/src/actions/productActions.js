@@ -79,8 +79,9 @@ export const getProduct = (subcategory, product) => (dispatch) => {
        
 } 
 
-export const addProduct = (product, subcategory) => dispatch => {
-    axios.post(URL + '/addProduct/' + subcategory, product)
+export const postProduct = (subcategory, data) => dispatch => {
+    console.log("subcategory id: ", subcategory, "product id: ", data);
+    axios.post(URL + '/addProduct/' + subcategory, data)
     .then((product) => { 
         dispatch({
             type: POST_PRODUCT,

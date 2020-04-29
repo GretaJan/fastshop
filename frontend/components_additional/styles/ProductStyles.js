@@ -123,7 +123,7 @@ export const stylesGuest = () => StyleSheet.create( {
     },
     image: {
         height: '100%',
-        resizeMode: 'contain'        
+        resizeMode: 'cover'        
     },
     imageIcon: {
         textAlign: 'center',
@@ -145,7 +145,8 @@ export const stylesGuestSingle = (color) => StyleSheet.create( {
         backgroundColor: colors.mainWhiteYellow,
     },
     imageContainer: {
-        width: Dimensions.get('window').width /2.3,
+        // width: Dimensions.get('window').width /2.3,
+        width: 265,
         height: 180,
         textAlign: 'center',
         alignItems:'center',
@@ -157,7 +158,7 @@ export const stylesGuestSingle = (color) => StyleSheet.create( {
     image: {
         height: '100%',
         width: '100%',
-        resizeMode: 'contain',
+        resizeMode: 'cover',
         // borderRadius: 10,
     },
     emptyItem: {
@@ -386,5 +387,96 @@ export const authProduct = (color) => StyleSheet.create({
          fontSize: 24,
          left: -4,
      }  
+});
 
-}) 
+export const postProductStyle = () => StyleSheet.create({
+    container: {
+        backgroundColor: '#ffcc33',
+        height: Dimensions.get('window').height /1,
+        paddingHorizontal: 30,
+        paddingVertical: 20,
+    },
+    inputsWrap: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+    },
+    textInputName: {
+        width: '100%',
+        fontSize: 17,
+        height: 45,
+        backgroundColor: colors.mainWhiteYellow,
+        borderRadius: 10,
+        marginBottom: 10,
+        paddingHorizontal: 15,
+            // Shadow
+            elevation   : 5,
+            overflow: 'hidden',
+            //iOS:
+            shadowColor: 'red',
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.8,
+            shadowRadius: 2, 
+    },
+    textInput: {
+        width: 100,
+        fontSize: 17,
+        marginRight: 20,
+        height: 45,
+        backgroundColor: colors.mainWhiteYellow,
+        borderRadius: 10,
+        marginBottom: 10,
+        paddingHorizontal: 15,
+            // Shadow
+            elevation   : 5,
+            overflow: 'hidden',
+            //iOS:
+            shadowColor: 'red',
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.8,
+            shadowRadius: 2, 
+    },
+    singleWrap: {
+        // flex: 1,
+        flexDirection: 'row',
+        // justifyContent: 'center',
+        alignItems: 'center',
+    },
+    singleName: {
+        fontSize: 17,
+        // flex: .6,
+    },
+    measure: {
+        fontSize: 16,
+        marginBottom: 20,
+        width: 30,
+        color: colors.mainBlack
+    },
+    buttonsWrap: {
+        flex: 1,
+        alignItems: 'center',
+        paddingTop:20,
+    },
+    imageBtnsFlex: {
+       flex: 1,
+       flexDirection: 'row', 
+       alignItems: 'center',
+       marginTop: 5,
+    },
+    imageStyle: {
+        width: 120,
+    },
+    imageWrap: {
+        width: 150,
+        height: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+      imageStyle: {
+        width: 150,
+        height: 150,
+        resizeMode: 'cover' 
+    },
+
+})

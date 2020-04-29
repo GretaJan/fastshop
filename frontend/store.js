@@ -13,6 +13,7 @@ const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
     // blacklist: [products],
+    whitelist: ['authReducer'],
     stateReconciler: autoMergeLevel2,
 }
 

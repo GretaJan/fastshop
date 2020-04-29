@@ -1,29 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, TextInput, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
-import { addProduct } from '../../src/actions/productActions';
+import { postProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        padding: 20
-    },
-    button: {
-        paddingTop: 15,
-        paddingBottom: 15,
-        
-    },
-    text: {
-        fontSize: 18,
-        textAlign: 'center'
-    }
-})
+import { colors } from '../../components_additional/styles/Colors';
+import { categoryAdd, authCategory } from '../../components_additional/styles/CategoryStyles';
+import { postProductStyle } from '../../components_additional/styles/ProductStyles';
+import ButtonStyled from '../../components_additional/Button';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 class AddProduct extends Component {
     
@@ -59,7 +46,7 @@ class AddProduct extends Component {
         })
     }
 
-    addProduct = async() => {
+    addProduct = async () => {
         const data = {
             name: this.state.name,
             energy: this.state.energy,
@@ -71,37 +58,92 @@ class AddProduct extends Component {
             protein: this.state.protein,
             salt: this.state.salt,
             vitamins: this.state.vitamins,
-            image: "data:" + this.state.image.type + ";base64," + this.state.image.data,
+            image: this.state.image ? "data:" + this.state.image.type + ";base64," + this.state.image.data : null,
         }
-        console.log("DATA: ", data);
-        await this.props.addProduct(data, this.props.route.params.subcategoryId);
+        console.log(data);
+        await this.props.postProduct(this.props.route.params.subcategoryId, data);
         this.props.navigation.navigate("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
     // this.props.navigation.goBack();
     }
 
+    goBack = () => {
+        this.props.navigation.goBack();
+    }
+
         render() {
-            const { image } = this.state;
             return (
-                <ScrollView>
-                    <Text>Add New Product</Text>
-                        <TextInput type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
-                        <TextInput type="text" autoCorrect={false}  placeholder="energy" onChangeText={value => { this.setState({energy: value})}} value={this.state.energy} ref={ref => this.textInputRef = ref} />
-                        <TextInput type="text" autoCorrect={false}  placeholder="fat" onChangeText={value => { this.setState({fat: value})}} value={this.state.fat} ref={ref => this.textInputRef = ref} />
-                        <TextInput type="text" autoCorrect={false}  placeholder="saturated" onChangeText={value => { this.setState({saturated: value})}} value={this.state.saturated} ref={ref => this.textInputRef = ref} />
-                        <TextInput type="text" autoCorrect={false}  placeholder="carbs" onChangeText={value => { this.setState({carbs: value})}} value={this.state.carbs} ref={ref => this.textInputRef = ref} />
-                        <TextInput type="text" autoCorrect={false}  placeholder="sugar" onChangeText={value => { this.setState({sugar: value})}} value={this.state.sugar} ref={ref => this.textInputRef = ref} />
-                        <TextInput type="text" autoCorrect={false}  placeholder="fiber" onChangeText={value => { this.setState({fiber: value})}} value={this.state.fiber} ref={ref => this.textInputRef = ref} />
-                        <TextInput type="text" autoCorrect={false}  placeholder="protein" onChangeText={value => { this.setState({protein: value})}} value={this.state.protein} ref={ref => this.textInputRef = ref} />
-                        <TextInput type="text" autoCorrect={false}  placeholder="salt" onChangeText={value => { this.setState({salt: value})}} value={this.state.salt} ref={ref => this.textInputRef = ref} />
-                        <TextInput type="text" autoCorrect={false}  placeholder="vitamins" onChangeText={value => { this.setState({vitamins: value})}} value={this.state.vitamins} ref={ref => this.textInputRef = ref} />
-                        {this.state.image && (
-                            <View>
-                                <Image style={{width: 50, height: 50}} source={{ uri: this.state.image.uri }} />
-                            </View>
-                        )}
-                        <Button title="Choose image" onPress={this.handleChoosePhoto} />
-                        <Button title="Save" className="btn btn-primary" onPress={this.addProduct} />
-                        <Button title="Cancel" className="btn btn-primary" />
+                <ScrollView style={postProductStyle().container}>
+                    <View style={postProductStyle().inputsWrap} >
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Name</Text> */}
+                            <TextInput style={postProductStyle().textInputName} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
+                        </View>
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Energy</Text> */}
+                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="energy" onChangeText={value => { this.setState({energy: value})}} value={this.state.energy} ref={ref => this.textInputRef = ref} />
+                            <Text style={postProductStyle().measure}>kcal</Text>
+                        </View>
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Fat</Text> */}
+                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="fat" onChangeText={value => { this.setState({fat: value})}} value={this.state.fat} ref={ref => this.textInputRef = ref} />
+                            <Text style={postProductStyle().measure}>g</Text>
+                        </View>
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Saturated</Text> */}
+                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="saturated" onChangeText={value => { this.setState({saturated: value})}} value={this.state.saturated} ref={ref => this.textInputRef = ref} />
+                            <Text style={postProductStyle().measure}>g</Text>
+                        </View>
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Carbs</Text> */}
+                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="carbs" onChangeText={value => { this.setState({carbs: value})}} value={this.state.carbs} ref={ref => this.textInputRef = ref} />
+                            <Text style={postProductStyle().measure}>g</Text>
+                        </View>
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Sugar</Text> */}
+                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="sugar" onChangeText={value => { this.setState({sugar: value})}} value={this.state.sugar} ref={ref => this.textInputRef = ref} />
+                            <Text style={postProductStyle().measure}>g</Text>
+                        </View>
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Fiber</Text> */}
+                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="fiber" onChangeText={value => { this.setState({fiber: value})}} value={this.state.fiber} ref={ref => this.textInputRef = ref} />
+                            <Text style={postProductStyle().measure}>g</Text>
+                        </View>
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Protein</Text> */}
+                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="protein" onChangeText={value => { this.setState({protein: value})}} value={this.state.protein} ref={ref => this.textInputRef = ref} />
+                            <Text style={postProductStyle().measure}>g</Text>
+                        </View>
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Salt</Text> */}
+                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="salt" onChangeText={value => { this.setState({salt: value})}} value={this.state.salt} ref={ref => this.textInputRef = ref} />
+                            <Text style={postProductStyle().measure}>g</Text>
+                        </View>
+                        <View style={postProductStyle().singleWrap}>
+                            {/* <Text style={postProduct().singleName}>Vitamins</Text> */}
+                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="vitamins" onChangeText={value => { this.setState({vitamins: value})}} value={this.state.vitamins} ref={ref => this.textInputRef = ref} />
+                            <Text style={postProductStyle().measure}>g</Text>
+                        </View>
+                    </View>
+                    <View style={postProductStyle().imageBtnsFlex}>
+                        <View style={postProductStyle().imageBtnWrap} >
+                            {this.state.image ? (
+                                <TouchableOpacity style={postProductStyle().imageWrap} onPress={this.handleChoosePhoto}  >
+                                    <Image style={postProductStyle().imageStyle} source={{ uri: this.state.image.uri }} />
+                                    <Icon style={categoryAdd().uploadIcon} name="upload"/>
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity style={postProductStyle().imageWrap} onPress={this.handleChoosePhoto} >
+                                    <Image style={postProductStyle().imageStyle} source={require('../../components_additional/images/noimage.jpeg')} />
+                                    <Icon style={categoryAdd().uploadIcon} name="upload"/>
+                                </TouchableOpacity> 
+                            )}
+                            {/* <ButtonStyled color={colors.orangeBright} title={"Add image"} func={this.handleChoosePhoto} /> */}
+                        </View>
+                        <View style={postProductStyle().buttonsWrap} >
+                            <ButtonStyled color={colors.mediumGreen}  width={115} height={55} title={"Save"} func={() => this.addProduct()} />
+                            <ButtonStyled color={colors.lightBurgundy}  width={115} height={55} title={"Cancel"} func={() => this.goBack() } />
+                        </View>
+                    </View>    
                 </ScrollView>
             )
     }
@@ -109,8 +151,8 @@ class AddProduct extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addProduct: (product, id) => {
-            dispatch(addProduct(product, id));
+        postProduct: (id, product) => {
+            dispatch(postProduct(id, product));
         }
     }
 }

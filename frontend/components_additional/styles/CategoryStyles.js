@@ -33,7 +33,7 @@ export const authCategory = (backgroundColor, border_color) => StyleSheet.create
     imageActiveStyle: {
         width: 100,
         height: 100,
-        resizeMode: 'cover' 
+        resizeMode: 'contain' 
     },
     imageIcon: {
         textAlign: 'center',
