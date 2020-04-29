@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { styles } from '../../components_additional/styles/SubcategoryStyles';
-import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
+import { loadingBackground } from '../../components_additional/styles/AdditionalStyles';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -91,15 +91,13 @@ class Subcategories extends Component {
         const {background} = this.props.route.params;
         return (
             (this.props.loading) ? (
-                <View style={backgroundForPages(background).backgroundContainer} >
-                    <Loading />
-                </View>
+                <Loading background={background}/>
             ) : (
                 <View style={styles(background).container}>
                     {this.getInput()}
                     <CircleButton func={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id}) }} />
                     {this.props.subcategories.length == 0 ? (
-                            <EmptyList message="The List is empty" />
+                        <EmptyList message="The List is empty" background={background} />
                         ) : (
                         !this.state.inputTriggered ? (
                             <FlatList data={this.props.subcategories} renderItem={({item}) => (

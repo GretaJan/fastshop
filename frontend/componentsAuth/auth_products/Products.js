@@ -71,35 +71,32 @@ class Products extends Component {
     render() {
         const { background } = this.props.route.params;
         return (
-            <View>
-                 {this.props.loading ? (
-                    <View style={backgroundForPages(background).backgroundContainer} >
-                        <Loading />
-                    </View>
-                 ) : (
-                     <View style={authProducts(background).container}>
-                        {this.getInput() }
-                        <CircleButton func={() => { this.props.navigation.push("Add_Product",  {subcategoryId: this.state.id}) }} />
-                        {this.props.products.length == 0 ? (
-                            <EmptyList message="Products list is empty"  />
+                this.props.loading ? (
+                // <Loading background={background}/>
+                <Text>Load</Text>                
+                ) : (
+                    <View style={authProducts(background).container}>
+                    {this.getInput() }
+                    <CircleButton func={() => { this.props.navigation.push("Add_Product",  {subcategoryId: this.state.id}) }} />
+                    {this.props.products.length == 0 ? (
+                        <EmptyList message="Products list is empty" background={background} />
+                    ) : (
+                        !this.state.inputTriggered ? (
+                            <FlatList data={this.props.products} renderItem={({item}) => (
+                                <Product item={item} 
+                                        goToProduct={() => this.goToProduct(item)}
+                                />
+                            )} />
                         ) : (
-                            !this.state.inputTriggered ? (
-                                <FlatList data={this.props.products} renderItem={({item}) => (
-                                    <Product item={item} 
-                                            goToProduct={() => this.goToProduct(item)}
-                                    />
-                                )} />
-                            ) : (
-                                <FlatList data={this.state.tempArray} renderItem={({item}) => (
-                                    <Product item={item} 
-                                            goToProduct={() => this.goToProduct(item)}
-                                    />
-                                )} />
-                            )
-                        )}
-                    </View>
-                 )}
-            </View>
+                            <FlatList data={this.state.tempArray} renderItem={({item}) => (
+                                <Product item={item} 
+                                        goToProduct={() => this.goToProduct(item)}
+                                />
+                            )} />
+                        )
+                    )}
+                </View>
+                )
         )
     }
 }

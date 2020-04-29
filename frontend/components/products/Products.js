@@ -13,7 +13,7 @@ import { colors } from '../../components_additional/styles/Colors';
 //Components
 import Product from './ProductList';
 import Loading from '../../components_additional/Loading';
-import Error from '../../components_additional/Error';
+import EmptyList from '../../components_additional/EmptyList';
 import Modal from '../../components_additional/Modal';
 
 class Products extends Component {
@@ -75,10 +75,9 @@ class Products extends Component {
         const { background } = this.props.route.params;
         return (
             (this.props.loading) ? (
-                <View style={backgroundForPages(background).backgroundContainer} >
-                    <Loading />
-                </View>
-                ) : (
+                // <Loading background={background}/>
+                <Text>Load</Text>                
+                    ) : (
                     (this.props.error !== '') ? (
                         <View style={backgroundForPages(background).backgroundContainer} >
                             <Modal title="Warning" 
@@ -92,12 +91,9 @@ class Products extends Component {
                     <View style={stylesGuest(background).container}>
                         {this.getInput()}
                         {(this.props.products.length == 0) ? (
-                            <Modal title="Warning" 
-                                message="The list is empty. PLease go back." 
-                                close={() => this.props.navigation.goBack()} 
-                                ok="Go back" color={colors.mainYellow} 
-                                borderColor={colors.mainYellowTransparent}
-                                horizontal={20} vertical={10}/>
+                            // <View style={backgroundForPages(background).backgroundContainer} >
+                                <EmptyList message="The List is empty" background={background} />
+                            // </View>
                             ) : (
                             !this.state.inputTriggered ? (
                                 <FlatList data={this.props.products} renderItem={({item}) => (

@@ -13,7 +13,7 @@ import { getSubcategories } from '../../src/actions/subcategoryActions';
 //Components
 import CategoryList from './CategoryList';
 import Loading from '../../components_additional/Loading';
-import Error from '../../components_additional/Error';
+import EmptyList from '../../components_additional/EmptyList';
 import Modal from '../../components_additional/Modal';
 
 class Categories extends Component {
@@ -63,13 +63,10 @@ class Categories extends Component {
     }
 
     render() {
-
         return (
-           
             (this.props.loading) ? (
-                <View style={backgroundForPages().backgroundContainer} >
-                    <Loading />
-                </View>
+                // <Loading />
+                     <Text>Load</Text>
                 ) : (
                 (this.props.error !== '') ? (
                     <View style={backgroundForPages().backgroundContainer} >
@@ -83,12 +80,7 @@ class Categories extends Component {
                 ) : (
                     <View style={stylesGuest().container} >
                         {(this.props.categories.length == 0) ? (
-                            <Modal title="Warning" 
-                                message="The list is empty. PLease go back." 
-                                close={() => this.props.navigation.push("Login")} 
-                                ok="OK" color={colors.mainYellow} 
-                                borderColor={colors.mainYellowTransparent}
-                                horizontal={20} vertical={10}/>
+                            <EmptyList message="The List is empty" />
                         ) : (
                             <FlatList contentContainerStyle={stylesGuest().flatList} data={this.props.categories} renderItem={({item}) => (
                                 <CategoryList key={item} item={item} 

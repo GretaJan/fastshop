@@ -81,10 +81,9 @@ class Subcategories extends Component {
         const { background } = this.props.route.params;
         return (
             (this.props.loading) ? (
-                <View style={backgroundForPages(background).backgroundContainer} >
-                    <Loading />
-                </View>
-            ) : (
+                // <Loading background={background}/>
+                <Text>Load</Text>            
+                ) : (
                 (this.props.error !== '') ? (
                     <View style={backgroundForPages(background).backgroundContainer} >
                         <Modal title="Warning" 
@@ -98,12 +97,9 @@ class Subcategories extends Component {
                     <View style={stylesGuest(background).container}>
                     {this.getInput()}
                         {(this.props.subcategories.length == 0) ? (
-                            <Modal title="Warning" 
-                                message="The list is empty. PLease go back." 
-                                close={() => this.props.navigation.goBack()} 
-                                ok="OK" color={colors.mainYellow} 
-                                borderColor={colors.mainYellowTransparent}
-                                horizontal={20} vertical={10}/>
+                            // <View style={backgroundForPages(background).backgroundContainer} >
+                                <EmptyList message="The List is empty" background={background} />
+                            // </View>
                         ) : (
                             !this.state.inputTriggered ? (
                                 <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.props.subcategories} renderItem={({item}) => (

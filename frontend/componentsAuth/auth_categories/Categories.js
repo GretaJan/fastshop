@@ -28,14 +28,11 @@ class Categories extends Component {
     render() {
         return (
             (this.props.loading) ? (
-                <View style={backgroundForPages().backgroundContainer} >
-                    <Loading />
-                </View>
+                // <Loading background={background}/>
+                <Text>Load</Text>
             ) : (
                 this.props.categories.length == 0 ? (
-                    <View style={backgroundForPages().backgroundContainer} >
                         <EmptyList message="The List is empty" />
-                    </View>
                     ) : (
                     <View style={authCategory().container}>
                         <CircleButton func={() => { this.props.navigation.push("Add_Category") }} />

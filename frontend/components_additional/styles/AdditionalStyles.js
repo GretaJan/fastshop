@@ -143,7 +143,6 @@ export const modalConfirm = (color) => StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 20,
-        // paddingHorizontal: 35,
         top: '10%',
         paddingBottom: 30,
         borderRadius: 10,
@@ -162,9 +161,9 @@ export const modalConfirm = (color) => StyleSheet.create({
     }
 });
 
-export const emptyList = (backgroundColor) => StyleSheet.create({
+export const emptyList = (background) => StyleSheet.create({
     container: {
-        backgroundColor: backgroundColor ? backgroundColor : colors.mainYellow,
+        backgroundColor: background ? background : colors.mainYellow,
         height: Dimensions.get('window').height /1,
         width: Dimensions.get('window').width /1,
         position: 'absolute',
@@ -175,7 +174,7 @@ export const emptyList = (backgroundColor) => StyleSheet.create({
         top: (Dimensions.get('window').height /4),
     },
     imageWrap: {
-        backgroundColor: colors.bordo,
+        backgroundColor: colors.transparentLight,
         paddingVertical: 16,
         paddingHorizontal: 15,
         borderRadius: 10,
@@ -208,12 +207,22 @@ export const roundButton = (color) => StyleSheet.create({
         fontSize: 70,
     }
 })
+export const loadingBackground = (background) => StyleSheet.create({
+    backgroundContainer: {
+        backgroundColor: background ? background : colors.mainYellow, 
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // minHeight: Dimensions.get('window').height /1,
+    }
+});
 export const backgroundForPages = (background) => StyleSheet.create({
     backgroundContainer: {
         backgroundColor: background ? background : colors.mainYellow, 
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        // minHeight: Dimensions.get('window').height /1,
     }
 });
 
@@ -228,12 +237,17 @@ export const emptyListSelected = () => StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    image: {
-        marginBottom: 30,
-    },
     text: {
         fontSize: 16,
-    }
+    },
+    imageWrap: {
+        backgroundColor: colors.transparentLight,
+        paddingVertical: 16,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        marginBottom: 50,
+    },
+
 })
 
 

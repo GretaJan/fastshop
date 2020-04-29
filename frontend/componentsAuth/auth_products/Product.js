@@ -294,9 +294,8 @@ class Product extends Component {
 
         return (
                  this.props.loading ? (
-                    <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
-                        <Loading />
-                    </View>
+                    // <Loading background={colors.mainWhiteYellow} />
+                    <Text>Load</Text>
                     ) : (
                     this.props.error !== '' ? (
                         <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
