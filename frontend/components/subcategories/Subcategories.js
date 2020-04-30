@@ -13,7 +13,7 @@ import { colors } from '../../components_additional/styles/Colors';
 //Components
 import Subcategory from './SubcategoryList';
 import Loading from '../../components_additional/Loading';
-import Error from '../../components_additional/Error';
+import EmptyList from '../../components_additional/EmptyList';
 import Modal from '../../components_additional/Modal';
 
 class Subcategories extends Component {
@@ -81,8 +81,9 @@ class Subcategories extends Component {
         const { background } = this.props.route.params;
         return (
             (this.props.loading) ? (
-                // <Loading background={background}/>
-                <Text>Load</Text>            
+                <View style={backgroundForPages(background).backgroundContainer} >
+                    <Loading />
+                </View>
                 ) : (
                 (this.props.error !== '') ? (
                     <View style={backgroundForPages(background).backgroundContainer} >

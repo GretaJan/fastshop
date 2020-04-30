@@ -32,4 +32,7 @@ export const styles = () => StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 140,
     },
+    error: {
+        
+    }
 });

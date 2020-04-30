@@ -21,7 +21,7 @@ class UserController extends Controller
         if(!Auth::attempt($userCredentials)) 
         {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Incorrect credentials. Please try again'
             ], 401);
         }
 

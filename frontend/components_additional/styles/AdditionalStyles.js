@@ -207,15 +207,6 @@ export const roundButton = (color) => StyleSheet.create({
         fontSize: 70,
     }
 })
-export const loadingBackground = (background) => StyleSheet.create({
-    backgroundContainer: {
-        backgroundColor: background ? background : colors.mainYellow, 
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        // minHeight: Dimensions.get('window').height /1,
-    }
-});
 export const backgroundForPages = (background) => StyleSheet.create({
     backgroundContainer: {
         backgroundColor: background ? background : colors.mainYellow, 
@@ -248,6 +239,32 @@ export const emptyListSelected = () => StyleSheet.create({
         marginBottom: 50,
     },
 
+});
+
+export const errorStyle = (margin, left) => StyleSheet.create({
+    container: {
+        position: 'absolute',
+        top: margin ? margin : -25,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        left: left ? left : 0,
+    },
+    iconWrap: {
+        width: 20,
+        height: 20,
+        backgroundColor: colors.bordoTransparent,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        marginRight: 5,
+    },
+    icon: {
+        fontSize: 16,
+    },
+    message: {
+        fontSize: 16,
+    }
 })
 
 

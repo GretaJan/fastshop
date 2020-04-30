@@ -227,7 +227,7 @@ export const stylesGuest = () => StyleSheet.create({
     itemText: {
         textAlign: 'center',
         fontFamily: 'sans-serif-condensed',
-        fontSize: 18,
+        fontSize: 16,
     },
     imageIcon: {
         textAlign: 'center',

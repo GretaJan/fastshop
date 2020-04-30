@@ -28,8 +28,9 @@ class Categories extends Component {
     render() {
         return (
             (this.props.loading) ? (
-                // <Loading background={background}/>
-                <Text>Load</Text>
+                <View style={backgroundForPages().backgroundContainer} >
+                    <Loading />
+                </View>
             ) : (
                 this.props.categories.length == 0 ? (
                         <EmptyList message="The List is empty" />

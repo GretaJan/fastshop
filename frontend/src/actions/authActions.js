@@ -3,19 +3,26 @@ import axios from 'axios';
 
 export const tryLogin = (data) => (dispatch) => {
     axios.post('http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/login', data, {withCredentials: true})
-        .then(admin => {console.log("hey")
+        .then(admin => {console.log(admin)
             dispatch({ 
                 type: LOGGED_IN,
                 admin: admin,
-                isAuthorized: true
+                isAuthorized: true,
+                error: null,
             })
-        }).catch(err => console.log("CANNOT LOGIN:", err),
-            dispatch({
-                type: LOG_IN_FAILED,
-                payload: 'Loggin failed. Please try again.',
-                admin:{},
-                isAuthorized: false
-            })
+        }).catch(err => { 
+            if(err.response.status == 422) {
+                var errorResponse = 'Submitted empty fields. Please try again.';
+            } else if (err.response.status == 401) {
+                var errorResponse = err.response.data.message;
+            } 
+                dispatch({
+                    type: LOG_IN_FAILED,
+                    payload: errorResponse,
+                    admin:{},
+                    isAuthorized: false
+                })
+            }
         );
 } 
 

@@ -71,9 +71,10 @@ class Products extends Component {
     render() {
         const { background } = this.props.route.params;
         return (
-                this.props.loading ? (
-                // <Loading background={background}/>
-                <Text>Load</Text>                
+            this.props.loading ? (
+                <View style={backgroundForPages(background).backgroundContainer} >
+                    <Loading />
+                </View>          
                 ) : (
                     <View style={authProducts(background).container}>
                     {this.getInput() }

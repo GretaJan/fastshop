@@ -12,6 +12,7 @@ import { categoryAdd, authCategory } from '../../components_additional/styles/Ca
 import ButtonStyled from '../../components_additional/Button';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Error from '../../components_additional/ErrorMsg';
 
 class AddCategory extends Component {
     
@@ -64,11 +65,13 @@ class AddCategory extends Component {
             return (
                 <View style={styles().container} > 
                     <View style={styles().inputsWrap} >
+                        <Error message="nain" />
                         <TextInput style={styles().textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
                     </View>
                     <View style={categoryAdd().imageBtnWrap} >
                     {this.state.image ? (
                             <TouchableOpacity style={categoryAdd().imageWrap} onPress={this.handleChoosePhoto}  >
+                                <Error message="nain" />
                                 <Image style={categoryAdd().imageStyle} source={{ uri: this.state.image.uri }} />
                                 <Icon style={categoryAdd().uploadIcon} name="upload"/>
                             </TouchableOpacity>

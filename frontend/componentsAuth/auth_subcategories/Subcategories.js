@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { styles } from '../../components_additional/styles/SubcategoryStyles';
-import { loadingBackground } from '../../components_additional/styles/AdditionalStyles';
+import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -91,8 +91,9 @@ class Subcategories extends Component {
         const {background} = this.props.route.params;
         return (
             (this.props.loading) ? (
-                // <Loading background={background}/>
-                <Text>Load</Text>
+                <View style={backgroundForPages(background).backgroundContainer} >
+                    <Loading />
+                </View>
             ) : (
                 <View style={styles(background).container}>
                     {this.getInput()}

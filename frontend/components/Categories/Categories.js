@@ -65,8 +65,9 @@ class Categories extends Component {
     render() {
         return (
             (this.props.loading) ? (
-                // <Loading />
-                     <Text>Load</Text>
+                <View style={backgroundForPages().backgroundContainer} >
+                    <Loading />
+                </View>
                 ) : (
                 (this.props.error !== '') ? (
                     <View style={backgroundForPages().backgroundContainer} >

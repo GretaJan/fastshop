@@ -11,6 +11,7 @@ import { categoryAdd, authCategory } from '../../components_additional/styles/Ca
 import { postProductStyle } from '../../components_additional/styles/ProductStyles';
 import ButtonStyled from '../../components_additional/Button';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Error from '../../components_additional/ErrorMsg';
 
 class AddProduct extends Component {
     
@@ -27,7 +28,19 @@ class AddProduct extends Component {
             protein: '',
             salt: '',
             vitamins: '',
-            image: null
+            image: null,
+            //Verification:
+            missingName: null,
+            formatName: null,
+            formatEnergy: null,
+            formatFat: null,
+            formatSaturated: null,
+            formatCarbs: null,
+            formatSugar: null,
+            formatFiber: null,
+            formatProtein: null,
+            formatSalt: null,
+            formatVitamins: null,
         }
     }
 
@@ -44,6 +57,27 @@ class AddProduct extends Component {
                 this.setState({image: response})
             }   
         })
+    }
+
+    verification = () => {
+        const regexConst = new RegExp('^\d\d+(\.[1-9])?$');
+        const regexConst = new RegExp(' ^(\d+)?([.,]?\d{0,2})?$');
+        // name: '',
+        //     energy: '',
+        //     fat: '',
+        //     saturated: '',
+        //     carbs: '',
+        //     sugar: '',
+        //     fiber: '',
+        //     protein: '',
+        //     salt: '',
+        //     vitamins: '',
+        if (!this.state.name.length) {
+            this.setState({missingName: 'Product name is required.'})
+        }
+        if(this.state.name.length < 3 ) {
+            this.setState({missingName: 'Product name must contain at least 3 characters'})
+        }
     }
 
     addProduct = async () => {
@@ -80,47 +114,47 @@ class AddProduct extends Component {
                         </View>
                         <View style={postProductStyle().singleWrap}>
                             {/* <Text style={postProduct().singleName}>Energy</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="energy" onChangeText={value => { this.setState({energy: value})}} value={this.state.energy} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="energy" onChangeText={value => { this.setState({energy: value})}} value={this.state.energy} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>kcal</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
                             {/* <Text style={postProduct().singleName}>Fat</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="fat" onChangeText={value => { this.setState({fat: value})}} value={this.state.fat} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="fat" onChangeText={value => { this.setState({fat: value})}} value={this.state.fat} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
                             {/* <Text style={postProduct().singleName}>Saturated</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="saturated" onChangeText={value => { this.setState({saturated: value})}} value={this.state.saturated} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="saturated" onChangeText={value => { this.setState({saturated: value})}} value={this.state.saturated} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
                             {/* <Text style={postProduct().singleName}>Carbs</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="carbs" onChangeText={value => { this.setState({carbs: value})}} value={this.state.carbs} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="carbs" onChangeText={value => { this.setState({carbs: value})}} value={this.state.carbs} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
                             {/* <Text style={postProduct().singleName}>Sugar</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="sugar" onChangeText={value => { this.setState({sugar: value})}} value={this.state.sugar} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="sugar" onChangeText={value => { this.setState({sugar: value})}} value={this.state.sugar} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
                             {/* <Text style={postProduct().singleName}>Fiber</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="fiber" onChangeText={value => { this.setState({fiber: value})}} value={this.state.fiber} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="fiber" onChangeText={value => { this.setState({fiber: value})}} value={this.state.fiber} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
                             {/* <Text style={postProduct().singleName}>Protein</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="protein" onChangeText={value => { this.setState({protein: value})}} value={this.state.protein} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="protein" onChangeText={value => { this.setState({protein: value})}} value={this.state.protein} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
                             {/* <Text style={postProduct().singleName}>Salt</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="salt" onChangeText={value => { this.setState({salt: value})}} value={this.state.salt} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="salt" onChangeText={value => { this.setState({salt: value})}} value={this.state.salt} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
                             {/* <Text style={postProduct().singleName}>Vitamins</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" autoCorrect={false}  placeholder="vitamins" onChangeText={value => { this.setState({vitamins: value})}} value={this.state.vitamins} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="vitamins" onChangeText={value => { this.setState({vitamins: value})}} value={this.state.vitamins} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                     </View>

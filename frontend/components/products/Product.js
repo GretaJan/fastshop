@@ -37,7 +37,9 @@ class Product extends Component {
         const { subcategory_id, image, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, background_color } = this.props.product;
         return (
             (this.props.loading) ? (
-                    <Loading background={colors.mainWhiteYellow} />
+                <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
+                    <Loading />
+                </View>
                 ) : (
                 (this.props.error !== '') ? (
                     <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >

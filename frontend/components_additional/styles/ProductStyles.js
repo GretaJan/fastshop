@@ -326,13 +326,13 @@ export const postProductStyle = () => StyleSheet.create({
         backgroundColor: '#ffcc33',
         height: Dimensions.get('window').height /1,
         paddingHorizontal: 30,
-        paddingVertical: 20,
     },
     inputsWrap: {
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
+        top: 10,
     },
     textInputName: {
         width: '100%',
@@ -374,6 +374,7 @@ export const postProductStyle = () => StyleSheet.create({
         flexDirection: 'row',
         // justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 22,
     },
     singleName: {
         fontSize: 17,
