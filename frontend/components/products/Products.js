@@ -75,8 +75,8 @@ class Products extends Component {
         const { background } = this.props.route.params;
         return (
             (this.props.loading) ? (
-                <View style={backgroundForPages().backgroundContainer} >
-                    <Loading background={background} />
+                <View style={backgroundForPages(background).backgroundContainer} >
+                    <Loading />
                 </View>             
                     ) : (
                     (this.props.error !== '') ? (

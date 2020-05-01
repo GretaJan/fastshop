@@ -7,6 +7,7 @@ import ImagePicker from 'react-native-image-picker';
 import { postProduct } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
 import { colors } from '../../components_additional/styles/Colors';
+import { styles } from '../../components_additional/styles/LoginStyles';
 import { categoryAdd, authCategory } from '../../components_additional/styles/CategoryStyles';
 import { postProductStyle } from '../../components_additional/styles/ProductStyles';
 import ButtonStyled from '../../components_additional/Button';
@@ -29,9 +30,11 @@ class AddProduct extends Component {
             salt: '',
             vitamins: '',
             image: null,
+            background: '',
             //Verification:
             missingName: null,
             formatName: null,
+            incorrectName: false,
             formatEnergy: null,
             formatFat: null,
             formatSaturated: null,
@@ -41,6 +44,7 @@ class AddProduct extends Component {
             formatProtein: null,
             formatSalt: null,
             formatVitamins: null,
+            formatBackground: null,
         }
     }
 
@@ -59,25 +63,81 @@ class AddProduct extends Component {
         })
     }
 
-    verification = () => {
-        const regexConst = new RegExp('^\d\d+(\.[1-9])?$');
-        const regexConst = new RegExp(' ^(\d+)?([.,]?\d{0,2})?$');
-        // name: '',
-        //     energy: '',
-        //     fat: '',
-        //     saturated: '',
-        //     carbs: '',
-        //     sugar: '',
-        //     fiber: '',
-        //     protein: '',
-        //     salt: '',
-        //     vitamins: '',
-        if (!this.state.name.length) {
-            this.setState({missingName: 'Product name is required.'})
+    validateSubmit = () => {
+        const { missingName, formatName, incorrectName, formatEnergy, formatFat, formatSaturated, formatCarbs, formatSugar, formatFiber, formatProtein, formatSalt, formatVitamins, formatBackground } = this.state;
+        let regexConstEnergy = new RegExp('^[0-9]*$');
+        let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');  
+        let regexColorWord = new RegExp('^[^0-9]*$');
+        let regexHex = new RegExp('#[a-zA-z0-9]*');
+        let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
+        let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
+
+        if (this.state.name.length === 0) {
+            this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
+        } else if(this.state.name.length < 3 ) {
+            this.setState({formatName: 'Must contain at least 3 characters', missingName: null, incorrectName: true});
+        } else {
+            this.setState({missingName: null, formatName: null, incorrectName: false});
         }
-        if(this.state.name.length < 3 ) {
-            this.setState({missingName: 'Product name must contain at least 3 characters'})
+        if(this.state.energy.length > 0 && !regexConstEnergy.test(this.state.energy)) {
+            this.setState({formatEnergy: 'Must contain digits only'})
+        } else {
+            this.setState({formatEnergy: null});
         }
+        if(this.state.saturated.length > 0 && !regexConstDecimals.test(this.state.saturated)) {
+            this.setState({formatSaturated: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatFat: null});
+        }
+        if(this.state.fat.length > 0 && !regexConstDecimals.test(this.state.fat)) {
+            this.setState({formatFat: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatFat: null});
+        } 
+        if(this.state.carbs.length > 0 && !regexConstDecimals.test(this.state.carbs)) {
+            this.setState({formatCarbs: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatCarbs: null});
+        }
+        if(this.state.sugar.length > 0 && !regexConstDecimals.test(this.state.sugar)) {
+            this.setState({formatSugar: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatSugar: null});
+        }
+        if(this.state.fiber.length > 0 && !regexConstDecimals.test(this.state.fiber)) {
+            this.setState({formatFiber: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatFiber: null});
+        }
+        if(this.state.protein.length > 0 && !regexConstDecimals.test(this.state.protein)) {
+            this.setState({formatProtein: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatProtein: null});
+        }
+        if(this.state.salt.length > 0 && !regexConstDecimals.test(this.state.salt)) {
+            this.setState({formatSalt: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatSalt: null});
+        }
+        if(this.state.vitamins.length > 0 && !regexConstDecimals.test(this.state.vitamins)) {
+            this.setState({formatVitamins: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatVitamins: null});
+        }
+        if(this.state.background.length > 0 && (!regexColorWord.test(this.state.background)  ||
+                                            !regexHex.test(this.state.background)  ||
+                                            !regRGB.test(this.state.background)  ||
+                                            !regRGBA.test(this.state.background) 
+                                        )) {
+            this.setState({formatBackground: 'Invalid color format'});
+        } else {
+            this.setState({formatBackground: null});
+        }
+
+        if(missingName === null && formatName === null && formatEnergy === null && formatFat === null && formatSaturated === null && 
+            formatCarbs === null && formatSugar === null && formatFiber === null && formatProtein === null && formatSalt === null && formatVitamins === null && formatBackground === null) {
+                this.addProduct(); 
+        } 
     }
 
     addProduct = async () => {
@@ -109,53 +169,58 @@ class AddProduct extends Component {
                 <ScrollView style={postProductStyle().container}>
                     <View style={postProductStyle().inputsWrap} >
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Name</Text> */}
-                            <TextInput style={postProductStyle().textInputName} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
+                            {this.state.missingName && <Error message={this.state.missingName} /> }
+                            {this.state.formatName && <Error message={this.state.formatName} /> }
+                            <TextInput style={postProductStyle(this.state.incorrectName).textInputName} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
                         </View>
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Energy</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="energy" onChangeText={value => { this.setState({energy: value})}} value={this.state.energy} ref={ref => this.textInputRef = ref} />
+                            {this.state.formatEnergy && <Error message={this.state.formatEnergy} /> }
+                            <TextInput style={postProductStyle(this.state.formatEnergy).textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="energy" onChangeText={value => { this.setState({energy: value})}} value={this.state.energy} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>kcal</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Fat</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="fat" onChangeText={value => { this.setState({fat: value})}} value={this.state.fat} ref={ref => this.textInputRef = ref} />
+                            {this.state.formatFat && <Error message={this.state.formatFat} /> }
+                            <TextInput style={postProductStyle(this.state.formatFat).textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="fat" onChangeText={value => { this.setState({fat: value})}} value={this.state.fat} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Saturated</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="saturated" onChangeText={value => { this.setState({saturated: value})}} value={this.state.saturated} ref={ref => this.textInputRef = ref} />
+                            {this.state.formatSaturated && <Error message={this.state.formatSaturated} /> }
+                            <TextInput style={postProductStyle(this.state.formatSaturated).textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="saturated" onChangeText={value => { this.setState({saturated: value})}} value={this.state.saturated} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Carbs</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="carbs" onChangeText={value => { this.setState({carbs: value})}} value={this.state.carbs} ref={ref => this.textInputRef = ref} />
+                            {this.state.formatCarbs && <Error message={this.state.formatCarbs} /> }
+                            <TextInput style={postProductStyle(this.state.formatCarb).textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="carbs" onChangeText={value => { this.setState({carbs: value})}} value={this.state.carbs} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Sugar</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="sugar" onChangeText={value => { this.setState({sugar: value})}} value={this.state.sugar} ref={ref => this.textInputRef = ref} />
+                            {this.state.formatSugar && <Error message={this.state.formatSugar} /> }
+                            <TextInput style={postProductStyle(this.state.formatSugar).textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="sugar" onChangeText={value => { this.setState({sugar: value})}} value={this.state.sugar} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Fiber</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="fiber" onChangeText={value => { this.setState({fiber: value})}} value={this.state.fiber} ref={ref => this.textInputRef = ref} />
+                            {this.state.formatFiber && <Error message={this.state.formatFiber} /> }
+                            <TextInput style={postProductStyle(this.state.formatFiber).textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="fiber" onChangeText={value => { this.setState({fiber: value})}} value={this.state.fiber} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Protein</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="protein" onChangeText={value => { this.setState({protein: value})}} value={this.state.protein} ref={ref => this.textInputRef = ref} />
+                            {this.state.formatProtein && <Error message={this.state.formatProtein} /> }
+                            <TextInput style={postProductStyle(this.state.formatProtein).textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="protein" onChangeText={value => { this.setState({protein: value})}} value={this.state.protein} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Salt</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="salt" onChangeText={value => { this.setState({salt: value})}} value={this.state.salt} ref={ref => this.textInputRef = ref} />
+                            {this.state.formatSalt && <Error message={this.state.formatSalt} /> }
+                            <TextInput style={postProductStyle(this.state.formatSalt).textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="salt" onChangeText={value => { this.setState({salt: value})}} value={this.state.salt} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
                         </View>
                         <View style={postProductStyle().singleWrap}>
-                            {/* <Text style={postProduct().singleName}>Vitamins</Text> */}
-                            <TextInput style={postProductStyle().textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="vitamins" onChangeText={value => { this.setState({vitamins: value})}} value={this.state.vitamins} ref={ref => this.textInputRef = ref} />
+                            {this.state.formatVitamins && <Error message={this.state.formatVitamins} /> }
+                            <TextInput style={postProductStyle(this.state.formatVitamins).textInput} type="text" maxLength={4} autoCorrect={false}  placeholder="vitamins" onChangeText={value => { this.setState({vitamins: value})}} value={this.state.vitamins} ref={ref => this.textInputRef = ref} />
                             <Text style={postProductStyle().measure}>g</Text>
+                        </View>
+                        <View style={postProductStyle().singleWrap} >
+                            {this.state.formatBackground && <Error message={this.state.formatBackground} /> }
+                            <TextInput style={postProductStyle(this.state.formatBackground).textInputBackground} type="text" maxLength={30} autoCorrect={false}  placeholder="backround color" onChangeText={value => { this.setState({background: value})}} value={this.state.background} ref={ref => this.textInputRef = ref} />
                         </View>
                     </View>
                     <View style={postProductStyle().imageBtnsFlex}>
@@ -171,13 +236,13 @@ class AddProduct extends Component {
                                     <Icon style={categoryAdd().uploadIcon} name="upload"/>
                                 </TouchableOpacity> 
                             )}
-                            {/* <ButtonStyled color={colors.orangeBright} title={"Add image"} func={this.handleChoosePhoto} /> */}
                         </View>
                         <View style={postProductStyle().buttonsWrap} >
-                            <ButtonStyled color={colors.mediumGreen}  width={115} height={55} title={"Save"} func={() => this.addProduct()} />
+                            <ButtonStyled color={colors.mediumGreen}  width={115} height={55} title={"Save"} func={() => this.validateSubmit()} />
                             <ButtonStyled color={colors.lightBurgundy}  width={115} height={55} title={"Cancel"} func={() => this.goBack() } />
                         </View>
                     </View>    
+                    
                 </ScrollView>
             )
     }

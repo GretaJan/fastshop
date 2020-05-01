@@ -321,10 +321,10 @@ export const authProduct = (color) => StyleSheet.create({
     }
 });
 
-export const postProductStyle = () => StyleSheet.create({
+export const postProductStyle = (error) => StyleSheet.create({
     container: {
         backgroundColor: '#ffcc33',
-        height: Dimensions.get('window').height /1,
+        // height: Dimensions.get('window').height /1,
         paddingHorizontal: 30,
     },
     inputsWrap: {
@@ -335,13 +335,16 @@ export const postProductStyle = () => StyleSheet.create({
         top: 10,
     },
     textInputName: {
-        width: '100%',
+        zIndex:10,
+        width: '99.5%',
         fontSize: 17,
         height: 45,
         backgroundColor: colors.mainWhiteYellow,
         borderRadius: 10,
         marginBottom: 10,
         paddingHorizontal: 15,
+        borderColor: colors.bordo,
+        borderWidth: error ? .7 : 0,
             // Shadow
             elevation   : 5,
             overflow: 'hidden',
@@ -360,6 +363,8 @@ export const postProductStyle = () => StyleSheet.create({
         borderRadius: 10,
         marginBottom: 10,
         paddingHorizontal: 15,
+        borderColor: colors.bordo,
+        borderWidth: error ? .7 : 0,
             // Shadow
             elevation   : 5,
             overflow: 'hidden',
@@ -386,16 +391,51 @@ export const postProductStyle = () => StyleSheet.create({
         width: 30,
         color: colors.mainBlack
     },
-    buttonsWrap: {
+    backgroundWrap: {
         flex: 1,
         alignItems: 'center',
-        paddingTop:20,
+             
+    },
+    backgroundColor: {
+        width: 140,
+        height: 50,
+        backgroundColor: 'rgba(0,0,0,0)',
+        borderColor: colors.mainWhiteYellow,
+        borderWidth: 1,
+        borderRadius: 2,
+    },
+    textInputBackground: {
+        width: 151,
+        maxWidth: 151,
+        fontSize: 17,
+        height: 45,
+        backgroundColor: colors.mainWhiteYellow,
+        borderRadius: 10,
+        marginBottom: 10,
+        paddingHorizontal: 14,
+        borderColor: colors.bordo,
+        borderWidth: error ? .7 : 0,
+            // Shadow
+            elevation   : 5,
+            overflow: 'hidden',
+            //iOS:
+            shadowColor: 'red',
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.8,
+            shadowRadius: 2, 
     },
     imageBtnsFlex: {
        flex: 1,
        flexDirection: 'row', 
        alignItems: 'center',
-       marginTop: 5,
+       marginTop: 20,
+       justifyContent: 'space-between',
+       paddingRight: '10%',
+    },
+    buttonsWrap: {
+        flex: 1,
+        alignItems: 'center',
+        paddingTop:20,
     },
     imageStyle: {
         width: 120,
@@ -411,5 +451,9 @@ export const postProductStyle = () => StyleSheet.create({
         height: 150,
         resizeMode: 'cover' 
     },
+    buttonsWrap: {
+        alignItems: 'center',
+        marginTop: 30,
+    }
 
 })

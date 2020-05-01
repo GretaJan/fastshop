@@ -11,6 +11,7 @@ import { colors } from '../../components_additional/styles/Colors';
 import { categoryAdd, authCategory } from '../../components_additional/styles/CategoryStyles';
 import ButtonStyled from '../../components_additional/Button';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Error from '../../components_additional/ErrorMsg';
 
 class AddSubcategory extends Component {
     constructor(props) {
@@ -19,7 +20,13 @@ class AddSubcategory extends Component {
         this.state = {
             id: this.props.route.params.categoryId,
             name: '',
-            image: null
+            background: '',
+            image: null,
+            //Validation:
+            missingName: null,
+            formatName: null,
+            incorrectName: null,
+            formatBackground: null
         }
     }
 
@@ -42,6 +49,32 @@ class AddSubcategory extends Component {
         this.props.navigation.goBack();
     }
 
+    validateSubmit = () => {
+        let regexColorWord = new RegExp('^[^0-9]*$');
+        let regexHex = new RegExp('#[a-zA-z0-9]*');
+        let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
+        let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
+
+        if (this.state.name.length === 0) {
+            this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
+        } else if(this.state.name.length < 3 ) {
+            this.setState({formatName: 'Must contain at least 3 characters', missingName: null, incorrectName: true});
+        } else {
+            this.setState({missingName: null, formatName: null, incorrectName: false});
+        }
+        if(this.state.background.length > 0 && (!regexColorWord.test(this.state.background)  ||
+            !regexHex.test(this.state.background)  || !regRGB.test(this.state.background)  || !regRGBA.test(this.state.background) 
+                )) {
+        this.setState({formatBackground: 'Invalid color format'});
+        } else {
+        this.setState({formatBackground: null});
+        }
+
+        if(this.state.incorrectName === null && this.state.formatBackground === null) {
+            this.addSubcategory();
+        }
+    }
+
     addSubcategory = async() => {
         const { image, name } = this.state;
 
@@ -57,8 +90,16 @@ class AddSubcategory extends Component {
         render() {
             return (
                 <View style={styles().container} > 
-                    <View style={styles().inputsWrap} >
-                        <TextInput style={styles().textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
+                    <View style={categoryAdd().inputsWrap} >
+                        <View style={categoryAdd().singleWrap}>
+                            {this.state.missingName && <Error message={this.state.missingName}  left={'10%'} /> }
+                            {this.state.formatName && <Error message={this.state.formatName} left={'10%'}/> }
+                            <TextInput style={categoryAdd(this.state.incorrectName).textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
+                        </View>
+                        <View style={categoryAdd().singleWrap}>
+                            {this.state.formatBackground && <Error message={this.state.formatBackground} left={'10%'}/> }
+                            <TextInput style={categoryAdd(this.state.formatBackground).textInput} type="text" autoCorrect={false}  placeholder="background color" onChangeText={value => { this.setState({background: value})}} value={this.state.background} ref={ref => this.textInputRef = ref} />
+                        </View>
                     </View>
                     <View style={categoryAdd().imageBtnWrap} >
                     {this.state.image ? (
@@ -75,7 +116,7 @@ class AddSubcategory extends Component {
                         {/* <ButtonStyled color={colors.orangeBright} title={"Add image"} func={this.handleChoosePhoto} /> */}
                     </View>
                     <View style={styles().buttonsWrap} >
-                        <ButtonStyled color={colors.mediumGreen} title={"Save"} func={this.addSubcategory} />
+                        <ButtonStyled color={colors.mediumGreen} title={"Save"} func={this.validateSubmit} />
                         <ButtonStyled color={colors.lightBurgundy}  title={"Cancel"} func={ this.goBack } />
                     </View>
               </View>

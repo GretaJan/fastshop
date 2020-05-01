@@ -237,11 +237,34 @@ export const stylesGuest = () => StyleSheet.create({
     }
 })
 
-export const categoryAdd = () => StyleSheet.create({
+export const categoryAdd = (error) => StyleSheet.create({
+    inputsWrap: {
+        marginTop: Dimensions.get('window').height /15,
+    },
+    textInput: {
+        fontSize: 18,
+        marginHorizontal: 30,
+        height: 50,
+        backgroundColor: '#FFFFE0',
+        borderRadius: 10,
+        marginBottom: 35,
+        paddingHorizontal: 15,
+        borderColor: colors.bordo,
+        borderWidth: error ? .7 : 0,
+          // Shadow
+          elevation   : 5,
+          overflow: 'hidden',
+          //iOS:
+          shadowColor: 'red',
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2, 
+    },
     imageBtnWrap: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: -20,
     },
     uploadIcon: {
         position: 'absolute',

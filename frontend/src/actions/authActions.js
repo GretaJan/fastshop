@@ -12,7 +12,7 @@ export const tryLogin = (data) => (dispatch) => {
             })
         }).catch(err => { 
             if(err.response.status == 422) {
-                var errorResponse = 'Submitted empty fields. Please try again.';
+                var errorResponse = 'Submitted with empty fields. Please try again.';
             } else if (err.response.status == 401) {
                 var errorResponse = err.response.data.message;
             } 
