@@ -52,7 +52,6 @@ class ProductController extends Controller
         $product->salt = $request->salt;
         $product->vitamins = $request->vitamins;
         $product->background_color = $request->background_color;
-        $product->border_color = $request->border_color;
 
         $base64 = $request->image;
         if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
@@ -117,16 +116,15 @@ class ProductController extends Controller
         $product->sugar = $request->sugar;
         $product->fiber = $request->fiber;
         $product->protein = $request->protein;
+        $product->salt = $request->salt;
         $product->vitamins = $request->vitamins;
-        $product->salt = $request->salt;
-        $product->salt = $request->salt;
         $product->background_color = $request->background_color;
-        $product->border_color = $request->border_color;
         
-
         // IMAGE
-        if ($product->image !== null) {
-            $base64 = $request->image;
+        $base64 = $request->image;
+        if($base64 === null) {
+            $product->image = null;
+        } else {
             if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
                 $data = substr($base64, strpos($base64, ',') + 1);
                 //Get file type
@@ -137,10 +135,13 @@ class ProductController extends Controller
                 \File::put(public_path('/uploads/products') . '/' . $imageName, base64_decode($data));
                 $path2 = asset('/uploads/products');
                 $product->image =  $path2 . '/' . $imageName; 
-            } else if(preg_match('/^data:image\/(\w+);base64,/', !$base64)) {
-                $product->image = $product->image;
+            } else {
+                $product->image = $request->image;
             } 
-        }
+        } 
+            
+        
+        
        
  
         if($product->save()) {

@@ -18,7 +18,6 @@ class CreateCategoriesTable extends Migration
             $table->string('name')->nullable();
             $table->string('image')->nullable();
             $table->string('background_color')->nullable();
-            $table->string('border_color')->nullable();
             $table->timestamps();
         });
     }

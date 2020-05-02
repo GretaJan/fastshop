@@ -128,7 +128,6 @@ export const stylesGuestSingle = (background) => StyleSheet.create( {
     componentTitle: {
        width: '65%',
        fontSize: 20,
-       textTransform: 'uppercase',
        paddingLeft: 20,
     },
     componentAmount: {
@@ -174,7 +173,7 @@ export const authProducts = (background) => StyleSheet.create({
 }) 
 
 
-export const authProduct = (color) => StyleSheet.create({
+export const authProduct = (color, error) => StyleSheet.create({
     imageIconWrap: {
         zIndex: 10,
         width: '100%'    
@@ -220,6 +219,14 @@ export const authProduct = (color) => StyleSheet.create({
         right: 55,
         zIndex: 12,
         top: 25,
+         // Shadow
+         elevation   : 5,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
     },
     editIcon: {
         fontSize: 45,
@@ -243,15 +250,14 @@ export const authProduct = (color) => StyleSheet.create({
         alignSelf: 'center',
         justifyContent:'center',
         alignItems: 'center',
-        backgroundColor: colors.mainWhiteYellow,
-        height: 50,
-        width: 50,
-        borderRadius: 45/2,
+        backgroundColor: colors.orangeBright,
+        height: 52,
+        width: 52,
+        borderRadius: 52/2,
         top: 160,
     },
     emptyIcon: {
-        fontSize: 42,
-        color: colors.bordo,
+        fontSize: 40,
     },
     editBtnImg: {
         backgroundColor: colors.mediumGreen2,
@@ -261,6 +267,14 @@ export const authProduct = (color) => StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 15,
+         // Shadow
+         elevation   : 5,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
     },
     iconImgSave: {
         fontSize: 35,
@@ -274,22 +288,36 @@ export const authProduct = (color) => StyleSheet.create({
         justifyContent: 'center',
         right: 20,
         top: 30,
-        position: 'absolute'
+        position: 'absolute',
+         // Shadow
+         elevation   : 5,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
     },
     editBtnsWrapImg: {
-        // alignItems: 'center',
-        // justifyContent: 'center',
         right: 20,
         top: 30,
-        position: 'absolute'
+        position: 'absolute',
     },
     cancelBtnImg: {
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.orange,
         height: 45,
         width: 45,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
+         // Shadow
+         elevation   : 5,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
     },
     editImgIcon: {
         fontSize: 35,
@@ -311,22 +339,26 @@ export const authProduct = (color) => StyleSheet.create({
     componentTitle: {
         width: '45%',
         fontSize: 20,
-        textTransform: 'uppercase',
         paddingLeft: 0,
      },
+     componentNameTitle: {
+        width: '20%',
+        fontSize: 20,
+        paddingLeft: 0,
+    },
      listItemWrap: {
         flex: 1,
         flexDirection: 'row',
-        height: 85,
+        height: 100,
         alignItems: 'center',
+        // paddingBottom: 10,
         borderBottomColor: '#F7F7F7',
         borderBottomWidth: 1,
         justifyContent: 'space-between',
      },
      iconsWrap: {
-         flex: 1, 
+        //  flex: 1, 
          flexDirection: 'row',
-        paddingTop: 5,
      },
      saveWrap: {
         backgroundColor: colors.mediumGreen2,
@@ -336,15 +368,33 @@ export const authProduct = (color) => StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: 10,
-        // right: 20,
-        // top: 30,
-        // position: 'absolute'
+         // Shadow
+         elevation   : 5,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
     },
      itemInput: {
          flex: 1,
          backgroundColor: colors.mainWhiteYellow,
-         fontSize: 24,
+         borderRadius: 5,
+         fontSize: 20,
          left: -4,
+         paddingVertical: 0,
+         height: 38,
+         borderColor: colors.bordo,
+        borderWidth: error ? .7 : 0,
+         // Shadow
+         elevation   : 2,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
      },
      listItemInfoWrap: {
         flex: 1,
@@ -352,9 +402,39 @@ export const authProduct = (color) => StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    nameItemInfoWrap: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    nameItemBackground: {
+        fontSize: 20,
+        flex: .9,
+    },
+    nameItemInput: {
+        flex: 1,
+        backgroundColor: colors.mainWhiteYellow,
+        borderRadius: 5,
+        fontSize: 20,
+        flex: .98,
+        height: 38,
+        paddingVertical: 0,
+        left: -4,
+        borderColor: colors.bordo,
+        borderWidth: error ? .7 : 0,
+         // Shadow
+         elevation   : 2,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
+    },
     listItemBackground: {
-        fontSize: 18,
-    }
+        fontSize: 20,
+    },
 });
 
 export const postProductStyle = (error, background) => StyleSheet.create({

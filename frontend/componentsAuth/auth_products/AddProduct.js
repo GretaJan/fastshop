@@ -67,82 +67,89 @@ class AddProduct extends Component {
         const { missingName, formatName, incorrectName, formatEnergy, formatFat, formatSaturated, formatCarbs, formatSugar, formatFiber, formatProtein, formatSalt, formatVitamins, formatBackground } = this.state;
         let regexConstEnergy = new RegExp('^[0-9]*$');
         let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');  
-        let regexColorWord = new RegExp('^[^0-9]*$');
-        let regexHex = new RegExp('#[a-zA-z0-9]*');
+        let regexColorWord = new RegExp('^[a-zA-Z]+$');
+        let regexHex = new RegExp('#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})');
         let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
         let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
 
-        if (this.state.name.length === 0) {
-            this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
-        } else if(this.state.name.length < 3 ) {
-            this.setState({formatName: 'Must contain at least 3 characters', missingName: null, incorrectName: true});
+        if(this.state.name.length === 0 || this.state.name.length < 3 || (this.state.energy.length > 0 && !regexConstEnergy.test(this.state.energy)) || (this.state.fat.length > 0 && !regexConstDecimals.test(this.state.fat))
+            || this.state.saturated.length > 0 && !regexConstDecimals.test(this.state.saturated) || (this.state.carbs.length > 0 && !regexConstDecimals.test(this.state.carbs)) ||
+            (this.state.sugar.length > 0 && !regexConstDecimals.test(this.state.sugar)) || ((this.state.sugar.length > 0 && !regexConstDecimals.test(this.state.sugar))) ||
+            (this.state.fiber.length > 0 && !regexConstDecimals.test(this.state.fiber)) || (this.state.protein.length > 0 && !regexConstDecimals.test(this.state.protein)) ||
+            (this.state.salt.length > 0 && !regexConstDecimals.test(this.state.salt)) || this.state.vitamins.length > 0 && !regexConstDecimals.test(this.state.vitamins)) {
+            if (this.state.name.length === 0) {
+                this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
+            } else if(this.state.name.length < 3 ) {
+                this.setState({formatName: 'Must contain at least 3 characters', missingName: null, incorrectName: true});
+            } else {
+                this.setState({missingName: null, formatName: null, incorrectName: false});
+                console.log("yre");
+            }
+            if(this.state.energy.length > 0 && !regexConstEnergy.test(this.state.energy)) {
+                this.setState({formatEnergy: 'Must contain digits only'})
+            } else {
+                this.setState({formatEnergy: null});
+            }
+            if(this.state.fat.length > 0 && !regexConstDecimals.test(this.state.fat)) {
+                this.setState({formatFat: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatFat: null});
+            } 
+            if(this.state.saturated.length > 0 && !regexConstDecimals.test(this.state.saturated)) {
+                this.setState({formatSaturated: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatSaturated: null});
+            }
+            if(this.state.carbs.length > 0 && !regexConstDecimals.test(this.state.carbs)) {
+                this.setState({formatCarbs: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatCarbs: null});
+            }
+            if(this.state.sugar.length > 0 && !regexConstDecimals.test(this.state.sugar)) {
+                this.setState({formatSugar: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatSugar: null});
+            }
+            if(this.state.fiber.length > 0 && !regexConstDecimals.test(this.state.fiber)) {
+                this.setState({formatFiber: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatFiber: null});
+            }
+            if(this.state.protein.length > 0 && !regexConstDecimals.test(this.state.protein)) {
+                this.setState({formatProtein: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatProtein: null});
+            }
+            if(this.state.salt.length > 0 && !regexConstDecimals.test(this.state.salt)) {
+                this.setState({formatSalt: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatSalt: null});
+            }
+            if(this.state.vitamins.length > 0 && !regexConstDecimals.test(this.state.vitamins)) {
+                this.setState({formatVitamins: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatVitamins: null});
+            }
+            if(this.state.background.length > 0 ) {
+                if(!regexColorWord.test(this.state.background) && !regexHex.test(this.state.background) &&
+                        !regRGB.test(this.state.background) && !regRGBA.test(this.state.background)) {
+                this.setState({formatBackground: 'Invalid color format'});
+                } else {
+                    this.setState({formatBackground: null});
+                }
+            } else {
+                this.setState({formatBackground: null});
+            }
         } else {
-            this.setState({missingName: null, formatName: null, incorrectName: false});
+            this.addProduct(); 
+            this.props.navigation.navigate("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
         }
-        if(this.state.energy.length > 0 && !regexConstEnergy.test(this.state.energy)) {
-            this.setState({formatEnergy: 'Must contain digits only'})
-        } else {
-            this.setState({formatEnergy: null});
-        }
-        if(this.state.fat.length > 0 && !regexConstDecimals.test(this.state.fat)) {
-            this.setState({formatFat: 'Format: 0.0/00.0'});
-        } else {
-            this.setState({formatFat: null});
-        } 
-        if(this.state.saturated.length > 0 && !regexConstDecimals.test(this.state.saturated)) {
-            this.setState({formatSaturated: 'Format: 0.0/00.0'});
-        } else {
-            this.setState({formatSaturated: null});
-        }
-        if(this.state.carbs.length > 0 && !regexConstDecimals.test(this.state.carbs)) {
-            this.setState({formatCarbs: 'Format: 0.0/00.0'});
-        } else {
-            this.setState({formatCarbs: null});
-        }
-        if(this.state.sugar.length > 0 && !regexConstDecimals.test(this.state.sugar)) {
-            this.setState({formatSugar: 'Format: 0.0/00.0'});
-        } else {
-            this.setState({formatSugar: null});
-        }
-        if(this.state.fiber.length > 0 && !regexConstDecimals.test(this.state.fiber)) {
-            this.setState({formatFiber: 'Format: 0.0/00.0'});
-        } else {
-            this.setState({formatFiber: null});
-        }
-        if(this.state.protein.length > 0 && !regexConstDecimals.test(this.state.protein)) {
-            this.setState({formatProtein: 'Format: 0.0/00.0'});
-        } else {
-            this.setState({formatProtein: null});
-        }
-        if(this.state.salt.length > 0 && !regexConstDecimals.test(this.state.salt)) {
-            this.setState({formatSalt: 'Format: 0.0/00.0'});
-        } else {
-            this.setState({formatSalt: null});
-        }
-        if(this.state.vitamins.length > 0 && !regexConstDecimals.test(this.state.vitamins)) {
-            this.setState({formatVitamins: 'Format: 0.0/00.0'});
-        } else {
-            this.setState({formatVitamins: null});
-        }
-        if(this.state.background.length > 0 && (!regexColorWord.test(this.state.background)  ||
-                                            !regexHex.test(this.state.background)  ||
-                                            !regRGB.test(this.state.background)  ||
-                                            !regRGBA.test(this.state.background) 
-                                        )) {
-            this.setState({formatBackground: 'Invalid color format'});
-        } else {
-            this.setState({formatBackground: null});
-        }
-
-        if(missingName === null && formatName === null && formatEnergy === null && formatFat === null && formatSaturated === null && 
-            formatCarbs === null && formatSugar === null && formatFiber === null && formatProtein === null && formatSalt === null && formatVitamins === null && formatBackground === null) {
-                this.addProduct(); 
-        } 
     }
 
-    addProduct = async () => {
+    addProduct = () => {
         const data = {
             name: this.state.name,
+            background_color: this.state.background,
             energy: this.state.energy,
             fat: this.state.fat,
             saturated: this.state.saturated,
@@ -154,10 +161,7 @@ class AddProduct extends Component {
             vitamins: this.state.vitamins,
             image: this.state.image ? "data:" + this.state.image.type + ";base64," + this.state.image.data : null,
         }
-        console.log(data);
-        await this.props.postProduct(this.props.route.params.subcategoryId, data);
-        this.props.navigation.navigate("Products_Auth", {subcategoryId: this.props.route.params.subcategoryId});
-    // this.props.navigation.goBack();
+        this.props.postProduct(this.props.route.params.subcategoryId, data);
     }
 
     goBack = () => {

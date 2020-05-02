@@ -25,6 +25,10 @@ class Categories extends Component {
          this.props.navigation.push("Subcategories_Auth", {categoryId: item.id, name: item.name, background: item.background_color});
     }
 
+    deleteCategory = (id) => {
+        this.props.deleteCategory(id);
+    }
+
     render() {
         return (
             (this.props.loading) ? (

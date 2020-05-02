@@ -3,7 +3,7 @@ import {BoxShadow} from 'react-native-shadow';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
-export const authCategory = (background) => StyleSheet.create({
+export const authCategory = (background, error) => StyleSheet.create({
     container: {
         backgroundColor: colors.mainYellow,
         flex: 1,
@@ -42,8 +42,8 @@ export const authCategory = (background) => StyleSheet.create({
         color: '#000'
     },
     nameTxtWrap: {
-        marginTop: 5,
-        marginBottom: 7,
+        marginBottom: 17,
+        marginTop: 15,
         justifyContent: 'center',
         alignItems: 'center',
         fontFamily: 'sans-serif-condensed',
@@ -56,7 +56,7 @@ export const authCategory = (background) => StyleSheet.create({
         fontFamily: 'sans-serif-condensed',
     },
     inactiveItemWrap: {
-        backgroundColor: background ? background : colors.mainWhiteYellow,
+        backgroundColor: colors.mainWhiteYellow,
         paddingVertical: 10,
         // paddingHorizontal: 50,
         width: Dimensions.get('window').width /1.8,
@@ -87,6 +87,14 @@ export const authCategory = (background) => StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         top: -15,
+        // Shadow
+        elevation   : 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
     },
     editBtn: {
         fontSize: 45,
@@ -99,6 +107,30 @@ export const authCategory = (background) => StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
+        // Shadow
+        elevation   : 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+    },
+    cancelBtnWrap: {
+        backgroundColor: colors.orange,
+        height: 55,
+        width: 55,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        // Shadow
+        elevation   : 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
     },
     removeBtn: {
         fontSize: 45,
@@ -123,24 +155,26 @@ export const authCategory = (background) => StyleSheet.create({
 
     },
     nameEdit: {
-        borderBottomColor: colors.mainBlack,
         backgroundColor: colors.inputOrange,
-        borderBottomWidth: 1,
-        height: 35,
-        fontSize: 20,
+        height: 30,
+        fontSize: 18,
         paddingBottom: -10,
-        minWidth: 150,
+        paddingHorizontal: 7,
+        maxWidth: 160,
+        width: 180,
         marginLeft: 3,
+        borderRadius: 5,
+        borderColor: colors.bordo,
+        borderWidth: error ? .7 : 0,
+        // Shadow
+        elevation   : 2,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
     }, 
-    backgroundEdit: {
-        backgroundColor: colors.lightGreen,
-    },
-    editIcon: {
-
-    },
-    cancelIcon: {
-
-    },
     backgroundEditWrap: {
         flex: 1,
         flexDirection: 'row',
@@ -149,23 +183,33 @@ export const authCategory = (background) => StyleSheet.create({
         width: 150,
     },
     backgroundColor: {
-        // backgroundColor: backgroundColor ? backgroundColor : colors.mainWhiteYellow,
+        backgroundColor:background ? background : colors.mainWhiteYellow,
         height: 35,
         width: 35,
-        borderColor: colors.mainWhiteYellow,
+        borderColor: colors.mainBlack,
         borderWidth: 1,
         borderRadius: 3,
+
     },
     backgroundEdit: {
-        borderBottomColor: colors.mainBlack,
         backgroundColor: colors.inputOrange,
-        borderBottomWidth: 1,
+        borderRadius: 5,
         height: 35,
         fontSize: 20,
         paddingBottom: -10,
         minWidth: 112,
         maxWidth: 112,
         marginLeft: 3,
+        borderColor: colors.bordo,
+        borderWidth: error ? .7 : 0,
+        // Shadow
+        elevation   : 2,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
     }
 });
 

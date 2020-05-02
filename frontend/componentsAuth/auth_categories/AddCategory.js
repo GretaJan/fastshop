@@ -47,8 +47,8 @@ class AddCategory extends Component {
     }
 
     validateSubmit = () => {
-        let regexColorWord = new RegExp('^[^0-9]*$');
-        let regexHex = new RegExp('#[a-zA-z0-9]*');
+        let regexColorWord = new RegExp('^[a-zA-Z]+$');
+        let regexHex = new RegExp('#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})');
         let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
         let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
 
@@ -61,10 +61,14 @@ class AddCategory extends Component {
         } else {
             this.setState({missingName: null, formatName: null, incorrectName: false});
         }
-        if(this.state.background.length > 0 && (!regexColorWord.test(this.state.background)  ||
-            !regexHex.test(this.state.background)  || !regRGB.test(this.state.background)  || !regRGBA.test(this.state.background) 
-                )) {
+        if(this.state.background.length > 0) {
+            if (!regexColorWord.test(this.state.background) && !regexHex.test(this.state.background) 
+                && !regRGB.test(this.state.background) && !regRGBA.test(this.state.background) 
+                ) {
             this.setState({formatBackground: 'Invalid color format'});
+                } else {
+                this.setState({formatBackground: null});
+            }
         } else {
             this.setState({formatBackground: null});
         }
@@ -78,6 +82,7 @@ class AddCategory extends Component {
 
         const data = {
             image: image !== null ? ("data:" + image.type + ";base64," + image.data) : null,
+            background_color: this.state.background,
             name: name
         }
 

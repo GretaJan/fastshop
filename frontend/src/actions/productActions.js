@@ -82,7 +82,7 @@ export const getProduct = (subcategory, product) => (dispatch) => {
 export const postProduct = (subcategory, data) => dispatch => {
     console.log("subcategory id: ", subcategory, "product id: ", data);
     axios.post(URL + '/addProduct/' + subcategory, data)
-    .then((product) => { 
+    .then((product) => { console.log("product: ", product)
         dispatch({
             type: POST_PRODUCT,
             payload: product.data.product
@@ -91,7 +91,7 @@ export const postProduct = (subcategory, data) => dispatch => {
 }
 
 export const editProduct = (subcategory, product, data) => (dispatch) => {
-    console.log("subcategory id: ", subcategory, "product id: ", product);
+    console.log("subcategory id: ", subcategory, "product id: ", product, " ", data);
     axios.post( URL + `/updateProduct/${subcategory}/${product}`, data)
         .then(item => {  console.log("full product: ", item.data)
             let productTemp = item.data;
@@ -103,7 +103,7 @@ export const editProduct = (subcategory, product, data) => (dispatch) => {
                 payload: item.data,
             })
         }).catch(err => 
-            console.log("EDIT PRODUCT ERROR: ", err))
+            console.log("EDIT PRODUCT ERROR: ", err.response))
 }
 
 export const deleteProduct = (product) => (dispatch) => {
