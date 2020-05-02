@@ -13,7 +13,8 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 
 //Components
 import Loading from '../../components_additional/Loading';
-import Error from '../../components_additional/Error';
+import LoadingError from '../../components_additional/Error';
+import Error from '../../components_additional/ErrorMsg';
 
 class Product extends Component {
     state = {
@@ -47,6 +48,20 @@ class Product extends Component {
         borderInput: false,
         imageInput: false,
         title: this.props.route.params.name,
+         //Verification:
+         missingName: null,
+         formatName: null,
+         incorrectName: false,
+         formatEnergy: null,
+         formatFat: null,
+         formatSaturated: null,
+         formatCarbs: null,
+         formatSugar: null,
+         formatFiber: null,
+         formatProtein: null,
+         formatSalt: null,
+         formatVitamins: null,
+         formatBackground: null,
     }
 
      componentDidMount() {
@@ -234,11 +249,128 @@ class Product extends Component {
     }
 
     editName = () => {
-        this.props.navigation.setParams({ name: this.state.name });
-        this.editProduct();
+        if (this.state.name.length === 0) {
+            this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
+        } else if(this.state.name.length < 3 ) {
+            this.setState({formatName: 'Must contain at least 3 characters', missingName: null, incorrectName: true});
+        } else {
+            this.setState({missingName: null, formatName: null, incorrectName: false});
+            this.props.navigation.setParams({ name: this.state.name });
+            this.editProduct();
+            this.cancelNameEdit();
+        }
+    }
+    editBackground = () => {
+        let regexColorWord = new RegExp('^[^0-9]*$');
+        let regexHex = new RegExp('#[a-zA-z0-9]*');
+        let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
+        let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
+
+        if(this.state.background.length > 0 && (!regexColorWord.test(this.state.background)  ||
+                                            !regexHex.test(this.state.background)  ||
+                                            !regRGB.test(this.state.background)  ||
+                                            !regRGBA.test(this.state.background) 
+                                        )) {
+            this.setState({formatBackground: 'Invalid color format'});
+        } else {
+            this.setState({formatBackground: null});
+            this.editProduct();
+            this.cancelBackgroundEdit();
+        }
     }
 
-    editProduct = async() => {
+    editEnergy = () => {
+        let regexConstEnergy = new RegExp('^[0-9]*$');
+        if(this.state.energy.length > 0 && !regexConstEnergy.test(this.state.energy)) {
+            this.setState({formatEnergy: 'Must contain digits only'})
+        } else {
+            this.setState({formatEnergy: null});
+            this.editProduct();
+            this.cancelEnergyEdit();
+        }
+    }
+    editFat = () => {
+        let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
+        if(this.state.fat.length > 0 && !regexConstDecimals.test(this.state.fat)) {
+            this.setState({formatFat: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatEnergy: null});
+            this.editProduct();
+            this.cancelFatEdit();
+        }
+    }
+
+    editSaturated = () => {
+        let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
+        if(this.state.saturated.length > 0 && !regexConstDecimals.test(this.state.saturated)) {
+            this.setState({formatSaturated: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatSaturated: null});
+            this.editProduct();
+            this.cancelSaturatedEdit();
+        }
+    }
+    editCarbs = () => {
+        let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
+        if(this.state.carbs.length > 0 && !regexConstDecimals.test(this.state.carbs)) {
+            this.setState({formatCarbs: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatCarbs: null});
+            this.editProduct();
+            this.cancelCarbsEdit();
+        }
+    }
+    editSugar = () => {
+        let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
+        if(this.state.sugar.length > 0 && !regexConstDecimals.test(this.state.sugar)) {
+            this.setState({formatSugar: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatSugar: null});
+            this.editProduct();
+            this.cancelSugarEdit();
+        }
+    }
+    editFiber = () => {
+        let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
+        if(this.state.fiber.length > 0 && !regexConstDecimals.test(this.state.fiber)) {
+            this.setState({formatFiber: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatFiber: null});
+            this.editProduct();
+            this.cancelFiberEdit();
+        }
+    }
+    editProtein = () => {
+        let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
+        if(this.state.protein.length > 0 && !regexConstDecimals.test(this.state.protein)) {
+            this.setState({formatProtein: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatProtein: null});
+            this.editProduct();
+            this.cancelProteinEdit();
+        }
+    }
+    editSalt = () => {
+        let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
+        if(this.state.salt.length > 0 && !regexConstDecimals.test(this.state.salt)) {
+            this.setState({formatSalt: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatSalt: null});
+            this.editProduct();
+            this.cancelSaltEdit();
+        }
+    }
+    editVitamins = () => {
+        let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
+        if(this.state.vitamins.length > 0 && !regexConstDecimals.test(this.state.vitamins)) {
+            this.setState({formatVitamins: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatVitamins: null});
+            this.editProduct();
+            this.cancelVitaminsEdit();
+        }
+    }
+    editProduct = () => {
         const data = {
             name: this.state.name,
             energy: this.state.energy,
@@ -255,24 +387,7 @@ class Product extends Component {
             image: this.state.changedImg ? "data:" + this.state.imageData.type + ";base64," + this.state.imageData.data : this.props.product.image,
             "_method": "put"
         }
-        await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
-       
-        // this.props.getProduct(this.props.route.params.subcategoryId, this.props.route.params.productId);
-        // this.setState({edited: true})
-        this.cancelNameEdit();
-        this.cancelEnergyEdit();
-        this.cancelFatEdit();
-        this.cancelSaturatedEdit();
-        this.cancelNameEdit();
-        this.cancelCarbsEdit();
-        this.cancelSugarEdit();
-        this.cancelFiberEdit();
-        this.cancelProteinEdit();
-        this.cancelSaltEdit();
-        this.cancelVitaminsEdit();
-        this.cancelImageEdit();
-        this.cancelBackgroundEdit();
-        this.cancelBorderEdit();
+        this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
     }
 
     finish = () => {
@@ -300,24 +415,28 @@ class Product extends Component {
                     ) : (
                     this.props.error !== '' ? (
                         <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
-                            <Error message={this.props.error} />
+                            <LoadingError message={this.props.error} />
                         </View>
                     ) : ( 
                         <View style={stylesGuestSingle().container}>
                         {!imageInput ? (
                             image ? (
-                                <TouchableOpacity style={authProduct().imageIconWrap} onPress={() => this.imageInput()} >
-                                    <View style={stylesGuestSingle().imageContainer}>
+                                <View style={authProduct().imageIconWrap} >
+                                    <TouchableOpacity style={stylesGuestSingle().imageContainer}  onPress={() => this.imageInput()}>
                                         <Image style={stylesGuestSingle().image} source={{ uri: image }} />
-                                    </View>
-                                    <Icon style={authProduct().editImgIcon} name="pencil"/>
-                                </TouchableOpacity>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={authProduct().editBtnWrapImg} onPress={() => this.imageInput()} >
+                                        <Icon style={authProduct().editImgIcon} name="pencil"/>
+                                    </TouchableOpacity>
+                                </View>
                                 ) : (
                                     <View style={authProduct().imageIconWrap}  >
                                         <TouchableOpacity style={stylesGuestSingle().imageContainer} onPress={() => this.imageInput()} >
                                             <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')} onPress={() => this.imageInput()} />
                                         </TouchableOpacity> 
+                                        <TouchableOpacity style={authProduct().editBtnWrapImg} onPress={() => this.imageInput()} >
                                             <Icon style={authProduct().editImgIcon} name="pencil"/>
+                                        </TouchableOpacity>
                                     </View>
                                 )   
                             ) : (
@@ -331,9 +450,13 @@ class Product extends Component {
                                         )}
                                         <Icon style={authProduct().uploadIcon} name="upload"/>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={ authProduct().iconsImgWrap } >
-                                        <Icon style={ authProduct().iconImgSave } name="check-circle" onPress={() => this.editProduct()} />
-                                        <Icon style={ authProduct().iconImgCancel } name="times-circle" style={ authProduct().iconCancel } onPress={() => this.cancelImageEdit()} />
+                                    <TouchableOpacity style={ authProduct().editBtnsWrapImg } >
+                                        <TouchableOpacity style={authProduct().editBtnImg}  onPress={() => this.editProduct()}>
+                                            <Icon style={ authProduct().iconImgSave } name="check-circle" />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelImageEdit()}>
+                                            <Icon style={ authProduct().iconImgCancel } name="times-circle" style={ authProduct().iconCancel } />
+                                        </TouchableOpacity>    
                                     </TouchableOpacity>
                                 </View>
                                 ) : (
@@ -343,8 +466,12 @@ class Product extends Component {
                                         <Icon style={authProduct().uploadIcon} name="upload"/>
                                     </TouchableOpacity> 
                                     <TouchableOpacity style={ authProduct().iconsImgWrap } >
-                                        <Icon style={ authProduct().iconSave } name="check-circle" onPress={() => this.editProduct()} />
-                                        <Icon style={ authProduct().iconCancel } name="times-circle"  onPress={() => this.cancelImageEdit()} />
+                                        <TouchableOpacity style={authProduct().editBtnWrapImg}  onPress={() => this.editProduct()}>
+                                            <Icon style={ authProduct().iconSave } name="check-circle" />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={authProduct().cancelBtnWrapImg} onPress={() => this.cancelImageEdit()}>
+                                            <Icon style={ authProduct().iconCancel } name="times-circle" />
+                                        </TouchableOpacity>
                                     </TouchableOpacity>
                                 </View>
                                 )
@@ -364,10 +491,16 @@ class Product extends Component {
                                     </TouchableOpacity>
                                     ) : (
                                         <View style={authProduct().listItemInfoWrap} >
+                                            {this.state.missingName && <Error message={this.state.missingName} /> }
+                                            {this.state.formatName && <Error message={this.state.formatName} /> }
                                             <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({name: value})} defaultValue={(name) ? (name) : ('-')} />
                                             <View style={ authProduct().iconsWrap } >
-                                                <Icon style={ authProduct().iconSave } name="check-circle" onPress={this.editName} />
-                                                <Icon style={ authProduct().iconCancel } name="times-circle"  onPress={() => this.cancelNameEdit()} />
+                                                <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editName()}>
+                                                    <Icon style={ authProduct().iconSave } name="check-circle"  />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelNameEdit()} >
+                                                    <Icon style={ authProduct().iconCancel } name="times-circle" />
+                                                </TouchableOpacity>
                                             </View>
                                         </View>
                                     )}
@@ -381,10 +514,15 @@ class Product extends Component {
                                     </TouchableOpacity>
                                     ) : (
                                         <View style={authProduct().listItemInfoWrap} >
+                                            {this.state.formatBackground && <Error message={this.state.formatBackground} /> }
                                             <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({background: value})} defaultValue={(background) ? (background) : ('-')} />
                                             <View style={ authProduct().iconsWrap } >
-                                                <Icon style={ authProduct().iconSave } name="check-circle" onPress={this.editProduct} />
-                                                <Icon style={ authProduct().iconCancel } name="times-circle"  onPress={() => this.cancelBackgroundEdit()} />
+                                                <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editBackground()}>
+                                                    <Icon style={ authProduct().iconSave } name="check-circle" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelBackgroundEdit()} >
+                                                    <Icon style={ authProduct().iconCancel } name="times-circle" />
+                                                </TouchableOpacity>
                                             </View>
                                         </View>
                                     )}
@@ -399,11 +537,16 @@ class Product extends Component {
                                 </TouchableOpacity>
                                     ) : (
                                     <View style={stylesGuestSingle().listItemInfoWrap}>
+                                        {this.state.formatEnergy && <Error message={this.state.formatEnergy} /> }
                                         <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => this.setState({energy: value})} defaultValue={(energy) ? (energy.toString()) : ('-')} />
-                                        <TouchableOpacity style={ authProduct().iconsWrap } >
-                                            <Icon style={ authProduct().iconSave } name="check-circle" onPress={() =>{ this.editProduct(), console.log("hey")}} />
-                                            <Icon  style={ authProduct().iconCancel } name="times-circle"  onPress={() => this.cancelEnergyEdit()} />
-                                        </TouchableOpacity>
+                                        <View style={ authProduct().iconsWrap } >
+                                            <TouchableOpacity style={authProduct().saveWrap}onPress={() => this.editEnergy()}>
+                                                <Icon style={ authProduct().iconSave } name="check-circle"  />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelEnergyEdit()}  >
+                                                <Icon style={ authProduct().iconCancel } name="times-circle"/>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                     )}
                             </View>
@@ -417,10 +560,15 @@ class Product extends Component {
                                 </TouchableOpacity>
                                 ) : (
                                     <View style={stylesGuestSingle().listItemInfoWrap} >
+                                        {this.state.formatFat && <Error message={this.state.formatFat} /> }
                                         <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({fat: value})}} defaultValue={(fat) ? (fat) : ('-') } />
                                         <View style={ authProduct().iconsWrap }>
-                                            <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
-                                            <Icon  style={ authProduct().iconCancel }name="times-circle" onPress={() => this.cancelFatEdit()} />
+                                            <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editFat()}>
+                                                <Icon style={ authProduct().iconSave } name="check-circle" />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={authProduct().cancelBtnImg}  onPress={() => this.cancelFatEdit()} >
+                                                <Icon  style={ authProduct().iconCancel }name="times-circle" />
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 )}
@@ -435,10 +583,15 @@ class Product extends Component {
                                 </TouchableOpacity>
                                     ) : (
                                     <View style={stylesGuestSingle().listItemInfoWrap} >
+                                        {this.state.formatSaturated && <Error message={this.state.formatSaturated} /> }
                                         <TextInput  style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({saturated: value})}}  defaultValue={(saturated) ? (saturated) : ('-')} />
                                         <View style={ authProduct().iconsWrap } >
-                                            <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
-                                            <Icon  style={ authProduct().iconCancel }name="times-circle" onPress={() => this.cancelSaturatedEdit()} />
+                                            <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editSaturated()}>
+                                                <Icon style={ authProduct().iconSave } name="check-circle" />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelSaturatedEdit()} >
+                                                <Icon style={ authProduct().iconCancel } name="times-circle"  />
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 )}
@@ -453,10 +606,15 @@ class Product extends Component {
                                 </TouchableOpacity>
                                 ) : (
                                     <View style={stylesGuestSingle().listItemInfoWrap} >
+                                        {this.state.formatCarbs && <Error message={this.state.formatCarbs} /> }
                                         <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({carbs: value})}} defaultValue={(carbs) ? (carbs) : ('-')} />
                                         <View style={ authProduct().iconsWrap }>
-                                            <Icon style={ authProduct().iconSave } name="check-circle" onPress={() => this.editProduct()} />
-                                            <Icon  style={ authProduct().iconCancel } name="times-circle" onPress={() => this.cancelCarbsEdit()} />
+                                            <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editCarbs()}>
+                                                <Icon style={ authProduct().iconSave } name="check-circle" />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelCarbsEdit()} >
+                                                <Icon  style={ authProduct().iconCancel } name="times-circle" />
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 )}
@@ -471,10 +629,15 @@ class Product extends Component {
                                     </TouchableOpacity>
                                     ) : (
                                         <View style={stylesGuestSingle().listItemInfoWrap} >
+                                            {this.state.formatSugar && <Error message={this.state.formatSugar} /> }
                                             <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({sugar: value})}} defaultValue={(sugar) ? (sugar) : ('-')} />
                                             <View style={ authProduct().iconsWrap }>
-                                                <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
-                                                <Icon  style={ authProduct().iconCancel }name="times-circle" onPress={this.cancelSugarEdit} />
+                                                <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editSugar()}>
+                                                    <Icon style={ authProduct().iconSave } name="check-circle" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelSugarEdit()} >
+                                                    <Icon  style={ authProduct().iconCancel }name="times-circle"  />
+                                                </TouchableOpacity>
                                             </View>
                                         </View>
                                     )}
@@ -489,10 +652,15 @@ class Product extends Component {
                                     </TouchableOpacity>
                                     ) : (
                                         <View style={stylesGuestSingle().listItemInfoWrap} >
+                                            {this.state.formatFiber && <Error message={this.state.formatFiber} /> }
                                             <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({fiber: value})}} defaultValue={(fiber) ? (fiber) : ('-')} />
                                             <View style={ authProduct().iconsWrap }>
-                                                <Icon style={ authProduct().iconSave } name="check-circle"  onPress={this.editProduct} />
-                                                <Icon  style={ authProduct().iconCancel } name="times-circle"  onPress={() => this.cancelFiberEdit()} />
+                                                <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editFiber()}>
+                                                    <Icon style={ authProduct().iconSave } name="check-circle" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity style={authProduct().cancelBtnImg} onPress={this.cancelFiberEdit} >
+                                                    <Icon  style={ authProduct().iconCancel } name="times-circle" />
+                                                </TouchableOpacity>
                                             </View>
                                         </View>    
                                     )}
@@ -507,10 +675,15 @@ class Product extends Component {
                                     </TouchableOpacity>
                                     ) : (
                                         <View style={stylesGuestSingle().listItemInfoWrap} >
+                                            {this.state.formatProtein && <Error message={this.state.formatProtein} /> }
                                             <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({protein: value})}} defaultValue={(protein) ? (protein) : ('-')} />
                                             <View style={ authProduct().iconsWrap }>
-                                                <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
-                                                <Icon  style={ authProduct().iconCancel } name="times-circle" onPress={() => this.cancelProteinEdit()} />
+                                                <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editProtein()}>
+                                                    <Icon style={ authProduct().iconSave } name="check-circle" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelProteinEdit()} >
+                                                    <Icon  style={ authProduct().iconCancel } name="times-circle" />
+                                                </TouchableOpacity>
                                             </View>
                                         </View>
                                     )}
@@ -525,10 +698,15 @@ class Product extends Component {
                                     </TouchableOpacity>
                                     ) : (
                                         <View style={stylesGuestSingle().listItemInfoWrap} >
+                                            {this.state.formatSalt && <Error message={this.state.formatSalt} /> }
                                             <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({salt: value})}} defaultValue={(salt) ? (salt) : ('-')} />
                                             <View style={ authProduct().iconsWrap }>
-                                                <Icon style={ authProduct().iconSave } name="check-circle" size={35} color="firebrick" onPress={this.editProduct} />
-                                                <Icon  style={ authProduct().iconCancel } name="times-circle" onPress={() => this.cancelSaltEdit()} />
+                                                <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editSalt()}>
+                                                    <Icon style={ authProduct().iconSave } name="check-circle" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelSaltEdit()} >
+                                                    <Icon  style={ authProduct().iconCancel } name="times-circle" />
+                                                </TouchableOpacity>
                                             </View>
                                         </View> 
                                     )}
@@ -543,10 +721,15 @@ class Product extends Component {
                                     </TouchableOpacity>
                                 ) : (
                                     <View style={stylesGuestSingle().listItemInfoWrap} >
+                                        {this.state.formatVitamins && <Error message={this.state.formatVitamins} /> }
                                         <TextInput style={ authProduct().itemInput } type="text" autoCorrect={false} onChangeText={value => { this.setState({vitamins: value})}} defaultValue={(vitamins) ? (vitamins) : ('-')} />
                                         <View style={ authProduct().iconsWrap }>
-                                            <Icon style={ authProduct().iconSave } name="check-circle" onPress={this.editProduct} />
-                                            <Icon  style={ authProduct().iconCancel } name="times-circle" onPress={() => this.cancelVitaminsEdit()} />
+                                            <TouchableOpacity style={authProduct().saveWrap} onPress={() => this.editVitamins()}>
+                                                <Icon style={ authProduct().iconSave } name="check-circle" />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelVitaminsEdit()} >
+                                                <Icon  style={ authProduct().iconCancel } name="times-circle" />
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                     )}

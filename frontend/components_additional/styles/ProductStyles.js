@@ -122,7 +122,7 @@ export const stylesGuestSingle = (background) => StyleSheet.create( {
         flex: 1,
         flexDirection: 'row',
         // alignContent: 'center',
-        // justifyContent: 'center'
+        // justifyContent: 'center',
         alignItems: 'flex-start',
     },
     componentTitle: {
@@ -253,39 +253,63 @@ export const authProduct = (color) => StyleSheet.create({
         fontSize: 42,
         color: colors.bordo,
     },
+    editBtnImg: {
+        backgroundColor: colors.mediumGreen2,
+        height: 45,
+        width: 45,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 15,
+    },
     iconImgSave: {
-        fontSize: 45,
-        color: colors.mediumGreen2,
-        padding: 5,
+        fontSize: 35,
+    },
+    editBtnWrapImg: {
+        backgroundColor: colors.mediumGreen2,
+        height: 45,
+        width: 45,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 20,
+        top: 30,
+        position: 'absolute'
+    },
+    editBtnsWrapImg: {
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        right: 20,
+        top: 30,
+        position: 'absolute'
+    },
+    cancelBtnImg: {
+        backgroundColor: colors.orangeBright,
+        height: 45,
+        width: 45,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     editImgIcon: {
         fontSize: 35,
-        position: 'absolute',
-        right: 53,
-        top: 22,
-        zIndex: 9,
     },
     iconImgCancel: {
-        fontSize: 42,
-        color: colors.bordo,
+        fontSize: 35,
     },
     iconEdit: {
         fontSize: 35,
     },
     iconSave: {
-        fontSize: 45,
-        color: colors.mediumGreen2,
-        padding: 5,
+        fontSize: 35,
     },
     iconCancel: {
-        fontSize: 45,
-        color: colors.bordo,
-        padding: 5,
+        fontSize: 35,
     },
 
     // INPUTS:
     componentTitle: {
-        width: '49%',
+        width: '45%',
         fontSize: 20,
         textTransform: 'uppercase',
         paddingLeft: 0,
@@ -302,8 +326,20 @@ export const authProduct = (color) => StyleSheet.create({
      iconsWrap: {
          flex: 1, 
          flexDirection: 'row',
-        //  paddingRight: 5,
+        paddingTop: 5,
      },
+     saveWrap: {
+        backgroundColor: colors.mediumGreen2,
+        height: 45,
+        width: 45,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 10,
+        // right: 20,
+        // top: 30,
+        // position: 'absolute'
+    },
      itemInput: {
          flex: 1,
          backgroundColor: colors.mainWhiteYellow,
@@ -321,9 +357,9 @@ export const authProduct = (color) => StyleSheet.create({
     }
 });
 
-export const postProductStyle = (error) => StyleSheet.create({
+export const postProductStyle = (error, background) => StyleSheet.create({
     container: {
-        backgroundColor: '#ffcc33',
+        backgroundColor: background ? background : colors.mainYellow,
         // height: Dimensions.get('window').height /1,
         paddingHorizontal: 30,
     },

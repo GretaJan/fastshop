@@ -154,7 +154,7 @@ render() {
         <LoginScreenNav.Navigator>
             <LoginScreenNav.Screen name="Login" component={LoginPage} 
               options={{
-                title: "Login to Admin Dashboard",
+                title: "Login to Dashboard",
                 headerTitleStyle: {
                     fontWeight: 'bold',
                     color: colors.titleBlack,
@@ -218,9 +218,42 @@ render() {
                                     },
                                     headerTitleAlign: 'center'
              })} /> 
-            <AdminNavigation.Screen name="Add_Category" component={AddCategory} options={{ title: "Add Category"}}  />
-            <AdminNavigation.Screen name="Add_Subcategory" component={AddSubcategory} options={{ title: "Add Subcategory"}}  />
-            <AdminNavigation.Screen name="Add_Product" component={AddProduct} options={{ title: "Add Product" }}  />
+            <AdminNavigation.Screen name="Add_Category" component={AddCategory} 
+                                    options={{
+                                        title: 'Add Category',
+                                        headerStyle: {
+                                            backgroundColor: colors.mainYellow,
+                                            },
+                                        headerTitleStyle: {
+                                            fontWeight: 'bold',
+                                            color: colors.titleBlack,
+                                        },
+                                        headerTitleAlign: 'center'   
+                                    }} />
+            <AdminNavigation.Screen name="Add_Subcategory" component={AddSubcategory} 
+                                    options={({route}) => ({
+                                        title: 'Add Subategory',
+                                        headerStyle: {
+                                            backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                            },
+                                        headerTitleStyle: {
+                                            fontWeight: 'bold',
+                                            color: colors.titleBlack,
+                                        },
+                                        headerTitleAlign: 'center'   
+                                    })} />
+            <AdminNavigation.Screen name="Add_Product" component={AddProduct} 
+                                     options={({route}) => ({
+                                        title: 'Add Product',
+                                        headerStyle: {
+                                            backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                            },
+                                        headerTitleStyle: {
+                                            fontWeight: 'bold',
+                                            color: colors.titleBlack,
+                                        },
+                                        headerTitleAlign: 'center'   
+                                    })} />
         </AdminNavigation.Navigator> 
     )
     return ( 

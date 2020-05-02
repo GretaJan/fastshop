@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 import {Dimensions} from 'react-native';
 
-export const styles = () => StyleSheet.create({
+export const styles = (background) => StyleSheet.create({
     container: {
-        backgroundColor: '#ffcc33',
+        backgroundColor: background ? background : '#ffcc33',
         height: Dimensions.get('window').height /1,
     },
     inputsWrap: {

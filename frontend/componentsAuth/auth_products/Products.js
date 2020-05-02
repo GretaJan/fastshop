@@ -63,7 +63,7 @@ class Products extends Component {
         )
     }
 
-    goToProduct = async (item) => {
+    goToProduct = (item) => {
         // await this.props.getProduct();
         this.props.navigation.push("Product_Auth", { subcategoryId: item.subcategory_id, productId: item.id,  name: item.name });
     }
@@ -78,7 +78,7 @@ class Products extends Component {
                 ) : (
                     <View style={authProducts(background).container}>
                     {this.getInput() }
-                    <CircleButton func={() => { this.props.navigation.push("Add_Product",  {subcategoryId: this.state.id}) }} />
+                    <CircleButton func={() => { this.props.navigation.push("Add_Product",  {subcategoryId: this.state.id, background: background}) }} />
                     {this.props.products.length == 0 ? (
                         <EmptyList message="Products list is empty" background={background} />
                     ) : (

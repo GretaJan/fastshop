@@ -84,16 +84,16 @@ class AddProduct extends Component {
         } else {
             this.setState({formatEnergy: null});
         }
-        if(this.state.saturated.length > 0 && !regexConstDecimals.test(this.state.saturated)) {
-            this.setState({formatSaturated: 'Format: 0.0/00.0'});
-        } else {
-            this.setState({formatFat: null});
-        }
         if(this.state.fat.length > 0 && !regexConstDecimals.test(this.state.fat)) {
             this.setState({formatFat: 'Format: 0.0/00.0'});
         } else {
             this.setState({formatFat: null});
         } 
+        if(this.state.saturated.length > 0 && !regexConstDecimals.test(this.state.saturated)) {
+            this.setState({formatSaturated: 'Format: 0.0/00.0'});
+        } else {
+            this.setState({formatSaturated: null});
+        }
         if(this.state.carbs.length > 0 && !regexConstDecimals.test(this.state.carbs)) {
             this.setState({formatCarbs: 'Format: 0.0/00.0'});
         } else {
@@ -166,7 +166,7 @@ class AddProduct extends Component {
 
         render() {
             return (
-                <ScrollView style={postProductStyle().container}>
+                <ScrollView style={postProductStyle(null, this.props.route.params.background).container}>
                     <View style={postProductStyle().inputsWrap} >
                         <View style={postProductStyle().singleWrap}>
                             {this.state.missingName && <Error message={this.state.missingName} /> }

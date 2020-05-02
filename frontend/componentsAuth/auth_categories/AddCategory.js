@@ -52,8 +52,10 @@ class AddCategory extends Component {
         let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
         let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
 
+ 
         if (this.state.name.length === 0) {
             this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
+            console.log("name", this.state.name.length)
         } else if(this.state.name.length < 3 ) {
             this.setState({formatName: 'Must contain at least 3 characters', missingName: null, incorrectName: true});
         } else {
@@ -62,12 +64,12 @@ class AddCategory extends Component {
         if(this.state.background.length > 0 && (!regexColorWord.test(this.state.background)  ||
             !regexHex.test(this.state.background)  || !regRGB.test(this.state.background)  || !regRGBA.test(this.state.background) 
                 )) {
-        this.setState({formatBackground: 'Invalid color format'});
+            this.setState({formatBackground: 'Invalid color format'});
         } else {
-        this.setState({formatBackground: null});
+            this.setState({formatBackground: null});
         }
 
-        if(this.state.incorrectName === null && this.state.formatBackground === null) {
+        if(this.state.incorrectName === false && this.state.formatBackground === null) {
             this.addCategory();
         }
     }
@@ -79,7 +81,7 @@ class AddCategory extends Component {
             name: name
         }
 
-        this.props.addCategory(data);
+        await this.props.addCategory(data);
         this.props.navigation.push("Dashboard");
 
     }

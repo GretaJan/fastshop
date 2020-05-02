@@ -70,7 +70,7 @@ class AddSubcategory extends Component {
         this.setState({formatBackground: null});
         }
 
-        if(this.state.incorrectName === null && this.state.formatBackground === null) {
+        if(this.state.incorrectName === false && this.state.formatBackground === null) {
             this.addSubcategory();
         }
     }
@@ -89,7 +89,7 @@ class AddSubcategory extends Component {
 
         render() {
             return (
-                <View style={styles().container} > 
+                <View style={styles(this.props.route.params.background).container} > 
                     <View style={categoryAdd().inputsWrap} >
                         <View style={categoryAdd().singleWrap}>
                             {this.state.missingName && <Error message={this.state.missingName}  left={'10%'} /> }

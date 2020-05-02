@@ -97,7 +97,7 @@ class Subcategories extends Component {
             ) : (
                 <View style={styles(background).container}>
                     {this.getInput()}
-                    <CircleButton func={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id}) }} />
+                    <CircleButton func={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id, background: background}) }} />
                     {this.props.subcategories.length == 0 ? (
                         <EmptyList message="The List is empty" background={background} />
                         ) : (
