@@ -57,7 +57,6 @@ export default function(state = initialState, action) {
                 ...state,
                 products: tempArray.concat(action.payload),
                 product: action.payload,
-
             }
         case DELETE_PRODUCT:
             return {

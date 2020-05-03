@@ -46,7 +46,7 @@ class Products extends Component {
         // nameVitamins: '',
     }
 
-    comparisonResults = (result) => {
+    comparisonResults = () => {
         // var result = {
         //         mostEnergy: this.state.mostEnergy,
         //         energyName: this.state.nameEnergy,

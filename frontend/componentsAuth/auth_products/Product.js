@@ -23,17 +23,17 @@ class Product extends Component {
         subcategoryId: this.props.route.params.subcategoryId,
         image: this.props.product.image,
         imageData: null,
-        name: '',
-        energy: '',
-        fat: '',
-        saturated: '',
-        carbs: '',
-        sugar: '',
-        fiber: '',
-        protein: '',
-        salt: '',
-        vitamins: '',
-        background: '',
+        name: this.props.product.name,
+        energy: this.props.product.energy,
+        fat: this.props.product.fat,
+        saturated: this.props.product.saturated,
+        carbs: this.props.product.carbs,
+        sugar: this.props.product.sugar,
+        fiber: this.props.product.fiber,
+        protein: this.props.product.protein,
+        salt: this.props.product.salt,
+        vitamins: this.props.product.vitamins,
+        background: this.props.product.background,
         nameInput: false,
         energyInput: false,
         fatInput: false,
@@ -66,8 +66,7 @@ class Product extends Component {
     }
 
      componentDidMount() {
-        console.log("list: ", this.props.product, " id: ", this.state.id, "cat ID: ", this.state.subcategoryId); 
-         this.props.getProduct( this.props.route.params.productId, this.props.route.params.subcategoryId);
+         this.props.getProduct( this.props.route.params.subcategoryId, this.props.route.params.productId);
 
             // this.setState({
             //     image: this.props.product.image,
@@ -246,7 +245,7 @@ class Product extends Component {
         })
     }
 
-    editName = () => {
+    editName = async() => {
         if (this.state.name.length === 0) {
             this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
         } else if(this.state.name.length < 3 ) {
@@ -254,8 +253,24 @@ class Product extends Component {
         } else {
             this.setState({missingName: null, formatName: null, incorrectName: false});
             this.props.navigation.setParams({ name: this.state.name });
-            // this.editProduct();
-            // this.cancelNameEdit();
+            const data = {
+                name: this.state.name,
+                background_color: this.props.product.background_color,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated:  this.props.product.saturated,
+                carbs: this.props.product.carbs,
+                sugar: this.props.product.sugar,
+                fiber: this.props.product.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                image: this.props.product.image,
+                "_method": "put", 
+            }
+            await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+            console.log("name: ",this.state.name, ' ', this.props.product.id )
+            this.cancelNameEdit();
         }
     }
     editBackground = async () => {
@@ -272,30 +287,46 @@ class Product extends Component {
                 console.log("background", regexHex.test(this.state.background))
             } else {
                 this.setState({formatBackground: null});
+                this.setState({formatBackground: null});
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.state.background,
+                    energy: this.props.product.energy,
+                    fat: this.props.product.fat,
+                    saturated:  this.props.product.saturated,
+                    carbs: this.props.product.carbs,
+                    sugar: this.props.product.sugar,
+                    fiber: this.props.product.fiber,
+                    protein: this.props.product.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.props.product.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelBackgroundEdit();
             }
-        } 
-        if(this.state.formatBackground === null ) {
-        this.setState({formatBackground: null});
-        const data = {
-            name: this.props.product.name,
-            background_color: this.state.background,
-            energy: this.props.product.energy,
-            fat: this.props.product.fat,
-            saturated:  this.props.product.saturated,
-            carbs: this.props.product.carbs,
-            sugar: this.props.product.sugar,
-            fiber: this.props.product.fiber,
-            protein: this.props.product.protein,
-            salt: this.props.product.salt,
-            vitamins: this.props.product.vitamins,
-            image: this.props.product.image,
-            "_method": "put", 
+        } else {
+            this.setState({formatBackground: null});
+            const data = {
+                name: this.props.product.name,
+                background_color: this.state.background,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated:  this.props.product.saturated,
+                carbs: this.props.product.carbs,
+                sugar: this.props.product.sugar,
+                fiber: this.props.product.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                image: this.props.product.image,
+                "_method": "put", 
+            }
+            await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+            this.cancelBackgroundEdit();
         }
-        await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
-        // this.cancelBackgroundEdit();
-        // this.editProduct();
-        this.cancelBackgroundEdit();
-        }
+
     }
 
     editEnergy = () => {
@@ -308,85 +339,373 @@ class Product extends Component {
             this.cancelEnergyEdit();
         }
     }
-    editFat = () => {
+    editFat = async() => {
         let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
-        if(this.state.fat.length > 0 && !regexConstDecimals.test(this.state.fat)) {
-            this.setState({formatFat: 'Format: 0.0/00.0'});
+        if(this.state.fat.length > 0) {
+            if (!regexConstDecimals.test(this.state.fat)) {
+                this.setState({formatFat: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatEnergy: null});
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.props.product.background_color,
+                    energy: this.props.product.energy,
+                    fat: this.state.fat,
+                    saturated:  this.props.product.saturated,
+                    carbs: this.props.product.carbs,
+                    sugar: this.props.product.sugar,
+                    fiber: this.props.product.fiber,
+                    protein: this.props.product.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.props.product.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelFatEdit();
+            }
         } else {
             this.setState({formatEnergy: null});
-            this.editProduct();
-            this.cancelFatEdit();
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.props.product.background_color,
+                    energy: this.props.product.energy,
+                    fat: this.state.fat,
+                    saturated:  this.props.product.saturated,
+                    carbs: this.props.product.carbs,
+                    sugar: this.props.product.sugar,
+                    fiber: this.props.product.fiber,
+                    protein: this.props.product.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.props.product.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelFatEdit();
         }
+
     }
 
-    editSaturated = () => {
+    editSaturated = async() => {
         let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
-        if(this.state.saturated.length > 0 && !regexConstDecimals.test(this.state.saturated)) {
+        if(this.state.saturated.length > 0) 
+            if(!regexConstDecimals.test(this.state.saturated)) {
             this.setState({formatSaturated: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatSaturated: null});
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.props.product.background_color,
+                    energy: this.props.product.energy,
+                    fat: this.props.product.fat,
+                    saturated:  this.state.saturated,
+                    carbs: this.props.product.carbs,
+                    sugar: this.props.product.sugar,
+                    fiber: this.props.product.fiber,
+                    protein: this.props.product.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.props.product.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelSaturatedEdit();
         } else {
             this.setState({formatSaturated: null});
-            this.editProduct();
+            const data = {
+                name: this.props.product.name,
+                background_color: this.props.product.background_color,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated:  this.state.saturated,
+                carbs: this.props.product.carbs,
+                sugar: this.props.product.sugar,
+                fiber: this.props.product.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                image: this.props.product.image,
+                "_method": "put", 
+            }
+            await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
             this.cancelSaturatedEdit();
         }
     }
-    editCarbs = () => {
+    editCarbs = async() => {
         let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
-        if(this.state.carbs.length > 0 && !regexConstDecimals.test(this.state.carbs)) {
+        if(this.state.carbs.length > 0) {
+            if(!regexConstDecimals.test(this.state.carbs)) {
             this.setState({formatCarbs: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatCarbs: null});
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.props.product.background_color,
+                    energy: this.props.product.energy,
+                    fat: this.props.product.fat,
+                    saturated:  this.props.product.saturated,
+                    carbs: this.state.carbs,
+                    sugar: this.props.product.sugar,
+                    fiber: this.props.product.fiber,
+                    protein: this.props.product.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.props.product.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelCarbsEdit();
+            }
         } else {
             this.setState({formatCarbs: null});
-            this.editProduct();
+            const data = {
+                name: this.props.product.name,
+                background_color: this.props.product.background_color,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated:  this.props.product.saturated,
+                carbs: this.state.carbs,
+                sugar: this.props.product.sugar,
+                fiber: this.props.product.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                image: this.props.product.image,
+                "_method": "put", 
+            }
+            await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
             this.cancelCarbsEdit();
         }
     }
-    editSugar = () => {
+    editSugar = async() => {
         let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
-        if(this.state.sugar.length > 0 && !regexConstDecimals.test(this.state.sugar)) {
+        if(this.state.sugar.length > 0) { 
+            if(!regexConstDecimals.test(this.state.sugar)) {
             this.setState({formatSugar: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatSugar: null});
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.props.product.background_color,
+                    energy: this.props.product.energy,
+                    fat: this.props.product.fat,
+                    saturated:  this.props.product.saturated,
+                    carbs: this.props.product.carbs,
+                    sugar: this.state.sugar,
+                    fiber: this.props.product.fiber,
+                    protein: this.props.product.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.props.product.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelSugarEdit();
+            }
         } else {
             this.setState({formatSugar: null});
-            this.editProduct();
+            const data = {
+                name: this.props.product.name,
+                background_color: this.props.product.background_color,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated:  this.props.product.saturated,
+                carbs: this.props.product.carbs,
+                sugar: this.state.sugar,
+                fiber: this.props.product.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                image: this.props.product.image,
+                "_method": "put", 
+            }
+            await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
             this.cancelSugarEdit();
         }
     }
-    editFiber = () => {
+    editFiber = async() => {
         let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
-        if(this.state.fiber.length > 0 && !regexConstDecimals.test(this.state.fiber)) {
+        if(this.state.fiber.length > 0){ 
+            if(!regexConstDecimals.test(this.state.fiber)) {
             this.setState({formatFiber: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatFiber: null});
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.props.product.background_color,
+                    energy: this.props.product.energy,
+                    fat: this.props.product.fat,
+                    saturated:  this.props.product.saturated,
+                    carbs: this.props.product.carbs,
+                    sugar: this.props.product.sugar,
+                    fiber: this.state.fiber,
+                    protein: this.props.product.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.props.product.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelFiberEdit();
+            }
         } else {
             this.setState({formatFiber: null});
-            this.editProduct();
+            const data = {
+                name: this.props.product.name,
+                background_color: this.props.product.background_color,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated:  this.props.product.saturated,
+                carbs: this.props.product.carbs,
+                sugar: this.props.product.sugar,
+                fiber: this.state.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                image: this.props.product.image,
+                "_method": "put", 
+            }
+            await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
             this.cancelFiberEdit();
         }
     }
-    editProtein = () => {
+    editProtein = async() => {
         let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
-        if(this.state.protein.length > 0 && !regexConstDecimals.test(this.state.protein)) {
+        if(this.state.protein.length > 0) { 
+            if(!regexConstDecimals.test(this.state.protein)) {
             this.setState({formatProtein: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatProtein: null});
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.props.product.background_color,
+                    energy: this.props.product.energy,
+                    fat: this.props.product.fat,
+                    saturated:  this.props.product.saturated,
+                    carbs: this.props.product.carbs,
+                    sugar: this.props.product.sugar,
+                    fiber: this.props.product.fiber,
+                    protein: this.state.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.props.product.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelProteinEdit();
+            }
         } else {
-            this.setState({formatProtein: null});
-            this.editProduct();
-            this.cancelProteinEdit();
+            this.setState({formatFiber: null});
+            const data = {
+                name: this.props.product.name,
+                background_color: this.props.product.background_color,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated:  this.props.product.saturated,
+                carbs: this.props.product.carbs,
+                sugar: this.props.product.sugar,
+                fiber: this.state.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                image: this.props.product.image,
+                "_method": "put", 
+            }
+            await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+            this.cancelFiberEdit();
         }
     }
-    editSalt = () => {
+    editSalt = async() => {
         let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
-        if(this.state.salt.length > 0 && !regexConstDecimals.test(this.state.salt)) {
+        if(this.state.salt.length > 0) {
+            if(!regexConstDecimals.test(this.state.salt)) {
             this.setState({formatSalt: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatSalt: null});
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.props.product.background_color,
+                    energy: this.props.product.energy,
+                    fat: this.props.product.fat,
+                    saturated:  this.props.product.saturated,
+                    carbs: this.props.product.carbs,
+                    sugar: this.props.product.sugar,
+                    fiber: this.state.fiber,
+                    protein: this.props.product.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.props.product.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelSaltEdit();
+            }
         } else {
-            this.setState({formatSalt: null});
-            this.editProduct();
-            this.cancelSaltEdit();
+            this.setState({formatFiber: null});
+            const data = {
+                name: this.props.product.name,
+                background_color: this.props.product.background_color,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated:  this.props.product.saturated,
+                carbs: this.props.product.carbs,
+                sugar: this.props.product.sugar,
+                fiber: this.state.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                image: this.props.product.image,
+                "_method": "put", 
+            }
+            await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+            this.cancelFiberEdit();
         }
     }
-    editVitamins = () => {
+    editVitamins = async() => {
         let regexConstDecimals = new RegExp('^[0-9]+[,.][0-9]$');
-        if(this.state.vitamins.length > 0 && !regexConstDecimals.test(this.state.vitamins)) {
+        if(this.state.vitamins.length > 0) {
+            if(!regexConstDecimals.test(this.state.vitamins)) {
             this.setState({formatVitamins: 'Format: 0.0/00.0'});
+            } else {
+                this.setState({formatVitamins: null});
+                const data = {
+                    name: this.props.product.name,
+                    background_color: this.props.product.background_color,
+                    energy: this.props.product.energy,
+                    fat: this.props.product.fat,
+                    saturated:  this.props.product.saturated,
+                    carbs: this.props.product.carbs,
+                    sugar: this.props.product.sugar,
+                    fiber: this.props.product.fiber,
+                    protein: this.props.product.protein,
+                    salt: this.props.product.salt,
+                    vitamins: this.state.vitamins,
+                    image: this.props.product.image,
+                    "_method": "put", 
+                }
+                await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+                this.cancelVitaminsEdit();
+            }
         } else {
-            this.setState({formatVitamins: null});
-            this.editProduct();
-            this.cancelVitaminsEdit();
+            this.setState({formatFiber: null});
+            const data = {
+                name: this.props.product.name,
+                background_color: this.props.product.background_color,
+                energy: this.props.product.energy,
+                fat: this.props.product.fat,
+                saturated:  this.props.product.saturated,
+                carbs: this.props.product.carbs,
+                sugar: this.props.product.sugar,
+                fiber: this.state.fiber,
+                protein: this.props.product.protein,
+                salt: this.props.product.salt,
+                vitamins: this.props.product.vitamins,
+                image: this.props.product.image,
+                "_method": "put", 
+            }
+            await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+            this.cancelFiberEdit();
         }
     }
     editProduct = () => {
@@ -407,10 +726,24 @@ class Product extends Component {
         }
         this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
     }
-
-    finish = () => {
- // this.validation();
-       
+    editImage = async() => {
+        const data = {
+            name: this.props.product.name,
+            background_color: this.props.product.background_color,
+            energy: this.props.product.energy,
+            fat: this.props.product.fat,
+            saturated: this.props.product.saturated,
+            carbs: this.props.product.carbs,
+            sugar: this.props.product.sugar,
+            fiber: this.props.product.fiber,
+            protein: this.props.product.protein,
+            salt: this.props.product.salt,
+            vitamins: this.props.product.vitamins,
+            image: this.state.imageData ? "data:" + this.state.imageData.type + ";base64," + this.state.imageData.data : this.props.product.image,
+            "_method": "put"
+        }
+        await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+        this.cancelImageEdit();
     }
 
     deleteProduct = () => {
@@ -428,7 +761,7 @@ class Product extends Component {
             incorrectName, formatEnergy, formatFat, formatSaturated, formatCarbs, formatSugar, formatFiber, formatProtein, formatSalt,
             formatVitamins, formatBackground} = this.state;
         // const {image, background_color} = this.props.product;
-        const { name, image, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins,  background_color } = this.props.product;
+        const { name, image, energy, fat, saturated, carbs, sugar, fiber, protein, salt, vitamins, background_color } = this.props.product;
 
         return (
                  this.props.loading ? (
@@ -493,7 +826,7 @@ class Product extends Component {
                                         <Icon style={authProduct().uploadIcon} name="upload"/>
                                     </TouchableOpacity> 
                                     <View style={ authProduct().editBtnsWrapImg } >
-                                        <TouchableOpacity style={authProduct().editBtnImg} onPress={() => this.editProduct()}>
+                                        <TouchableOpacity style={authProduct().editBtnImg} onPress={() => this.editImage()}>
                                             <Icon style={ authProduct().iconImgSave } name="check-circle" />
                                         </TouchableOpacity>
                                         <TouchableOpacity style={authProduct().cancelBtnImg} onPress={() => this.cancelImageEdit()}>

@@ -18,15 +18,14 @@ const initialState = {
     activeSaltDesc: false,
     activeSaltAsc: false,
     activeVitaminsDesc: false,
-    activeVitaminsAsc: false,
-    
+    activeVitaminsAsc: false,   
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
         case PRODUCT_SELECTED:
-            var pushToArray = state.comparisonArray.concat(action.payload);
-            var filteredArray = Array.from(new Set(pushToArray.map(item => item.id)))
+                var pushToArray = state.comparisonArray.concat(action.payload);
+                var filteredArray = Array.from(new Set(pushToArray.map(item => item.id)))
                 .map(id => {
                     return pushToArray.find(firstItem => firstItem.id === id)
                 })

@@ -14,21 +14,21 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
 
 
     const { healthy, unhealthy } = result;
-    const oneSaturated = healthy.saturated == null ? parseInt(0) : parseFloat(healthy.saturated);
-    const twoSaturated = unhealthy.saturated == null ? parseInt(0) : parseFloat(unhealthy.saturated);
-    const oneFiber = healthy.fiber == null ? parseInt(0) : parseFloat(healthy.fiber);
-    const twoFiber = unhealthy.fiber == null ? parseInt(0) : parseFloat(unhealthy.fiber);
-    const oneProtein = healthy.protein == null ? parseInt(0) : parseFloat(healthy.protein);
-    const twoProtein = unhealthy.protein == null ? parseInt(0) : parseFloat(unhealthy.protein);
-    const oneVitamins = healthy.vitamins == null ? parseInt(0) : parseFloat(healthy.vitamins);
-    const twoVitamins = unhealthy.vitamins == null ? parseInt(0) : parseFloat(unhealthy.vitamins);
+    const oneSaturated = result.healthy.saturated == null ? parseInt(0) : parseFloat(result.healthy.saturated);
+    const twoSaturated = result.unhealthy.saturated == null ? parseInt(0) : parseFloat(result.unhealthy.saturated);
+    const oneFiber = result.healthy.fiber == null ? parseInt(0) : parseFloat(result.healthy.fiber);
+    const twoFiber = result.unhealthy.fiber == null ? parseInt(0) : parseFloat(result.unhealthy.fiber);
+    const oneProtein = result.healthy.protein == null ? parseInt(0) : parseFloat(result.healthy.protein);
+    const twoProtein = result.unhealthy.protein == null ? parseInt(0) : parseFloat(result.unhealthy.protein);
+    const oneVitamins = result.healthy.vitamins == null ? parseInt(0) : parseFloat(result.healthy.vitamins);
+    const twoVitamins = result.unhealthy.vitamins == null ? parseInt(0) : parseFloat(result.unhealthy.vitamins);
 
-    const oneSugar = healthy.sugar == null ? parseInt(0) : parseFloat(healthy.sugar);
-    const twoSugar = unhealthy.sugar == null ? parseInt(0) : parseFloat(unhealthy.sugar);
-    const oneCarbs = healthy.carbs == null ? parseInt(0) : (parseFloat(healthy.carbs) - oneSugar);
-    const twoCarbs = unhealthy.carbs == null ? parseInt(0) : (parseFloat(unhealthy.carbs) - twoSugar);
-    const oneSalt = healthy.salt == null ? parseInt(0) : parseFloat(healthy.salt);
-    const twoSalt = unhealthy.salt == null ? parseInt(0) : parseFloat(unhealthy.salt);
+    const oneSugar = result.healthy.sugar == null ? parseInt(0) : parseFloat(result.healthy.sugar);
+    const twoSugar = result.unhealthy.sugar == null ? parseInt(0) : parseFloat(result.unhealthy.sugar);
+    const oneCarbs = result.healthy.carbs == null ? parseInt(0) : (parseFloat(result.healthy.carbs) - oneSugar);
+    const twoCarbs = result.unhealthy.carbs == null ? parseInt(0) : (parseFloat(result.unhealthy.carbs) - twoSugar);
+    const oneSalt = result.healthy.salt == null ? parseInt(0) : parseFloat(result.healthy.salt);
+    const twoSalt = result.unhealthy.salt == null ? parseInt(0) : parseFloat(result.unhealthy.salt);
 
     const goodQualitiesHealthy = oneSaturated + oneFiber + oneProtein + oneVitamins;
     const goodQualitiesUnhealthy = twoSaturated + twoFiber + twoProtein + twoVitamins;
@@ -46,7 +46,8 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
 
     const scrollUp = () => {
         // React.useEffect(() => { window.scrollTo(0, 0); }, []);
-        console.log("clicked")
+        console.log("result", result)
+        
         // InteractionManager.runAfterInteractions(() => this.scroll.current.scrollTo({ x }));
         // console.log("event", event.nativeEvent.contentOffset.y)
         // let offset = event.nativeEvent.contentOffset.y;

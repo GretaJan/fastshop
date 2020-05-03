@@ -40,7 +40,7 @@ class ProductController extends Controller
             // 'salt' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
             // 'vitamins' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
         ]);
-        // $product->subcategory_id = $subcategory_id;
+        $product->subcategory_id = $subcategory_id;
         $product->name = $request->name;
         $product->energy = $request->energy;
         $product->fat = $request->fat;
@@ -70,18 +70,13 @@ class ProductController extends Controller
             return response()->json(['message' => 'Invalid file format'], 400);
         }
  
-        $product->save();
-
-        $response = ['product' => $product];
-
-        return response()->json($response, 201);
         if($product->save()) {
             $response = [
                 'product' => $product
             ];
         }
         
-        return response()->json($request, 201);
+        return response()->json($response, 201);
     }
 
     public function show( $subcategory_id, $id )
@@ -91,15 +86,15 @@ class ProductController extends Controller
         return response()->json(["product" => $product], 200);
     }
 
-    public function update(Request $request, $subcategory_id, $id)
+    public function update(Request $request, $subcategory_id, $product)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($product);
 
         $request->validate([
             'name' => 'nullable|min:3|max:100',
         ]);
 
-        if(!$id) {
+        if(!$product) {
             return response()->json(['product not found'], 400);
         }
         // $request->validate([
@@ -114,8 +109,7 @@ class ProductController extends Controller
         //     // 'salt' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
         //     // 'vitamins' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
         // ]);
-
-       
+        $product->subcategory_id = $subcategory_id;
         $product->name = $request->name;
         $product->energy = $request->energy;
         $product->fat = $request->fat;
@@ -153,7 +147,7 @@ class ProductController extends Controller
             ];
         }
 
-        return response()->json($request, 201);
+        return response()->json($response, 201);
     }
 
     public function destroy(Product $product)
