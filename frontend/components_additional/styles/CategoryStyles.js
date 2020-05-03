@@ -8,10 +8,10 @@ export const authCategory = (background, error) => StyleSheet.create({
         backgroundColor: colors.mainYellow,
         flex: 1,
         alignItems: 'center',
-        paddingTop: '2%',
+        // paddingTop: '2%',
     },
     flatList: {
-        marginTop: 20,
+        paddingTop: 20,
         width: Dimensions.get('window').width /1,
     },
     itemContainer: {

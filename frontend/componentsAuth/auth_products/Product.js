@@ -279,24 +279,22 @@ class Product extends Component {
         const data = {
             name: this.props.product.name,
             background_color: this.state.background,
-            // energy: this.props.product.energy,
-            // fat: this.props.product.fat,
-            // saturated:  this.props.product.saturated,
-            // carbs: this.props.product.carbs,
-            // sugar: this.props.product.sugar,
-            // fiber: this.props.product.fiber,
-            // protein: this.props.product.protein,
-            // salt: this.props.product.salt,
-            // vitamins: this.props.product.vitamins,
-            // border_color: this.props.product.border_color,
-            // image: null,
+            energy: this.props.product.energy,
+            fat: this.props.product.fat,
+            saturated:  this.props.product.saturated,
+            carbs: this.props.product.carbs,
+            sugar: this.props.product.sugar,
+            fiber: this.props.product.fiber,
+            protein: this.props.product.protein,
+            salt: this.props.product.salt,
+            vitamins: this.props.product.vitamins,
+            image: this.props.product.image,
             "_method": "put", 
         }
         await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
         // this.cancelBackgroundEdit();
         // this.editProduct();
         this.cancelBackgroundEdit();
-        console.log("elseBackground", this.state.formatBackground)
         }
     }
 
@@ -445,23 +443,19 @@ class Product extends Component {
                     ) : ( 
                         <ScrollView>
                         <View style={stylesGuestSingle().container}>
-                        <Modal  transparent={true}
-                            visible={this.state.confirm}
-                            onRequestClose={() => {
-                            Alert.alert('Modal has now been closed.');
-                            }}>  
-                            <ConfirmModal message="Are you sure you want to delete this item? " 
-                                    confirm={this.deleteProduct}
-                                    title="Delete action"
-                                    close={() => this.closeModal}
-                                    background={colors.mainWhiteYellow}
-                                    iconColor={colors.lightBurgundy}
-                                    borderColor={colors.bordoTransparent}
-                                    colorOne={colors.lightBurgundy}
-                                    colorTwo={colors.mediumGreen}
-                                    horizontal={20} vertical={15}
-                            />
-                        </Modal>
+                            {this.state.confirm && (
+                                <ConfirmModal message="Are you sure you want to delete this item? " 
+                                        confirm={this.deleteProduct}
+                                        title="Delete action"
+                                        close={() => this.setState({confirm: false})}
+                                        background={colors.mainWhiteYellow}
+                                        iconColor={colors.lightBurgundy}
+                                        borderColor={colors.bordoTransparent}
+                                        colorOne={colors.lightBurgundy}
+                                        colorTwo={colors.mediumGreen}
+                                        horizontal={20} vertical={15}
+                                />
+                            )}
                         {!imageInput ? (
                             <View style={authProduct().imageIconWrap} >
                                 <TouchableOpacity style={stylesGuestSingle().imageContainer}  onPress={() => this.imageInput()}>

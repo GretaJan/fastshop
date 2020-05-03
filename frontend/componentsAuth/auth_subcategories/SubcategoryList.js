@@ -11,7 +11,7 @@ import Error from '../../components_additional/ErrorMsg';
 
 //Components
 import StyledButton from '../../components_additional/AdminButton';
-import ConfirmModal from '../../components_additional/ConfirmModal';
+import ConfirmModal from '../../components_additional/ModalCrud';
 
 class SubcategoryList extends Component {
     state = {
@@ -144,11 +144,7 @@ render() {
     return (
         !this.state.triggerEdit ? (
             <View style={authCategory().itemContainer} key={this.props.item.id.toString()} >
-                <Modal  transparent={true}
-                    visible={this.state.confirm}
-                    onRequestClose={() => {
-                    Alert.alert('Modal has now been closed.');
-                    }}>  
+                {this.state.confirm && (  
                     <ConfirmModal message="Are you sure you want to delete this item? " 
                             confirm={this.deleteFunction}
                             title="Delete action"
@@ -160,7 +156,7 @@ render() {
                             colorTwo={colors.mediumGreen}
                             horizontal={20} vertical={15}
                     />
-                </Modal>
+                )}
                 <View style={authCategory().inactiveBtnsWrap} >
                     <TouchableOpacity style={authCategory().editBtnWrap} onPress={this.triggerEdit}>
                         <Icon style={authCategory().editBtn} name="pencil"/>

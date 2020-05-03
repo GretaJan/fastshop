@@ -139,11 +139,7 @@ class ProductController extends Controller
                 $product->image = $request->image;
             } 
         } 
-            
-        
-        
-       
- 
+        var_dump('editttttt: ', $product);
         if($product->save()) {
             $response = [
                 'product' => $product

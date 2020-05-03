@@ -79,13 +79,23 @@ export const adminButtonStyle = (color, horizontal, vertical) => StyleSheet.crea
 export const modalStyle = (color, borderColor) => StyleSheet.create({
     container: {
         position: 'absolute',
-        zIndex: 10,
+        zIndex: 40,
         flex: 1,
         width: Dimensions.get('window').width /1,
         height: Dimensions.get('window').height /1,
+        minHeight: Dimensions.get('window').height /1,
         alignItems: 'center',
         backgroundColor: colors.transparentLight,
         paddingTop: Dimensions.get('window').height /6,
+        top: -5,
+        // Shadow
+        elevation   : 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
     },
     itemContainer: {
         width: Dimensions.get('window').width /1.4,
@@ -135,7 +145,70 @@ export const modalStyle = (color, borderColor) => StyleSheet.create({
         marginTop: 10,
     }
 });
-
+export const modalStyleDelete = (color, borderColor) => StyleSheet.create({
+    container: {
+        position: 'absolute',
+        zIndex: 40,
+        flex: 1,
+        width: Dimensions.get('window').width /1,
+        alignItems: 'center',
+        // Shadow
+        elevation   : 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+    },
+    itemContainer: {
+        width: Dimensions.get('window').width /1.4,
+        backgroundColor: colors.mainWhiteYellow,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingBottom: 15,
+        borderRadius: 10,
+         // Shadow
+         elevation: 2,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
+    },
+    iconWrap: {
+        width: 220,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomColor: borderColor,
+        borderBottomWidth: 2,
+        paddingBottom: 5,
+        marginBottom: 10,
+    },
+    icon: {
+        fontSize: 35,
+        color: color,
+    },
+    title: {
+        marginLeft: '3%',
+        fontSize: 20,
+    },
+    textWrap: {
+    },
+    text: {
+        width: 220,
+        fontSize: 18,
+        lineHeight: Platform.OS === 'ios' ? 26 : 28,
+    },
+    okTxt: {
+        // marginLeft: Dimensions.get('window').width /6,
+        marginLeft: '55%',
+        fontSize: 18,
+        marginTop: 10,
+    }
+});
 export const modalConfirm = (color) => StyleSheet.create({
     itemContainer: {
         width: Dimensions.get('window').width /1.2,
