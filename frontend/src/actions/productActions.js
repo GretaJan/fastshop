@@ -61,7 +61,7 @@ export const getProduct = (subcategory, product) => (dispatch) => {
         loading: true
     })
     axios.get( URL + '/product/' + subcategory + '/' + product)
-    .then(product => { console.log("product GEET: ", product),
+    .then(product => { 
             dispatch({
                 type: GET_PRODUCT,
                 payload: product.data.product,
@@ -69,7 +69,7 @@ export const getProduct = (subcategory, product) => (dispatch) => {
                 error: ''
             })
         }
-    ).catch(err => { console.log("Product Err: ", err.response)
+    ).catch(err => { 
         dispatch({
             type: GET_PRODUCTS_ERROR,
             error: 'Failed to load: ', err,
@@ -80,9 +80,8 @@ export const getProduct = (subcategory, product) => (dispatch) => {
 } 
 
 export const postProduct = (subcategory, data) => dispatch => {
-    console.log("subcategory id: ", subcategory, "product id: ", data);
     axios.post(URL + '/addProduct/' + subcategory, data)
-    .then((product) => { console.log("product: ", product)
+    .then((product) => {
         dispatch({
             type: POST_PRODUCT,
             payload: product.data.product
@@ -91,13 +90,8 @@ export const postProduct = (subcategory, data) => dispatch => {
 }
 
 export const editProduct = (subcategory, product, data) => (dispatch) => {
-    console.log("subcategory id: ", subcategory, "product id: ", product, " ", data);
     axios.post( URL + `/updateProduct/${subcategory}/${product}`, data)
-        .then(item => {  console.log("full product: ", item.data)
-            let productTemp = item.data;
-            productTemp.id = product;
-            productTemp.subcategory_id = subcategory;
-            console.log('product.data', productTemp)
+        .then(item => {
             dispatch({
                 type: EDIT_PRODUCT,
                 payload: item.data,

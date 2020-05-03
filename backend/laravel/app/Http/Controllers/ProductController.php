@@ -40,7 +40,7 @@ class ProductController extends Controller
             // 'salt' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
             // 'vitamins' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
         ]);
-        $product->subcategory_id = $subcategory_id;
+        // $product->subcategory_id = $subcategory_id;
         $product->name = $request->name;
         $product->energy = $request->energy;
         $product->fat = $request->fat;
@@ -84,28 +84,36 @@ class ProductController extends Controller
         return response()->json($request, 201);
     }
 
-    public function show( $id, $subcategory_id )
+    public function show( $subcategory_id, $id )
     {
         $product = Product::findOrFail($id);
 
         return response()->json(["product" => $product], 200);
     }
 
-    public function update(Request $request, $id, $subcategory_id)
+    public function update(Request $request, $subcategory_id, $id)
     {
         $product = Product::findOrFail($id);
+
         $request->validate([
             'name' => 'nullable|min:3|max:100',
-            // 'energy' => 'nullable|numeric|min:2',
-            // 'fat' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            // 'saturated' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            // 'carbs' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            // 'sugar' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            // 'fiber' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            // 'protein' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            // 'salt' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-            // 'vitamins' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
         ]);
+
+        if(!$id) {
+            return response()->json(['product not found'], 400);
+        }
+        // $request->validate([
+        //     'name' => 'nullable|min:3|max:100',
+        //     // 'energy' => 'nullable|numeric|min:2',
+        //     // 'fat' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+        //     // 'saturated' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+        //     // 'carbs' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+        //     // 'sugar' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+        //     // 'fiber' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+        //     // 'protein' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+        //     // 'salt' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
+        //     // 'vitamins' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
+        // ]);
 
        
         $product->name = $request->name;
@@ -120,7 +128,7 @@ class ProductController extends Controller
         $product->vitamins = $request->vitamins;
         $product->background_color = $request->background_color;
         
-        // IMAGE
+        // // IMAGE
         $base64 = $request->image;
         if($base64 === null) {
             $product->image = null;
@@ -139,7 +147,6 @@ class ProductController extends Controller
                 $product->image = $request->image;
             } 
         } 
-        var_dump('editttttt: ', $product);
         if($product->save()) {
             $response = [
                 'product' => $product
