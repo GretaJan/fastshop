@@ -7,14 +7,14 @@ import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { productWrap } from '../../components_additional/styles/CompareStyles';
 import ButtonStyled from '../../components_additional/Button';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
-
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 //Components
 import Product from './selectedProductSingle';
 import Error from '../../components_additional/Error';
 import EmptyList from '../../components_additional/EmptyListSelected';
 import DescAscend from './DescAscend';
-import ResultsOfBestWorst from './ResultsOfBestWorst';
+import LoadingResults from '../../components_additional/Loading';
 import Modal from '../../components_additional/Modal';
 import { colors } from '../../components_additional/styles/Colors';
 
@@ -26,6 +26,7 @@ class Products extends Component {
         modalMessageNumber: false,
         modalMessageEqual: false,
         optionsDisplay: true,
+        loadingResults: false,
         
         // mostEnergy: '',
         // energyName: '',
@@ -47,7 +48,7 @@ class Products extends Component {
         // nameVitamins: '',
     }
 
-    comparisonResults = () => {
+    comparisonResults = async (result) => {
         // var result = {
         //         mostEnergy: this.state.mostEnergy,
         //         energyName: this.state.nameEnergy,
@@ -68,22 +69,16 @@ class Products extends Component {
         //         mostVitamins: this.state.mostVitamins,
         //         nameVitamins: this.state.nameVitamins, 
         //     }
-        
-        this.props.navigation.push('Results');
+
+        console.log("results")
     }
 
     // componentDidMount() => {
     //     this.props.productSelected
     // }
 
-    findBestWorst = async () => {
+    findBestWorst = async() => {
         var array = this.props.selectedProducts;
-        var goodComponents = [];
-        var badComponents = [];
-        var bestQualityId = '';
-        var bestQualitySubcategoryId = '';
-        var lowestQualityId = '';
-        var lowestQualitySubcategoryId = '';
         var percentHealthyFoodOne = 0;
         var percentUnhealthyFoodOne = 0;
         var percentHealthyFoodTwo = 0;
@@ -93,18 +88,16 @@ class Products extends Component {
         if(array.length < 2) {
             this.setState({modalMessageNumber: true});
         } else {
-            this.setState({modalMessageNumber: false});
+            this.setState({modalMessageNumber: false, loadingResults: true});
 
             for(var i = 0; i < array.length; i++) {
                 var productOne = array[i];
                 var goodComponent = array[0];
                 var badComponent = array[0];
-                const one = array[0];
      
                 for(var j = 1; j < this.props.selectedProducts.length; j++) {
                     var productTwo = this.props.selectedProducts[j];
                     var percentHealthyFoodTwo = array[j];  
-                    const two = array[0];
 
                     const oneSaturated = productOne.saturated == null ? parseInt(0) : parseFloat(productOne.saturated);
                     const twoSaturated = productTwo.saturated == null ? parseInt(0) : parseFloat(productTwo.saturated);
@@ -171,8 +164,12 @@ class Products extends Component {
                 }
                 
             }
-            await this.props.compare(result);            
-            this.comparisonResults();
+            // this.props.compare(result);
+            // this.props.navigation.push('Results');
+
+           this.props.compare(result);
+           this.setState({modalMessageNumber: false, loadingResults: true});
+            // createResult.then(() => this.props.navigation.push("Results"))
         }
     }
 
@@ -186,8 +183,10 @@ class Products extends Component {
     }
 
     render() {
+        const objectLength = Object.keys(this.props.result).length;
         return (
                 <View style={stylesGuest().container} >
+                    {this.state.loadingResults && <LoadingResults /> }
                     {(this.state.modalMessageEqual || this.state.modalMessageNumber) && (
                     <Modal title="Warning" 
                         message={(!this.state.modalMessageEqual) ? ('Please select at least two products.') : ('Unable to compare. Products have same qualities.')} 
@@ -220,11 +219,19 @@ class Products extends Component {
                         </View>
                     </View>
                     <View style={productWrap().btnTwo}>
-                        <View style={productWrap().iconWrapTwo} >
+                        <TouchableOpacity style={productWrap().iconWrapTwo} >
+                        {objectLength > 0 ? (
+                            <IonIcon name="ios-stats" style={productWrap().iconItem} onPress={() => this.props.navigation.push('Results')} />
+                        ) : (
                             <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.findBestWorst()} />
-                        </View>
+                        )}
+                        </TouchableOpacity>
                         <View style={productWrap().textWrap} >
-                            <Text style={productWrap().infoTxt}>Find best and worst products</Text>
+                            {objectLength > 0 ? (
+                                  <Text style={productWrap().infoTxt}>View Results</Text>  
+                            ) : (
+                                <Text style={productWrap().infoTxt}>Find best and worst products</Text>
+                            )}
                             <Text>Click Me!</Text>
                         </View>
                         {/* <ButtonStyled color={colors.orange} title="CALCULATE" func={() => this.findBestWorst()} /> */}
@@ -249,6 +256,7 @@ const mapStateToProps = state => ({
     selectedProducts: state.selectedProducts.comparisonArray,
     calculated: state.selectedProducts.calculated,
     sorted: state.selectedProducts.sorted,
+    result: state.selectedProducts.result,
 })
 
 export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearResults, goToList, sortArray, diagramResults})(Products))

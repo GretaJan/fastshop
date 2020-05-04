@@ -53,10 +53,11 @@ export const productWrap = () => StyleSheet.create({
     },
     iconWrapOne: {
         backgroundColor: colors.mediumGreen2,
-        paddingHorizontal: 27.5,
-        paddingVertical: 20,
+        width: 85,
+        height: 85,
         alignItems: 'center',
         alignContent: 'center',
+        justifyContent: 'center',
         borderRadius: 10,
           // Shadow
           elevation   : 5,
@@ -69,10 +70,11 @@ export const productWrap = () => StyleSheet.create({
     },
     iconWrapTwo: {
         backgroundColor: colors.orangeBright,
-        paddingHorizontal: 30,
-        paddingVertical: 20,
+        width: 85,
+        height: 85,
         alignItems: 'center',
         alignContent: 'center',
+        justifyContent: 'center',
         borderRadius: 10,
           // Shadow
           elevation   : 5,
