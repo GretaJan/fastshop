@@ -27,7 +27,7 @@ class Products extends Component {
     }
 
     async componentDidMount() {
-        await this.props.getProducts(this.state.id);
+        await this.props.getProducts(this.state.id, this.props.currentPage);
         console.log('products: ', this.props.products)
     }
 
@@ -124,6 +124,11 @@ class Products extends Component {
                                 )} />
                             )
                         )}
+                        {this.props.lastPage ? (
+                            <Text>Last Page, Suskleisti</Text>
+                        ) : (
+                            <Text onPress={() => this.props.getProducts(this.state.id, this.props.currentPage + 1)}>NEXT PAGE</Text>
+                        )}
                     </View>
                 )
             )
@@ -133,6 +138,8 @@ class Products extends Component {
 
 const mapStateToProps = state => ({
     products: state.products.products,
+    currentPage: state.products.page,
+    lastPage: state.products.lastPage,
     loading: state.products.loading,
     error: state.products.error,
     comparisonArray: state.selectedProducts.comparisonArray,

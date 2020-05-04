@@ -5,6 +5,8 @@ const initialState = {
     product: {},
     loading: null,
     error: '',
+    page: 1,
+    lastPage: false,
 }
 
 export default function(state = initialState, action) {
@@ -19,7 +21,9 @@ export default function(state = initialState, action) {
                 ...state,
                 products: action.payload,
                 loading: action.loading,
-                error: action.error
+                error: action.error,
+                page: action.page,
+                lastPage: action.lastPage,
             }
         case GET_PRODUCTS_ERROR:
         return {
@@ -31,12 +35,14 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 product: action.payload,
-                loading: action.loading
+                loading: action.loading,
+                page: action.page,
             }
         case POST_PRODUCT:
             return {
                 ...state,
-                products: state.products.concat(action.payload)
+                products: state.products.concat(action.payload),
+                page: action.page,
             }
         case EDIT_PRODUCT:
             // return state.products.map(item => {

@@ -6,7 +6,7 @@ use App\Product;
 use App\Category;
 use App\Subcategory;
 use Illuminate\Http\Request;
-use App\Html\Resources\ProductResource;
+use App\Http\Resources\ProductResource;
 use File;
 
 class ProductController extends Controller
@@ -15,14 +15,8 @@ class ProductController extends Controller
     public function index($subcategory_id)
     {
         $subcategory = Subcategory::findOrFail($subcategory_id);
-        // $products = Product::where('subcategory_id', $subcategory->id);
-        $products=$subcategory->products;
-        $response = [
-            'products' => $products,
-            // 'subcategory' => $subcategory
-        ];
-        return response()->json($response, 200);
-        
+        $products = Product::where('subcategory_id', $subcategory->id)->orderBy('name')->paginate(3);
+        return ProductResource::collection($products);
     }
 
     public function store(Request $request, $subcategory_id)

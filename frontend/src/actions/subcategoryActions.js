@@ -29,11 +29,11 @@ export const getSubcategories = (category) => (dispatch) => {
         }
         return 0;
     }
-    axios.get(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/subcategories/${category}`)
-    .then(resp => { console.log("got to subcategories")
+    axios.get(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/subcategories/${category}?page=1`)
+    .then(resp => {
             dispatch({
                 type: GET_SUBCATEGORIES,
-                payload: resp.data.subcategories.sort(sorting),
+                payload: resp.data.data.sort(sorting),
                 loading: false,
                 error: ''
             })   

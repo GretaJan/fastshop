@@ -98,7 +98,7 @@ export const stylesGuestSingle = (background) => StyleSheet.create( {
     },
     emptyIcon: {
         fontSize: 45,
-        color: background ? background : colors.mainYellow
+        color: background ? background : colors.yellowGreenish
         // top: 12,
         // left: 18, 
     },

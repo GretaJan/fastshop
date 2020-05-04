@@ -1,7 +1,7 @@
 import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT, URL } from './types';
 import axios from 'axios';
 
-export const getProducts = (subcategory) => dispatch => {
+export const getProducts = (subcategory, page) => dispatch => {
     // fetch( URL + '/products/' + subcategory, {method: 'GET'})
     // .then(res => {res.json(), console.log("RESP JSON: ", res.json(res))})
     // .then(products => {
@@ -27,19 +27,35 @@ export const getProducts = (subcategory) => dispatch => {
         } 
         return 0;
     }
-    axios.get( URL + '/products/' + subcategory)
-    .then(products => {
-            dispatch({
-                type: GET_PRODUCTS,
-                payload: products.data.products.sort(sorting),
-                loading: false,
-                error: ''
-            })
+    console.log("product data:", subcategory);
+    axios.get( `${URL}/products/${subcategory}?page=${page}`)
+    .then(products => { console.log("product page", products.data.meta.current_page, products.data.meta.last_page)
+            if(products.data.meta.last_page === products.data.meta.current_page) {
+                dispatch({
+                    type: GET_PRODUCTS,
+                    payload: products.data.data,
+                    loading: false,
+                    error: '',
+                    page: products.data.meta.current_page,
+                    lastPage: true,
+                })
+            } else {
+                console.log("log",  products.data.data, firstPage)
+                dispatch({
+                    type: GET_PRODUCTS,
+                    // payload: products.data.data.sort(sorting),
+                    payload: products.data.data,
+                    loading: false,
+                    error: '',
+                    page: products.data.meta.current_page,
+                    lastPage: false,
+                })
+            }
         }
-    ).catch(err => { 
+    ).catch(err => { console.log("error:", err)
         dispatch({
             type: GET_PRODUCTS_ERROR,
-            error: 'Failed to load product list...',
+            error: 'Failed to load product list',
             loading: false
         })
     })

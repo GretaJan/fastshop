@@ -20,7 +20,6 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'subcategory_id' => $this->subcategory_id,
             'name' => $this->name,
-            'image' => $this->image,
             'energy' => $this->energy,
             'fat' => $this->fat,
             'saturated' => $this->saturated,
@@ -29,7 +28,9 @@ class ProductResource extends JsonResource
             'fiber' => $this->fiber,
             'protein' => $this->protein,
             'salt' => $this->salt,
-            'vitamins' => $this->vitamins
+            'vitamins' => $this->vitamins,
+            'background_color' => $this->background_color,
+            'image' => $this->image,
         ];
     }
 }

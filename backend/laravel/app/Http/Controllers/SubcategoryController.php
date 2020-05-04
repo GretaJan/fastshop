@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Subcategory;
+use App\Http\Resources\SubcategoryResource;
 use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
@@ -11,22 +12,21 @@ use File;
 class SubcategoryController extends Controller
 {
   
+    // public function index($category_id)
+    // {
+    //     $category = Category::findOrFail($category_id);
+    //     $subcategories = $category->subcategories;
+    //     $response = [
+    //         'subcategories' => $subcategories,
+    //     ];
+    //     return response()->json($response, 200);
+    // }
     public function index($category_id)
     {
         $category = Category::findOrFail($category_id);
-        // $subcategories = Subcategory::where('category_id', $category->id);
-        // $subcategories = $category->subcategories->sortBy('name');
-        $subcategories = $category->subcategories;
-        // $subcategories=Subcategory::all();
-        
-        $response = [
-            'subcategories' => $subcategories,
-            // 'category' => $category
-        ];
-
-        return response()->json($response, 200);
+        $subcategories = Subcategory::where('category_id', $category->id)->paginate();
+        return SubcategoryResource::collection($subcategories);
     }
-
 
     public function store(Request $request, $category_id)
     {
