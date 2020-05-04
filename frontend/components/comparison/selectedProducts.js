@@ -15,6 +15,7 @@ import Error from '../../components_additional/Error';
 import EmptyList from '../../components_additional/EmptyListSelected';
 import DescAscend from './DescAscend';
 import ResultsOfBestWorst from './ResultsOfBestWorst';
+import Modal from '../../components_additional/Modal';
 import { colors } from '../../components_additional/styles/Colors';
 
 class Products extends Component {
@@ -191,7 +192,7 @@ class Products extends Component {
                     <Modal title="Warning" 
                         message={(!this.state.modalMessageEqual) ? ('Please select at least two products.') : ('Unable to compare. Products have same qualities.')} 
                         close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})} 
-                        ok="OK" color={colors.mainYellow} 
+                        ok="OK" color={colors.orange} borderColor={colors.inputOrange}
                         horizontal={20} vertical={10}/>
                     )}
                     {(this.props.selectedProducts.length == 0) ? (

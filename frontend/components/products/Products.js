@@ -65,10 +65,10 @@ class Products extends Component {
     }
 
      selectProduct = (item1, item2) => {
-        if(this.props.comparisonArray.length <= 2) {
+        if(this.props.comparisonArray.length <= 3) {
             this.props.productSelected(item1, item2);
         } else {
-            this.setState({overload: 'Selection limit of 30 products has been reached.'})
+            this.setState({overload: 'Please select no more than 30 items.'})
             console.log(this.state.overload)
         }
     }
@@ -96,17 +96,15 @@ class Products extends Component {
                         </View>
                     ) : (
                     <View style={stylesGuest(background).container}>
+                        {this.state.overload !== null && (
+                            <Modal title="Limit exceeded" 
+                                message={this.state.overload} 
+                                close={() => this.setState({overload: null})} 
+                                ok="OK" color={colors.orange} 
+                                borderColor={colors.inputOrange}
+                                horizontal={20} vertical={10}/>
+                        )}
                         {this.getInput()}
-                        {/* {this.state.overload !== null && (
-                            <View style={backgroundForPages(background).backgroundContainer} >
-                                <Modal title="Warning" 
-                                    // message={this.state.overload} 
-                                    // close={() => this.setState({overload: null})} 
-                                    ok="OK" color={colors.bordo} 
-                                    borderColor={colors.bordoTransparent}
-                                    horizontal={20} vertical={10}/>
-                            </View>
-                        ) */}
                         {(this.props.products.length == 0) ? (
                             // <View style={backgroundForPages(background).backgroundContainer} >
                                 <EmptyList message="The List is empty" background={background} />

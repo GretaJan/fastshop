@@ -25,6 +25,7 @@ export default function(state = initialState, action) {
     switch(action.type) {
         case PRODUCT_SELECTED:
                 var pushToArray = state.comparisonArray.concat(action.payload);
+                var duplicate = null;
                 var filteredArray = Array.from(new Set(pushToArray.map(item => item.id)))
                 .map(id => {
                     return pushToArray.find(firstItem => firstItem.id === id)

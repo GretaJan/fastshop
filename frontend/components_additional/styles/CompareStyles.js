@@ -173,7 +173,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     itemGoodWrap: {
         flex: 0.5,
-         alignItems: 'center'
+        alignItems: 'center'
     },
     itemBadWrap: {
         flex: 0.5,
@@ -185,7 +185,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
         backgroundColor: colors.mediumGreen2,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10
+        borderRadius: 5
     },
     image: {
         width: '75%',
@@ -198,7 +198,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
         backgroundColor: colors.orangeBright,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10
+        borderRadius: 5
     },
     title: {
         marginTop: 5,
