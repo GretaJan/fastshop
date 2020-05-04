@@ -84,7 +84,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
                                     </View> 
                                 )}
                                 <View style={diagram().title} >
-                                    <Text style={diagram().text}>{unhealthy.name}</Text>
+                                    <Text style={diagram().text}>{unhealthy.name} </Text>
                                 </View>
                             </TouchableOpacity>
                         </View> 
@@ -96,7 +96,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
                             <View style={diagram().mainDiagramLineWrap}>
                                 <View style={diagram().mainNumberDiagramWrap}>
                                     <View style={diagram().mainSingleLineWrap}>
-                                        <Text style={diagram(goodQualitiesHealthy ).mainLineOne}></Text>
+                                        <Text style={diagram(goodQualitiesHealthy ? goodQualitiesHealthy : 0).mainLineOne}></Text>
                                     </View>
                                     <View style={diagram().mainItemNumberWrap} >
                                         <Text style={diagram().mainNumber} >{goodQualitiesHealthy}</Text>
@@ -105,7 +105,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
                                 </View>
                                 <View style={diagram().mainNumberDiagramWrap}>
                                     <View style={diagram().mainSingleLineWrap}>
-                                        <Text style={diagram(goodQualitiesUnhealthy).mainLineTwo}></Text>
+                                        <Text style={diagram(badQualitiesHealthy ? badQualitiesHealthy : 0).mainLineTwo}></Text>
                                     </View>
                                     <View style={diagram().mainItemNumberWrap} >
                                         <Text style={diagram().mainNumber} >{goodQualitiesUnhealthy}</Text>
@@ -121,7 +121,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
                             <View style={diagram().mainDiagramLineWrap}>
                                 <View style={diagram().mainNumberDiagramWrap}>
                                     <View style={diagram().mainSingleLineWrap}>
-                                        <Text style={diagram(badQualitiesHealthy).mainLineOne}></Text>
+                                        <Text style={diagram(goodQualitiesUnhealthy ? goodQualitiesUnhealthy: 0 ).mainLineOne}></Text>
                                     </View>
                                     <View style={diagram().mainItemNumberWrap} >
                                         <Text style={diagram().mainNumber} >{badQualitiesHealthy}</Text>
@@ -130,7 +130,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
                                 </View>
                                 <View style={diagram().mainNumberDiagramWrap}>
                                     <View style={diagram().mainSingleLineWrap}>
-                                        <Text style={diagram(badQualitiesUnhealthy).mainLineTwo}></Text>
+                                        <Text style={diagram(badQualitiesUnhealthy ? badQualitiesUnhealthy : 0).mainLineTwo}></Text>
                                     </View>
                                     <View style={diagram().mainItemNumberWrap} >
                                         <Text style={diagram().mainNumber} >{badQualitiesUnhealthy}</Text>

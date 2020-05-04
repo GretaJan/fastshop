@@ -211,7 +211,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     text: {
         paddingHorizontal: 12,
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 18,
         textTransform: 'capitalize',
     },
     // Diagram
@@ -260,7 +260,8 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     lineOne: {
         backgroundColor: colors.mediumGreen2,
-        width: diagramLength !== 0 ? (diagramLength + '%') : (1),
+        width: diagramLength !== 0 ? (diagramLength + '%') : 1,
+        // width: 20,
         maxWidth: '100%',
         height: 10,
         // Shadow
@@ -331,7 +332,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     mainLineTwo: {
         backgroundColor: colors.orangeBright,
-        width: diagramLength !== 0 ? (diagramLength + '%') : (1),
+        width: diagramLength !== 0 ? (diagramLength + '%') : (4),
         maxWidth: '100%',
         height: 11,
          // Shadow

@@ -24,7 +24,7 @@ class Product extends Component {
 
     selectProduct = () => {
         // this.props.productSelected(this.props.product.subcategory_id, this.props.product.id);
-        this.props.productSelected( this.props.route.params.subcategoryId,this.props.route.params.productId)
+        this.props.productSelected(this.props.product.id, this.props.product.subcategory_id )
     }
 
 
@@ -65,11 +65,11 @@ class Product extends Component {
                         </View> 
                     )}
                         <TouchableOpacity style={stylesGuestSingle().emptyItem} onPress={() => this.selectProduct()}>
-                            <IonIcon style={stylesGuestSingle().emptyIcon} name="ios-checkmark-circle-outline" />
+                            <IonIcon style={stylesGuestSingle(background).emptyIcon} name="ios-checkmark-circle-outline" />
                         </TouchableOpacity>
-                        <View style={stylesGuestSingle().triangle} ></View>
-                        <View style={stylesGuestSingle().underTriangle} ></View>
-                        <ScrollView style={stylesGuestSingle().listContainer} >
+                        <View style={stylesGuestSingle(background).triangle} ></View>
+                        <View style={stylesGuestSingle(background).underTriangle} ></View>
+                        <ScrollView style={stylesGuestSingle(background).listContainer} >
                             <View style={stylesGuestSingle().listItemWrap}>
                                 <Text style={stylesGuestSingle().componentTitle} >Energy</Text>
                                 <View style={stylesGuestSingle().listItemInfoWrap} >
@@ -78,14 +78,14 @@ class Product extends Component {
                                 </View>
                             </View>
                             <View style={stylesGuestSingle().listItemWrap}>
-                                <Text style={stylesGuestSingle().componentTitle} >fat</Text>
+                                <Text style={stylesGuestSingle().componentTitle} >Fat</Text>
                                 <View style={stylesGuestSingle().listItemInfoWrap} >
                                     <Text style={stylesGuestSingle().componentAmount} >{ (fat) ? (fat) : ('-') }</Text>
                                     <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                                 </View>
                             </View>
                             <View style={stylesGuestSingle().listItemWrap}>
-                                <Text style={stylesGuestSingle().componentTitle} >saturated fat</Text>
+                                <Text style={stylesGuestSingle().componentTitle} >Saturated fat</Text>
                                 <View style={stylesGuestSingle().listItemInfoWrap} >
                                     <Text style={stylesGuestSingle().componentAmount} >{ (saturated) ? (saturated) : ('-') }</Text>
                                     <Text style={stylesGuestSingle().componentMeasure} >g</Text>
@@ -99,35 +99,35 @@ class Product extends Component {
                                 </View>
                             </View>
                             <View style={stylesGuestSingle().listItemWrap}>
-                                <Text style={stylesGuestSingle().componentTitle} >sugar</Text>
+                                <Text style={stylesGuestSingle().componentTitle} >Sugar</Text>
                                 <View style={stylesGuestSingle().listItemInfoWrap} >
                                     <Text style={stylesGuestSingle().componentAmount} >{ (sugar) ? (sugar) : ('-') }</Text>
                                     <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                                 </View>
                             </View>
                             <View style={stylesGuestSingle().listItemWrap}>
-                                <Text style={stylesGuestSingle().componentTitle} >fiber</Text>
+                                <Text style={stylesGuestSingle().componentTitle} >Fiber</Text>
                                 <View style={stylesGuestSingle().listItemInfoWrap} >
                                     <Text style={stylesGuestSingle().componentAmount} >{ (fiber) ? (fiber) : ('-') }</Text>
                                     <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                                 </View>
                             </View>
                             <View style={stylesGuestSingle().listItemWrap}>
-                                <Text style={stylesGuestSingle().componentTitle} >protein</Text>
+                                <Text style={stylesGuestSingle().componentTitle} >Protein</Text>
                                 <View style={stylesGuestSingle().listItemInfoWrap} >
                                     <Text style={stylesGuestSingle().componentAmount} >{ (protein) ? (protein) : ('-') }</Text>
                                     <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                                 </View>
                             </View>
                             <View style={stylesGuestSingle().listItemWrap}>
-                                <Text style={stylesGuestSingle().componentTitle} >salt</Text>
+                                <Text style={stylesGuestSingle().componentTitle} >Salt</Text>
                                 <View style={stylesGuestSingle().listItemInfoWrap} >
                                     <Text style={stylesGuestSingle().componentAmount} >{ (salt) ? (salt) : ('-') }</Text>
                                     <Text style={stylesGuestSingle().componentMeasure} >g</Text>
                                 </View>
                             </View>
                             <View style={stylesGuestSingle().listItemWrap}>
-                                <Text style={stylesGuestSingle().componentTitle} >vitamins</Text>
+                                <Text style={stylesGuestSingle().componentTitle} >Vitamins</Text>
                                 <View style={stylesGuestSingle().listItemInfoWrap} >
                                     <Text style={stylesGuestSingle().componentAmount} >{ (vitamins) ? (vitamins) : ('-') }</Text>
                                     <Text style={stylesGuestSingle().componentMeasure} >g</Text>

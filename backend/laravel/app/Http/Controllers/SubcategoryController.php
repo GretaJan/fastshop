@@ -75,7 +75,7 @@ class SubcategoryController extends Controller
     }
 
 
-    public function update(Request $request, $id, $category_id)
+    public function update(Request $request, $category_id, $id )
     {
         $subcategory = Subcategory::findOrFail($id);
 

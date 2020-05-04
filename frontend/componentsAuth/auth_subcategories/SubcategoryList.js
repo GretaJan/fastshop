@@ -60,14 +60,14 @@ class SubcategoryList extends Component {
         let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
         let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
 
-        if (this.state.name.length === 0) {
+        if (this.state.name === '') {
             this.setState({missingName: 'Name is required', formatName: null, incorrectName: true});
         } else if(this.state.name.length < 3 ) {
             this.setState({formatName: '3 characters required', missingName: null, incorrectName: true});
         } else {
             this.setState({missingName: null, formatName: null, incorrectName: false});
         }
-        if(this.state.background.length > 0 || this.state.background !== null ){
+        if( this.state.background !== null ){
             if(!regexColorWord.test(this.state.background) && !regexHex.test(this.state.background) &&
                 !regRGB.test(this.state.background) && !regRGBA.test(this.state.background)) {
             this.setState({formatBackground: 'Invalid color format'});
@@ -77,7 +77,6 @@ class SubcategoryList extends Component {
             }
         } else {
             this.setState({formatBackground: null});
-            console.log("not fail", this.state.formatBackground)
         }
 
         if(this.state.incorrectName === false && this.state.formatBackground === null) {

@@ -25,9 +25,9 @@ class Login extends Component {
         }
     }
 
-    clearInputs = () => {
-        this.textInputRef.clear();
-    } 
+    // clearInputs = () => {
+    //     this.textInputRef.clear();
+    // } 
 
     loginAdmin = async () => {
         const data = {
@@ -51,9 +51,9 @@ class Login extends Component {
                         { this.props.error &&
                             <Error message={this.props.error} margin={-40} left={'8%'}/>
                         }
-                        <TextInput style={styles().textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({admin_name: value})}} value={this.state.admin_name} ref={ref => this.textInputRef = ref} />
-                        <TextInput style={styles().textInput} type="email" autoCorrect={false}  placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} ref={ref => this.textInputRef = ref}/>
-                        <TextInput style={styles().textInput} type="text" autoCorrect={false}  secureTextEntry={true} placeholder="password" onChangeText={value => { this.setState({password: value})}} value={this.state.password} ref={ref => this.textInputRef = ref} />
+                        <TextInput style={styles().textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({admin_name: value})}} value={this.state.admin_name} />
+                        <TextInput style={styles().textInput} type="email" autoCorrect={false}  placeholder="email" onChangeText={value => { this.setState({email: value})}} value={this.state.email} />
+                        <TextInput style={styles().textInput} type="text" autoCorrect={false}  secureTextEntry={true} placeholder="password" onChangeText={value => { this.setState({password: value})}} value={this.state.password}  />
                     </View>
                     <View style={styles().buttonsWrap} >
                         <ButtonStyled color={colors.mediumGreen} title={"Login"} func={this.loginAdmin} />

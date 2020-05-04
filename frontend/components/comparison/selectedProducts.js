@@ -14,7 +14,7 @@ import Product from './selectedProductSingle';
 import Error from '../../components_additional/Error';
 import EmptyList from '../../components_additional/EmptyListSelected';
 import DescAscend from './DescAscend';
-import LoadingResults from '../../components_additional/Loading';
+import LoadingResults from '../../components_additional/LoadingResults';
 import Modal from '../../components_additional/Modal';
 import { colors } from '../../components_additional/styles/Colors';
 
@@ -167,8 +167,8 @@ class Products extends Component {
             // this.props.compare(result);
             // this.props.navigation.push('Results');
 
-           this.props.compare(result);
-           this.setState({modalMessageNumber: false, loadingResults: true});
+           await this.props.compare(result);
+           this.setState({loadingResults: true});
             // createResult.then(() => this.props.navigation.push("Results"))
         }
     }

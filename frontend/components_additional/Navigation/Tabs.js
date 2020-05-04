@@ -98,11 +98,12 @@ render() {
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
                                             color: colors.titleBlack,
+                                            fontSize: 14
                                         },
                                         headerStyle: {
                                             backgroundColor: colors.mainWhiteYellow,
                                         },
-                                        headerTitleAlign: 'center'   
+                                        // headerTitleAlign: 'center'   
                                     })} /> 
             {/* <GuestNavigation.Screen name="Login" component={LoginPage} 
                                     options={{

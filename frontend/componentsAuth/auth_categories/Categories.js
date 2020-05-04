@@ -36,19 +36,19 @@ class Categories extends Component {
                     <Loading />
                 </View>
             ) : (
-                this.props.categories.length == 0 ? (
+                <View style={authCategory().container}>
+                    <CircleButton func={() => { this.props.navigation.push("Add_Category") }} />
+                    { this.props.categories.length == 0 ? (
                         <EmptyList message="The List is empty" />
-                    ) : (
-                    <View style={authCategory().container}>
-                        <CircleButton func={() => { this.props.navigation.push("Add_Category") }} />
+                        ) : (
                         <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} renderItem={({item}) => (
                         <CategoryList key={item} item={item} 
                                 goToSubcategories={() => this.goToSubcategories(item)}
                                     deleteCategory = { (item)=> this.deleteCategory(item)} />
                         )} >
                         </FlatList>
-                    </View>
-                )
+                        )}
+                </View>
             )
         )
     }

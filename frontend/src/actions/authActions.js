@@ -11,14 +11,14 @@ export const tryLogin = (data) => (dispatch) => {
                 error: null,
             })
         }).catch(err => { 
-            if(err.response.status == 422) {
-                var errorResponse = 'Submitted with empty fields. Please try again.';
-            } else if (err.response.status == 401) {
-                var errorResponse = err.response.data.message;
-            } 
+            // if(err.response.status == 422) {
+            //     var errorResponse = 'Submitted with empty fields. Please try again.';
+            // } else if (err.response.status == 401) {
+            //     var errorResponse = 
+            // } 
                 dispatch({
                     type: LOG_IN_FAILED,
-                    payload: errorResponse,
+                    payload: err.response.data.message,
                     admin:{},
                     isAuthorized: false
                 })

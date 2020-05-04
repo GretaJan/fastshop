@@ -62,7 +62,7 @@ class AddSubcategory extends Component {
         } else {
             this.setState({missingName: null, formatName: null, incorrectName: false});
         }
-        if(this.state.background.length > 0) {
+        if(this.state.background !== '') {
             if (!regexColorWord.test(this.state.background) && !regexHex.test(this.state.background) 
                 && !regRGB.test(this.state.background) && !regRGBA.test(this.state.background) 
                 ) {
@@ -79,15 +79,15 @@ class AddSubcategory extends Component {
         }
     }
 
-    addSubcategory = async() => {
+    addSubcategory = async () => {
         const { image, name } = this.state;
 
         const data = {
             name: name,
-            image: "data:" + image.type + ";base64," + image.data,
+            background_color: this.state.background,
+            image: image !== null ? "data:" + image.type + ";base64," + image.data : null,
         }
-        let id = this.props.route.params.categoryId;
-        await this.props.addSubcategory(data, id);
+        await this.props.addSubcategory(data, this.props.route.params.categoryId);
         this.props.navigation.push("Subcategories_Auth", {categoryId: id});
     }
 
