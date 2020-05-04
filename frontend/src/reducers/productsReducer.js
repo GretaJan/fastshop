@@ -1,4 +1,4 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT } from '../actions/types';
+import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT } from '../actions/types';
 
 const initialState = {
     products: [],
@@ -19,18 +19,25 @@ export default function(state = initialState, action) {
         case GET_PRODUCTS:
             return {
                 ...state,
-                products: action.payload,
+                products: state.products.concat(action.payload),
                 loading: action.loading,
                 error: action.error,
                 page: action.page,
                 lastPage: action.lastPage,
             }
         case GET_PRODUCTS_ERROR:
-        return {
-            ...state,
-            error: action.error,
-            loading: action.loading
-        }
+            return {
+                ...state,
+                error: action.error,
+                loading: action.loading
+            }
+        case UNMOUNT_PRODUCTS: 
+            return {
+                ...state,
+                products: action.payload,
+                page: action.payload,
+            }
+        
         case GET_PRODUCT:
             return {
                 ...state,

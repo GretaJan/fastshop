@@ -1,4 +1,4 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT, URL } from './types';
+import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT, URL } from './types';
 import axios from 'axios';
 
 export const getProducts = (subcategory, page) => dispatch => {
@@ -40,7 +40,7 @@ export const getProducts = (subcategory, page) => dispatch => {
                     lastPage: true,
                 })
             } else {
-                console.log("log",  products.data.data, firstPage)
+                console.log("log",  products.data.data)
                 dispatch({
                     type: GET_PRODUCTS,
                     // payload: products.data.data.sort(sorting),
@@ -60,6 +60,14 @@ export const getProducts = (subcategory, page) => dispatch => {
         })
     })
 } 
+
+export const unmountProducts = () => dispatch => {
+    dispatch({
+        type: UNMOUNT_PRODUCTS,
+        payload: [],
+        page: 1,
+    })
+}
 
 export const getProduct = (subcategory, product) => (dispatch) => {
     // fetch( URL + '/product/' + subcategory + product, {method: 'GET'})

@@ -40,10 +40,9 @@ export const compare = (result) => dispatch => {
             const responseOne = responses[0];
             const responseTwo = responses[1];
             const result = {
-                healthy: responseOne,
-                unhealthy: responseTwo
+                healthy: responseOne.data.product,
+                unhealthy: responseTwo.data.product
             }
-            console.log("hey");
             dispatch({
                 type: COMPARE_RESULT,
                 payload: result,

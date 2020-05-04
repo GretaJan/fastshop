@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { getProducts } from '../../src/actions/productActions';
+import { getProducts, unmountProducts } from '../../src/actions/productActions';
 import { productSelected } from '../../src/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -26,12 +26,14 @@ class Products extends Component {
         overload: null,
     }
 
-    async componentDidMount() {
-        await this.props.getProducts(this.state.id, this.props.currentPage);
-        console.log('products: ', this.props.products)
+    componentDidMount() {
+        this.props.getProducts(this.state.id, this.props.currentPage);
     }
 
-    
+    componentWillUnmount() {
+        console.log("unmount")
+        this.props.unmountProducts();
+    }
 
     findFunction = (searchName) => {
         this.setState({ inputTriggered: true })
@@ -145,4 +147,4 @@ const mapStateToProps = state => ({
     comparisonArray: state.selectedProducts.comparisonArray,
 })
 
-export default withNavigation(connect(mapStateToProps, {getProducts, productSelected})(Products))
+export default withNavigation(connect(mapStateToProps, {getProducts, productSelected, unmountProducts})(Products))
