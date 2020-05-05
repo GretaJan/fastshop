@@ -1,4 +1,4 @@
-import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, POST_SUBCATEGORY, EDIT_SUBCATEGORY, DELETE_SUBCATEGORY, DIAGRAM_RESULTS, URL } from './types';
+import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, UNMOUNT_SUBCATEGORIES, POST_SUBCATEGORY, EDIT_SUBCATEGORY, DELETE_SUBCATEGORY, DIAGRAM_RESULTS, URL } from './types';
 import axios from 'axios';
 
 // export const getSubcategories = (category) => dispatch => {
@@ -13,10 +13,11 @@ import axios from 'axios';
 //     ).catch(err => console.log("Fetch Categories error: ", err))
 // } 
 
-export const getSubcategories = (category) => (dispatch) => {
+export const getSubcategories = (category, page) => (dispatch) => {
     dispatch({ 
         type: LOADING_GET_SUBCATEGORIES,
-        loading: true
+        loading: page === 1 ? true : false,
+        nextLoading:  page > 1 ? true : false,
     })
     const sorting = (a, b) => {
         const nameA = a.name.toUpperCase();
@@ -29,22 +30,38 @@ export const getSubcategories = (category) => (dispatch) => {
         }
         return 0;
     }
-    axios.get(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/subcategories/${category}?page=1`)
+    axios.get(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/subcategories/${category}?page=${page}`)
     .then(resp => {
+            var lastPageNo = false; 
+            if(resp.data.meta.last_page === resp.data.meta.current_page) {
+                lastPageNo = true;                
+            }
             dispatch({
                 type: GET_SUBCATEGORIES,
-                payload: resp.data.data.sort(sorting),
+                payload: resp.data.data,
                 loading: false,
-                error: ''
+                loadingNext: false,
+                error: '',
+                currentPage: resp.data.meta.current_page,
+                lastPage: lastPageNo,
             })   
         }).catch(err => {console.log("subcategories error", err)
             dispatch({
                 type: GET_SUBCATEGORIES_ERROR,
-                error: 'Failed to load subcategories list...',
+                error: 'Failed to load subcategories list.',
                 loading: false
             })
         })
 } 
+
+export const unmountSubcategories = () => dispatch => {
+    dispatch({
+        type: UNMOUNT_SUBCATEGORIES,
+        payload: [],
+        currentPage: 1,
+        lastPage: false,
+    })
+}
 
 export const addSubcategory = (subcategory, category) => dispatch => {
     axios.post(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addSubcategory/${category}`, subcategory)

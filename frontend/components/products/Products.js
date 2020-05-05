@@ -26,10 +26,8 @@ class Products extends Component {
         overload: null,
     }
 
-    componentDidMount() {
-        console.log('current page mount ', 1)
-
-        this.props.getProducts(this.state.id, 1);
+    async componentDidMount() {
+        await this.props.getProducts(this.state.id, 1);
     }
 
     componentWillUnmount() {

@@ -24,7 +24,7 @@ class SubcategoryController extends Controller
     public function index($category_id)
     {
         $category = Category::findOrFail($category_id);
-        $subcategories = Subcategory::where('category_id', $category->id)->paginate();
+        $subcategories = Subcategory::where('category_id', $category->id)->paginate(35);
         return SubcategoryResource::collection($subcategories);
     }
 

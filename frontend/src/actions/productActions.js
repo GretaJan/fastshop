@@ -14,7 +14,7 @@ export const getProducts = (subcategory, page) => dispatch => {
     // ).catch(err => console.log("Fetch Categories error: ", err))
     dispatch({
         type: LOADING_GET_PRODUCTS,
-        loading: page > 1 ? false : true,
+        loading: page == 1 ? true : false,
         loadingNext: page > 1 ? true : false,
     });
     const sorting = (a, b) => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, TextInput, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { getSubcategories, deleteSubcategory } from '../../src/actions/subcategoryActions';
+import { getSubcategories, deleteSubcategory, unmountSubcategories } from '../../src/actions/subcategoryActions';
 import { getCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -28,19 +28,25 @@ class Subcategories extends Component {
     }
 
 
-    componentDidMount() {
-        this.props.getSubcategories(this.props.route.params.categoryId);
+   componentDidMount  () {
+        this.props.getSubcategories(this.props.route.params.categoryId, 1);
     }
 
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //     this.state.tempArray.map(item) {
-    //         if (nextPr. !== prevState.route.params.categoryId) {
-    //             console.log("prevProps: ", prevState.route.params.categoryId, " nesProps: ", nextProps.route.params.categoryId )
-    //           }
-    //     }
+    componentWillUnmount(){
+        this.props.unmountSubcategories();
+    }
 
-    //   }
+    loadMore = () => {
+        setTimeout(() => {
+            this.props.getSubcategories(this.props.route.params.categoryId, this.props.currentPage + 1);
+        })
+    }
 
+    renderFooter = () => {
+        return (
+             <Loading />
+        )
+    } 
     searchFunction = searchName => {
         this.setState({inputTriggered: true});
         const matchedData = this.props.subcategories.filter(item => {
@@ -103,7 +109,12 @@ class Subcategories extends Component {
                             // </View>
                         ) : (
                             !this.state.inputTriggered ? (
-                                <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.props.subcategories} renderItem={({item}) => (
+                                <FlatList contentContainerStyle={stylesGuest().horizontalWrap} 
+                                        onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
+                                        onEndReachedThreshold={0.01}
+                                        ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
+                                        data={this.props.subcategories} 
+                                        renderItem={({item}) => (
                                     <Subcategory item={item} goToProducts={() => this.goToProducts(item)} />
                                 )} />
                             ) : (
@@ -123,9 +134,12 @@ class Subcategories extends Component {
 const mapStateToProps = (state) => {
    return {
     subcategories:state.subcategories.subcategories,
+    currentPage: state.subcategories.currentPage,
+    lastPage: state.subcategories.lastPage,
     loading: state.subcategories.loading,
+    loadingNext: state.subcategories.loadingNext,
     error: state.subcategories.error
    }
 }
 
-export default withNavigation(connect(mapStateToProps, {getSubcategories, deleteSubcategory})(Subcategories))
+export default withNavigation(connect(mapStateToProps, {getSubcategories, deleteSubcategory, unmountSubcategories})(Subcategories))

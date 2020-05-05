@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, Button, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { getProducts, getProduct } from '../../src/actions/productActions';
+import { getProducts, unmountProducts } from '../../src/actions/productActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
@@ -27,11 +27,24 @@ class Products extends Component {
         showSearchInput: false
     }
 
-    async componentDidMount() {
-        console.log("list: ", this.props.products, " id: ", this.state.id); 
-        await this.props.getProducts(this.state.id);
+    componentDidMount() {
+        this.props.getProducts(this.state.id, 1);
+    }
+    componentWillUnmount() {
+        this.props.unmountProducts();
     }
 
+    handleLoadMore = () => {
+        setTimeout(() => {
+            this.props.getProducts(this.state.id, this.props.currentPage + 1); 
+        }, 600)
+    }
+
+    renderFooter = () => {
+        return (
+            <Loading />
+        )
+    }
     findFunction = (searchName) => {
         this.setState({ inputTriggered: true })
         const tempData =  this.props.products.filter(item => {
@@ -64,7 +77,6 @@ class Products extends Component {
     }
 
     goToProduct = (item) => {
-        // await this.props.getProduct();
         this.props.navigation.push("Product_Auth", { subcategoryId: item.subcategory_id, productId: item.id,  name: item.name });
     }
 
@@ -83,7 +95,11 @@ class Products extends Component {
                         <EmptyList message="Products list is empty" background={background} />
                     ) : (
                         !this.state.inputTriggered ? (
-                            <FlatList data={this.props.products} renderItem={({item}) => (
+                            <FlatList data={this.props.products} 
+                                        onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
+                                        onEndReachedThreshold={0.01}
+                                        ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
+                                        renderItem={({item}) => (
                                 <Product item={item} 
                                         goToProduct={() => this.goToProduct(item)}
                                 />
@@ -104,9 +120,11 @@ class Products extends Component {
 
 const mapStateToProps = state => ({
     products: state.products.products,
-    // updated: state.products.updated,
+    currentPage: state.products.currentPage,
+    lastPage: state.products.lastPage,
     loading: state.products.loading,
+    loadingNext: state.products.loadingNext,
     error: state.products.error
 })
 
-export default withNavigation(connect(mapStateToProps, {getProducts, getProduct})(Products))
+export default withNavigation(connect(mapStateToProps, {getProducts, unmountProducts})(Products))

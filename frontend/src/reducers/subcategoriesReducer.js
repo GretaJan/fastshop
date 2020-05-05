@@ -1,10 +1,13 @@
-import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, FRW_TO_SUBCATEGORIES, POST_SUBCATEGORY, EDIT_SUBCATEGORY, DELETE_SUBCATEGORY } from '../actions/types';
+import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, UNMOUNT_SUBCATEGORIES, FRW_TO_SUBCATEGORIES, POST_SUBCATEGORY, EDIT_SUBCATEGORY, DELETE_SUBCATEGORY } from '../actions/types';
 
 const initialState = {
     subcategories: [],
     subcategory: {},
     loading: null,
-    error: ''
+    loadingNext: null,
+    error: '',
+    currentPage: 1,
+    lastPage: null,
 }
 
 export default function(state = initialState, action) {
@@ -26,6 +29,13 @@ export default function(state = initialState, action) {
                 ...state,
                 error: action.error,
                 loading: action.loading
+            }
+        case UNMOUNT_SUBCATEGORIES: 
+            return {
+                ...state,
+                products: action.payload,
+                currentPage: action.currentPage,
+                lastPage: action.lastPage
             }
         case POST_SUBCATEGORY:
             return {

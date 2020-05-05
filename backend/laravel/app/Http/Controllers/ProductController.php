@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function index($subcategory_id)
     {
         $subcategory = Subcategory::findOrFail($subcategory_id);
-        $products = Product::where('subcategory_id', $subcategory->id)->orderBy('name')->paginate(3);
+        $products = Product::where('subcategory_id', $subcategory->id)->orderBy('name')->paginate(35);
         return ProductResource::collection($products);
     }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, Button, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { getSubcategories, deleteSubcategory } from '../../src/actions/subcategoryActions';
+import { getSubcategories, deleteSubcategory, unmountSubcategories } from '../../src/actions/subcategoryActions';
 import { authCategory } from '../../components_additional/styles/CategoryStyles';
 import { getCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
@@ -36,13 +36,23 @@ class Subcategories extends Component {
         },
     }
 
-
     componentDidMount(){
-    
-        this.props.getSubcategories(this.state.id);
-     
+        this.props.getSubcategories(this.state.id, 1);
+    }
+    componentWillUnmount(){
+        this.props.unmountSubcategories();
     }
 
+    loadMore = () => {
+        setTimeout(() => {
+            this.props.getSubcategories(this.props.route.params.categoryId, this.props.currentPage + 1);
+        })
+    }
+    renderFooter = () => {
+        return (
+             <Loading />
+        )
+    } 
     searchFunction = searchName => {
         this.setState({inputTriggered: true});
         const matchedData = this.props.subcategories.filter(item => {
@@ -102,7 +112,11 @@ class Subcategories extends Component {
                         <EmptyList message="The List is empty" background={background} />
                         ) : (
                         !this.state.inputTriggered ? (
-                            <FlatList data={this.props.subcategories} renderItem={({item}) => (
+                            <FlatList data={this.props.subcategories} 
+                                    onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
+                                    onEndReachedThreshold={0.01}
+                                    ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
+                                    renderItem={({item}) => (
                                 <Subcategory item={item}
                                             deleteSubcategory={(item) => this.deleteSubcategory(item)} 
                                             goToProducts={() => this.goToProducts(item)}
@@ -124,12 +138,14 @@ class Subcategories extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("products:::: ",state.products.products)
    return {
     subcategories: state.subcategories.subcategories,
+    currentPage: state.subcategories.currentPage,
+    lastPage: state.subcategories.lastPage,
     loading: state.subcategories.loading,
+    loadingNext: state.subcategories.loadingNext,
     error: state.subcategories.error
    }
 }
 
-export default withNavigation(connect(mapStateToProps, {getSubcategories, getCategory, deleteSubcategory})(Subcategories))
+export default withNavigation(connect(mapStateToProps, {getSubcategories, unmountSubcategories, deleteSubcategory})(Subcategories))
