@@ -4,9 +4,10 @@ const initialState = {
     products: [],
     product: {},
     loading: null,
+    loadingNext: null,
     error: '',
-    page: 1,
-    lastPage: false,
+    currentPage: 1,
+    lastPage: null,
 }
 
 export default function(state = initialState, action) {
@@ -14,30 +15,33 @@ export default function(state = initialState, action) {
         case LOADING_GET_PRODUCTS:
             return {
                 ...state,
-                loading: action.loading
+                loading: action.loading,
+                loadingNext: action.loadingNext
             }
         case GET_PRODUCTS:
             return {
                 ...state,
                 products: state.products.concat(action.payload),
                 loading: action.loading,
+                loadingNext: action.loadingNext,
                 error: action.error,
-                page: action.page,
+                currentPage: action.currentPage,
                 lastPage: action.lastPage,
             }
         case GET_PRODUCTS_ERROR:
             return {
                 ...state,
                 error: action.error,
-                loading: action.loading
+                loading: action.loading,
+                loadingNext: action.loadingNext,
             }
         case UNMOUNT_PRODUCTS: 
             return {
                 ...state,
                 products: action.payload,
-                page: action.payload,
+                currentPage: action.currentPage,
+                lastPage: action.lastPage
             }
-        
         case GET_PRODUCT:
             return {
                 ...state,

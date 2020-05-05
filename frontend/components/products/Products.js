@@ -27,12 +27,25 @@ class Products extends Component {
     }
 
     componentDidMount() {
-        this.props.getProducts(this.state.id, this.props.currentPage);
+        console.log('current page mount ', 1)
+
+        this.props.getProducts(this.state.id, 1);
     }
 
     componentWillUnmount() {
-        console.log("unmount")
         this.props.unmountProducts();
+    }
+
+    handleLoadMore = () => {
+        setTimeout(() => {
+            this.props.getProducts(this.state.id, this.props.currentPage + 1); 
+        }, 600)
+    }
+
+    renderFooter = () => {
+        return (
+            <Loading />
+        )
     }
 
     findFunction = (searchName) => {
@@ -113,7 +126,12 @@ class Products extends Component {
                             // </View>
                             ) : (
                             !this.state.inputTriggered ? (
-                                <FlatList data={this.props.products} renderItem={({item}) => (
+                                <FlatList data={this.props.products} 
+                                // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                                        onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
+                                        onEndReachedThreshold={0.01}
+                                        ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
+                                        renderItem={({item}) => (
                                     <Product key={item} item={item} 
                                         selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
                                         goToProduct={() => this.goToProduct(item)} />
@@ -126,11 +144,6 @@ class Products extends Component {
                                 )} />
                             )
                         )}
-                        {this.props.lastPage ? (
-                            <Text>Last Page, Suskleisti</Text>
-                        ) : (
-                            <Text onPress={() => this.props.getProducts(this.state.id, this.props.currentPage + 1)}>NEXT PAGE</Text>
-                        )}
                     </View>
                 )
             )
@@ -140,9 +153,10 @@ class Products extends Component {
 
 const mapStateToProps = state => ({
     products: state.products.products,
-    currentPage: state.products.page,
+    currentPage: state.products.currentPage,
     lastPage: state.products.lastPage,
     loading: state.products.loading,
+    loadingNext: state.products.loadingNext,
     error: state.products.error,
     comparisonArray: state.selectedProducts.comparisonArray,
 })

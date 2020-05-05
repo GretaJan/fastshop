@@ -14,7 +14,8 @@ export const getProducts = (subcategory, page) => dispatch => {
     // ).catch(err => console.log("Fetch Categories error: ", err))
     dispatch({
         type: LOADING_GET_PRODUCTS,
-        loading: true
+        loading: page > 1 ? false : true,
+        loadingNext: page > 1 ? true : false,
     });
     const sorting = (a, b) => {
         const nameA = a.name.toUpperCase();
@@ -27,36 +28,28 @@ export const getProducts = (subcategory, page) => dispatch => {
         } 
         return 0;
     }
-    console.log("product data:", subcategory);
-    axios.get( `${URL}/products/${subcategory}?page=${page}`)
-    .then(products => { console.log("product page", products.data.meta.current_page, products.data.meta.last_page)
+    axios.get(`${URL}/products/${subcategory}?page=${page}`)
+    .then(products => {
+            var lastPageNo = false; 
             if(products.data.meta.last_page === products.data.meta.current_page) {
-                dispatch({
-                    type: GET_PRODUCTS,
-                    payload: products.data.data,
-                    loading: false,
-                    error: '',
-                    page: products.data.meta.current_page,
-                    lastPage: true,
-                })
-            } else {
-                console.log("log",  products.data.data)
-                dispatch({
-                    type: GET_PRODUCTS,
-                    // payload: products.data.data.sort(sorting),
-                    payload: products.data.data,
-                    loading: false,
-                    error: '',
-                    page: products.data.meta.current_page,
-                    lastPage: false,
-                })
+                lastPageNo = true;                
             }
-        }
-    ).catch(err => { console.log("error:", err)
-        dispatch({
+            dispatch({
+                type: GET_PRODUCTS,
+                // payload: products.data.data.sort(sorting),
+                payload: products.data.data,
+                loading: false,
+                loadingNext: false,
+                error: '',
+                currentPage: products.data.meta.current_page,
+                lastPage: lastPageNo,
+            })
+        }).catch(err => { console.log("error:", err)
+            dispatch({
             type: GET_PRODUCTS_ERROR,
             error: 'Failed to load product list',
-            loading: false
+            loading: false,
+            loadingNext: false,
         })
     })
 } 
@@ -65,7 +58,8 @@ export const unmountProducts = () => dispatch => {
     dispatch({
         type: UNMOUNT_PRODUCTS,
         payload: [],
-        page: 1,
+        currentPage: 1,
+        lastPage: false,
     })
 }
 
