@@ -33,7 +33,7 @@ Route::delete('/deleteSubcategory/{subcategory}', 'SubcategoryController@destroy
 Route::get('/products/{subcategory_id}', 'ProductController@index');
 Route::get('/product/{subcategory_id}/{id}', 'ProductController@show');
 Route::post('/addProduct/{subcategory_id}', 'ProductController@store');
-Route::put('/updateProduct/{subcategory_id}/{id}', 'ProductController@update');
+Route::put('/updateProduct/{subcategory_id}/{product}', 'ProductController@update');
 Route::delete('/deleteProduct/{product}', 'ProductController@destroy');
 
 Route::post('/login', 'UserController@login');
