@@ -16,7 +16,7 @@ export const stylesGuest = (background) => StyleSheet.create( {
         alignItems:'center',
         height: 65,
         marginHorizontal: 5,
-        marginVertical: 3,
+        marginVertical: 2,
         backgroundColor: colors.transparentMedium,
          // Shadow
          elevation   : 1,

@@ -48,99 +48,63 @@ class Products extends Component {
         // nameVitamins: '',
     }
 
-    comparisonResults = async (result) => {
-        // var result = {
-        //         mostEnergy: this.state.mostEnergy,
-        //         energyName: this.state.nameEnergy,
-        //         mostFat: this.state.mostFat,
-        //         nameFat: this.state.nameFat,
-        //         mostSaturated: this.state.mostSaturated,
-        //         nameSaturated: this.state.nameSaturated,
-        //         leastcarbs: this.state.leastcarbs,
-        //         nameCarbs: this.state.nameCarbs,
-        //         leastSugar: this.state.leastSugar,
-        //         nameSugar: this.state.nameSugar,
-        //         mostFiber: this.state.mostFiber,
-        //         nameFiber: this.state.nameFiber,
-        //         mostProtein: this.state.mostProtein,
-        //         nameProtein: this.state.nameProtein,
-        //         leastSalt: this.state.leastSalt,
-        //         nameSalt: this.state.nameSalt,
-        //         mostVitamins: this.state.mostVitamins,
-        //         nameVitamins: this.state.nameVitamins, 
-        //     }
-
-        console.log("results")
-    }
-
-    // componentDidMount() => {
-    //     this.props.productSelected
-    // }
-
     findBestWorst = async() => {
         var array = this.props.selectedProducts;
         var percentHealthyFoodOne = 0;
         var percentUnhealthyFoodOne = 0;
         var percentHealthyFoodTwo = 0;
         var percentUnhealthyFoodTwo = 0;
-
+        var goodComponent = '';
+        var badComponent = '';
+        var productOne = 
+        goodComponent = array[0];
+        badComponent = array[0];
+        productOne = array[0];
+        const oneSaturatedInit = array[0].saturated == null ? parseInt(0) : parseFloat(array[0].saturated);
+        const oneFiberInit = array[0].fiber == null ? parseInt(0) : parseFloat(array[0].fiber);
+        const oneProteinInit = array[0].protein == null ? parseInt(0) : parseFloat(array[0].protein);
+        const oneVitaminsInit = array[0].vitamins == null ? parseInt(0) : parseFloat(array[0].vitamins);
+        const oneSugarInit = array[0].sugar == null ? parseInt(0) : parseFloat(array[0].sugar);
+        const oneCarbsInit = array[0].carbs == null ? parseInt(0) : (parseFloat(array[0].carbs) - oneSugarInit);
+        const oneSaltInit = array[0].salt == null ? parseInt(0) : parseFloat(array[0].salt);
+        const goodQualitiesOne = oneSaturatedInit + oneFiberInit + oneProteinInit + oneVitaminsInit;
+        const badQualitiesOne = oneCarbsInit + oneSaltInit;
+        percentHealthyFoodOne = goodQualitiesOne;
+        percentUnhealthyFoodOne = badQualitiesOne;   
+        percentHealthyFoodTwo = goodQualitiesOne;
+        percentUnhealthyFoodTwo = badQualitiesOne;
     
         if(array.length < 2) {
             this.setState({modalMessageNumber: true});
         } else {
             this.setState({modalMessageNumber: false, loadingResults: true});
 
-            for(var i = 0; i < array.length; i++) {
-                var productOne = array[i];
-                var goodComponent = array[0];
-                var badComponent = array[0];
-     
-                for(var j = 1; j < this.props.selectedProducts.length; j++) {
-                    var productTwo = this.props.selectedProducts[j];
-                    var percentHealthyFoodTwo = array[j];  
+            for(var i = 1; i < array.length ; i++) {
+                var productTwo = array[i];
 
-                    const oneSaturated = productOne.saturated == null ? parseInt(0) : parseFloat(productOne.saturated);
-                    const twoSaturated = productTwo.saturated == null ? parseInt(0) : parseFloat(productTwo.saturated);
-                    const oneFiber = productOne.fiber == null ? parseInt(0) : parseFloat(productOne.fiber);
-                    const twoFiber = productTwo.fiber == null ? parseInt(0) : parseFloat(productTwo.fiber);
-                    const oneProtein = productOne.protein == null ? parseInt(0) : parseFloat(productOne.protein);
-                    const twoProtein = productTwo.protein == null ? parseInt(0) : parseFloat(productTwo.protein);
-                    const oneVitamins = productOne.vitamins == null ? parseInt(0) : parseFloat(productOne.vitamins);
-                    const twoVitamins = productTwo.vitamins == null ? parseInt(0) : parseFloat(productTwo.vitamins);
+                const oneSaturatedArrayTwo = array[i].saturated == null ? parseInt(0) : parseFloat(array[i].saturated);
+                const oneFiberArrayTwo= array[i].fiber == null ? parseInt(0) : parseFloat(array[i].fiber);
+                const oneProteinArrayTwo= array[i].protein == null ? parseInt(0) : parseFloat(array[i].protein);
+                const oneVitaminsArraytwo = array[i].vitamins == null ? parseInt(0) : parseFloat(array[i].vitamins);
+                const oneSugarArrayTwo = array[i].sugar == null ? parseInt(0) : parseFloat(array[i].sugar);
+                const oneCarbsArrayTwo = array[i].carbs == null ? parseInt(0) : (parseFloat(array[i].carbs) - oneSugarInit);
+                const oneSaltArrayTwo= array[i].salt == null ? parseInt(0) : parseFloat(array[i].salt);
+                const goodQualitiesTwo = oneSaturatedArrayTwo + oneFiberArrayTwo + oneProteinArrayTwo + oneVitaminsArraytwo;
+                const badQualitiesTwo = oneCarbsArrayTwo + oneSugarArrayTwo + oneSaltArrayTwo;
 
-                    const oneSugar = productOne.sugar == null ? parseInt(0) : parseFloat(productOne.sugar);
-                    const twoSugar = productTwo.sugar == null ? parseInt(0) : parseFloat(productTwo.sugar);
-                    const oneCarbs = productOne.carbs == null ? parseInt(0) : (parseFloat(productOne.carbs) - oneSugar);
-                    const twoCarbs = productTwo.carbs == null ? parseInt(0) : (parseFloat(productTwo.carbs) - twoSugar);
-                    const oneSalt = productOne.salt == null ? parseInt(0) : parseFloat(productOne.salt);
-                    const twoSalt = productTwo.salt == null ? parseInt(0) : parseFloat(productTwo.salt);
-
-                    const goodQualitiesOne = oneSaturated + oneFiber + oneProtein + oneVitamins;
-                    const goodQualitiesTwo = twoSaturated + twoFiber + twoProtein + twoVitamins;
-                    const badQualitiesOne = oneCarbs + oneSugar + oneSalt;
-                    const badQualitiesTwo = twoCarbs + twoSugar + twoSalt;
-
-                    if ( goodQualitiesOne < goodQualitiesTwo ) {
-                        goodComponent = productTwo;
-                        percentHealthyFoodOne = goodQualitiesTwo;
-                        percentUnhealthyFoodOne = badQualitiesTwo;
-                    } else {
-                        goodComponent = productOne;
-                        percentHealthyFoodOne = goodQualitiesOne;
-                        percentUnhealthyFoodOne = badQualitiesOne;    
-                    }
-                    if ( badQualitiesOne > badQualitiesTwo ) {
-                        badComponent = productOne;
-                        percentHealthyFoodTwo = goodQualitiesOne;
-                        percentUnhealthyFoodTwo = badQualitiesOne;
-                    } else {
-                        badComponent = productTwo;
-                        percentHealthyFoodTwo = goodQualitiesTwo;
-                        percentUnhealthyFoodTwo = badQualitiesTwo;
-                    }
-               
+                if ( goodQualitiesOne > goodQualitiesTwo ) {
+                    goodComponent = productTwo;
+                    percentHealthyFoodOne = goodQualitiesTwo;
+                    percentUnhealthyFoodOne = badQualitiesTwo;
                 }
+                if ( badQualitiesOne < badQualitiesTwo ) {
+                    badComponent = productTwo;
+                    percentHealthyFoodTwo = goodQualitiesTwo;
+                    percentUnhealthyFoodTwo = badQualitiesTwo;
+                }   
+        
             }
+          
             this.setState({modalMessageEqual: false});
             const result = {
                 healthier: {
@@ -164,9 +128,7 @@ class Products extends Component {
                 }
                 
             }
-            // this.props.compare(result);
-            // this.props.navigation.push('Results');
-
+            console.log('resultsss', result)
            await this.props.compare(result);
            this.setState({loadingResults: true});
             // createResult.then(() => this.props.navigation.push("Results"))

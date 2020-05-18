@@ -168,10 +168,9 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     productsContainer: {
         flexDirection: 'row',
-        // alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
-        paddingVertical: 10
+        paddingVertical: 0,
     },
     itemGoodWrap: {
         flex: 0.5,
@@ -185,6 +184,8 @@ export const diagram = (diagramLength) => StyleSheet.create({
         width: '95%',
         height: 150,
         backgroundColor: colors.mediumGreen2,
+        // borderColor: colors.mediumGreen2,
+        // borderWidth: 5,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5
@@ -204,7 +205,8 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     title: {
         marginTop: 5,
-        height: 50,
+        marginBottom: 7,
+        height: 55,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -212,7 +214,6 @@ export const diagram = (diagramLength) => StyleSheet.create({
         paddingHorizontal: 12,
         textAlign: 'center',
         fontSize: 18,
-        textTransform: 'capitalize',
     },
     // Diagram
     diagramContainer: {
@@ -252,7 +253,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
         // alignItems: 'flex-start',
     },
     itemNumberWrap: {
-        flex: .22,
+        flex: .18,
         paddingLeft: 20,
         // textAlign: 'center',
         flexDirection: 'row',
@@ -261,7 +262,6 @@ export const diagram = (diagramLength) => StyleSheet.create({
     lineOne: {
         backgroundColor: colors.mediumGreen2,
         width: diagramLength !== 0 ? (diagramLength + '%') : 1,
-        // width: 20,
         maxWidth: '100%',
         height: 10,
         // Shadow
@@ -316,7 +316,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     mainLineOne: {
         backgroundColor: colors.mediumGreen2,
-        width: diagramLength !== 0 ? (diagramLength + '%') : (1),
+        width: diagramLength !== 0 ? (diagramLength + '%') : (0),
         maxWidth: '100%',
         height: 11,
         borderColor: colors.transparentLight,
@@ -332,7 +332,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     mainLineTwo: {
         backgroundColor: colors.orangeBright,
-        width: diagramLength !== 0 ? (diagramLength + '%') : (4),
+        width: diagramLength !== 0 ? (diagramLength + '%') : (0),
         maxWidth: '100%',
         height: 11,
          // Shadow
@@ -347,9 +347,10 @@ export const diagram = (diagramLength) => StyleSheet.create({
     mainItemNumberWrap: {
         flex: .3,
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
     },
     mainNumber: {
+        paddingLeft: 30,
         fontSize: 20,
     },
     mainMeasure: {

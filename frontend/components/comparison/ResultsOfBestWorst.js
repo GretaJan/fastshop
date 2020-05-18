@@ -43,7 +43,18 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
     //         setScroll(false);
     //     }
     // }
-
+    const nameSlice = (name) => {
+        if(name.length > 33) {
+           var newName = name.slice(0, 33);
+            return (
+                <Text style={diagram().text}>{ newName }...</Text>
+            )
+        } else {
+            return (
+                <Text style={diagram().text}>{ name }</Text>
+            )
+        }
+    }
     const scrollUp = () => {
         // React.useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -70,7 +81,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
                                     </View> 
                                 )}
                                 <View style={diagram().title} >
-                                    <Text style={diagram().text}>{healthy.name}</Text>
+                                    <Text style={diagram().text}>{ nameSlice(healthy.name) }</Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity style={diagram().itemBadWrap} onPress={() => navigate("Product", {subcategoryId: unhealthy.subcategory_id, productId: unhealthy.id})}>
@@ -84,7 +95,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
                                     </View> 
                                 )}
                                 <View style={diagram().title} >
-                                    <Text style={diagram().text}>{unhealthy.name} </Text>
+                                    <Text style={diagram().text}>{ nameSlice(unhealthy.name) }</Text>
                                 </View>
                             </TouchableOpacity>
                         </View> 
@@ -121,7 +132,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
                             <View style={diagram().mainDiagramLineWrap}>
                                 <View style={diagram().mainNumberDiagramWrap}>
                                     <View style={diagram().mainSingleLineWrap}>
-                                        <Text style={diagram(goodQualitiesUnhealthy ? goodQualitiesUnhealthy: 0 ).mainLineOne}></Text>
+                                        <Text style={diagram(badQualitiesHealthy ? badQualitiesHealthy : 0 ).mainLineOne}></Text>
                                     </View>
                                     <View style={diagram().mainItemNumberWrap} >
                                         <Text style={diagram().mainNumber} >{badQualitiesHealthy}</Text>
