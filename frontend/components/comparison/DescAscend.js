@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { sortArray } from '../../src/actions/comparisonActions';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { descAscDropDown } from '../../components_additional/styles/CompareStyles';
+import { withNavigation } from 'react-navigation';
 
 const styles = {
     container: {
@@ -32,7 +33,7 @@ const styles = {
 
 }
 
-const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
+const DescAscend = ({ selectedProducts, sortArray, navigation }) => {
     const [desc] = useState(true);
     const [asc] = useState(false);
 
@@ -63,7 +64,8 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
 
         let sortedArray = selectedProducts.sort(compare);
        
-        sortArray(sortedArray);
+        await sortArray(sortedArray);
+        navigation.push("SelectedProducts");
     }
     const descAscFatFunc = async (descAsc) => {
 
@@ -92,9 +94,11 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
 
         let sortedArray = selectedProducts.sort(compare);
        
-        sortArray(sortedArray);
+        await sortArray(sortedArray);
+        navigation.push("SelectedProducts");
+
     }
-    const descAscSaturatedFunc = (descAsc) => {
+    const descAscSaturatedFunc = async(descAsc) => {
 
         function compare(a, b) {
             // if(a.saturated == null) {
@@ -118,9 +122,10 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
         }
 
         let sortedArray = selectedProducts.sort(compare);
-        sortArray(sortedArray);
+        await sortArray(sortedArray);
+        navigation.push("SelectedProducts");
     }
-    const descAscCarbsFunc = (descAsc) => {
+    const descAscCarbsFunc = async(descAsc) => {
 
         function compare(a, b) {
             // if(a.carbs == null) {
@@ -143,9 +148,10 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
             return comparison
         }
         let sortedArray = selectedProducts.sort(compare);
-        sortArray(sortedArray);
+        await sortArray(sortedArray);
+        navigation.push("SelectedProducts");
     }
-    const descAscSugarFunc = (descAsc) => {
+    const descAscSugarFunc = async(descAsc) => {
 
         function compare(a, b) {
             // if(a.sugar == null) {
@@ -167,9 +173,10 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
             return comparison
         }
         let sortedArray = selectedProducts.sort(compare);
-        sortArray(sortedArray);
+        await sortArray(sortedArray);
+        navigation.push("SelectedProducts");
     }
-    const descAscFiberFunc = (descAsc) => {
+    const descAscFiberFunc = async(descAsc) => {
 
         // if(a.fiber == null) {
         //     a.fiber = 0;
@@ -191,9 +198,10 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
             return comparison
         }
         let sortedArray = selectedProducts.sort(compare);
-        sortArray(sortedArray);
+        await sortArray(sortedArray);
+        navigation.push("SelectedProducts");
     }
-    const descAscProteinFunc = (descAsc) => {
+    const descAscProteinFunc = async(descAsc) => {
 
         function compare(a, b) {
             // if(a.protein == null) {
@@ -215,9 +223,10 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
             return comparison
         }
         let sortedArray = selectedProducts.sort(compare);
-        sortArray(sortedArray);
+        await sortArray(sortedArray);
+        navigation.push("SelectedProducts");
     }
-    const descAscSaltFunc = (descAsc) => {
+    const descAscSaltFunc = async(descAsc) => {
 
         function compare(a, b) {
             // if(a.salt == null) {
@@ -239,9 +248,10 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
             return comparison
         }
         let sortedArray = selectedProducts.sort(compare);
-        sortArray(sortedArray);
+        await sortArray(sortedArray);
+        navigation.push("SelectedProducts");
     }
-    const descAscVitaminsFunc = (descAsc) => {
+    const descAscVitaminsFunc = async(descAsc) => {
 
         function compare(a, b) {
             // if(a.vitamins == null) {
@@ -263,19 +273,12 @@ const DescAscend = ({ goBack, selectedProducts, sortArray}) => {
             return comparison
         }
         let sortedArray = selectedProducts.sort(compare);
-        sortArray(sortedArray);
+        await sortArray(sortedArray);
+        navigation.push("SelectedProducts");
     }
 
     return (
         <View style={descAscDropDown().container}>  
-            <TouchableOpacity style={descAscDropDown().btnWrap} onPress={goBack}>   
-                <View style={descAscDropDown().iconWrap} >
-                    <IonIcon name="ios-arrow-dropleft" style={descAscDropDown().btnIcon}  />
-                </View>
-                <View style={descAscDropDown().textWrap} >
-                    <Text style={descAscDropDown().btnText}>Go Back</Text>
-                </View>
-            </TouchableOpacity>
             <ScrollView>
                <TouchableOpacity style={descAscDropDown().itemWrap} 
                                 onPress={() => { descAscEnergyFunc(desc) }}>
@@ -361,4 +364,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, {sortArray})(DescAscend)
+export default withNavigation(connect(mapStateToProps, {sortArray})(DescAscend))

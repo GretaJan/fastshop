@@ -316,7 +316,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     mainLineOne: {
         backgroundColor: colors.mediumGreen2,
-        width: diagramLength !== 0 ? (diagramLength + '%') : (0),
+        width: diagramLength !== 0 ? (diagramLength / 100 + '%') : (0),
         maxWidth: '100%',
         height: 11,
         borderColor: colors.transparentLight,
@@ -332,7 +332,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     mainLineTwo: {
         backgroundColor: colors.orangeBright,
-        width: diagramLength !== 0 ? (diagramLength + '%') : (0),
+        width: diagramLength !== 0 ? (diagramLength / 100 + '%') : (0),
         maxWidth: '100%',
         height: 11,
          // Shadow
@@ -383,5 +383,88 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     scrollUpIcon: {
         fontSize: 25
+    }
+})
+
+export const CriteriaStyles = () => StyleSheet.create({
+    container: {
+        height: Dimensions.get('window').height /1 - 140,
+        backgroundColor: colors.mainYellow
+    },
+    itemContainer: {
+        flexDirection: 'row',
+        marginVertical: '2.2%',
+        marginHorizontal: '3%',
+    },
+    itemTitle: {
+        fontSize: 20,
+        flex: .5,
+    },
+    bulletContainer: {
+        flexDirection: 'row',
+        flex: .5,
+    },
+    wrapThird: {
+        flex: .33,
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        fontSize: 20,
+    },
+    bulletWrap: {
+        height: 26,
+        width: 26,
+        borderRadius: 13,
+        borderColor: colors.mainBlack,
+        borderWidth: 1,
+        position: 'relative',
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+    },
+    bulletInactive: {
+        height: 14,
+        width: 14,
+        borderRadius: 7,
+        borderWidth: 1,
+        position: 'absolute',
+        // backgroundColor: '#dcdcdc',
+        backgroundColor: colors.mainWhiteYellow,
+        left: 5,
+        top: 5,
+    },
+    bulletActive: {
+        position: 'absolute',
+        height: 14,
+        width: 14,
+        borderRadius: 7,
+        backgroundColor: colors.orangeBright,
+        borderColor: colors.mainBlack, 
+        borderWidth: 1,
+        left: 5,
+        top: 5,
+    },
+    buttonResults: {
+        fontSize: 45,
+    },
+    buttonWrap: {
+        width: 120,
+        height: 70,
+        backgroundColor: colors.orangeBright,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        bottom: 0,
+        position: 'absolute',
+        bottom: 8,
+        zIndex: 20,
+         // Shadow
+         elevation   : 5,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
     }
 })

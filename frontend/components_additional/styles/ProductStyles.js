@@ -111,10 +111,12 @@ export const stylesGuestSingle = (background) => StyleSheet.create( {
     //Items
     listItemWrap: {
         flex: 1,
+        marginLeft: '5%',
+        marginRight: '5%',
         flexDirection: 'row',
-        height: 65,
+        height: 50,
         alignItems: 'center',
-        borderBottomColor: '#F7F7F7',
+        borderBottomColor: colors.transparentLight,
         borderBottomWidth: 1,
         justifyContent: 'space-between',
     },
@@ -131,11 +133,11 @@ export const stylesGuestSingle = (background) => StyleSheet.create( {
        paddingLeft: 20,
     },
     componentAmount: {
-        fontSize: 24,
-        flex: 0.5,
+        fontSize: 21,
+        flex: 0.4,
     },
     componentMeasure: {
-        fontSize: 20,
+        fontSize: 18,
         color: colors.mainBlack,
         flex: 0.5,
     },

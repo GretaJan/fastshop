@@ -78,7 +78,7 @@ class Products extends Component {
     }
 
      selectProduct = (item1, item2) => {
-        if(this.props.comparisonArray.length <= 3) {
+        if(this.props.comparisonArray.length <= 30) {
             this.props.productSelected(item1, item2);
         } else {
             this.setState({overload: 'Please select no more than 30 items.'})

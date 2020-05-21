@@ -131,8 +131,11 @@ class Products extends Component {
             console.log('resultsss', result)
            await this.props.compare(result);
            this.setState({loadingResults: true});
-            // createResult.then(() => this.props.navigation.push("Results"))
         }
+    }
+
+    verifyIfComparable = () => {
+        
     }
 
     goToProduct = (subcategoryId, productId) => {
@@ -172,7 +175,7 @@ class Products extends Component {
                 <View style={productWrap().btnsContainer} >
                     <Text style={productWrap().transparentStripe} ></Text>
                     <View style={productWrap().btnOne}>
-                        <TouchableOpacity style={productWrap().iconWrapOne} onPress={() => this.props.goToList(this.state.hide)} >
+                        <TouchableOpacity style={productWrap().iconWrapOne} onPress={() => this.props.navigation.push("DescAscend")} >
                             <IonIcon name="md-list" style={productWrap().iconItem}  />
                         </TouchableOpacity>
                         <View style={productWrap().textWrap} >
@@ -185,14 +188,14 @@ class Products extends Component {
                         {objectLength > 0 ? (
                             <IonIcon name="ios-stats" style={productWrap().iconItem} onPress={() => this.props.navigation.push('Results')} />
                         ) : (
-                            <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.findBestWorst()} />
+                            <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.props.navigation.push("Criteria")} />
                         )}
                         </TouchableOpacity>
                         <View style={productWrap().textWrap} >
                             {objectLength > 0 ? (
                                   <Text style={productWrap().infoTxt}>View Results</Text>  
                             ) : (
-                                <Text style={productWrap().infoTxt}>Find best and worst products</Text>
+                                <Text style={productWrap().infoTxt}>Find best and worst match</Text>
                             )}
                             <Text>Click Me!</Text>
                         </View>
@@ -205,9 +208,6 @@ class Products extends Component {
                         {this.state.optionsDisplay ? ("Hide Options") : ("Show Options")}
                     </Text>
                 </TouchableOpacity>
-                {(this.props.sorted == false) && (
-                    <DescAscend goBack={() => {this.props.goToList(this.state.show), console.log("Go back", this.props.sorted)}} />
-                )}
             </View>
             )
     }

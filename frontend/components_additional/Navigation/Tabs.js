@@ -33,8 +33,8 @@ import AddProduct from '../../componentsAuth/auth_products/AddProduct';
 // COMPARISON
 import SelectedProducts from '../../components/comparison/selectedProducts';
 import SelectedProductsResults from '../../components/comparison/ResultsOfBestWorst';
-
-
+import Criteria from '../../components/comparison/Criteria';
+import DescAscend from '../../components/comparison/DescAscend';
 
 class Tabs extends Component {
 
@@ -139,6 +139,32 @@ render() {
             <SelectedProductsNav.Screen name="Results" component={SelectedProductsResults} 
                                     options = {{
                                         title: "Results",
+                                        headerTitleStyle: {
+                                            fontWeight: 'bold',
+                                            color: colors.titleBlack,
+                                        },
+                                        headerStyle: {
+                                            backgroundColor: colors.mainYellow,
+                                        },
+                                        headerTitleAlign: 'center',
+                                  
+            }} />
+            <SelectedProductsNav.Screen name="DescAscend" component={DescAscend} 
+                                    options = {{
+                                        title: "Sort by Criteria",
+                                        headerTitleStyle: {
+                                            fontWeight: 'bold',
+                                            color: colors.titleBlack,
+                                        },
+                                        headerStyle: {
+                                            backgroundColor: colors.mainYellow,
+                                        },
+                                        headerTitleAlign: 'center',
+                                  
+            }} />
+            <SelectedProductsNav.Screen name="Criteria" component={Criteria} 
+                                    options = {{
+                                        title: "Calculate by Criteria",
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
                                             color: colors.titleBlack,
