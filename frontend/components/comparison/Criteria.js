@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { compare } from '../../src/actions/comparisonActions';
 
-const Criteria = ({compare, selectedProducts, result}) => {
+const Criteria = ({compare, selectedProducts, navigation}) => {
     const [findBest, setFindBest] = useState(null);
     const [bulletEnergyActiveMost, setBulletEnergyActiveMost] = useState(false);
     const [bulletEnergyActiveLeast, setBulletEnergyActiveLeast] = useState(false);
@@ -175,13 +175,6 @@ const Criteria = ({compare, selectedProducts, result}) => {
     const countResults = () => {
         var array = selectedProducts;
         const arrayLength = array.length;
-        var percentHealthyFoodOne = 0;
-        var percentUnhealthyFoodOne = 0;
-        var percentHealthyFoodTwo = 0;
-        var percentUnhealthyFoodTwo = 0;
-        var goodComponent = '';
-        // var badComponent = '';
-        // var productOne = '';
         let energyQuant = array[0].energy;
         let fatQuant = array[0].fat;
         let saturatedQuant = array[0].saturated;
@@ -218,33 +211,24 @@ const Criteria = ({compare, selectedProducts, result}) => {
         let saltMismatch = null;
         let vitaminsComponent = null;
         let vitaminsMismatch = null;
-        let badComponent = array[0];
-        let productOne = array[0];
         let matchArray = [];
         let mismatchArray = [];
-     console.log("----------------")
         for(var i = 0; i < arrayLength; i++) {
-            let match = 0;
-            let mismatch = 0;
             if(bulletEnergyActiveMost && !bulletEnergyActiveNone) { 
                 if(energyQuant < array[i].energy) {
                     energyQuant =  array[i].energy;
                     energyComponent = array[i];
-                    match++;
                 } else if(energyLeast > array[i].energy){
                     energyLeast =  array[i].energy;
                     energyMismatch = array[i];
-                    mismatch++;
                 }
             } else if(!bulletEnergyActiveLeast && !bulletEnergyActiveNone) {
                 if(energyQuant > array[i].energy) {
                     energyQuant =  array[i].energy;
                     energyComponent = array[i];
-                    match++;
                 } else if(energyLeast < array[i].energy) {
                     energyLeast =  array[i].energy;
                     energyMismatch = array[i];
-                    mismatch++;
                 }
             }
 
@@ -252,21 +236,17 @@ const Criteria = ({compare, selectedProducts, result}) => {
                 if(fatQuant < array[i].fat) {
                     fatQuant = array[i].fat;
                     fatComponent = array[i];
-                    match++;
                 } else if(fatLeast > array[i].fat) {
                     fatLeast = array[i].fat;
                     fatMismatch = array[i];
-                    mismatch++;
                 } 
             } else if(bulletFatActiveLeast && !bulletFatActiveNone) {
                 if(fatQuant > array[i].fat) {
                     fatQuant = array[i].fat;
                     fatComponent = array[i];
-                    match++;
                 } else if(fatLeast < array[i].fat) {
                     fatLeast = array[i].fat;
                     fatMismatch = array[i];
-                    mismatch++;
                 }
             }
 
@@ -274,21 +254,17 @@ const Criteria = ({compare, selectedProducts, result}) => {
                 if(saturatedQuant < array[i].saturated) {
                     saturatedQuant =  array[i].saturated;
                     saturatedComponent = array[i];
-                    match++;
                 } else if(saturatedLeast > array[i].saturated) {
                     saturatedLeast =  array[i].saturated;
                     saturatedMismatch = array[i];
-                    mismatch++;
                 } 
             } else if(bulletSaturatedActiveLeast && !bulletSaturatedActiveNone) {
                 if(saturatedQuant > array[i].saturated) {
                     saturatedQuant =  array[i].saturated;
                     saturatedComponent = array[i];
-                    match++;
                 } else if(saturatedLeast > array[i].saturated) {
                     saturatedLeast =  array[i].saturated;
                     saturatedMismatch = array[i];
-                    mismatch++;
                 } 
             }
 
@@ -296,21 +272,17 @@ const Criteria = ({compare, selectedProducts, result}) => {
                 if(carbsQuant < array[i].carbs) {
                     carbsQuant = array[i].carbs;
                     carbsComponent = array[i];
-                    match++;
                 } else if (carbsLeast < array[i].carbs){
                     carbsLeast = array[i].carbs;
                     carbsMismatch = array[i];
-                    mismatch++;
                 } 
             } else if(bulletCarbsActiveLeast && !bulletCarbsActiveNone) {
                 if(carbsQuant > array[i].carbs) {
                     carbsQuant = array[i].carbs;
                     carbsComponent = array[i];
-                    match++;
                 } else if (carbsLeast < array[i].carbs) {
                     carbsLeast = array[i].carbs;
                     carbsMismatch = array[i];
-                    mismatch++;
                 } 
             }
 
@@ -318,21 +290,17 @@ const Criteria = ({compare, selectedProducts, result}) => {
                 if(sugarQuant < array[i].sugar) {
                     sugarQuant = array[i].sugar;
                     sugarComponent = array[i];
-                    match++;
                 } else if (sugarLeast > array[i].sugar) {
                     sugarLeast = array[i].sugar;
                     sugarMismatch = array[i];
-                    mismatch++;
                 } 
             } else if(bulletSugarActiveLeast && !bulletSugarActiveNone) {
                 if(sugarQuant > array[i].sugar) {
                     sugarQuant = array[i].sugar;
                     sugarComponent = array[i];
-                    match++;
                 } else if (sugarLeast < array[i].sugar) {
                     sugarLeast = array[i].sugar;
                     sugarMismatch = array[i];
-                    mismatch++;
                 } 
             }
 
@@ -340,21 +308,17 @@ const Criteria = ({compare, selectedProducts, result}) => {
                 if(fiberQuant < array[i].fiber) {
                     fiberQuant = array[i].fiber;
                     fiberComponent = array[i];
-                    match++;
                 } else if (fiberLeast > array[i].fiber) {
                     fiberLeast = array[i].fiber;
                     fiberMismatch = array[i].fiber;
-                    mismatch++;
                 } 
             } else if(bulletFiberActiveLeast && !bulletFiberActiveNone) {
                 if(fiberQuant > array[i].fiber) {
                     fiberQuant = array[i].fiber;
                     fiberComponent = array[i];
-                    match++;
                 } else if (fiberLeast < array[i].fiber) {
                     fiberLeast = array[i].fiber;
                     fiberMismatch = array[i];
-                    mismatch++;
                 } 
             }
 
@@ -362,21 +326,17 @@ const Criteria = ({compare, selectedProducts, result}) => {
                 if(proteinQuant < array[i].protein) {
                     proteinQuant = array[i].protein;
                     proteinComponent = array[i];
-                    match++;
                 } else if (proteinLeast > array[i].protein) {
                     proteinLeast = array[i].protein;
                     proteinMismatch = array[i];
-                    mismatch++;
                 } 
             } else if(bulletProteinActiveLeast && !bulletProteinActiveNone) {
                 if(proteinQuant > array[i].protein) {
                     proteinQuant = array[i].protein;
                     proteinComponent = array[i];
-                    match++;
                 } else if (proteinLeast < array[i].protein) {
                     proteinLeast = array[i].protein;
                     proteinMismatch = array[i];
-                    mismatch++;
                 }
             }
 
@@ -384,47 +344,38 @@ const Criteria = ({compare, selectedProducts, result}) => {
                 if(saltQuant < array[i].salt) {
                     saltQuant = array[i].salt;
                     saltComponent = array[i];
-                    match++;
                 } else if (saltLeast > array[i].salt) {
                     saltLeast = array[i].salt;
                     saltMismatch = array[i];
-                    mismatch++;
                 } 
             } else if(bulletSaltActiveLeast && !bulletSaltActiveNone) {
                 if(saltQuant > array[i].salt) {
                     saltQuant = array[i].salt;
                     saltComponent = array[i];
-                    match++;
                 } else if (saltLeast < array[i].salt) {
                     saltLeast = array[i].salt;
                     saltMismatch = array[i];
-                    mismatch++;
                 } 
             }
             if(bulletVitaminsActiveMost && !bulletVitaminsActiveNone) {
                 if(vitaminsQuant < array[i].vitamins) {
                     vitaminsQuant = array[i].vitamins;
                     vitaminsComponent = array[i];
-                    match++;
                 } else if (vitaminsLeast < array[i].vitamins) {
                     vitaminsLeast = array[i].vitamins;
                     vitaminsMismatch = array[i];
-                    mismatch++;
                 } 
             } else if(bulletVitaminsActiveLeast && !bulletVitaminsActiveNone) {
                 if(vitaminsQuant > array[i].vitamins) {
                     vitaminsQuant = array[i].vitamins;
                     vitaminsComponent = array[i];
-                    match++;
                 } else if (vitaminsLeast < array[i].vitamins) {
                     vitaminsLeast = array[i].vitamins;
                     vitaminsMismatch = array[i];
-                    mismatch++;
                 } 
             }
-            array[i].match = match;
-            array[i].mismatch = mismatch;
         }
+        // MATCH
         if(energyComponent !== null) {
             matchArray.push(energyComponent);
         }
@@ -453,7 +404,6 @@ const Criteria = ({compare, selectedProducts, result}) => {
         if(vitaminsComponent !== null) {
             matchArray.push(vitaminsComponent);
         }
-
         // MISMATCH
 
         if(energyMismatch !== null) {
@@ -484,41 +434,133 @@ const Criteria = ({compare, selectedProducts, result}) => {
         if(vitaminsMismatch !== null) {
             mismatchArray.push(vitaminsMismatch);
         }
-        const matchArrayLength = matchArray.length;
-        let gotMatch = null;
 
-        console.log("array matches ", matchArray, " array mismatches ", mismatchArray);
-        console.log("array ", array);
-
-        // for (var i = 0; i < matchArrayLength; i++ ) {
-        //     for (var j = 1; j < matchArrayLength; j++) {
-        //         if(matchArray[i].id === matchArray[j].id && matchArray[i].subcategory_id === matchArray[j].subcategory_id) {
-        //             let match = matchArray[i].match + matchArray[j].match;
-        //             matchArray[i].match = match;
-        //             matchArray[j].match = match;
-        //             gotMatch = true;
-        //             console.log(' matchArray[i].match',  matchArray[i].match, 'name',  matchArray[i].name);
-        //             console.log(' matchArray[j].match',  matchArray[j].match, 'name',  matchArray[j].name)
-        //         } else {
-        //             gotMatch = false;
-        //         }
+        // let countMatched = {};
+        // let countMismatched = {};
+        // matchArray.forEach(item => {
+        //     countMatched[item.id + " " + item.subcategory_id] = (countMatched[item.id + " " + item.subcategory_id] || 0) + 1;
+        // })
+        // mismatchArray.forEach(item => {
+        //     countMismatched[item.id + " " + item.subcategory_id] = (countMismatched[item.id + " " + item.subcategory_id] || 0) + 1;
+        // })
+        // let maxMatch = 0;
+        // let maxMismatch = 0;
+        // let bestMatchId = null;
+        // let worstMatchId = null;
+        // for (var key in countMatched) {
+        //     if(maxMatch < countMatched[key]) {
+        //         bestMatchId = key;
+        //         maxMatch = countMatched[key];
         //     }
         // }
-        // if(gotMatch) {
-        //     const filteredDuplicates = matchArray.filter((item, index, self) => (
-        //         index === self.findIndex((item2) => (
-        //             item2.id === item.id && item2.subcategory_id === item.subcategory_id
-        //         ))
-        //     ));
-        //             console.log("filtered dups ", filteredDuplicates, " sorted array: ", mathingProducts);
-        //             const mathingProducts = filteredDuplicates.sort((a, b) => {
-        //                 return b.match - a.match;
-        //             })
-
+        // for (var key in countMismatched) {
+        //     if(maxMismatch < countMismatched[key]) {
+        //         worstMatchId = key;
+        //         maxMismatch = countMismatched[key];
+        //     }
         // }
+        // const bestMatch_id = bestMatchId.split(" ")[0]; 
+        // const bestMatch_subcategoryId = bestMatchId.split(" ")[1]; 
+        // const worstMatch_id = worstMatchId.split(" ")[0]; 
+        // const worstMatch_subcategoryId = worstMatchId.split(" ")[1]; 
+
+        // const result = {
+        //     healthier: {
+        //         id: bestMatch_id,
+        //         subId: bestMatch_subcategoryId,
+        //     },
+        //     unhealthier: {
+        //         id: worstMatch_id,
+        //         subId: worstMatch_subcategoryId,
+        //     } 
+        // }    
+        // compare(result);
+        countMatch(matchArray, mismatchArray);
+
     }
 
 
+
+    const countMatch = function(matchArray, mismatchArray) {
+        console.log("Second");
+        let countMatched = {};
+        let countMismatched = {};
+        matchArray.forEach(item => {
+            countMatched[item.id + " " + item.subcategory_id] = (countMatched[item.id + " " + item.subcategory_id] || 0) + 1;
+        })
+        mismatchArray.forEach(item => {
+            countMismatched[item.id + " " + item.subcategory_id] = (countMismatched[item.id + " " + item.subcategory_id] || 0) + 1;
+        })
+        console.log("mismatch ", countMismatched, " count matched", countMatched)
+        let maxMatch = 0;
+        let maxMismatch = 0;
+        let bestMatchId = null;
+        let worstMatchId = null;
+        for (var key in countMatched) {
+            if(maxMatch < countMatched[key]) {
+                bestMatchId = key;
+                maxMatch = countMatched[key];
+            }
+        }
+        for (var key in countMismatched) {
+            if(maxMismatch < countMismatched[key]) {
+                worstMatchId = key;
+                maxMismatch = countMismatched[key];
+            }
+        }
+
+        if(bestMatchId === worstMatchId) {
+            console.log("equal", bestMatchId, " ", worstMatchId)
+            // const newArray = matchArray.filter(item => (
+            //    item.id !== bestMatchId.split(" ")[0] && item.subcategory_id !== bestMatchId.split(" ")[1]
+            // ));
+            // matchArray = newArray;
+            let bestMatchTemp = bestMatchId.split(" ")[0];
+            let worseMatchTemp = bestMatchId.split(" ")[1];
+            function test(arr) {
+                return arr.filter((element) => {
+                  return element.id !== 36 && element.subcategory_id !== 10
+                });
+              }
+              
+              // The filtered results
+              console.log('The filtered array', test(matchArray))
+              console.log('The original array', matchArray)
+            for (var key in matchArray) {
+                matchArray.forEach(item => {
+                    matchArray[item.id + " " + item.subcategory_id] = (matchArray[item.id + " " + item.subcategory_id] || 0) + 1;
+                })
+                if(maxMatch < matchArray[key]) {
+                    bestMatchId = key;
+                    maxMatch = matchArray[key];
+                }
+            }
+            console.log("correct equal", matchArray)
+            findResult(bestMatchId, worstMatchId);
+        } else {
+            console.log("incorrect unequal")
+            findResult(bestMatchId, worstMatchId);
+        }
+    }
+    const findResult = async function(bestMatchId, worstMatchId) {
+        const bestMatch_id = bestMatchId.split(" ")[0]; 
+        const bestMatch_subcategoryId = bestMatchId.split(" ")[1]; 
+        const worstMatch_id = worstMatchId.split(" ")[0]; 
+        const worstMatch_subcategoryId = worstMatchId.split(" ")[1]; 
+        const result = {
+            healthier: {
+                id: bestMatch_id,
+                subId: bestMatch_subcategoryId,
+            },
+            unhealthier: {
+                id: worstMatch_id,
+                subId: worstMatch_subcategoryId,
+            } 
+        }    
+        console.log("Result", result)
+        // await compare(result);
+        // navigation.push("Results");
+    }
     return (
         <View style={CriteriaStyles().container}>
             <View style={CriteriaStyles().itemContainer}>
