@@ -7,6 +7,7 @@ import { withNavigation } from 'react-navigation';
 import { compare } from '../../src/actions/comparisonActions';
 
 const Criteria = ({compare, selectedProducts, result}) => {
+    const [findBest, setFindBest] = useState(null);
     const [bulletEnergyActiveMost, setBulletEnergyActiveMost] = useState(false);
     const [bulletEnergyActiveLeast, setBulletEnergyActiveLeast] = useState(false);
     const [bulletEnergyActiveNone, setBulletEnergyActiveNone] = useState(false);
@@ -173,6 +174,7 @@ const Criteria = ({compare, selectedProducts, result}) => {
 
     const countResults = () => {
         var array = selectedProducts;
+        const arrayLength = array.length;
         var percentHealthyFoodOne = 0;
         var percentUnhealthyFoodOne = 0;
         var percentHealthyFoodTwo = 0;
@@ -180,182 +182,340 @@ const Criteria = ({compare, selectedProducts, result}) => {
         var goodComponent = '';
         // var badComponent = '';
         // var productOne = '';
-        let energyComponent = array[0].energy;
-        let energyIndex = 0;
-        let fatComponent = array[0].fat;
-        let fatIndex = 0;
-        let saturatedComponent = array[0].saturated;
-        let saturatedIndex = 0;
-        let carbsComponent = array[0].carbs;
-        let carbsIndex = 0;
-        let sugarComponent = array[0].sugar;
-        let sugarIndex = 0;
-        let fiberComponent = array[0].fiber;
-        let fiberIndex = 0;
-        let proteinComponent = array[0].protein;
-        let proteinIndex = 0;
-        let saltComponent = array[0].salt;
-        let saltIndex = 0;
-        let vitaminsComponent = array[0].vitamins;
-        let vitaminsIndex = 0;
+        let energyQuant = array[0].energy;
+        let fatQuant = array[0].fat;
+        let saturatedQuant = array[0].saturated;
+        let carbsQuant = array[0].carbs;
+        let sugarQuant = array[0].sugar;
+        let fiberQuant = array[0].fiber;
+        let proteinQuant = array[0].protein;
+        let saltQuant = array[0].salt;
+        let vitaminsQuant = array[0].vitamins;
+        let energyLeast = array[0].energy;
+        let fatLeast= array[0].fat;
+        let saturatedLeast = array[0].saturated;
+        let carbsLeast = array[0].carbs;
+        let sugarLeast = array[0].sugar;
+        let fiberLeast = array[0].fiber;
+        let proteinLeast = array[0].protein;
+        let saltLeast= array[0].salt;
+        let vitaminsLeast = array[0].vitamins;
+        let energyComponent = null;
+        let energyMismatch = null;
+        let fatComponent = null;
+        let fatMismatch = null;
+        let saturatedComponent = null;
+        let saturatedMismatch = null;
+        let carbsComponent = null;
+        let carbsMismatch = null;
+        let sugarComponent = null;
+        let sugarMismatch = null;
+        let fiberComponent = null;
+        let fiberMismatch = null;
+        let proteinComponent = null;
+        let proteinMismatch = null;
+        let saltComponent = null;
+        let saltMismatch = null;
+        let vitaminsComponent = null;
+        let vitaminsMismatch = null;
         let badComponent = array[0];
         let productOne = array[0];
         let matchArray = [];
         let mismatchArray = [];
-     
-        for(var i = 1; i < array.length; i++) {
+     console.log("----------------")
+        for(var i = 0; i < arrayLength; i++) {
+            let match = 0;
+            let mismatch = 0;
             if(bulletEnergyActiveMost && !bulletEnergyActiveNone) { 
-                if(energyComponent < array[i].energy) {
+                if(energyQuant < array[i].energy) {
+                    energyQuant =  array[i].energy;
                     energyComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if(energyLeast > array[i].energy){
+                    energyLeast =  array[i].energy;
+                    energyMismatch = array[i];
+                    mismatch++;
                 }
             } else if(!bulletEnergyActiveLeast && !bulletEnergyActiveNone) {
-                if(energyComponent > array[i].energy) {
+                if(energyQuant > array[i].energy) {
+                    energyQuant =  array[i].energy;
                     energyComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if(energyLeast < array[i].energy) {
+                    energyLeast =  array[i].energy;
+                    energyMismatch = array[i];
+                    mismatch++;
                 }
             }
 
             if(bulletFatActiveMost && !bulletFatActiveNone) {
-                if(fatComponent < array[i].fat) {
+                if(fatQuant < array[i].fat) {
+                    fatQuant = array[i].fat;
                     fatComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if(fatLeast > array[i].fat) {
+                    fatLeast = array[i].fat;
+                    fatMismatch = array[i];
+                    mismatch++;
                 } 
             } else if(bulletFatActiveLeast && !bulletFatActiveNone) {
-                if(fatComponent > array[i].fat) {
+                if(fatQuant > array[i].fat) {
+                    fatQuant = array[i].fat;
                     fatComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if(fatLeast < array[i].fat) {
+                    fatLeast = array[i].fat;
+                    fatMismatch = array[i];
+                    mismatch++;
                 }
             }
 
             if(bulletSaturatedActiveMost && !bulletSaturatedActiveNone) {
-                if(saturatedComponent < array[i].saturated) {
+                if(saturatedQuant < array[i].saturated) {
+                    saturatedQuant =  array[i].saturated;
                     saturatedComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if(saturatedLeast > array[i].saturated) {
+                    saturatedLeast =  array[i].saturated;
+                    saturatedMismatch = array[i];
+                    mismatch++;
                 } 
             } else if(bulletSaturatedActiveLeast && !bulletSaturatedActiveNone) {
-                if(saturatedComponent > array[i].saturated) {
+                if(saturatedQuant > array[i].saturated) {
+                    saturatedQuant =  array[i].saturated;
                     saturatedComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if(saturatedLeast > array[i].saturated) {
+                    saturatedLeast =  array[i].saturated;
+                    saturatedMismatch = array[i];
+                    mismatch++;
                 } 
             }
 
             if(bulletCarbsActiveMost && !bulletCarbsActiveNone) {
-                if(carbsComponent < array[i].carbs) {
+                if(carbsQuant < array[i].carbs) {
+                    carbsQuant = array[i].carbs;
                     carbsComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (carbsLeast < array[i].carbs){
+                    carbsLeast = array[i].carbs;
+                    carbsMismatch = array[i];
+                    mismatch++;
                 } 
             } else if(bulletCarbsActiveLeast && !bulletCarbsActiveNone) {
-                if(carbsComponent > array[i].carbs) {
+                if(carbsQuant > array[i].carbs) {
+                    carbsQuant = array[i].carbs;
                     carbsComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (carbsLeast < array[i].carbs) {
+                    carbsLeast = array[i].carbs;
+                    carbsMismatch = array[i];
+                    mismatch++;
                 } 
             }
 
             if(bulletSugarActiveMost && !bulletSugarActiveNone) {
-                if(sugarComponent < array[i].sugar) {
+                if(sugarQuant < array[i].sugar) {
+                    sugarQuant = array[i].sugar;
                     sugarComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (sugarLeast > array[i].sugar) {
+                    sugarLeast = array[i].sugar;
+                    sugarMismatch = array[i];
+                    mismatch++;
                 } 
             } else if(bulletSugarActiveLeast && !bulletSugarActiveNone) {
-                if(sugarComponent > array[i].sugar) {
+                if(sugarQuant > array[i].sugar) {
+                    sugarQuant = array[i].sugar;
                     sugarComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (sugarLeast < array[i].sugar) {
+                    sugarLeast = array[i].sugar;
+                    sugarMismatch = array[i];
+                    mismatch++;
                 } 
             }
 
             if(bulletFiberActiveMost && !bulletFiberActiveNone) {
-                if(fiberComponent < array[i].fiber) {
+                if(fiberQuant < array[i].fiber) {
+                    fiberQuant = array[i].fiber;
                     fiberComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (fiberLeast > array[i].fiber) {
+                    fiberLeast = array[i].fiber;
+                    fiberMismatch = array[i].fiber;
+                    mismatch++;
                 } 
             } else if(bulletFiberActiveLeast && !bulletFiberActiveNone) {
-                if(fiberComponent > array[i].fiber) {
+                if(fiberQuant > array[i].fiber) {
+                    fiberQuant = array[i].fiber;
                     fiberComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (fiberLeast < array[i].fiber) {
+                    fiberLeast = array[i].fiber;
+                    fiberMismatch = array[i];
+                    mismatch++;
                 } 
             }
 
             if(bulletProteinActiveMost && !bulletProteinActiveNone) {
-                if(proteinComponent < array[i].protein) {
+                if(proteinQuant < array[i].protein) {
+                    proteinQuant = array[i].protein;
                     proteinComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (proteinLeast > array[i].protein) {
+                    proteinLeast = array[i].protein;
+                    proteinMismatch = array[i];
+                    mismatch++;
                 } 
             } else if(bulletProteinActiveLeast && !bulletProteinActiveNone) {
-                if(proteinComponent > array[i].protein) {
+                if(proteinQuant > array[i].protein) {
+                    proteinQuant = array[i].protein;
                     proteinComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (proteinLeast < array[i].protein) {
+                    proteinLeast = array[i].protein;
+                    proteinMismatch = array[i];
+                    mismatch++;
                 }
             }
 
             if(bulletSaltActiveMost && !bulletSaltActiveNone) {
-                if(saltComponent < array[i].salt) {
+                if(saltQuant < array[i].salt) {
+                    saltQuant = array[i].salt;
                     saltComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (saltLeast > array[i].salt) {
+                    saltLeast = array[i].salt;
+                    saltMismatch = array[i];
+                    mismatch++;
                 } 
             } else if(bulletSaltActiveLeast && !bulletSaltActiveNone) {
-                if(saltComponent > array[i].salt) {
+                if(saltQuant > array[i].salt) {
+                    saltQuant = array[i].salt;
                     saltComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (saltLeast < array[i].salt) {
+                    saltLeast = array[i].salt;
+                    saltMismatch = array[i];
+                    mismatch++;
                 } 
             }
             if(bulletVitaminsActiveMost && !bulletVitaminsActiveNone) {
-                if(vitaminsComponent < array[i].vitamins) {
+                if(vitaminsQuant < array[i].vitamins) {
+                    vitaminsQuant = array[i].vitamins;
                     vitaminsComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (vitaminsLeast < array[i].vitamins) {
+                    vitaminsLeast = array[i].vitamins;
+                    vitaminsMismatch = array[i];
+                    mismatch++;
                 } 
             } else if(bulletVitaminsActiveLeast && !bulletVitaminsActiveNone) {
-                if(vitaminsComponent > array[i].vitamins) {
+                if(vitaminsQuant > array[i].vitamins) {
+                    vitaminsQuant = array[i].vitamins;
                     vitaminsComponent = array[i];
-                    matchArray.push(array[i]);
-                } else {
-                    mismatchArray.push(array[i]);
+                    match++;
+                } else if (vitaminsLeast < array[i].vitamins) {
+                    vitaminsLeast = array[i].vitamins;
+                    vitaminsMismatch = array[i];
+                    mismatch++;
                 } 
             }
+            array[i].match = match;
+            array[i].mismatch = mismatch;
+        }
+        if(energyComponent !== null) {
+            matchArray.push(energyComponent);
+        }
+        if(fatComponent !== null) {
+            matchArray.push(fatComponent);
+        }
+        if(saturatedComponent !== null) {
+            matchArray.push(saturatedComponent);
+        }
+        if(carbsComponent !== null) {
+            matchArray.push(carbsComponent);
+        }
+        if(sugarComponent !== null) {
+            matchArray.push(sugarComponent);
         }
 
-        for(var i = 0; i < matchArray.length; i++) {
-            for(var j = 1; j < matchArray.length; j++) {
-                if(matchArray[i] === matchArray[j]) {
-                    
-                }
-            }
+        if(fiberComponent !== null) {
+            matchArray.push(fiberComponent);
+        }
+        if(proteinComponent !== null) {
+            matchArray.push(proteinComponent);
+        }
+        if(saltComponent !== null) {
+            matchArray.push(saltComponent);
+        }
+        if(vitaminsComponent !== null) {
+            matchArray.push(vitaminsComponent);
         }
 
+        // MISMATCH
+
+        if(energyMismatch !== null) {
+            mismatchArray.push(energyMismatch);
+        }
+        if(fatMismatch !== null) {
+            mismatchArray.push(fatMismatch);
+        }
+        if(saturatedMismatch !== null) {
+            mismatchArray.push(saturatedMismatch);
+        }
+        if(carbsMismatch !== null) {
+            mismatchArray.push(carbsMismatch);
+        }
+        if(sugarMismatch !== null) {
+            mismatchArray.push(sugarMismatch);
+        }
+
+        if(fiberMismatch !== null) {
+            mismatchArray.push(fiberMismatch);
+        }
+        if(proteinMismatch !== null) {
+            mismatchArray.push(proteinMismatch);
+        }
+        if(saltMismatch !== null) {
+            mismatchArray.push(saltMismatch);
+        }
+        if(vitaminsMismatch !== null) {
+            mismatchArray.push(vitaminsMismatch);
+        }
+        const matchArrayLength = matchArray.length;
+        let gotMatch = null;
+
+        console.log("array matches ", matchArray, " array mismatches ", mismatchArray);
+        console.log("array ", array);
+
+        // for (var i = 0; i < matchArrayLength; i++ ) {
+        //     for (var j = 1; j < matchArrayLength; j++) {
+        //         if(matchArray[i].id === matchArray[j].id && matchArray[i].subcategory_id === matchArray[j].subcategory_id) {
+        //             let match = matchArray[i].match + matchArray[j].match;
+        //             matchArray[i].match = match;
+        //             matchArray[j].match = match;
+        //             gotMatch = true;
+        //             console.log(' matchArray[i].match',  matchArray[i].match, 'name',  matchArray[i].name);
+        //             console.log(' matchArray[j].match',  matchArray[j].match, 'name',  matchArray[j].name)
+        //         } else {
+        //             gotMatch = false;
+        //         }
+        //     }
+        // }
+        // if(gotMatch) {
+        //     const filteredDuplicates = matchArray.filter((item, index, self) => (
+        //         index === self.findIndex((item2) => (
+        //             item2.id === item.id && item2.subcategory_id === item.subcategory_id
+        //         ))
+        //     ));
+        //             console.log("filtered dups ", filteredDuplicates, " sorted array: ", mathingProducts);
+        //             const mathingProducts = filteredDuplicates.sort((a, b) => {
+        //                 return b.match - a.match;
+        //             })
+
+        // }
     }
 
 
@@ -550,7 +710,7 @@ const Criteria = ({compare, selectedProducts, result}) => {
                 </View>
             </View>
             <TouchableOpacity style={CriteriaStyles().buttonWrap} onPress={countResults} >
-                <IonIcon name="ios-calculator" style={CriteriaStyles().buttonResults} onPress={() => this.findBestWorst()} />
+                <IonIcon name="ios-calculator" style={CriteriaStyles().buttonResults} />
             </TouchableOpacity>
         </View>
     )
