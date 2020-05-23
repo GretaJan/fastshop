@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { diagram } from '../../components_additional/styles/CompareStyles';
@@ -9,10 +9,8 @@ import { withNavigation } from 'react-navigation';
 
 
 const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
+    let scrollTopRef = null;
     const [showDropDown, setShowDropDown] = useState(false);
-    const [scroll, setScroll] = useState(false);
-
-
     const { healthy, unhealthy } = result;
     const oneSaturated = result.healthy.saturated == null ? parseInt(0) : parseFloat(result.healthy.saturated);
     const twoSaturated = result.unhealthy.saturated == null ? parseInt(0) : parseFloat(result.unhealthy.saturated);
@@ -35,14 +33,6 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
     const badQualitiesHealthy = oneCarbs + oneSugar + oneSalt;
     const badQualitiesUnhealthy = twoCarbs + twoSugar + twoSalt;
 
-    // const handleOnScroll = event => {
-    //     const offset = event.nativeEvent.contentOffset.y;
-    //     if(offset >= 95) {
-    //         setScroll(true);
-    //     } else if (offset < 95) {
-    //         setScroll(false);
-    //     }
-    // }
     const nameSlice = (name) => {
         if(name.length > 33) {
            var newName = name.slice(0, 33);
@@ -56,19 +46,12 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
         }
     }
     const scrollUp = () => {
-        // React.useEffect(() => { window.scrollTo(0, 0); }, []);
-
-        
-        // InteractionManager.runAfterInteractions(() => this.scroll.current.scrollTo({ x }));
-        // console.log("event", event.nativeEvent.contentOffset.y)
-        // let offset = event.nativeEvent.contentOffset.y;
-        // offset = 0;
-
+        scrollTopRef.scrollTo({y: 0, animated: true});
     }
 
         return (
-                <ScrollView style={diagram().container} >
-                    <View style={diagram().mainContentContainer}>
+                <ScrollView style={diagram().container} ref={scrollView => scrollTopRef = scrollView}>
+                    <View style={diagram().mainContentContainer} >
                         <View style={diagram().productsContainer} >
                             <TouchableOpacity style={diagram().itemGoodWrap} onPress={() => navigate("Product", {subcategoryId: healthy.subcategory_id, productId: healthy.id})} >
                                 { healthy.image ? (
@@ -381,7 +364,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
                                 </View>
                             </View>
                         </View>
-                        <TouchableOpacity style={(diagram().scrollUp)} onPress={() => scrollUp()}>
+                        <TouchableOpacity style={(diagram().scrollUp)} onPress={ scrollUp }>
                             <IonIcon style={diagram().scrollUpIcon} name="ios-arrow-up" />
                         </TouchableOpacity>
                     </View>
@@ -390,7 +373,7 @@ const ResultsOfBestWorst = ({ result, navigation: { navigate } }) => {
     )
 }
 
-const mapStateToProps = state => (console.log("rsultssss", state.selectedProducts.result),{
+const mapStateToProps = state => ({
     result: state.selectedProducts.result,
 })
 

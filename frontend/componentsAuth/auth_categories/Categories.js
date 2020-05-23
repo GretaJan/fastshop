@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, ScrollView, StyleSheet, FlatList, TouchableOpacity, Button } from 'react-native';
+import { View, Text, ScrollView, FlatList, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import { getCategories, deleteCategory } from '../../src/actions/categoryActions';
 import { withNavigation } from 'react-navigation';
@@ -36,7 +36,7 @@ class Categories extends Component {
                     <Loading />
                 </View>
             ) : (
-                <View style={authCategory().container}>
+                <View style={authCategory().container}  >
                     <CircleButton func={() => { this.props.navigation.push("Add_Category") }} />
                     { this.props.categories.length == 0 ? (
                         <EmptyList message="The List is empty" />

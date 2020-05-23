@@ -37,12 +37,12 @@ import Criteria from '../../components/comparison/Criteria';
 import DescAscend from '../../components/comparison/DescAscend';
 
 class Tabs extends Component {
-
     componentDidUpdate(nextProps) {
         if (nextProps.isAuthorized !== this.props.isAuthorized) {
             console.log("Next props: ", nextProps.isAuthorized);
         }
     } 
+
     logOut = () => {
         this.props.logOut(this.props.admin)
     }   

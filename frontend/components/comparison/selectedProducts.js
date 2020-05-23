@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { productSelected, deleteProductFromList, compare, clearResults, goToList, sortArray, diagramResults } from '../../src/actions/comparisonActions';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { productWrap } from '../../components_additional/styles/CompareStyles';
-import ButtonStyled from '../../components_additional/Button';
+import { colors } from '../../components_additional/styles/Colors';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
@@ -16,7 +16,6 @@ import EmptyList from '../../components_additional/EmptyListSelected';
 import DescAscend from './DescAscend';
 import LoadingResults from '../../components_additional/LoadingResults';
 import Modal from '../../components_additional/Modal';
-import { colors } from '../../components_additional/styles/Colors';
 
 class Products extends Component {
     state = {
@@ -24,118 +23,7 @@ class Products extends Component {
         show: true,
         hide: false,
         modalMessageNumber: false,
-        modalMessageEqual: false,
         optionsDisplay: true,
-        loadingResults: false,
-        
-        // mostEnergy: '',
-        // energyName: '',
-        // mostFat: '',
-        // fatName: '',
-        // mostSaturated: '',
-        // nameSaturated: '',
-        // leastcarbs: '',
-        // nameCarbs: '',
-        // leastSugar: '',
-        // nameSugar: '',
-        // mostFiber: '',
-        // nameFiber: '',
-        // mostProtein: '',
-        // nameProtein: '',
-        // leastSalt: '',
-        // nameSalt: '',
-        // mostVitamins: '',
-        // nameVitamins: '',
-    }
-
-    findBestWorst = async() => {
-        var array = this.props.selectedProducts;
-        var percentHealthyFoodOne = 0;
-        var percentUnhealthyFoodOne = 0;
-        var percentHealthyFoodTwo = 0;
-        var percentUnhealthyFoodTwo = 0;
-        var goodComponent = '';
-        var badComponent = '';
-        var productOne = 
-        goodComponent = array[0];
-        badComponent = array[0];
-        productOne = array[0];
-        const oneSaturatedInit = array[0].saturated == null ? parseInt(0) : parseFloat(array[0].saturated);
-        const oneFiberInit = array[0].fiber == null ? parseInt(0) : parseFloat(array[0].fiber);
-        const oneProteinInit = array[0].protein == null ? parseInt(0) : parseFloat(array[0].protein);
-        const oneVitaminsInit = array[0].vitamins == null ? parseInt(0) : parseFloat(array[0].vitamins);
-        const oneSugarInit = array[0].sugar == null ? parseInt(0) : parseFloat(array[0].sugar);
-        const oneCarbsInit = array[0].carbs == null ? parseInt(0) : (parseFloat(array[0].carbs) - oneSugarInit);
-        const oneSaltInit = array[0].salt == null ? parseInt(0) : parseFloat(array[0].salt);
-        const goodQualitiesOne = oneSaturatedInit + oneFiberInit + oneProteinInit + oneVitaminsInit;
-        const badQualitiesOne = oneCarbsInit + oneSaltInit;
-        percentHealthyFoodOne = goodQualitiesOne;
-        percentUnhealthyFoodOne = badQualitiesOne;   
-        percentHealthyFoodTwo = goodQualitiesOne;
-        percentUnhealthyFoodTwo = badQualitiesOne;
-    
-        if(array.length < 2) {
-            this.setState({modalMessageNumber: true});
-        } else {
-            this.setState({modalMessageNumber: false, loadingResults: true});
-
-            for(var i = 1; i < array.length ; i++) {
-                var productTwo = array[i];
-
-                const oneSaturatedArrayTwo = array[i].saturated == null ? parseInt(0) : parseFloat(array[i].saturated);
-                const oneFiberArrayTwo= array[i].fiber == null ? parseInt(0) : parseFloat(array[i].fiber);
-                const oneProteinArrayTwo= array[i].protein == null ? parseInt(0) : parseFloat(array[i].protein);
-                const oneVitaminsArraytwo = array[i].vitamins == null ? parseInt(0) : parseFloat(array[i].vitamins);
-                const oneSugarArrayTwo = array[i].sugar == null ? parseInt(0) : parseFloat(array[i].sugar);
-                const oneCarbsArrayTwo = array[i].carbs == null ? parseInt(0) : (parseFloat(array[i].carbs) - oneSugarInit);
-                const oneSaltArrayTwo= array[i].salt == null ? parseInt(0) : parseFloat(array[i].salt);
-                const goodQualitiesTwo = oneSaturatedArrayTwo + oneFiberArrayTwo + oneProteinArrayTwo + oneVitaminsArraytwo;
-                const badQualitiesTwo = oneCarbsArrayTwo + oneSugarArrayTwo + oneSaltArrayTwo;
-
-                if ( goodQualitiesOne > goodQualitiesTwo ) {
-                    goodComponent = productTwo;
-                    percentHealthyFoodOne = goodQualitiesTwo;
-                    percentUnhealthyFoodOne = badQualitiesTwo;
-                }
-                if ( badQualitiesOne < badQualitiesTwo ) {
-                    badComponent = productTwo;
-                    percentHealthyFoodTwo = goodQualitiesTwo;
-                    percentUnhealthyFoodTwo = badQualitiesTwo;
-                }   
-        
-            }
-          
-            this.setState({modalMessageEqual: false});
-            const result = {
-                healthier: {
-                    id: goodComponent.id,
-                    subId: goodComponent.subcategory_id,
-                },
-                unhealthier: {
-                    id: badComponent.id,
-                    subId: badComponent.subcategory_id,
-                } 
-            }
-
-            const resultTwo = {
-                healthier: {
-                    goodComponents: percentHealthyFoodOne,
-                    badComponents: percentUnhealthyFoodOne 
-                },
-                unhealthier: {
-                    goodComponents: percentHealthyFoodTwo,
-                    badComponents: percentUnhealthyFoodTwo
-                }
-                
-            }
-            console.log('resultsss', result)
-           await this.props.compare(result);
-           this.setState({loadingResults: true});
-        }
-    }
-
-    verifyIfComparable = () => {
-        
     }
 
     goToProduct = (subcategoryId, productId) => {
@@ -143,19 +31,37 @@ class Products extends Component {
     }
 
     clearResults = () => {
-        console.log("Clear")
         this.props.clearResults();
     }
 
+    checkIfEnoughSelected(page) {
+        const objectLength = Object.keys(this.props.selectedProducts).length;
+        if(objectLength === 0) {
+            this.setState({modalMessageNumber: true}) 
+            console.log("false", objectLength)
+        } else {
+            this.setState({modalMessageNumber: false}) 
+            this.props.navigation.push(page);
+            console.log("true")
+        }
+    }
+
+    goToDescAscPage = () => {
+        this.checkIfEnoughSelected("DescAscend");
+    }
+
+    goToCriteriaPage = () => {
+        this.checkIfEnoughSelected("Criteria");
+    }
+
     render() {
-        const objectLength = Object.keys(this.props.result).length;
         return (
                 <View style={stylesGuest().container} >
                     {this.state.loadingResults && <LoadingResults /> }
-                    {(this.state.modalMessageEqual || this.state.modalMessageNumber) && (
+                    {(this.state.modalMessageNumber) && (
                     <Modal title="Warning" 
-                        message={(!this.state.modalMessageEqual) ? ('Please select at least two products.') : ('Unable to compare. Products have same qualities.')} 
-                        close={() => this.setState({modalMessageEqual: false, modalMessageNumber: false})} 
+                        message={'Please select at least two products.'} 
+                        close={() => this.setState({ modalMessageNumber: false })} 
                         ok="OK" color={colors.orange} borderColor={colors.inputOrange}
                         horizontal={20} vertical={10}/>
                     )}
@@ -175,7 +81,7 @@ class Products extends Component {
                 <View style={productWrap().btnsContainer} >
                     <Text style={productWrap().transparentStripe} ></Text>
                     <View style={productWrap().btnOne}>
-                        <TouchableOpacity style={productWrap().iconWrapOne} onPress={() => this.props.navigation.push("DescAscend")} >
+                        <TouchableOpacity style={productWrap().iconWrapOne} onPress={ this.goToDescAscPage } >
                             <IonIcon name="md-list" style={productWrap().iconItem}  />
                         </TouchableOpacity>
                         <View style={productWrap().textWrap} >
@@ -184,22 +90,13 @@ class Products extends Component {
                         </View>
                     </View>
                     <View style={productWrap().btnTwo}>
-                        <TouchableOpacity style={productWrap().iconWrapTwo} >
-                        {objectLength > 0 ? (
-                            <IonIcon name="ios-stats" style={productWrap().iconItem} onPress={() => this.props.navigation.push('Results')} />
-                        ) : (
-                            <IonIcon name="ios-calculator" style={productWrap().iconItem} onPress={() => this.props.navigation.push("Criteria")} />
-                        )}
+                        <TouchableOpacity style={productWrap().iconWrapTwo} onPress={ this.goToCriteriaPage } >
+                            <IonIcon name="ios-calculator" style={productWrap().iconItem} />
                         </TouchableOpacity>
                         <View style={productWrap().textWrap} >
-                            {objectLength > 0 ? (
-                                  <Text style={productWrap().infoTxt}>View Results</Text>  
-                            ) : (
-                                <Text style={productWrap().infoTxt}>Find best and worst match</Text>
-                            )}
+                            <Text style={productWrap().infoTxt}>Find best and worst match</Text>
                             <Text>Click Me!</Text>
                         </View>
-                        {/* <ButtonStyled color={colors.orange} title="CALCULATE" func={() => this.findBestWorst()} /> */}
                     </View> 
                 </View> 
                 )}

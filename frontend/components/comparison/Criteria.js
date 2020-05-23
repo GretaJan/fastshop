@@ -5,175 +5,160 @@ import { CriteriaStyles } from '../../components_additional/styles/CompareStyles
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { compare } from '../../src/actions/comparisonActions';
+import { colors } from '../../components_additional/styles/Colors';
+import Modal from '../../components_additional/Modal';
 
 const Criteria = ({compare, selectedProducts, navigation}) => {
-    const [findBest, setFindBest] = useState(null);
-    const [bulletEnergyActiveMost, setBulletEnergyActiveMost] = useState(false);
-    const [bulletEnergyActiveLeast, setBulletEnergyActiveLeast] = useState(false);
+    const [bulletEnergyActiveMost, setBulletEnergyActiveMost] = useState(null);
+    const [bulletEnergyActiveLeast, setBulletEnergyActiveLeast] = useState(null);
     const [bulletEnergyActiveNone, setBulletEnergyActiveNone] = useState(false);
-    const [bulletFatActiveMost, setBulletFatActiveMost] = useState(false);
-    const [bulletFatActiveLeast, setBulletFatActiveLeast] = useState(false);
+    const [bulletFatActiveMost, setBulletFatActiveMost] = useState(null);
+    const [bulletFatActiveLeast, setBulletFatActiveLeast] = useState(null);
     const [bulletFatActiveNone, setBulletFatActiveNone] = useState(false);
-    const [bulletSaturatedActiveMost, setBulletSaturatedActiveMost] = useState(false);
-    const [bulletSaturatedActiveLeast, setBulletSaturatedActiveLeast] = useState(false);
+    const [bulletSaturatedActiveMost, setBulletSaturatedActiveMost] = useState(null);
+    const [bulletSaturatedActiveLeast, setBulletSaturatedActiveLeast] = useState(null);
     const [bulletSaturatedActiveNone, setBulletSaturatedActiveNone] = useState(false);
-    const [bulletCarbsActiveMost, setBulletCarbsActiveMost] = useState(false);
-    const [bulletCarbsActiveLeast, setBulletCarbsActiveLeast] = useState(false);
+    const [bulletCarbsActiveMost, setBulletCarbsActiveMost] = useState(null);
+    const [bulletCarbsActiveLeast, setBulletCarbsActiveLeast] = useState(null);
     const [bulletCarbsActiveNone, setBulletCarbsActiveNone] = useState(false);
-    const [bulletSugarActiveMost, setBulletSugarActiveMost] = useState(false);
-    const [bulletSugarActiveLeast, setBulletSugarActiveLeast] = useState(false);
+    const [bulletSugarActiveMost, setBulletSugarActiveMost] = useState(null);
+    const [bulletSugarActiveLeast, setBulletSugarActiveLeast] = useState(null);
     const [bulletSugarActiveNone, setBulletSugarActiveNone] = useState(false);
-    const [bulletFiberActiveMost, setBulletFiberActiveMost] = useState(false);
-    const [bulletFiberActiveLeast, setBulletFiberActiveLeast] = useState(false);
+    const [bulletFiberActiveMost, setBulletFiberActiveMost] = useState(null);
+    const [bulletFiberActiveLeast, setBulletFiberActiveLeast] = useState(null);
     const [bulletFiberActiveNone, setBulletFiberActiveNone] = useState(false);
-    const [bulletProteinActiveMost, setBulletProteinActiveMost] = useState(false);
-    const [bulletProteinActiveLeast, setBulletProteinActiveLeast] = useState(false);
+    const [bulletProteinActiveMost, setBulletProteinActiveMost] = useState(null);
+    const [bulletProteinActiveLeast, setBulletProteinActiveLeast] = useState(null);
     const [bulletProteinActiveNone, setBulletProteinActiveNone] = useState(false);
-    const [bulletSaltActiveMost, setBulletSaltActiveMost] = useState(false);
-    const [bulletSaltActiveLeast, setBulletSaltActiveLeast] = useState(false);
+    const [bulletSaltActiveMost, setBulletSaltActiveMost] = useState(null);
+    const [bulletSaltActiveLeast, setBulletSaltActiveLeast] = useState(null);
     const [bulletSaltActiveNone, setBulletSaltActiveNone] = useState(false);
-    const [bulletVitaminsActiveMost, setBulletVitaminsActiveMost] = useState(false);
-    const [bulletVitaminsActiveLeast, setBulletVitaminsActiveLeast] = useState(false);
+    const [bulletVitaminsActiveMost, setBulletVitaminsActiveMost] = useState(null);
+    const [bulletVitaminsActiveLeast, setBulletVitaminsActiveLeast] = useState(null);
     const [bulletVitaminsActiveNone, setBulletVitaminsActiveNone] = useState(false);
+    const [calculated, setCalculated] = useState(null);
+    const [allowCalculation, setAllowCalculated] = useState(false);
+    const [modal, setModal] = useState(false);
+
+    function setMost(most, least, none) {
+        most(true);
+        least(false);
+        none(false);
+        setCalculated(false);
+        setAllowCalculated(true);
+    }
+    function setLeast(most, least, none) {
+        most(false);
+        least(true);
+        none(false);
+        setCalculated(false);
+        setAllowCalculated(true);
+    }
+    function setNone(most, least, none) {
+        most(false);
+        least(false);
+        none(true);
+        setCalculated(false);
+        setAllowCalculated(false);
+    }
 
     const energyMost = () => {
-        setBulletEnergyActiveMost(true);
-        setBulletEnergyActiveLeast(false);
-        setBulletEnergyActiveNone(false);
+        setMost(setBulletEnergyActiveMost, setBulletEnergyActiveLeast, setBulletEnergyActiveNone);
     }
     const energyLeast = () => {
-        setBulletEnergyActiveMost(false);
-        setBulletEnergyActiveLeast(true);
-        setBulletEnergyActiveNone(false);
+        setLeast(setBulletEnergyActiveMost, setBulletEnergyActiveLeast, setBulletEnergyActiveNone);
     }
     const energyNone = () => {
-        setBulletEnergyActiveMost(false);
-        setBulletEnergyActiveLeast(false);
-        setBulletEnergyActiveNone(true);
+        setNone(setBulletEnergyActiveMost, setBulletEnergyActiveLeast, setBulletEnergyActiveNone);
+
     }
     const fatMost = () => {
-        setBulletFatActiveMost(true);
-        setBulletFatActiveLeast(false);
-        setBulletFatActiveNone(false);
+        setMost(setBulletFatActiveMost, setBulletFatActiveLeast, setBulletFatActiveNone);
     }
     const fatLeast = () => {
-        setBulletFatActiveMost(false);
-        setBulletFatActiveLeast(true);
-        setBulletFatActiveNone(false);
+        setLeast(setBulletFatActiveMost, setBulletFatActiveLeast, setBulletFatActiveNone);
     }
     const fatNone = () => {
-        setBulletFatActiveMost(false);
-        setBulletFatActiveLeast(false);
-        setBulletFatActiveNone(true);
+        setNone(setBulletFatActiveMost, setBulletFatActiveLeast, setBulletFatActiveNone);
     }
     const saturatedMost = () => {
-        setBulletSaturatedActiveMost(true);
-        setBulletSaturatedActiveLeast(false);
-        setBulletSaturatedActiveNone(false);
+        setMost(setBulletSaturatedActiveMost, setBulletSaturatedActiveLeast, setBulletSaturatedActiveNone);
     }
     const saturatedLeast = () => {
-        setBulletSaturatedActiveMost(false);
-        setBulletSaturatedActiveLeast(true);
-        setBulletSaturatedActiveNone(false);
+        setLeast(setBulletSaturatedActiveMost, setBulletSaturatedActiveLeast, setBulletSaturatedActiveNone);
     }
     const saturatedNone = () => {
-        setBulletSaturatedActiveMost(false);
-        setBulletSaturatedActiveLeast(false);
-        setBulletSaturatedActiveNone(true);
+        setNone(setBulletSaturatedActiveMost, setBulletSaturatedActiveLeast, setBulletSaturatedActiveNone);
     }
     const carbsMost = () => {
-        setBulletCarbsActiveMost(true);
-        setBulletCarbsActiveLeast(false);
-        setBulletCarbsActiveNone(false);
+        setMost(setBulletCarbsActiveMost, setBulletCarbsActiveLeast, setBulletCarbsActiveNone);
     }
     const carbsLeast = () => {
-        setBulletCarbsActiveMost(false);
-        setBulletCarbsActiveLeast(true);
-        setBulletCarbsActiveNone(false);
+        setLeast(setBulletCarbsActiveMost, setBulletCarbsActiveLeast, setBulletCarbsActiveNone);
     }
     const carbsNone = () => {
-        setBulletCarbsActiveMost(false);
-        setBulletCarbsActiveLeast(false);
-        setBulletCarbsActiveNone(true);
+        setLeast(setBulletCarbsActiveMost, setBulletCarbsActiveLeast, setBulletCarbsActiveNone);
     }
     const sugarMost = () => {
-        setBulletSugarActiveMost(true);
-        setBulletSugarActiveLeast(false);
-        setBulletSugarActiveNone(false);
+        setMost(setBulletSugarActiveMost, setBulletSugarActiveLeast, setBulletSugarActiveNone);
     }
     const sugarLeast = () => {
-        setBulletSugarActiveMost(false);
-        setBulletSugarActiveLeast(true);
-        setBulletSugarActiveNone(false);
+        setLeast(setBulletSugarActiveMost, setBulletSugarActiveLeast, setBulletSugarActiveNone);
+
     }
     const sugarNone = () => {
-        setBulletSugarActiveMost(false);
-        setBulletSugarActiveLeast(false);
-        setBulletSugarActiveNone(true);
+        setNone(setBulletSugarActiveMost, setBulletSugarActiveLeast, setBulletSugarActiveNone);
     }
     const fiberMost = () => {
-        setBulletFiberActiveMost(true);
-        setBulletFiberActiveLeast(false);
-        setBulletFiberActiveNone(false);
+        setMost(setBulletFiberActiveMost, setBulletFiberActiveLeast, setBulletFiberActiveNone);
     }
     const fiberLeast = () => {
-        setBulletFiberActiveMost(false);
-        setBulletFiberActiveLeast(true);
-        setBulletFiberActiveNone(false);
+        setLeast(setBulletFiberActiveMost, setBulletFiberActiveLeast, setBulletFiberActiveNone);
     }
     const fiberNone = () => {
-        setBulletFiberActiveMost(false);
-        setBulletFiberActiveLeast(false);
-        setBulletFiberActiveNone(true);
+        setNone(setBulletFiberActiveMost, setBulletFiberActiveLeast, setBulletFiberActiveNone);
     }
     const proteinMost = () => {
-        setBulletProteinActiveMost(true);
-        setBulletProteinActiveLeast(false);
-        setBulletProteinActiveNone(false);
+        setMost(setBulletProteinActiveMost, setBulletProteinActiveLeast, setBulletProteinActiveNone);
     }
     const proteinLeast = () => {
-        setBulletProteinActiveMost(false);
-        setBulletProteinActiveLeast(true);
-        setBulletProteinActiveNone(false);
+        setLeast(setBulletProteinActiveMost, setBulletProteinActiveLeast, setBulletProteinActiveNone);
     }
     const proteinNone = () => {
-        setBulletProteinActiveMost(false);
-        setBulletProteinActiveLeast(false);
-        setBulletProteinActiveNone(true);
+        setNone(setBulletProteinActiveMost, setBulletProteinActiveLeast, setBulletProteinActiveNone);
     }
     const saltMost = () => {
-        setBulletSaltActiveMost(true);
-        setBulletSaltActiveLeast(false);
-        setBulletSaltActiveNone(false);
+        setMost(setBulletSaltActiveMost, setBulletSaltActiveLeast, setBulletSaltActiveNone);
     }
     const saltLeast = () => {
-        setBulletSaltActiveMost(false);
-        setBulletSaltActiveLeast(true);
-        setBulletSaltActiveNone(false);
+        setLeast(setBulletSaltActiveMost, setBulletSaltActiveLeast, setBulletSaltActiveNone);
     }
     const saltNone = () => {
-        setBulletSaltActiveMost(false);
-        setBulletSaltActiveLeast(false);
-        setBulletSaltActiveNone(true);
+        setNone(setBulletSaltActiveMost, setBulletSaltActiveLeast, setBulletSaltActiveNone);
     }
     const vitaminsMost = () => {
-        setBulletVitaminsActiveMost(true);
-        setBulletVitaminsActiveLeast(false);
-        setBulletVitaminsActiveNone(false);
+        setMost(setBulletVitaminsActiveMost, setBulletVitaminsActiveLeast, setBulletVitaminsActiveNone);
     }
     const vitaminsLeast = () => {
-        setBulletVitaminsActiveMost(false);
-        setBulletVitaminsActiveLeast(true);
-        setBulletVitaminsActiveNone(false);
+        setLeast(setBulletVitaminsActiveMost, setBulletVitaminsActiveLeast, setBulletVitaminsActiveNone);
     }
     const vitaminsNone = () => {
-        setBulletVitaminsActiveMost(false);
-        setBulletVitaminsActiveLeast(false);
-        setBulletVitaminsActiveNone(true);
+        setNone(setBulletVitaminsActiveMost, setBulletVitaminsActiveLeast, setBulletVitaminsActiveNone);
+    }
+
+    function setVariables(bulletNone, most, least, arrayElement) {
+        if(!bulletNone) {
+            most = arrayElement;
+            least = arrayElement;
+        }
     }
 
     const countResults = () => {
-        var array = selectedProducts;
+    if (!allowCalculation) {
+        setModal(true);
+    } else {
+        setModal(false);
+        const array = selectedProducts;
         const arrayLength = array.length;
         let energyQuant = array[0].energy;
         let fatQuant = array[0].fat;
@@ -213,8 +198,46 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         let vitaminsMismatch = null;
         let matchArray = [];
         let mismatchArray = [];
+
+        if(bulletEnergyActiveMost || bulletEnergyActiveLeast) {
+            energyComponent = array[0];
+            energyMismatch = array[0];
+        }
+        if(bulletFatActiveMost || bulletFatActiveLeast) {
+            fatComponent = array[0];
+            fatMismatch = array[0];
+        }
+        if(bulletSaturatedActiveMost || bulletSaturatedActiveLeast) {
+            saturatedComponent = array[0];
+            saturatedMismatch = array[0];
+        }
+        if(bulletCarbsActiveMost || bulletCarbsActiveLeast) {
+            carbsComponent = array[0];
+            carbsMismatch = array[0];
+        }
+        if(bulletSugarActiveMost || bulletSugarActiveLeast) {
+            sugarComponent = array[0];
+            sugarMismatch = array[0];
+        }
+        if(bulletFiberActiveMost || bulletFiberActiveLeast) {
+            fiberComponent = array[0];
+            fiberMismatch = array[0];
+        }
+        if(bulletProteinActiveMost || bulletProteinActiveLeast) {
+            proteinComponent = array[0];
+            proteinMismatch = array[0];
+        }
+        if(bulletSaltActiveMost || bulletSaltActiveLeast) {
+            saltComponent = array[0];
+            saltMismatch = array[0];
+        }
+        if(bulletVitaminsActiveMost || bulletVitaminsActiveLeast) {
+            vitaminsComponent = array[0];
+            vitaminsMismatch = array[0];
+        }
         for(var i = 0; i < arrayLength; i++) {
-            if(bulletEnergyActiveMost && !bulletEnergyActiveNone) { 
+            console.log("array energy", array[i].energy)
+            if(bulletEnergyActiveMost) { 
                 if(energyQuant < array[i].energy) {
                     energyQuant =  array[i].energy;
                     energyComponent = array[i];
@@ -222,35 +245,38 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     energyLeast =  array[i].energy;
                     energyMismatch = array[i];
                 }
-            } else if(!bulletEnergyActiveLeast && !bulletEnergyActiveNone) {
-                if(energyQuant > array[i].energy) {
-                    energyQuant =  array[i].energy;
-                    energyComponent = array[i];
-                } else if(energyLeast < array[i].energy) {
+            } else if(bulletEnergyActiveLeast) {
+                if(energyLeast > array[i].energy) {
                     energyLeast =  array[i].energy;
+                    energyComponent = array[i];
+                    console.log('energyQuant', energyQuant)
+                } else if(energyQuant < array[i].energy) {
+                    energyQuant =  array[i].energy;
                     energyMismatch = array[i];
+                    console.log('energyQuant2', energyQuant)
                 }
             }
 
-            if(bulletFatActiveMost && !bulletFatActiveNone) {
+            if(bulletFatActiveMost) {
                 if(fatQuant < array[i].fat) {
-                    fatQuant = array[i].fat;
-                    fatComponent = array[i];
-                } else if(fatLeast > array[i].fat) {
-                    fatLeast = array[i].fat;
-                    fatMismatch = array[i];
-                } 
-            } else if(bulletFatActiveLeast && !bulletFatActiveNone) {
-                if(fatQuant > array[i].fat) {
                     fatQuant = array[i].fat;
                     fatComponent = array[i];
                 } else if(fatLeast < array[i].fat) {
                     fatLeast = array[i].fat;
                     fatMismatch = array[i];
+                    console.log("fatleast Fat ", fatMismatch)
+                } 
+            } else if(bulletFatActiveLeast) {
+                if(fatLeast > array[i].fat) {
+                    fatLeast = array[i].fat;
+                    fatComponent = array[i];
+                } else if(fatQuant < array[i].fat) {
+                    fatQuant = array[i].fat;
+                    fatMismatch = array[i];
                 }
             }
 
-            if(bulletSaturatedActiveMost && !bulletSaturatedActiveNone) {
+            if(bulletSaturatedActiveMost) {
                 if(saturatedQuant < array[i].saturated) {
                     saturatedQuant =  array[i].saturated;
                     saturatedComponent = array[i];
@@ -258,17 +284,17 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     saturatedLeast =  array[i].saturated;
                     saturatedMismatch = array[i];
                 } 
-            } else if(bulletSaturatedActiveLeast && !bulletSaturatedActiveNone) {
-                if(saturatedQuant > array[i].saturated) {
-                    saturatedQuant =  array[i].saturated;
-                    saturatedComponent = array[i];
-                } else if(saturatedLeast > array[i].saturated) {
+            } else if(bulletSaturatedActiveLeast) {
+                if(saturatedLeast > array[i].saturated) {
                     saturatedLeast =  array[i].saturated;
+                    saturatedComponent = array[i];
+                } else if(saturatedQuant > array[i].saturated) {
+                    saturatedQuant =  array[i].saturated;
                     saturatedMismatch = array[i];
                 } 
             }
 
-            if(bulletCarbsActiveMost && !bulletCarbsActiveNone) {
+            if(bulletCarbsActiveMost) {
                 if(carbsQuant < array[i].carbs) {
                     carbsQuant = array[i].carbs;
                     carbsComponent = array[i];
@@ -276,17 +302,17 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     carbsLeast = array[i].carbs;
                     carbsMismatch = array[i];
                 } 
-            } else if(bulletCarbsActiveLeast && !bulletCarbsActiveNone) {
-                if(carbsQuant > array[i].carbs) {
-                    carbsQuant = array[i].carbs;
-                    carbsComponent = array[i];
-                } else if (carbsLeast < array[i].carbs) {
+            } else if(bulletCarbsActiveLeast) {
+                if(carbsLeast > array[i].carbs) {
                     carbsLeast = array[i].carbs;
+                    carbsComponent = array[i];
+                } else if (carbsQuant < array[i].carbs) {
+                    carbsQuant = array[i].carbs;
                     carbsMismatch = array[i];
                 } 
             }
 
-            if(bulletSugarActiveMost && !bulletSugarActiveNone) {
+            if(bulletSugarActiveMost) {
                 if(sugarQuant < array[i].sugar) {
                     sugarQuant = array[i].sugar;
                     sugarComponent = array[i];
@@ -294,17 +320,17 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     sugarLeast = array[i].sugar;
                     sugarMismatch = array[i];
                 } 
-            } else if(bulletSugarActiveLeast && !bulletSugarActiveNone) {
-                if(sugarQuant > array[i].sugar) {
-                    sugarQuant = array[i].sugar;
-                    sugarComponent = array[i];
-                } else if (sugarLeast < array[i].sugar) {
+            } else if(bulletSugarActiveLeast) {
+                if(sugarLeast > array[i].sugar) {
                     sugarLeast = array[i].sugar;
+                    sugarComponent = array[i];
+                } else if (sugarQuant < array[i].sugar) {
+                    sugarQuant = array[i].sugar;
                     sugarMismatch = array[i];
                 } 
             }
 
-            if(bulletFiberActiveMost && !bulletFiberActiveNone) {
+            if(bulletFiberActiveMost) {
                 if(fiberQuant < array[i].fiber) {
                     fiberQuant = array[i].fiber;
                     fiberComponent = array[i];
@@ -312,17 +338,17 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     fiberLeast = array[i].fiber;
                     fiberMismatch = array[i].fiber;
                 } 
-            } else if(bulletFiberActiveLeast && !bulletFiberActiveNone) {
-                if(fiberQuant > array[i].fiber) {
-                    fiberQuant = array[i].fiber;
-                    fiberComponent = array[i];
-                } else if (fiberLeast < array[i].fiber) {
+            } else if(bulletFiberActiveLeast) {
+                if(fiberLeast > array[i].fiber) {
                     fiberLeast = array[i].fiber;
+                    fiberComponent = array[i];
+                } else if (fiberQuant < array[i].fiber) {
+                    fiberQuant = array[i].fiber;
                     fiberMismatch = array[i];
                 } 
             }
 
-            if(bulletProteinActiveMost && !bulletProteinActiveNone) {
+            if(bulletProteinActiveMost) {
                 if(proteinQuant < array[i].protein) {
                     proteinQuant = array[i].protein;
                     proteinComponent = array[i];
@@ -330,17 +356,17 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     proteinLeast = array[i].protein;
                     proteinMismatch = array[i];
                 } 
-            } else if(bulletProteinActiveLeast && !bulletProteinActiveNone) {
-                if(proteinQuant > array[i].protein) {
-                    proteinQuant = array[i].protein;
-                    proteinComponent = array[i];
-                } else if (proteinLeast < array[i].protein) {
+            } else if(bulletProteinActiveLeast) {
+                if(proteinLeast > array[i].protein) {
                     proteinLeast = array[i].protein;
+                    proteinComponent = array[i];
+                } else if (proteinQuant < array[i].protein) {
+                    proteinQuant = array[i].protein;
                     proteinMismatch = array[i];
                 }
             }
 
-            if(bulletSaltActiveMost && !bulletSaltActiveNone) {
+            if(bulletSaltActiveMost) {
                 if(saltQuant < array[i].salt) {
                     saltQuant = array[i].salt;
                     saltComponent = array[i];
@@ -348,16 +374,16 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     saltLeast = array[i].salt;
                     saltMismatch = array[i];
                 } 
-            } else if(bulletSaltActiveLeast && !bulletSaltActiveNone) {
-                if(saltQuant > array[i].salt) {
-                    saltQuant = array[i].salt;
-                    saltComponent = array[i];
-                } else if (saltLeast < array[i].salt) {
+            } else if(bulletSaltActiveLeast) {
+                if(saltLeast > array[i].salt) {
                     saltLeast = array[i].salt;
+                    saltComponent = array[i];
+                } else if (saltQuant < array[i].salt) {
+                    saltQuant = array[i].salt;
                     saltMismatch = array[i];
                 } 
             }
-            if(bulletVitaminsActiveMost && !bulletVitaminsActiveNone) {
+            if(bulletVitaminsActiveMost) {
                 if(vitaminsQuant < array[i].vitamins) {
                     vitaminsQuant = array[i].vitamins;
                     vitaminsComponent = array[i];
@@ -365,12 +391,12 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     vitaminsLeast = array[i].vitamins;
                     vitaminsMismatch = array[i];
                 } 
-            } else if(bulletVitaminsActiveLeast && !bulletVitaminsActiveNone) {
-                if(vitaminsQuant > array[i].vitamins) {
-                    vitaminsQuant = array[i].vitamins;
-                    vitaminsComponent = array[i];
-                } else if (vitaminsLeast < array[i].vitamins) {
+            } else if(bulletVitaminsActiveLeast) {
+                if(vitaminsLeast > array[i].vitamins) {
                     vitaminsLeast = array[i].vitamins;
+                    vitaminsComponent = array[i];
+                } else if (vitaminsQuant < array[i].vitamins) {
+                    vitaminsQuant = array[i].vitamins;
                     vitaminsMismatch = array[i];
                 } 
             }
@@ -434,115 +460,60 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         if(vitaminsMismatch !== null) {
             mismatchArray.push(vitaminsMismatch);
         }
-
-        // let countMatched = {};
-        // let countMismatched = {};
-        // matchArray.forEach(item => {
-        //     countMatched[item.id + " " + item.subcategory_id] = (countMatched[item.id + " " + item.subcategory_id] || 0) + 1;
-        // })
-        // mismatchArray.forEach(item => {
-        //     countMismatched[item.id + " " + item.subcategory_id] = (countMismatched[item.id + " " + item.subcategory_id] || 0) + 1;
-        // })
-        // let maxMatch = 0;
-        // let maxMismatch = 0;
-        // let bestMatchId = null;
-        // let worstMatchId = null;
-        // for (var key in countMatched) {
-        //     if(maxMatch < countMatched[key]) {
-        //         bestMatchId = key;
-        //         maxMatch = countMatched[key];
-        //     }
-        // }
-        // for (var key in countMismatched) {
-        //     if(maxMismatch < countMismatched[key]) {
-        //         worstMatchId = key;
-        //         maxMismatch = countMismatched[key];
-        //     }
-        // }
-        // const bestMatch_id = bestMatchId.split(" ")[0]; 
-        // const bestMatch_subcategoryId = bestMatchId.split(" ")[1]; 
-        // const worstMatch_id = worstMatchId.split(" ")[0]; 
-        // const worstMatch_subcategoryId = worstMatchId.split(" ")[1]; 
-
-        // const result = {
-        //     healthier: {
-        //         id: bestMatch_id,
-        //         subId: bestMatch_subcategoryId,
-        //     },
-        //     unhealthier: {
-        //         id: worstMatch_id,
-        //         subId: worstMatch_subcategoryId,
-        //     } 
-        // }    
-        // compare(result);
         countMatch(matchArray, mismatchArray);
-
     }
 
-
+        
+    }
 
     const countMatch = function(matchArray, mismatchArray) {
-        console.log("Second");
         let countMatched = {};
         let countMismatched = {};
+        let maxMatch = 0;
+        let maxMatchAlt = 0;
+        let maxMismatch = 0;
+        let bestMatchId = null;
+        let worstMatchId = null;
         matchArray.forEach(item => {
             countMatched[item.id + " " + item.subcategory_id] = (countMatched[item.id + " " + item.subcategory_id] || 0) + 1;
         })
         mismatchArray.forEach(item => {
             countMismatched[item.id + " " + item.subcategory_id] = (countMismatched[item.id + " " + item.subcategory_id] || 0) + 1;
         })
-        console.log("mismatch ", countMismatched, " count matched", countMatched)
-        let maxMatch = 0;
-        let maxMismatch = 0;
-        let bestMatchId = null;
-        let worstMatchId = null;
-        for (var key in countMatched) {
+        for (const key in countMatched) {
             if(maxMatch < countMatched[key]) {
                 bestMatchId = key;
                 maxMatch = countMatched[key];
             }
         }
-        for (var key in countMismatched) {
+        for (const key in countMismatched) {
             if(maxMismatch < countMismatched[key]) {
                 worstMatchId = key;
                 maxMismatch = countMismatched[key];
             }
         }
-
         if(bestMatchId === worstMatchId) {
-            console.log("equal", bestMatchId, " ", worstMatchId)
-            // const newArray = matchArray.filter(item => (
-            //    item.id !== bestMatchId.split(" ")[0] && item.subcategory_id !== bestMatchId.split(" ")[1]
-            // ));
-            // matchArray = newArray;
-            let bestMatchTemp = bestMatchId.split(" ")[0];
-            let worseMatchTemp = bestMatchId.split(" ")[1];
-            function test(arr) {
-                return arr.filter((element) => {
-                  return element.id !== 36 && element.subcategory_id !== 10
-                });
-              }
-              
-              // The filtered results
-              console.log('The filtered array', test(matchArray))
-              console.log('The original array', matchArray)
-            for (var key in matchArray) {
-                matchArray.forEach(item => {
-                    matchArray[item.id + " " + item.subcategory_id] = (matchArray[item.id + " " + item.subcategory_id] || 0) + 1;
-                })
-                if(maxMatch < matchArray[key]) {
-                    bestMatchId = key;
-                    maxMatch = matchArray[key];
+            let bestMatchAltId = null;
+            let countMatchedAlt = {};
+            var newArray = matchArray.filter(item => (
+               !(item.id == bestMatchId.split(" ")[0] && item.subcategory_id == bestMatchId.split(" ")[1])
+            ));
+            
+            newArray.forEach(item => {
+                countMatchedAlt[item.id + " " + item.subcategory_id] = (countMatchedAlt[item.id + " " + item.subcategory_id] || 0) + 1;
+            })
+            for (const key in countMatchedAlt) {   
+                if(maxMatchAlt < countMatchedAlt[key]) {
+                    bestMatchAltId = key;
+                    maxMatchAlt = countMatchedAlt[key];
                 }
             }
-            console.log("correct equal", matchArray)
-            findResult(bestMatchId, worstMatchId);
+            findResult(bestMatchAltId, worstMatchId);
         } else {
-            console.log("incorrect unequal")
             findResult(bestMatchId, worstMatchId);
         }
     }
-    const findResult = async function(bestMatchId, worstMatchId) {
+    const findResult = function(bestMatchId, worstMatchId) {
         const bestMatch_id = bestMatchId.split(" ")[0]; 
         const bestMatch_subcategoryId = bestMatchId.split(" ")[1]; 
         const worstMatch_id = worstMatchId.split(" ")[0]; 
@@ -557,12 +528,24 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                 subId: worstMatch_subcategoryId,
             } 
         }    
-        console.log("Result", result)
-        // await compare(result);
-        // navigation.push("Results");
+        compare(result);
+        setCalculated(true);
+    }
+
+    const viewResults = async () => {
+        await navigation.push('Results');
+        setCalculated(false);
     }
     return (
         <View style={CriteriaStyles().container}>
+            {modal && 
+             <Modal title="Warning" 
+                message={'Please select at least one criteria.'} 
+                close={() => setModal(false)} 
+                ok="OK" color={colors.orange} borderColor={colors.inputOrange}
+                horizontal={20} vertical={10}
+            />
+            }
             <View style={CriteriaStyles().itemContainer}>
                 <Text  style={CriteriaStyles().itemTitle}>Choose criteria</Text>
                 <View style={CriteriaStyles().bulletContainer}>
@@ -751,9 +734,15 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     </View>
                 </View>
             </View>
-            <TouchableOpacity style={CriteriaStyles().buttonWrap} onPress={countResults} >
-                <IonIcon name="ios-calculator" style={CriteriaStyles().buttonResults} />
-            </TouchableOpacity>
+            { !calculated ? (
+                <TouchableOpacity style={CriteriaStyles().buttonWrapOne} onPress={countResults} >
+                    <IonIcon name="ios-calculator" style={CriteriaStyles().buttonResults} />
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity style={CriteriaStyles().buttonWrapTwo} onPress={viewResults} >
+                    <IonIcon name="ios-stats" style={CriteriaStyles().buttonResults}  />
+                </TouchableOpacity>
+            )}
         </View>
     )
 }

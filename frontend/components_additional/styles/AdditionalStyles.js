@@ -58,7 +58,6 @@ export const buttonStyle = (color, width, height) =>  StyleSheet.create({
 export const adminButtonStyle = (color, horizontal, vertical) => StyleSheet.create({
     buttonWrap: {
         backgroundColor: color,
-        
         borderRadius: 3,
          // Shadow
          elevation: 3,

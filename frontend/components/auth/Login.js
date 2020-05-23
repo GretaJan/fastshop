@@ -17,14 +17,12 @@ class Login extends Component {
     
     constructor(props) {
         super(props);
-
         this.state = {
             admin_name: '',
             email:'',
             password: '',
         }
     }
-
     // clearInputs = () => {
     //     this.textInputRef.clear();
     // } 
@@ -46,7 +44,7 @@ class Login extends Component {
 
         render() {
             return (
-                <View style={styles().container} > 
+                <View style={styles().container} >
                     <View style={styles().inputsWrap} >
                         { this.props.error &&
                             <Error message={this.props.error} margin={-40} left={'8%'}/>

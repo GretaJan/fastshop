@@ -370,12 +370,13 @@ export const diagram = (diagramLength) => StyleSheet.create({
    scrollUp: {
         backgroundColor: colors.transparentLight,
         height: Dimensions.get('window').height /12.5,
+        width: Dimensions.get('window').width /9.3,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
         position: 'absolute',
         bottom: 0,
-        paddingHorizontal: 10,
+        // paddingHorizontal: 15,
         right: '1%',
     },
     ViewMoreIcon: {
@@ -389,7 +390,8 @@ export const diagram = (diagramLength) => StyleSheet.create({
 export const CriteriaStyles = () => StyleSheet.create({
     container: {
         height: Dimensions.get('window').height /1 - 140,
-        backgroundColor: colors.mainYellow
+        backgroundColor: colors.mainYellow,
+        zIndex: -1,
     },
     itemContainer: {
         flexDirection: 'row',
@@ -446,10 +448,31 @@ export const CriteriaStyles = () => StyleSheet.create({
     buttonResults: {
         fontSize: 45,
     },
-    buttonWrap: {
+    buttonWrapOne: {
         width: 120,
         height: 70,
         backgroundColor: colors.orangeBright,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        bottom: 0,
+        position: 'absolute',
+        bottom: 8,
+        zIndex: 20,
+         // Shadow
+         elevation   : 5,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
+    },
+    buttonWrapTwo: {
+        width: 120,
+        height: 70,
+        backgroundColor: colors.mediumGreen2,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
