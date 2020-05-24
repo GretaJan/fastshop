@@ -44,7 +44,7 @@ class ProductList extends Component {
     }
 
     removeFromList = () => {
-        this.props.removeProduct( this.props.item.id);
+        this.props.removeProduct();
     }
 
     render() {

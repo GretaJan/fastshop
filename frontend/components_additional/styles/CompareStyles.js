@@ -259,6 +259,34 @@ export const diagram = (diagramLength) => StyleSheet.create({
         flexDirection: 'row',
 
     },
+    lineOneEnergy: {
+        backgroundColor: colors.mediumGreen2,
+        width: diagramLength !== 0 ? (diagramLength / 9 + '%') : 1,
+        maxWidth: '100%',
+        height: 10,
+        // Shadow
+        elevation: 3,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+    },
+    lineTwoEnergy: {
+        backgroundColor: colors.mediumGreen2,
+        width: diagramLength !== 0 ? ((diagramLength) / 9 + '%') : 1,
+        maxWidth: '100%',
+        height: 10,
+        // Shadow
+        elevation: 3,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+    },
     lineOne: {
         backgroundColor: colors.mediumGreen2,
         width: diagramLength !== 0 ? (diagramLength + '%') : 1,
@@ -287,86 +315,6 @@ export const diagram = (diagramLength) => StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2, 
     },
-    // Main Diagram style:
-    mainDiagramWrap: {
-        flex: 1,
-        paddingHorizontal: 18,
-        marginTop: 4,
-        marginBottom: 5
-    },
-    mainLinesWrap: {
-
-    },
-    mainComponentTitle: {
-        fontSize: 20
-    },
-    mainDiagramLineWrap: {
-    },
-    mainNumberDiagramWrap: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    mainSingleLineWrap: {
-        flex: .7,
-        backgroundColor: colors.transparentLight,
-        height: 11,
-        
-    },
-    mainLineOne: {
-        backgroundColor: colors.mediumGreen2,
-        width: diagramLength !== 0 ? (diagramLength / 100 + '%') : (0),
-        maxWidth: '100%',
-        height: 11,
-        borderColor: colors.transparentLight,
-        borderWidth: 2,
-         // Shadow
-         elevation: 3,
-         overflow: 'hidden',
-         //iOS:
-         shadowColor: 'red',
-         shadowOffset: { width: 1, height: 1 },
-         shadowOpacity: 0.8,
-         shadowRadius: 2, 
-    },
-    mainLineTwo: {
-        backgroundColor: colors.orangeBright,
-        width: diagramLength !== 0 ? (diagramLength / 100 + '%') : (0),
-        maxWidth: '100%',
-        height: 11,
-         // Shadow
-         elevation: 3,
-         overflow: 'hidden',
-         //iOS:
-         shadowColor: 'red',
-         shadowOffset: { width: 1, height: 1 },
-         shadowOpacity: 0.8,
-         shadowRadius: 2, 
-    },
-    mainItemNumberWrap: {
-        flex: .3,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-    },
-    mainNumber: {
-        paddingLeft: 30,
-        fontSize: 20,
-    },
-    mainMeasure: {
-        fontSize: 16,
-        marginLeft: 5,
-        color: colors.mainBlack,
-    },
-    dropDownIconWrapNoScroll: {
-        backgroundColor: colors.transparentLight,
-        height: Dimensions.get('window').height /12.5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 25,
-        width: Dimensions.get('window').width /1.05,
-        alignSelf: 'center',
-    },
    scrollUp: {
         backgroundColor: colors.transparentLight,
         height: Dimensions.get('window').height /12.5,
@@ -375,7 +323,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         position: 'absolute',
-        bottom: 0,
+        bottom: 80,
         // paddingHorizontal: 15,
         right: '1%',
     },
@@ -384,6 +332,20 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     scrollUpIcon: {
         fontSize: 25
+    },
+    optionsBtnWrap: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.transparentLight,
+        marginTop: 20,
+        // marginTop: 5,
+        height: 60,
+        bottom: 0,
+        marginHorizontal: 5,
+    },
+    optionsBtnText: {
+        fontSize: 22,
+        color: colors.orangeBright
     }
 })
 

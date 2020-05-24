@@ -38,10 +38,11 @@ import DescAscend from '../../components/comparison/DescAscend';
 
 class Tabs extends Component {
     componentDidUpdate(nextProps) {
-        if (nextProps.isAuthorized !== this.props.isAuthorized) {
-            console.log("Next props: ", nextProps.isAuthorized);
-        }
+        // if (nextProps.isAuthorized !== this.props.isAuthorized) {
+        // }
+        return nextProps.isAuthorized !== this.props.isAuthorized;
     } 
+
 
     logOut = () => {
         this.props.logOut(this.props.admin)
@@ -126,7 +127,7 @@ render() {
         <SelectedProductsNav.Navigator>
             <SelectedProductsNav.Screen name="SelectedProducts" component={SelectedProducts} 
                                     options={{
-                                        title: (!this.props.calculated) ? "Calculate" : "Sorting Options",
+                                        title: "Calculate",
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
                                             color: colors.titleBlack,
@@ -356,7 +357,6 @@ render() {
 const mapStateToProps = state => ({
     admin: state.auth.admin,
     isAuthorized: state.auth.isAuthorized,
-    calculated: state.selectedProducts.calculated
 })
 
 export default connect(mapStateToProps, { logOut })(Tabs)

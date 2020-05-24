@@ -1,4 +1,4 @@
-import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, clear_results, 
+import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEAR_RESULTS, CLEAR_SELECTED_ARRAY,
             SORT_ARRAY, GO_TO_LIST, URL } from './types';
 import axios from 'axios';
 
@@ -15,7 +15,6 @@ export const productSelected = (product, subcategory) => dispatch => {
             dispatch({
                 type: PRODUCT_SELECTED,
                 payload: product.data.product,
-                calculated: false,
                 result: {},
                 diagram: {},
             })
@@ -46,7 +45,6 @@ export const compare = (result) => dispatch => {
             dispatch({
                 type: COMPARE_RESULT,
                 payload: result,
-                calculated: true
             })
         })).catch(err => {console.log("Error", err.response)})
     
@@ -78,10 +76,17 @@ export const goToList = (show) => dispatch => {
 
 export const clearResults = () => dispatch => {
     dispatch({
-        type: clear_results,
-        array: [],
+        type: CLEAR_RESULTS,
         result: {},
         diagram: {},
-        calculated: null
+    })
+}
+
+export const clearSelectedArray = () => dispatch => {
+    dispatch({
+        type: CLEAR_SELECTED_ARRAY,
+        array: [],
+        results: {},
+        diagram: {},
     })
 }
