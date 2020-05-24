@@ -20,7 +20,7 @@ export const getCategories = () => (dispatch) => {
     })
     fetch( URL + '/categories', {method: 'GET'})
         .then(res => res.json())
-        .then(categories => { 
+        .then(categories => { console.log("categories", categories)
                 dispatch({
                     type: GET_CATEGORIES,
                     payload: categories.categories.sort(sortArray),

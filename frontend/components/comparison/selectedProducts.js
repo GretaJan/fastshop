@@ -9,12 +9,12 @@ import { productWrap } from '../../components_additional/styles/CompareStyles';
 import { colors } from '../../components_additional/styles/Colors';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
 //Components
 import Product from './selectedProductSingle';
-import Error from '../../components_additional/Error';
+import ConfirmModal from '../../components_additional/ModalCrud';
 import EmptyList from '../../components_additional/EmptyListSelected';
-import DescAscend from './DescAscend';
 import LoadingResults from '../../components_additional/LoadingResults';
 import Modal from '../../components_additional/Modal';
 
@@ -29,6 +29,7 @@ class Products extends Component {
         tempArray: this.props.selectedProducts,
         triggeredSearchBar: false,
         searchName: '',
+        delConfirm: false,
     }
     findFunction(searchName) {
         this.setState({ triggeredSearchBar: true });
@@ -53,17 +54,36 @@ class Products extends Component {
     showSearchBar = () => {
         return (
             <View style={searchBar().searchBarContainer} >
-                <Icon style={searchBar().searchBarIcon} name="search" size={20} onPress={() => this.props.clearSelectedArray()}/>
-                <Icon style={searchBar().searchBarIcon} name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
+                {this.state.delConfirm && 
+                    <View style={stylesGuest().delVerifyContainer}>
+                        <ConfirmModal message="Are you sure you want to clear the list? " 
+                            confirm={() => this.confirmClearList()}
+                            title="Clear list"
+                            close={() => this.setState({delConfirm: false})}
+                            background={colors.mainWhiteYellow}
+                            iconColor={colors.lightBurgundy}
+                            borderColor={colors.bordoTransparent}
+                            colorOne={colors.lightBurgundy}
+                            colorTwo={colors.mediumGreen}
+                            horizontal={20} vertical={15}
+                        /> 
+                    </View>
+                }
+                <MaterialIcon style={searchBar().searchBarIconSelected} name="playlist-remove" onPress={() => this.setState({delConfirm: true})}/>
+                <Icon style={searchBar().searchBarIcon} name="search" onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
                 { this.state.showSearchInput && 
-                    <TextInput style={searchBar().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+                    <TextInput style={searchBar().searchBarInputInSelected} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
             </View>
         )
     }
-
-    componentDidUpdate(prevState) {
-        return prevState.selProducts !== this.state.selProducts;
+    
+    confirmClearList() {
+        this.props.clearSelectedArray();
+        this.setState({delConfirm: false})
     }
+    // componentDidUpdate(prevState) {
+    //     return prevState.selProducts !== this.state.selProducts;
+    // }
 
     goToProduct = (subcategoryId, productId) => {
         this.props.navigation.navigate("Product", {subcategoryId: subcategoryId, productId: productId});
@@ -95,7 +115,7 @@ class Products extends Component {
     } 
 
     render() {
-        const objectLength = Object.keys(this.props.result).length
+        const objectLength = Object.keys(this.props.result).length;
         return (
                 <View style={stylesGuest().container} >
                     {this.state.loadingResults && <LoadingResults /> }

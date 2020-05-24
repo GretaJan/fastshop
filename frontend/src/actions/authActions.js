@@ -2,7 +2,7 @@ import { TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED, LOG_OUT, LOG_OUT_FAILED, URL } fr
 import axios from 'axios';
 
 export const tryLogin = (data) => (dispatch) => {
-    axios.post('http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/login', data, {withCredentials: true})
+    axios.post(URL + '/login', data, {withCredentials: true})
         .then(admin => {console.log(admin)
             dispatch({ 
                 type: LOGGED_IN,

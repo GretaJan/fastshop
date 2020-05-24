@@ -9,35 +9,34 @@ import { colors } from '../../components_additional/styles/Colors';
 import Modal from '../../components_additional/Modal';
 
 const Criteria = ({compare, selectedProducts, navigation}) => {
-    const [bulletEnergyActiveMost, setBulletEnergyActiveMost] = useState(null);
-    const [bulletEnergyActiveLeast, setBulletEnergyActiveLeast] = useState(null);
+    const [bulletEnergyActiveMost, setBulletEnergyActiveMost] = useState(false);
+    const [bulletEnergyActiveLeast, setBulletEnergyActiveLeast] = useState(false);
     const [bulletEnergyActiveNone, setBulletEnergyActiveNone] = useState(false);
-    const [bulletFatActiveMost, setBulletFatActiveMost] = useState(null);
-    const [bulletFatActiveLeast, setBulletFatActiveLeast] = useState(null);
+    const [bulletFatActiveMost, setBulletFatActiveMost] = useState(false);
+    const [bulletFatActiveLeast, setBulletFatActiveLeast] = useState(false);
     const [bulletFatActiveNone, setBulletFatActiveNone] = useState(false);
-    const [bulletSaturatedActiveMost, setBulletSaturatedActiveMost] = useState(null);
-    const [bulletSaturatedActiveLeast, setBulletSaturatedActiveLeast] = useState(null);
+    const [bulletSaturatedActiveMost, setBulletSaturatedActiveMost] = useState(false);
+    const [bulletSaturatedActiveLeast, setBulletSaturatedActiveLeast] = useState(false);
     const [bulletSaturatedActiveNone, setBulletSaturatedActiveNone] = useState(false);
-    const [bulletCarbsActiveMost, setBulletCarbsActiveMost] = useState(null);
-    const [bulletCarbsActiveLeast, setBulletCarbsActiveLeast] = useState(null);
+    const [bulletCarbsActiveMost, setBulletCarbsActiveMost] = useState(false);
+    const [bulletCarbsActiveLeast, setBulletCarbsActiveLeast] = useState(false);
     const [bulletCarbsActiveNone, setBulletCarbsActiveNone] = useState(false);
-    const [bulletSugarActiveMost, setBulletSugarActiveMost] = useState(null);
-    const [bulletSugarActiveLeast, setBulletSugarActiveLeast] = useState(null);
+    const [bulletSugarActiveMost, setBulletSugarActiveMost] = useState(false);
+    const [bulletSugarActiveLeast, setBulletSugarActiveLeast] = useState(false);
     const [bulletSugarActiveNone, setBulletSugarActiveNone] = useState(false);
-    const [bulletFiberActiveMost, setBulletFiberActiveMost] = useState(null);
-    const [bulletFiberActiveLeast, setBulletFiberActiveLeast] = useState(null);
+    const [bulletFiberActiveMost, setBulletFiberActiveMost] = useState(false);
+    const [bulletFiberActiveLeast, setBulletFiberActiveLeast] = useState(false);
     const [bulletFiberActiveNone, setBulletFiberActiveNone] = useState(false);
-    const [bulletProteinActiveMost, setBulletProteinActiveMost] = useState(null);
-    const [bulletProteinActiveLeast, setBulletProteinActiveLeast] = useState(null);
+    const [bulletProteinActiveMost, setBulletProteinActiveMost] = useState(false);
+    const [bulletProteinActiveLeast, setBulletProteinActiveLeast] = useState(false);
     const [bulletProteinActiveNone, setBulletProteinActiveNone] = useState(false);
-    const [bulletSaltActiveMost, setBulletSaltActiveMost] = useState(null);
-    const [bulletSaltActiveLeast, setBulletSaltActiveLeast] = useState(null);
+    const [bulletSaltActiveMost, setBulletSaltActiveMost] = useState(false);
+    const [bulletSaltActiveLeast, setBulletSaltActiveLeast] = useState(false);
     const [bulletSaltActiveNone, setBulletSaltActiveNone] = useState(false);
-    const [bulletVitaminsActiveMost, setBulletVitaminsActiveMost] = useState(null);
-    const [bulletVitaminsActiveLeast, setBulletVitaminsActiveLeast] = useState(null);
+    const [bulletVitaminsActiveMost, setBulletVitaminsActiveMost] = useState(false);
+    const [bulletVitaminsActiveLeast, setBulletVitaminsActiveLeast] = useState(false);
     const [bulletVitaminsActiveNone, setBulletVitaminsActiveNone] = useState(false);
     const [calculated, setCalculated] = useState(null);
-    const [allowCalculation, setAllowCalculated] = useState(false);
     const [modal, setModal] = useState(false);
 
     function setMost(most, least, none) {
@@ -45,21 +44,18 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         least(false);
         none(false);
         setCalculated(false);
-        setAllowCalculated(true);
     }
     function setLeast(most, least, none) {
         most(false);
         least(true);
         none(false);
         setCalculated(false);
-        setAllowCalculated(true);
     }
     function setNone(most, least, none) {
         most(false);
         least(false);
         none(true);
         setCalculated(false);
-        setAllowCalculated(false);
     }
 
     const energyMost = () => {
@@ -97,7 +93,7 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         setLeast(setBulletCarbsActiveMost, setBulletCarbsActiveLeast, setBulletCarbsActiveNone);
     }
     const carbsNone = () => {
-        setLeast(setBulletCarbsActiveMost, setBulletCarbsActiveLeast, setBulletCarbsActiveNone);
+        setNone(setBulletCarbsActiveMost, setBulletCarbsActiveLeast, setBulletCarbsActiveNone);
     }
     const sugarMost = () => {
         setMost(setBulletSugarActiveMost, setBulletSugarActiveLeast, setBulletSugarActiveNone);
@@ -154,7 +150,11 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
     }
 
     const countResults = () => {
-    if (!allowCalculation) {
+    if ( !bulletEnergyActiveMost && !bulletEnergyActiveLeast && !bulletFatActiveMost && !bulletFatActiveLeast && 
+        !bulletSaturatedActiveMost && !bulletSaturatedActiveLeast && !bulletCarbsActiveMost && !bulletCarbsActiveLeast && 
+        !bulletSugarActiveMost && !bulletSugarActiveLeast && !bulletFiberActiveMost && !bulletFiberActiveLeast &&
+        !bulletProteinActiveMost && !bulletProteinActiveLeast && !bulletSaltActiveMost && !bulletSaltActiveLeast &&
+        !bulletVitaminsActiveMost && !bulletVitaminsActiveLeast ) {
         setModal(true);
     } else {
         setModal(false);

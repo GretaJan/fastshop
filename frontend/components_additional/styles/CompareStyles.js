@@ -7,7 +7,7 @@ export const productWrap = () => StyleSheet.create({
         flex: 1,
     },
     flatListScrollSmall: {
-        height: Dimensions.get('window').height /2.4,
+        height: Dimensions.get('window').height /2.25,
     },
     flatListScrollFull: {
         height: Dimensions.get('window').height /1.4,
@@ -53,8 +53,8 @@ export const productWrap = () => StyleSheet.create({
     },
     iconWrapOne: {
         backgroundColor: colors.mediumGreen2,
-        width: 85,
-        height: 85,
+        width: 80,
+        height: 80,
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
@@ -70,8 +70,8 @@ export const productWrap = () => StyleSheet.create({
     },
     iconWrapTwo: {
         backgroundColor: colors.orangeBright,
-        width: 85,
-        height: 85,
+        width: 80,
+        height: 80,
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
@@ -87,7 +87,7 @@ export const productWrap = () => StyleSheet.create({
     },
     textWrap: {
         flex: 1,
-        marginLeft: 10,
+        marginLeft: 20,
     },
     optionsBtnWrap: {
         alignItems: 'center',

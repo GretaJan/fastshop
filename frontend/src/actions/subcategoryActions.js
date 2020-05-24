@@ -30,7 +30,7 @@ export const getSubcategories = (category, page) => (dispatch) => {
         }
         return 0;
     }
-    axios.get(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/subcategories/${category}?page=${page}`)
+    axios.get(`${URL}/subcategories/${category}?page=${page}`)
     .then(resp => {
             var lastPageNo = false; 
             if(resp.data.meta.last_page === resp.data.meta.current_page) {
@@ -64,7 +64,7 @@ export const unmountSubcategories = () => dispatch => {
 }
 
 export const addSubcategory = (subcategory, category) => dispatch => {
-    axios.post(`http://10.0.2.2:80/2019%20Reproduction/fastshop/backend/laravel/public/api/addSubcategory/${category}`, subcategory)
+    axios.post(`${URL}/addSubcategory/${category}`, subcategory)
     .then((subcategory) => {
         dispatch({
             type: POST_SUBCATEGORY,

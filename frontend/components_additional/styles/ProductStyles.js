@@ -57,6 +57,9 @@ export const stylesGuest = (background) => StyleSheet.create( {
     iconItem: {
         fontSize: 30,
         paddingRight: 10,
+    },
+    delVerifyContainer: {
+        top: '10%'
     }
 });
 

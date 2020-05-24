@@ -13,7 +13,7 @@ export const searchBar = () =>  StyleSheet.create({
         paddingTop: 10,
         paddingRight: 10,
         paddingBottom: 5,
-        marginBottom: 15,
+        marginBottom: 10,
         fontSize: 20,
         marginLeft: 5,
     },
@@ -28,6 +28,24 @@ export const searchBar = () =>  StyleSheet.create({
         marginBottom: 30,
         fontSize: 14
     },
+    // Selected Products
+    searchBarInputInSelected: {
+        position: 'absolute',
+        width: '75%',
+        left: 80,
+        borderBottomColor: '#000',
+        borderBottomWidth: 2,
+        paddingBottom: -20,
+        marginTop: 0,
+        marginBottom: 30,
+        fontSize: 14
+    },
+    searchBarIconSelected: {
+        fontSize: 38,
+        paddingRight: 5,
+        marginLeft: 5,
+        marginRight: 5,
+    }
 });
 
 export const buttonStyle = (color, width, height) =>  StyleSheet.create({
