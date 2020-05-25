@@ -127,7 +127,9 @@ class Products extends Component {
                         horizontal={20} vertical={10}/>
                     )}
                     {(this.props.selectedProducts.length == 0) ? (
-                        <EmptyList message={'Products have not been selected yet'} />
+                        <View style={productWrap().flatListScrollSmall} >
+                            <EmptyList message={'Products have not been selected yet'} />
+                        </View>
                     ) : (    
                     <View style={(this.state.optionsDisplay) ? (productWrap().flatListScrollSmall) : (productWrap().flatListScrollFull)}>
                         {this.showSearchBar()}
