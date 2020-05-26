@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, PanResponder } from 'react-native';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
@@ -188,9 +188,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.mainYellow,
-        paddingTop: 10
-    },
-    mainContentContainer: {
+        paddingTop: 10,
     },
     productsContainer: {
         flexDirection: 'row',
@@ -248,8 +246,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
         marginTop: 10,
     },
     diagramWrap: {
-        paddingHorizontal: 20,
-        // zIndex: 5,
+        paddingLeft: 20,
     },
     linesWrap: {
 
@@ -257,13 +254,31 @@ export const diagram = (diagramLength) => StyleSheet.create({
     componentTitle: {
         fontSize: 18,
     },
+    numberWrap: {
+        position: 'relative',
+        width:  20,
+        height:  20,
+        backgroundColor: 'green',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
     number: {
         fontSize: 18,
+        position: 'absolute',
     },
     measure: {
         fontSize: 15,
-        marginLeft: 5,
+        paddingLeft: 5,
         color: colors.mainBlack,
+        backgroundColor: 'yellow',
+        zIndex: 2,
+    },
+    emptySpace: {
+        width: 5,
+        backgroundColor: 'orange',
+        zIndex: 3,
     },
     diagramLineWrap: {
     },
@@ -284,7 +299,6 @@ export const diagram = (diagramLength) => StyleSheet.create({
         paddingLeft: 20,
         // textAlign: 'center',
         flexDirection: 'row',
-
     },
     lineOneEnergy: {
         position: 'absolute',
