@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
-export const productWrap = () => StyleSheet.create({
+export const productWrap = (scale) => StyleSheet.create({
     container: {
         flex: 1,
     },
@@ -84,6 +84,32 @@ export const productWrap = () => StyleSheet.create({
           shadowOffset: { width: 1, height: 1 },
           shadowOpacity: 0.8,
           shadowRadius: 2, 
+    },
+    buttonWrapAnimated: {
+        backgroundColor: colors.orangeBright,
+        width: 80,
+        height: 80,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        transform: [
+            { scale: scale }
+        ],
+        borderRadius: 10,
+          // Shadow
+          elevation   : 5,
+          overflow: 'hidden',
+          //iOS:
+          shadowColor: 'red',
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2, 
+    },
+    buttonAnimated: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     textWrap: {
         flex: 1,
@@ -219,10 +245,11 @@ export const diagram = (diagramLength) => StyleSheet.create({
     diagramContainer: {
         flex: 1,
         marginBottom: 20,
-        marginTop: 10
+        marginTop: 10,
     },
     diagramWrap: {
         paddingHorizontal: 20,
+        zIndex: 5,
     },
     linesWrap: {
 
@@ -250,7 +277,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
         flex: .78,
         backgroundColor: colors.transparentLight,
         height: 10,
-        // alignItems: 'flex-start',
+        alignItems: 'flex-start',
     },
     itemNumberWrap: {
         flex: .18,
@@ -260,7 +287,9 @@ export const diagram = (diagramLength) => StyleSheet.create({
 
     },
     lineOneEnergy: {
+        position: 'absolute',
         backgroundColor: colors.mediumGreen2,
+        height: '100%',
         width: diagramLength !== 0 ? (diagramLength / 9 + '%') : 1,
         maxWidth: '100%',
         height: 10,
@@ -273,8 +302,13 @@ export const diagram = (diagramLength) => StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2, 
     },
+    diagramNoLine: {
+        // width: '100%',
+        // height: '100%',
+    },
     lineTwoEnergy: {
-        backgroundColor: colors.mediumGreen2,
+        position: 'absolute',
+        backgroundColor: colors.orangeBright,
         width: diagramLength !== 0 ? ((diagramLength) / 9 + '%') : 1,
         maxWidth: '100%',
         height: 10,
@@ -288,6 +322,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
         shadowRadius: 2, 
     },
     lineOne: {
+        position: 'absolute',
         backgroundColor: colors.mediumGreen2,
         width: diagramLength !== 0 ? (diagramLength + '%') : 1,
         maxWidth: '100%',
@@ -302,6 +337,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
         shadowRadius: 2, 
     },
     lineTwo: {
+        position: 'absolute',
         backgroundColor: colors.orangeBright,
         width: diagramLength !== 0 ? (diagramLength + '%') : (1),
         maxWidth: '100%',
@@ -349,7 +385,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     }
 })
 
-export const CriteriaStyles = () => StyleSheet.create({
+export const CriteriaStyles = (scale) => StyleSheet.create({
     container: {
         height: Dimensions.get('window').height /1 - 140,
         backgroundColor: colors.mainYellow,
@@ -451,5 +487,35 @@ export const CriteriaStyles = () => StyleSheet.create({
          shadowOffset: { width: 1, height: 1 },
          shadowOpacity: 0.8,
          shadowRadius: 2, 
+    },
+    buttonWrapAnimated: {
+        width: 120,
+        height: 70,
+        backgroundColor: colors.mediumGreen2,
+        borderRadius: 10,
+        transform: [
+            { scale: scale },
+        ],
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        bottom: 0,
+        position: 'absolute',
+        bottom: 8,
+        zIndex: 20,
+         // Shadow
+         elevation: 5,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
+    },
+    buttonAnimated: {
+        height: '100%',
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })

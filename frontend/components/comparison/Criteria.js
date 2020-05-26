@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { CriteriaStyles } from '../../components_additional/styles/CompareStyles';
 import { connect } from 'react-redux';
@@ -7,6 +7,8 @@ import { withNavigation } from 'react-navigation';
 import { compare } from '../../src/actions/comparisonActions';
 import { colors } from '../../components_additional/styles/Colors';
 import Modal from '../../components_additional/Modal';
+
+const Animations = require('../../components_additional/styles/Animations.js');
 
 const Criteria = ({compare, selectedProducts, navigation}) => {
     const [bulletEnergyActiveMost, setBulletEnergyActiveMost] = useState(false);
@@ -38,6 +40,7 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
     const [bulletVitaminsActiveNone, setBulletVitaminsActiveNone] = useState(false);
     const [calculated, setCalculated] = useState(null);
     const [modal, setModal] = useState(false);
+    const scale = useState(new Animated.Value(1))[0];
 
     function setMost(most, least, none) {
         most(true);
@@ -160,24 +163,24 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         setModal(false);
         const array = selectedProducts;
         const arrayLength = array.length;
-        let energyQuant = array[0].energy;
-        let fatQuant = array[0].fat;
-        let saturatedQuant = array[0].saturated;
-        let carbsQuant = array[0].carbs;
-        let sugarQuant = array[0].sugar;
-        let fiberQuant = array[0].fiber;
-        let proteinQuant = array[0].protein;
-        let saltQuant = array[0].salt;
-        let vitaminsQuant = array[0].vitamins;
-        let energyLeast = array[0].energy;
-        let fatLeast= array[0].fat;
-        let saturatedLeast = array[0].saturated;
-        let carbsLeast = array[0].carbs;
-        let sugarLeast = array[0].sugar;
-        let fiberLeast = array[0].fiber;
-        let proteinLeast = array[0].protein;
-        let saltLeast= array[0].salt;
-        let vitaminsLeast = array[0].vitamins;
+        let energyQuant = parseInt(array[0].energy);
+        let fatQuant = parseInt(array[0].fat * 100);
+        let saturatedQuant = parseInt(array[0].saturated * 100);
+        let carbsQuant = parseInt(array[0].carbs * 100);
+        let sugarQuant = parseInt(array[0].sugar * 100);
+        let fiberQuant = parseInt(array[0].fiber * 100);
+        let proteinQuant = parseInt(array[0].protein * 100);
+        let saltQuant = parseInt(array[0].salt * 100);
+        let vitaminsQuant = parseInt(array[0].vitamins * 100);
+        let energyLeast = parseInt(array[0].energy * 100);
+        let fatLeast= parseInt(array[0].fat * 100);
+        let saturatedLeast = parseInt(array[0].saturated * 100);
+        let carbsLeast = parseInt(array[0].carbs * 100);
+        let sugarLeast = parseInt(array[0].sugar * 100);
+        let fiberLeast = parseInt(array[0].fiber * 100);
+        let proteinLeast = parseInt(array[0].protein * 100);
+        let saltLeast= parseInt(array[0].salt * 100);
+        let vitaminsLeast = parseInt(array[0].vitamins * 100);
         let energyComponent = null;
         let energyMismatch = null;
         let fatComponent = null;
@@ -236,166 +239,170 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
             vitaminsMismatch = array[0];
         }
         for(var i = 0; i < arrayLength; i++) {
-            console.log("array energy", array[i].energy)
             if(bulletEnergyActiveMost) { 
-                if(energyQuant < array[i].energy) {
+                if(energyQuant < parseInt(array[i].energy) * 100) {
                     energyQuant =  array[i].energy;
                     energyComponent = array[i];
-                } else if(energyLeast > array[i].energy){
+                    console.log('energyQuantONE', energyQuant)
+                } else if(energyLeast > parseInt(array[i].energy) * 100){
                     energyLeast =  array[i].energy;
                     energyMismatch = array[i];
+                    console.log('energyQuantONETWO', energyQuant)
+
                 }
             } else if(bulletEnergyActiveLeast) {
-                if(energyLeast > array[i].energy) {
+                if(energyLeast > parseInt(array[i].energy) * 100) {
                     energyLeast =  array[i].energy;
                     energyComponent = array[i];
                     console.log('energyQuant', energyQuant)
-                } else if(energyQuant < array[i].energy) {
+                } else if(energyQuant < parseInt(array[i].energy) * 100) {
                     energyQuant =  array[i].energy;
                     energyMismatch = array[i];
                     console.log('energyQuant2', energyQuant)
                 }
             }
-
             if(bulletFatActiveMost) {
-                if(fatQuant < array[i].fat) {
+                if(fatQuant < parseInt(array[i].fat) * 100) {
                     fatQuant = array[i].fat;
                     fatComponent = array[i];
-                } else if(fatLeast < array[i].fat) {
+                    console.log("fatlmost Fat 55555 ", fatComponent)
+                } else if(fatLeast < parseInt(array[i].fat) * 100) {
                     fatLeast = array[i].fat;
                     fatMismatch = array[i];
-                    console.log("fatleast Fat ", fatMismatch)
+                    console.log("fatlmost Fat ", fatMismatch)
                 } 
             } else if(bulletFatActiveLeast) {
-                if(fatLeast > array[i].fat) {
+                if(fatLeast > parseInt(array[i].fat) * 100) {
                     fatLeast = array[i].fat;
                     fatComponent = array[i];
-                } else if(fatQuant < array[i].fat) {
+                    console.log("fatlmost Fat 6666 ", fatComponent)
+                } else if(fatQuant < parseInt(array[i].fat) * 100) {
                     fatQuant = array[i].fat;
                     fatMismatch = array[i];
+                    console.log("fatlmost Fat ", fatMismatch)
                 }
             }
 
             if(bulletSaturatedActiveMost) {
-                if(saturatedQuant < array[i].saturated) {
+                if(saturatedQuant < parseInt(array[i].saturated) * 100) {
                     saturatedQuant =  array[i].saturated;
                     saturatedComponent = array[i];
-                } else if(saturatedLeast > array[i].saturated) {
+                } else if(saturatedLeast > array[i].saturated * 100) {
                     saturatedLeast =  array[i].saturated;
                     saturatedMismatch = array[i];
                 } 
             } else if(bulletSaturatedActiveLeast) {
-                if(saturatedLeast > array[i].saturated) {
+                if(saturatedLeast > parseInt(array[i].saturated) * 100) {
                     saturatedLeast =  array[i].saturated;
                     saturatedComponent = array[i];
-                } else if(saturatedQuant > array[i].saturated) {
+                } else if(saturatedQuant > parseInt(array[i].saturated) * 100) {
                     saturatedQuant =  array[i].saturated;
                     saturatedMismatch = array[i];
                 } 
             }
 
             if(bulletCarbsActiveMost) {
-                if(carbsQuant < array[i].carbs) {
+                if(carbsQuant < parseInt(array[i].carbs) * 100) {
                     carbsQuant = array[i].carbs;
                     carbsComponent = array[i];
-                } else if (carbsLeast < array[i].carbs){
+                } else if (carbsLeast <  parseInt(array[i].carbs) * 100){
                     carbsLeast = array[i].carbs;
                     carbsMismatch = array[i];
                 } 
             } else if(bulletCarbsActiveLeast) {
-                if(carbsLeast > array[i].carbs) {
+                if(carbsLeast > parseInt(array[i].carbs) * 100) {
                     carbsLeast = array[i].carbs;
                     carbsComponent = array[i];
-                } else if (carbsQuant < array[i].carbs) {
+                } else if (carbsQuant < parseInt(array[i].carbs) * 100) {
                     carbsQuant = array[i].carbs;
                     carbsMismatch = array[i];
                 } 
             }
 
             if(bulletSugarActiveMost) {
-                if(sugarQuant < array[i].sugar) {
+                if(sugarQuant < parseInt(array[i].sugar) * 100) {
                     sugarQuant = array[i].sugar;
                     sugarComponent = array[i];
-                } else if (sugarLeast > array[i].sugar) {
+                } else if (sugarLeast > parseInt(array[i].sugar) * 100) {
                     sugarLeast = array[i].sugar;
                     sugarMismatch = array[i];
                 } 
             } else if(bulletSugarActiveLeast) {
-                if(sugarLeast > array[i].sugar) {
+                if(sugarLeast > parseInt(array[i].sugar) * 100) {
                     sugarLeast = array[i].sugar;
                     sugarComponent = array[i];
-                } else if (sugarQuant < array[i].sugar) {
+                } else if (sugarQuant < parseInt(array[i].sugar) * 100) {
                     sugarQuant = array[i].sugar;
                     sugarMismatch = array[i];
                 } 
             }
 
             if(bulletFiberActiveMost) {
-                if(fiberQuant < array[i].fiber) {
+                if(fiberQuant < parseInt(array[i].fiber) * 100) {
                     fiberQuant = array[i].fiber;
                     fiberComponent = array[i];
-                } else if (fiberLeast > array[i].fiber) {
+                } else if (fiberLeast > parseInt(array[i].fiber) * 100) {
                     fiberLeast = array[i].fiber;
                     fiberMismatch = array[i].fiber;
                 } 
             } else if(bulletFiberActiveLeast) {
-                if(fiberLeast > array[i].fiber) {
+                if(fiberLeast > parseInt(array[i].fiber) * 100) {
                     fiberLeast = array[i].fiber;
                     fiberComponent = array[i];
-                } else if (fiberQuant < array[i].fiber) {
+                } else if (fiberQuant < parseInt(array[i].fiber) * 100) {
                     fiberQuant = array[i].fiber;
                     fiberMismatch = array[i];
                 } 
             }
 
             if(bulletProteinActiveMost) {
-                if(proteinQuant < array[i].protein) {
+                if(proteinQuant < parseInt(array[i].protein) * 100) {
                     proteinQuant = array[i].protein;
                     proteinComponent = array[i];
-                } else if (proteinLeast > array[i].protein) {
+                } else if (proteinLeast > parseInt(array[i].protein) * 100) {
                     proteinLeast = array[i].protein;
                     proteinMismatch = array[i];
                 } 
             } else if(bulletProteinActiveLeast) {
-                if(proteinLeast > array[i].protein) {
+                if(proteinLeast > parseInt(array[i].protein) * 100) {
                     proteinLeast = array[i].protein;
                     proteinComponent = array[i];
-                } else if (proteinQuant < array[i].protein) {
+                } else if (proteinQuant < parseInt(array[i].protein) * 100) {
                     proteinQuant = array[i].protein;
                     proteinMismatch = array[i];
                 }
             }
 
             if(bulletSaltActiveMost) {
-                if(saltQuant < array[i].salt) {
+                if(saltQuant < parseInt(array[i].salt) * 100) {
                     saltQuant = array[i].salt;
                     saltComponent = array[i];
-                } else if (saltLeast > array[i].salt) {
+                } else if (saltLeast > parseInt(array[i].salt) * 100) {
                     saltLeast = array[i].salt;
                     saltMismatch = array[i];
                 } 
             } else if(bulletSaltActiveLeast) {
-                if(saltLeast > array[i].salt) {
+                if(saltLeast > parseInt(array[i].salt) * 100) {
                     saltLeast = array[i].salt;
                     saltComponent = array[i];
-                } else if (saltQuant < array[i].salt) {
+                } else if (saltQuant < parseInt(array[i].salt) * 100) {
                     saltQuant = array[i].salt;
                     saltMismatch = array[i];
                 } 
             }
             if(bulletVitaminsActiveMost) {
-                if(vitaminsQuant < array[i].vitamins) {
+                if(vitaminsQuant < parseInt(array[i].vitamins) * 100) {
                     vitaminsQuant = array[i].vitamins;
                     vitaminsComponent = array[i];
-                } else if (vitaminsLeast < array[i].vitamins) {
+                } else if (vitaminsLeast < parseInt(array[i].vitamins) * 100) {
                     vitaminsLeast = array[i].vitamins;
                     vitaminsMismatch = array[i];
                 } 
             } else if(bulletVitaminsActiveLeast) {
-                if(vitaminsLeast > array[i].vitamins) {
+                if(vitaminsLeast > parseInt(array[i].vitamins) * 100) {
                     vitaminsLeast = array[i].vitamins;
                     vitaminsComponent = array[i];
-                } else if (vitaminsQuant < array[i].vitamins) {
+                } else if (vitaminsQuant < parseInt(array[i].vitamins) * 100) {
                     vitaminsQuant = array[i].vitamins;
                     vitaminsMismatch = array[i];
                 } 
@@ -460,6 +467,7 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         if(vitaminsMismatch !== null) {
             mismatchArray.push(vitaminsMismatch);
         }
+        console.log("check error", matchArray, "2: ", mismatchArray)
         countMatch(matchArray, mismatchArray);
     }
 
@@ -492,10 +500,10 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                 maxMismatch = countMismatched[key];
             }
         }
-        if(bestMatchId === worstMatchId) {
+        if(Object.keys(countMatched).length > 1 && Object.keys(countMismatched).length > 1 && bestMatchId === worstMatchId) {
             let bestMatchAltId = null;
             let countMatchedAlt = {};
-            var newArray = matchArray.filter(item => (
+            var newArray = matchArray.filter(item => ( 
                !(item.id == bestMatchId.split(" ")[0] && item.subcategory_id == bestMatchId.split(" ")[1])
             ));
             
@@ -535,6 +543,10 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
     const viewResults = async () => {
         await navigation.push('Results');
         setCalculated(false);
+    }
+
+    function animateActiveBtn() {
+        Animations.pulsingBtn(scale);  
     }
     return (
         <View style={CriteriaStyles().container}>
@@ -739,9 +751,12 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     <IonIcon name="ios-calculator" style={CriteriaStyles().buttonResults} />
                 </TouchableOpacity>
             ) : (
-                <TouchableOpacity style={CriteriaStyles().buttonWrapTwo} onPress={viewResults} >
-                    <IonIcon name="ios-stats" style={CriteriaStyles().buttonResults}  />
-                </TouchableOpacity>
+                <Animated.View style={CriteriaStyles(scale).buttonWrapAnimated}>
+                    {animateActiveBtn()}
+                    <TouchableOpacity style={CriteriaStyles().buttonAnimated} onPress={viewResults} >
+                            <IonIcon name="ios-stats" style={CriteriaStyles().buttonResults}  />
+                    </TouchableOpacity>
+                </Animated.View>
             )}
         </View>
     )

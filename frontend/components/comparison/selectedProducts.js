@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput, Animated, PanResponder } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray, diagramResults } from '../../src/actions/comparisonActions';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
-import { productWrap } from '../../components_additional/styles/CompareStyles';
+import { productWrap, CriteriaStyles } from '../../components_additional/styles/CompareStyles';
 import { colors } from '../../components_additional/styles/Colors';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -17,6 +17,8 @@ import ConfirmModal from '../../components_additional/ModalCrud';
 import EmptyList from '../../components_additional/EmptyListSelected';
 import LoadingResults from '../../components_additional/LoadingResults';
 import Modal from '../../components_additional/Modal';
+
+const Animations = require('../../components_additional/styles/Animations.js');
 
 class Products extends Component {
     state = {
@@ -30,7 +32,10 @@ class Products extends Component {
         triggeredSearchBar: false,
         searchName: '',
         delConfirm: false,
+        needAnimation: true,
+        scale: new Animated.Value(1),
     }
+
     findFunction(searchName) {
         this.setState({ triggeredSearchBar: true });
         const tempData = this.props.selectedProducts.filter(item => {
@@ -81,9 +86,6 @@ class Products extends Component {
         this.props.clearSelectedArray();
         this.setState({delConfirm: false})
     }
-    // componentDidUpdate(prevState) {
-    //     return prevState.selProducts !== this.state.selProducts;
-    // }
 
     goToProduct = (subcategoryId, productId) => {
         this.props.navigation.navigate("Product", {subcategoryId: subcategoryId, productId: productId});
@@ -93,11 +95,9 @@ class Products extends Component {
         const objectLength = Object.keys(this.props.selectedProducts).length;
         if(objectLength === 0) {
             this.setState({modalMessageNumber: true}) 
-            console.log("false", objectLength)
         } else {
             this.setState({modalMessageNumber: false}) 
             this.props.navigation.push(page);
-            console.log("true")
         }
     }
 
@@ -113,6 +113,17 @@ class Products extends Component {
         await this.props.deleteProductFromList(item.id);
         this.setState({triggeredSearchBar: false});
     } 
+
+    animateActiveBtn = () => {
+        Animations.pulsingBtn(this.state.scale, this.state.needAnimation);
+    }
+    animateInactiveBtn = () => {
+        Animations.pulsingBtnStop(this.state.scale);
+    }
+
+    goToResults = () => {
+        this.props.navigation.push("Results");
+    }
 
     render() {
         const objectLength = Object.keys(this.props.result).length;
@@ -173,15 +184,18 @@ class Products extends Component {
                             </View>
                         </View> 
                         ) : (
-                        <View style={productWrap().btnTwo}>
-                            <TouchableOpacity style={productWrap().iconWrapTwo} onPress={() => this.props.navigation.push("Results") } >
-                                <IonIcon name="ios-stats" style={productWrap().iconItem} />
-                            </TouchableOpacity>
-                            <View style={productWrap().textWrap} >
-                                <Text style={productWrap().infoTxt}>View your results</Text>
-                                <Text>Click Me!</Text>
-                            </View>
-                        </View> 
+                            <View style={productWrap().btnTwo}>                            
+                                { this.animateActiveBtn() }
+                                <Animated.View style={productWrap(this.state.scale).buttonWrapAnimated}>
+                                    <TouchableOpacity style={productWrap().buttonAnimated} onPress={this.goToResults} >
+                                        <IonIcon name="ios-stats" style={productWrap().iconItem} />
+                                    </TouchableOpacity>
+                                </Animated.View>
+                                <View style={productWrap().textWrap} >
+                                    <Text style={productWrap().infoTxt}>View your results</Text>
+                                    <Text>Click Me!</Text>
+                                </View>
+                            </View> 
                     )} 
                 </View> 
                 )}

@@ -1,16 +1,23 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { diagram } from '../../components_additional/styles/CompareStyles';
+import { animations } from '../../components_additional/styles/AnimationStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { connect } from 'react-redux';
 import { clearResults } from '../../src/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 
+const Animations = require('../../components_additional/styles/Animations.js');
 
 const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) => {
     let scrollTopRef = null;
     const { healthy, unhealthy } = result;
+    const scaleAnimate = useState(new Animated.Value(0))[0];
+
+        useEffect(() => {
+            callDiagramAnimation();
+        })
 
     const nameSlice = (name) => {
         if(name.length > 33) {
@@ -33,6 +40,10 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
         setTimeout(() => {
             navigate("SelectedProducts");
         }, 1)
+    }
+
+    const callDiagramAnimation = () => {
+        Animations.diagramAnimation(scaleAnimate)
     }
 
         return (
@@ -82,7 +93,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                 <View style={diagram().diagramLineWrap}>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(healthy.energy == null ? '0' : healthy.energy).lineOneEnergy}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(healthy.energy == null ? 0 : healthy.energy).lineOneEnergy} ></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{healthy.energy  == null ? '0' : healthy.energy}</Text>
@@ -91,7 +104,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                     </View>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(unhealthy.energy == null ? '0' : unhealthy.energy).lineTwoEnergy}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(unhealthy.energy == null ? '0' : unhealthy.energy).lineTwoEnergy}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{unhealthy.energy  == null ? '0' : unhealthy.energy}</Text>
@@ -107,7 +122,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                 <View style={diagram().diagramLineWrap}>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(healthy.fat == null ? '0' : healthy.fat).lineOne}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(healthy.fat == null ? '0' : healthy.fat).lineOne}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{healthy.fat  == null ? '0' : healthy.fat}</Text>
@@ -116,7 +133,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                     </View>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(unhealthy.fat == null ? '0' : unhealthy.fat).lineTwo}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(unhealthy.fat == null ? '0' : unhealthy.fat).lineTwo}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{unhealthy.fat  == null ? '0' : unhealthy.fat}</Text>
@@ -132,7 +151,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                 <View style={diagram().diagramLineWrap}>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(healthy.saturated == null ? '0' : healthy.saturated).lineOne}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(healthy.saturated == null ? '0' : healthy.saturated).lineOne}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{healthy.saturated  == null ? '0' : healthy.saturated}</Text>
@@ -141,7 +162,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                     </View>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(unhealthy.saturated == null ? '0' : unhealthy.saturated).lineTwo}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(unhealthy.saturated == null ? '0' : unhealthy.saturated).lineTwo}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{unhealthy.saturated  == null ? '0' : unhealthy.saturated}</Text>
@@ -157,7 +180,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                 <View style={diagram().diagramLineWrap}>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(healthy.carbs == null ? '0' : healthy.carbs).lineOne}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(healthy.carbs == null ? '0' : healthy.carbs).lineOne}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{healthy.carbs  == null ? '0' : healthy.carbs}</Text>
@@ -166,7 +191,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                     </View>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(unhealthy.carbs == null ? '0' : unhealthy.carbs).lineTwo}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(unhealthy.carbs == null ? '0' : unhealthy.carbs).lineTwo}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{unhealthy.carbs  == null ? '0' : unhealthy.carbs}</Text>
@@ -182,7 +209,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                 <View style={diagram().diagramLineWrap}>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(healthy.sugar == null ? '0' : healthy.sugar).lineOne}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(healthy.sugar == null ? '0' : healthy.sugar).lineOne}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{healthy.sugar  == null ? '0' : healthy.sugar}</Text>
@@ -191,7 +220,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                     </View>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(unhealthy.sugar == null ? '0' : unhealthy.sugar).lineTwo}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(unhealthy.sugar == null ? '0' : unhealthy.sugar).lineTwo}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{unhealthy.sugar  == null ? '0' : unhealthy.sugar}</Text>
@@ -207,7 +238,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                 <View style={diagram().diagramLineWrap}>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(healthy.fiber == null ? '0' : healthy.fiber).lineOne}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(healthy.fiber == null ? '0' : healthy.fiber).lineOne}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{healthy.fiber  == null ? '0' : healthy.fiber}</Text>
@@ -216,7 +249,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                     </View>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(unhealthy.fiber == null ? '0' : unhealthy.fiber).lineTwo}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(unhealthy.fiber == null ? '0' : unhealthy.fiber).lineTwo}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{unhealthy.fiber  == null ? '0' : unhealthy.fiber}</Text>
@@ -232,7 +267,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                 <View style={diagram().diagramLineWrap}>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(healthy.protein == null ? '0' : healthy.protein).lineOne}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(healthy.protein == null ? '0' : healthy.protein).lineOne}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{healthy.protein  == null ? '0' : healthy.protein}</Text>
@@ -241,7 +278,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                     </View>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(unhealthy.protein == null ? '0' : unhealthy.protein).lineTwo}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(unhealthy.protein == null ? '0' : unhealthy.protein).lineTwo}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{unhealthy.protein  == null ? '0' : unhealthy.protein}</Text>
@@ -257,7 +296,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                 <View style={diagram().diagramLineWrap}>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(healthy.salt == null ? '0' : healthy.salt).lineOne}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(healthy.salt == null ? '0' : healthy.salt).lineOne}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{healthy.salt  == null ? '0' : healthy.salt}</Text>
@@ -266,7 +307,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                     </View>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(unhealthy.salt == null ? '0' : unhealthy.salt).lineTwo}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(unhealthy.salt == null ? '0' : unhealthy.salt).lineTwo}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{unhealthy.salt  == null ? '0' : unhealthy.salt}</Text>
@@ -282,7 +325,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                 <View style={diagram().diagramLineWrap}>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(healthy.vitamins == null ? '0' : healthy.vitamins).lineOne}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(healthy.vitamins == null ? '0' : healthy.vitamins).lineOne}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{healthy.vitamins  == null ? '0' : healthy.vitamins}</Text>
@@ -291,7 +336,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                     </View>
                                     <View style={diagram().numberDiagramWrap}>
                                         <View style={diagram().singleLineWrap}>
-                                            <Text style={diagram(unhealthy.vitamins == null ? '0' : unhealthy.vitamins).lineTwo}></Text>
+                                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                                                <Text style={diagram(unhealthy.vitamins == null ? '0' : unhealthy.vitamins).lineTwo}></Text>
+                                            </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <Text style={diagram().number} >{unhealthy.vitamins == null ? '0' : unhealthy.vitamins}</Text>

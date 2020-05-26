@@ -100,7 +100,6 @@ render() {
                                             fontWeight: 'bold',
                                             color: colors.titleBlack,
                                             fontSize: 14,
-                                            numberOfLines: 2,
                                             maxWidth: '95%',
                                             marginLeft: 21,
                                         },
