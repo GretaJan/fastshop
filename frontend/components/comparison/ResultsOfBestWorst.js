@@ -12,12 +12,38 @@ const Animations = require('../../components_additional/styles/Animations.js');
 
 const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) => {
     let scrollTopRef = null;
+    const [increment, setIncrement] = useState(0);
     const { healthy, unhealthy } = result;
     const scaleAnimate = useState(new Animated.Value(0))[0];
+    const numberAnimate = useState(new Animated.Value(0))[0];
 
+    useInterval(() => {
+        if(increment <= parseInt(results)) {
+            setIncrement(increment + 1)
+        }
+        return increment
+    })
+    
+
+    function useInterval(callback, delay) {
+        const savedCallback = useRef();
+        useEffect(() => {
+            savedCallback.current = callback;
+        }, [callback]);
+        
+        useEffect(() => {
+            function increaseNo() {
+                savedCallback.current();
+            }
+            if(delay !== null) {
+                let num = setInterval(increaseNo, delay);
+                return () => clearInterval(num)
+            }
+        }, [delay]);
         useEffect(() => {
             callDiagramAnimation();
-        })
+        }, [])
+    }
 
     const nameSlice = (name) => {
         if(name.length > 33) {
@@ -43,7 +69,8 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
     }
 
     const callDiagramAnimation = () => {
-        Animations.diagramAnimation(scaleAnimate)
+        Animations.diagramAnimation(scaleAnimate);
+        Animations.numberAnimation(numberAnimate, parseInt(healthy.energy));
     }
 
         return (
@@ -98,7 +125,8 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{healthy.energy  == null ? '0' : healthy.energy}</Text>
+                                            {/* <Text style={diagram().number} >{healthy.energy  == null ? '0' : healthy.energy}</Text> */}
+                                            <Text style={diagram().number} >{increment}</Text>
                                             <Text style={diagram().measure} >kcal</Text>
                                         </View>
                                     </View>

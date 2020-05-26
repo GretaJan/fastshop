@@ -249,7 +249,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     diagramWrap: {
         paddingHorizontal: 20,
-        zIndex: 5,
+        // zIndex: 5,
     },
     linesWrap: {
 
