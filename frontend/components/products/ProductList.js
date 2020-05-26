@@ -17,7 +17,7 @@ class ProductList extends Component {
     render() {
         return (
             <View style={stylesGuest().itemWrap} key={this.props.item.id.toString()} >
-                <TouchableOpacity style={stylesGuest().TextPicWrap} onPress={this.goToProduct} >
+                <TouchableOpacity style={stylesGuest().TextPicWrap } onPress={this.goToProduct}  >
                     {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>
                             <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
@@ -25,7 +25,6 @@ class ProductList extends Component {
                         ) : (
                         <View style={stylesGuest().imageWrap}>
                             <IonIcon style={stylesGuest().imageIcon} name="md-images" />
-                            {/* <Image style={stylesGuest().image} source={require('../../components_additional/images/noimage.jpeg')}  /> */}
                         </View> 
                     )}
                     <Text style={stylesGuest().itemText} >{this.props.item.name}</Text>

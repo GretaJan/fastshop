@@ -1,4 +1,4 @@
-import { StyleSheet, PanResponder } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
@@ -188,7 +188,9 @@ export const diagram = (diagramLength) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.mainYellow,
-        paddingTop: 10,
+        paddingTop: 10
+    },
+    mainContentContainer: {
     },
     productsContainer: {
         flexDirection: 'row',
@@ -246,7 +248,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
         marginTop: 10,
     },
     diagramWrap: {
-        paddingLeft: 20,
+        paddingHorizontal: 20,
     },
     linesWrap: {
 
@@ -254,31 +256,14 @@ export const diagram = (diagramLength) => StyleSheet.create({
     componentTitle: {
         fontSize: 18,
     },
-    numberWrap: {
-        position: 'relative',
-        width:  20,
-        height:  20,
-        backgroundColor: 'green',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
     number: {
         fontSize: 18,
-        position: 'absolute',
     },
     measure: {
         fontSize: 15,
         paddingLeft: 5,
+        bottom: 1,
         color: colors.mainBlack,
-        backgroundColor: 'yellow',
-        zIndex: 2,
-    },
-    emptySpace: {
-        width: 5,
-        backgroundColor: 'orange',
-        zIndex: 3,
     },
     diagramLineWrap: {
     },

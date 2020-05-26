@@ -19,9 +19,7 @@ export default function(state = initialState, action) {
                 ...state,
                 comparisonArray: filteredArray,
                 result: action.result,
-                diagram: action.diagram,
             }
-
         case REMOVE_SELECTED_PRODUCT: 
             return {
                 ...state,
@@ -29,7 +27,6 @@ export default function(state = initialState, action) {
                     action.payload !== item.id
                )),
                result: {},
-               diagram: {},
             }
         case COMPARE_RESULT:
             return {
@@ -51,14 +48,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 result: action.result,
-                diagram: action.diagram,
             }
             case CLEAR_SELECTED_ARRAY:
                 return {
                     ...state,
                     result: action.results,
                     comparisonArray: action.array,
-                    diagram: action.diagram,
                 }
         default:
             return state

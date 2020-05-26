@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, TouchableOpacity, TextInput, Animated, PanResponder } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray, diagramResults } from '../../src/actions/comparisonActions';
+import { productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray } from '../../src/actions/comparisonActions';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { productWrap, CriteriaStyles } from '../../components_additional/styles/CompareStyles';
@@ -216,4 +216,4 @@ const mapStateToProps = state => ({
     result: state.selectedProducts.result,
 })
 
-export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray, diagramResults})(Products))
+export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray})(Products))

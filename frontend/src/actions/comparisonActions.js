@@ -16,15 +16,15 @@ export const productSelected = (product, subcategory) => dispatch => {
                 type: PRODUCT_SELECTED,
                 payload: product.data.product,
                 result: {},
-                diagram: {},
             })
         })
 }
 
 export const deleteProductFromList = (product) => dispatch => {
+    console.log("product", product)
     dispatch({
         type: REMOVE_SELECTED_PRODUCT,
-        payload: product.id
+        payload: product
     })
 }
 
@@ -78,7 +78,6 @@ export const clearResults = () => dispatch => {
     dispatch({
         type: CLEAR_RESULTS,
         result: {},
-        diagram: {},
     })
 }
 
@@ -87,6 +86,5 @@ export const clearSelectedArray = () => dispatch => {
         type: CLEAR_SELECTED_ARRAY,
         array: [],
         results: {},
-        diagram: {},
     })
 }

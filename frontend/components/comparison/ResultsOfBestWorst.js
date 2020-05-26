@@ -12,89 +12,8 @@ const Animations = require('../../components_additional/styles/Animations.js');
 
 const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) => {
     let scrollTopRef = null;
-    const [energyMatchInc, setEnergyMatchInc] = useState(0);
-    const [fatMatchInc, setFatMatchInc] = useState(0);
-    const [satMatchInc, setSatMatchInc] = useState(0);
-    const [carbsMatchInc, setCarbsMatchInc] = useState(0);
-    const [sugarMatchInc, setSugarMatchInc] = useState(0);
-    const [fiberMatchInc, setFiberMatchInc] = useState(0);
-    const [protMatchInc, setProtMatchInc] = useState(0);
-    const [saltMatchInc, setSaltMatchInc] = useState(0);
-    const [vitMatchInc, setVitMatchInc] = useState(0);
-    const [energyMismatchInc, setEnergyMismatchInc] = useState(0);
-    const [fatMismatchInc, setFatMismatchInc] = useState(0);
-    const [satMismatchInc, setSatMismatchInc] = useState(0);
-    const [carbsMismatchInc, setCarbsMismatchInc] = useState(0);
-    const [sugarMismatchInc, setSugarMismatchInc] = useState(0);
-    const [fiberMismatchInc, setFiberMismatchInc] = useState(0);
-    const [protMismatchInc, setProtMismatchInc] = useState(0);
-    const [saltMismatchInc, setSaltMismatchInc] = useState(0);
-    const [vitMismatchInc, setVitMismatchInc] = useState(0);
-    const delay = useState(50)[0];
     const { healthy, unhealthy } = result;
-    const matchCarbs = parseFloat(healthy.carbs);
     const scaleAnimate = useState(new Animated.Value(0))[0];
-    const numberAnimate = useState(new Animated.Value(0))[0];
-
-    useInterval(() => {
-        console.log("hello", carbsMatchInc)
-        if(energyMatchInc < parseInt(healthy.energy)) {
-            setEnergyMatchInc(energyMatchInc + 1)
-        }
-        if(fatMatchInc < healthy.fat) {
-            console.log(typeof(fatMatchInc))
-            setFatMatchInc(fatMatchInc + 0.1)
-        }
-        if(satMatchInc < parseInt(healthy.saturated)) {
-            setSatMatchInc(satMatchInc + 1)
-        }
-        if(carbsMatchInc < healthy.carbs) {
-            setCarbsMatchInc(carbsMatchInc + 0.1)
-        }
-        if(sugarMatchInc < parseInt(healthy.sugar)) {
-            setSugarMatchInc(sugarMatchInc + 1)
-        }
-        if(fiberMatchInc < parseInt(healthy.fiber)) {
-            setFiberMatchInc(fiberMatchInc + 0.1)
-        }
-        if(protMatchInc < parseInt(healthy.protein)) {
-            setProtMatchInc(protMatchInc + 1)
-        }
-        if(saltMatchInc < parseInt(healthy.salt)) {
-            setSaltMatchInc(saltMatchInc + 0.1)
-        }
-        if(vitMatchInc < parseInt(healthy.vitamins)) {
-            setVitMatchInc(vitMatchInc + 0.1)
-        }
-        // Mismatch
-        if(energyMismatchInc < parseInt(unhealthy.energy)) {
-            setEnergyMismatchInc(energyMismatchInc + 1)
-        }
-        if(fatMismatchInc < parseInt(unhealthy.fat)) {
-            setFatMismatchInc(fatMismatchInc + 0.1)
-        }
-        if(satMismatchInc < parseInt(unhealthy.saturated)) {
-            setSatMismatchInc(satMismatchInc + 1)
-        }
-        if(carbsMismatchInc < parseInt(unhealthy.carbs)) {
-            setCarbsMismatchInc(carbsMismatchInc + 0.1)
-        }
-        if(sugarMismatchInc < parseInt(unhealthy.sugar)) {
-            setSugarMismatchInc(sugarMismatchInc + 1)
-        }
-        if(fiberMismatchInc < parseInt(unhealthy.fiber)) {
-            setFiberMismatchInc(fiberMismatchInc + 0.1)
-        }
-        if(protMismatchInc < parseInt(unhealthy.protein)) {
-            setProtMismatchInc(protMismatchInc + 1)
-        }
-        if(saltMismatchInc < parseInt(unhealthy.salt)) {
-            setSaltMismatchInc(saltMismatchInc + 0.1)
-        }
-        if(vitMismatchInc < parseInt(unhealthy.vitamins)) {
-            setVitMismatchInc(vitMismatchInc + 0.1)
-        }
-    }, 2000)
 
     useEffect(() => {
         callDiagramAnimation();
@@ -124,7 +43,6 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
 
     const callDiagramAnimation = () => {
         Animations.diagramAnimation(scaleAnimate);
-        Animations.numberAnimation(numberAnimate, parseInt(healthy.energy));
     }
 
         return (
@@ -179,7 +97,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{energyMatchInc}</Text>
+                                            <Text style={diagram().number} >{ healthy.energy == null ? 0 : healthy.energy }</Text>
                                             <Text style={diagram().measure} >kcal</Text>
                                         </View>
                                     </View>
@@ -190,7 +108,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{energyMismatchInc}</Text>
+                                            <Text style={diagram().number} >{ unhealthy.energy == null ? '0' : unhealthy.energy }</Text>
                                             <Text style={diagram().measure} >kcal</Text>
                                         </View>
                                     </View>
@@ -208,7 +126,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ (fatMatchInc).toFixed(1) }</Text>
+                                            <Text style={diagram().number} >{ healthy.fat == null ? '0' : healthy.fat }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -219,7 +137,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ fatMismatchInc }</Text>
+                                            <Text style={diagram().number} >{ unhealthy.fat == null ? '0' : unhealthy.fat }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -237,7 +155,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ satMatchInc }</Text>
+                                            <Text style={diagram().number} >{ healthy.saturated == null ? '0' : healthy.saturated }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -248,7 +166,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ satMismatchInc }</Text>
+                                            <Text style={diagram().number} >{ unhealthy.saturated == null ? '0' : unhealthy.saturated }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -267,7 +185,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
                                             <View style={diagram().numberWrap}>
-                                                <Text style={diagram().number} >{ carbsMatchInc }</Text>
+                                                <Text style={diagram().number} >{ healthy.carbs == null ? '0' : healthy.carbs }</Text>
                                             </View>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
@@ -279,7 +197,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ carbsMismatchInc }</Text>
+                                            <Text style={diagram().number} >{ unhealthy.carbs == null ? '0' : unhealthy.carbs }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -297,7 +215,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ sugarMatchInc }</Text>
+                                            <Text style={diagram().number} >{ healthy.sugar == null ? '0' : healthy.sugar }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -308,7 +226,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ sugarMismatchInc }</Text>
+                                            <Text style={diagram().number} >{ unhealthy.sugar == null ? '0' : unhealthy.sugar }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -326,7 +244,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ fiberMatchInc }</Text>
+                                            <Text style={diagram().number} >{ healthy.fiber == null ? '0' : healthy.fiber }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -337,7 +255,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ fiberMismatchInc }</Text>
+                                            <Text style={diagram().number} >{ unhealthy.fiber == null ? '0' : unhealthy.fiber }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -355,7 +273,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ protMatchInc }</Text>
+                                            <Text style={diagram().number} >{ healthy.protein == null ? '0' : healthy.protein }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -366,7 +284,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ protMismatchInc }</Text>
+                                            <Text style={diagram().number} >{ unhealthy.protein == null ? '0' : unhealthy.protein }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -384,7 +302,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ saltMatchInc }</Text>
+                                            <Text style={diagram().number} >{ healthy.salt == null ? '0' : healthy.salt }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -395,7 +313,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ saltMismatchInc }</Text>
+                                            <Text style={diagram().number} >{ unhealthy.salt == null ? '0' : unhealthy.salt }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -413,7 +331,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ vitMatchInc }</Text>
+                                            <Text style={diagram().number} >{ healthy.vitamins == null ? '0' : healthy.vitamins }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -424,7 +342,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ vitMismatchInc }</Text>
+                                            <Text style={diagram().number} >{ unhealthy.vitamins == null ? '0' : unhealthy.vitamins }</Text>
                                             <Text style={diagram().measure} >g</Text>
                                         </View>
                                     </View>
@@ -446,22 +364,5 @@ const mapStateToProps = state => ({
     result: state.selectedProducts.result,
 })
 
-
-function useInterval(func, delay) {
-    const reference = useRef();
-    useEffect(() => {
-        reference.current = func;
-    }, [func]);
-
-    useEffect(() => {
-        function tick() {
-            reference.current();
-        }
-        if(delay !== null) {
-            let id = setInterval(tick, delay);
-            return () => clearInterval(id);
-        }
-    }, [delay])
-} 
 
 export default withNavigation(connect(mapStateToProps, {clearResults})(ResultsOfBestWorst))
