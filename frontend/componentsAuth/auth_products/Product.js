@@ -14,7 +14,7 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 //Components
 import Loading from '../../components_additional/Loading';
 import LoadingError from '../../components_additional/Error';
-import ConfirmModal from '../../components_additional/ConfirmModal';
+import ConfirmModal from '../../components_additional/ModalCrud';
 import Error from '../../components_additional/ErrorMsg';
 
 class Product extends Component {
@@ -787,7 +787,8 @@ class Product extends Component {
                                         colorOne={colors.lightBurgundy}
                                         colorTwo={colors.mediumGreen}
                                         horizontal={20} vertical={15}
-                                />
+                                            />
+                                     
                             )}
                         {!imageInput ? (
                             <View style={authProduct().imageIconWrap} >

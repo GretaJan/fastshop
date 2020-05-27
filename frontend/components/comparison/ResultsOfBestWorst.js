@@ -14,6 +14,11 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
     let scrollTopRef = null;
     const { healthy, unhealthy } = result;
     const scaleAnimate = useState(new Animated.Value(0))[0];
+    const [energyCount, setEnergyCount] = useState(0);
+
+    useInterval(() => {
+        setEnergyCount(energyCount + 1)
+    }, 1000)
 
     useEffect(() => {
         callDiagramAnimation();
@@ -38,7 +43,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
          clearResults();
         setTimeout(() => {
             navigate("SelectedProducts");
-        }, 1)
+        }, 0)
     }
 
     const callDiagramAnimation = () => {
@@ -97,7 +102,8 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                                             </Animated.View>
                                         </View>
                                         <View style={diagram().itemNumberWrap} >
-                                            <Text style={diagram().number} >{ healthy.energy == null ? 0 : healthy.energy }</Text>
+                                            {/* <Text style={diagram().number} >{ healthy.energy == null ? 0 : healthy.energy }</Text> */}
+                                            <Text style={diagram().number} >{ energyCount }</Text>
                                             <Text style={diagram().measure} >kcal</Text>
                                         </View>
                                     </View>
@@ -363,6 +369,23 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
 const mapStateToProps = state => ({
     result: state.selectedProducts.result,
 })
+
+function useInterval(callback, delay) {
+    const getCallback = useRef();
+
+    useEffect(() => {
+        getCallback.current = callback;
+    }, [callback]);
+    useEffect(() => {
+        function tick() {
+            getCallback.current();
+        }
+        if(delay !== null) {
+            let id = setInterval(tick, 0);
+            return () => clearInterval(id);
+        }
+    }, [delay])
+}
 
 
 export default withNavigation(connect(mapStateToProps, {clearResults})(ResultsOfBestWorst))

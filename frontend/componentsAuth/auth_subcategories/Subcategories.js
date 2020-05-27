@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { styles } from '../../components_additional/styles/SubcategoryStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
+import { colors } from '../../components_additional/styles/Colors';
 
 //Components
 import Subcategory from './SubcategoryList';
@@ -17,6 +18,7 @@ import Error from '../../components_additional/Error';
 import Modal from '../../components_additional/Modal';
 import EmptyList from '../../components_additional/EmptyList';
 import CircleButton from '../../components_additional/CircleButton';
+import ConfirmModal from '../../components_additional/ModalCrud';
 
 class Subcategories extends Component {
 
@@ -26,7 +28,8 @@ class Subcategories extends Component {
         tempArray: this.props.subcategories,
         searchName: '',
         inputTriggered: false,
-        showSearchInput: false
+        showSearchInput: false,
+        deleteId: '',
     }
 
     static navigationOptions = {
@@ -85,12 +88,20 @@ class Subcategories extends Component {
     }
 
     componentDidMount() {
-        this.props.getSubcategories(this.state.id);
+        this.props.getSubcategories(this.state.deleteId);
     }
 
-    deleteSubcategory = async (id) => {
-        await this.props.deleteSubcategory(id);
+    deleteSubcategory = async () => {
+        await this.props.deleteSubcategory(this.state.deleteId);
         this.props.getSubcategories(this.state.id);
+        this.setState({deleteId: ''})
+    }
+
+    confirmDeleteSubcategory = (item) => {
+        this.setState({deleteId: item})
+    }
+    cancelDelete = () => {
+        this.setState({deleteId: ''})
     }
 
     goToProducts = (item) => {
@@ -106,6 +117,19 @@ class Subcategories extends Component {
                 </View>
             ) : (
                 <View style={styles(background).container}>
+                               {this.state.deleteId !== '' && (  
+                                            <ConfirmModal message="Are you sure you want to delete this item? " 
+                                                    confirm={this.deleteSubcategory}
+                                                    title="Delete action"
+                                                    close={this.cancelDelete}
+                                                    background={colors.mainWhiteYellow}
+                                                    iconColor={colors.lightBurgundy}
+                                                    borderColor={colors.bordoTransparent}
+                                                    colorOne={colors.lightBurgundy}
+                                                    colorTwo={colors.mediumGreen}
+                                                    horizontal={20} vertical={15}
+                                            />
+                                        )}
                     {this.getInput()}
                     <CircleButton func={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id, background: background}) }} />
                     {this.props.subcategories.length == 0 ? (
@@ -117,11 +141,11 @@ class Subcategories extends Component {
                                     onEndReachedThreshold={0.01}
                                     ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
                                     renderItem={({item}) => (
-                                <Subcategory item={item}
-                                            deleteSubcategory={(item) => this.deleteSubcategory(item)} 
-                                            goToProducts={() => this.goToProducts(item)}
-                                />
-                        )} />
+                                        <Subcategory item={item}
+                                                    deleteSubcategory={(item) => this.confirmDeleteSubcategory(item)} 
+                                                    goToProducts={() => this.goToProducts(item)}
+                                        />
+                                )} />
                         ) : (
                             <FlatList data={this.state.tempArray} renderItem={({item}) => (
                                 <Subcategory item={item} 

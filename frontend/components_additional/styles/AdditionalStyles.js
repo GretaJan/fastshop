@@ -93,7 +93,7 @@ export const adminButtonStyle = (color, horizontal, vertical) => StyleSheet.crea
     }
 }) 
 
-export const modalStyle = (color, borderColor) => StyleSheet.create({
+export const modalStyle = (color, borderColor, scale) => StyleSheet.create({
     container: {
         position: 'absolute',
         zIndex: 40,
@@ -130,6 +130,9 @@ export const modalStyle = (color, borderColor) => StyleSheet.create({
          shadowOffset: { width: 1, height: 1 },
          shadowOpacity: 0.8,
          shadowRadius: 2, 
+         transform: [
+             { scale: scale }
+         ]
     },
     iconWrap: {
         width: 220,
@@ -162,7 +165,7 @@ export const modalStyle = (color, borderColor) => StyleSheet.create({
         marginTop: 10,
     }
 });
-export const modalStyleDelete = (color, borderColor) => StyleSheet.create({
+export const modalStyleDelete = (color, borderColor, scale) => StyleSheet.create({
     container: {
         position: 'absolute',
         zIndex: 40,
@@ -194,6 +197,9 @@ export const modalStyleDelete = (color, borderColor) => StyleSheet.create({
          shadowOffset: { width: 1, height: 1 },
          shadowOpacity: 0.8,
          shadowRadius: 2, 
+         transform: [
+            { scale: scale }
+        ]
     },
     iconWrap: {
         width: 220,
@@ -226,7 +232,7 @@ export const modalStyleDelete = (color, borderColor) => StyleSheet.create({
         marginTop: 10,
     }
 });
-export const modalConfirm = (color) => StyleSheet.create({
+export const modalConfirm = (color, scale) => StyleSheet.create({
     itemContainer: {
         width: Dimensions.get('window').width /1.2,
         backgroundColor: color,
@@ -236,6 +242,9 @@ export const modalConfirm = (color) => StyleSheet.create({
         top: '10%',
         paddingBottom: 30,
         borderRadius: 10,
+        transform: [
+            { scale: scale}
+        ]
     },
     btnsWrap: {
         flexDirection: 'row',

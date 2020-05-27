@@ -11,7 +11,6 @@ import Error from '../../components_additional/ErrorMsg';
 
 //Components
 import StyledButton from '../../components_additional/AdminButton';
-import ConfirmModal from '../../components_additional/ModalCrud';
 
 class SubcategoryList extends Component {
     state = {
@@ -19,7 +18,6 @@ class SubcategoryList extends Component {
         imageData: null,
         background: this.props.item.background_color, 
         triggerEdit: false,
-        confirm: false,
         formatName: null,
         missingName: null,
         incorrectName: null,
@@ -100,67 +98,15 @@ class SubcategoryList extends Component {
         this.props.deleteSubcategory(this.props.item.id);
     }
 
-//     render() {
-//         return (
-//             <View key={this.props.item.id.toString()} >
-//             {(!this.state.triggerEdit) &&
-//                 <View style={styles(null, null).itemWrap} >
-//                 <Text onPress={this.goToProducts}>{this.state.name}</Text>
-//                     <Text style={styles(this.props.background_color, this.props.item.border_color).backgroundIs}>Background</Text>
-//                     <Text style={styles(this.props.background_color, this.props.item.border_color).border_color}>Border</Text>
-//                     {this.state.image ? (
-//                         <View>
-//                             <Image style={{width: 50, height: 50}} source={{ uri: this.props.item.image }} />
-//                         </View>
-//                         ) : (
-//                         <View>
-//                             <Image style={{width: 50, height: 50}} source={require('../../components_additional/images/noimage.jpeg')}  />
-//                         </View> 
-//                     )}
-//                     <Button title="Edit image" onPress={this.changeImage} />
-//                     <View style={styles(null, null).itemWrap} >
-//                         <Icon name="pencil" size={35} color="firebrick" onPress={this.triggerEdit} />
-//                         <Icon name="remove" size={35} color="firebrick" onPress={this.deleteFunction} />
-//                     </View>
-//                 </View>
-//             }{(this.state.triggerEdit) &&
-//                 <View style={styles(null, null).itemWrap} >
-//                     <TextInput style={styles(null, null).itemText} type="text" autoCorrect={false} onChangeText={value => { this.setState({name: value})}}  defaultValue={this.props.item.name} value={this.state.name}/>
-//                     <View style={styles(null, null).itemWrap} >
-//                         <Icon style={styles(null, null).iconItem} name="check-circle" size={35} color="firebrick" onPress={this.editSubcategory} />
-//                         <Icon name="times-circle" size={35} color="firebrick" onPress={this.cancelEdit} />
-//                     </View>
-//                  </View>
-//             }
-//              </View>
-//         )
-//     }
-// }
-
-// 
-
 render() {
     return (
         !this.state.triggerEdit ? (
             <View style={authCategory().itemContainer} key={this.props.item.id.toString()} >
-                {this.state.confirm && (  
-                    <ConfirmModal message="Are you sure you want to delete this item? " 
-                            confirm={this.deleteFunction}
-                            title="Delete action"
-                            close={() => this.setState({confirm: false})}
-                            background={colors.mainWhiteYellow}
-                            iconColor={colors.lightBurgundy}
-                            borderColor={colors.bordoTransparent}
-                            colorOne={colors.lightBurgundy}
-                            colorTwo={colors.mediumGreen}
-                            horizontal={20} vertical={15}
-                    />
-                )}
                 <View style={authCategory().inactiveBtnsWrap} >
                     <TouchableOpacity style={authCategory().editBtnWrap} onPress={this.triggerEdit}>
                         <Icon style={authCategory().editBtn} name="pencil"/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={authCategory().removeBtnWrap} onPress={() => this.setState({confirm: true})}>
+                    <TouchableOpacity style={authCategory().removeBtnWrap} onPress={this.deleteFunction}>
                         <Icon style={authCategory().removeBtn} name="trash-o" />
                     </TouchableOpacity>
                 </View>
