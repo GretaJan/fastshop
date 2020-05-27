@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, Button, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { getSubcategories, deleteSubcategory, unmountSubcategories } from '../../src/actions/subcategoryActions';
+import { getSubcategories, deleteSubcategory, unmountSubcategories, editSubcategory } from '../../src/actions/subcategoryActions';
 import { authCategory } from '../../components_additional/styles/CategoryStyles';
-import { getCategory } from '../../src/actions/categoryActions';
+import ImagePicker from 'react-native-image-picker';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
@@ -30,6 +30,18 @@ class Subcategories extends Component {
         inputTriggered: false,
         showSearchInput: false,
         deleteId: '',
+        // Edit
+        editId: '',
+        editSubcategoryId: '',
+        editName: '',
+        image: null,
+        imageData: null,
+        editImage: null,
+        editBackground: '', 
+        formatName: null,
+        missingName: null,
+        incorrectName: null,
+        formatBackground: null,
     }
 
     static navigationOptions = {
@@ -37,10 +49,10 @@ class Subcategories extends Component {
         headerStyle: {
             backgroundColor: 'red',
         },
-    }
+    }   
 
     componentDidMount(){
-        this.props.getSubcategories(this.state.id, 1);
+        this.props.getSubcategories(this.state.id);
     }
     componentWillUnmount(){
         this.props.unmountSubcategories();
@@ -87,8 +99,77 @@ class Subcategories extends Component {
         )
     }
 
-    componentDidMount() {
-        this.props.getSubcategories(this.state.deleteId);
+    triggerEdit = (item) => {
+        console.log("item: ", item)
+        this.setState({
+            editId: item.id,
+            editSubcategoryId: item.subcategory_id,
+            editName: item.name,
+            editBackground: item.background_color,
+            image: item.image
+        })
+    }
+
+
+    changeImage = (item) => {
+        const options = {
+            noData: false
+        }
+        if(item.id == this.state.editId) {
+            console.log('image chosen:', item)
+            this.setState({imageData: null})
+            ImagePicker.launchImageLibrary(options, response => {
+                if (response.uri) {
+                    this.setState({
+                                    imageData: response,
+                                });
+                } else {
+                    this.setState({imageData: null})
+                }
+            })
+        }  
+    }
+
+    validateSubmit = () => {
+        let regexColorWord = new RegExp('^[a-zA-Z]+$');
+        let regexHex = new RegExp('#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})');
+        let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
+        let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
+
+        if (this.state.editName === '') {
+            this.setState({missingName: 'Name is required', formatName: null, incorrectName: true});
+        } else if(this.state.editName.length < 3 ) {
+            this.setState({formatName: '3 characters required', missingName: null, incorrectName: true});
+        } else {
+            this.setState({missingName: null, formatName: null, incorrectName: false});
+        }
+        if( this.state.editBackground !== null ){
+            if(!regexColorWord.test(this.state.editBackground) && !regexHex.test(this.state.editBackground) &&
+                !regRGB.test(this.state.editBackground) && !regRGBA.test(this.state.editBackground)) {
+            this.setState({formatBackground: 'Invalid color format'});
+            console.log("fail", this.state.editBackground)
+            } else {
+                this.setState({formatBackground: null});
+            }
+        } else {
+            this.setState({formatBackground: null});
+        }
+
+        if(this.state.incorrectName === false && this.state.formatBackground === null) {
+            this.editSubcategory();
+            this.cancelEdit();
+        }
+    }
+
+    editSubcategory = async () => {
+        const data = {
+            name: this.state.editName,
+            background_color: this.state.editBackground,
+            image: this.state.imageData !== null ? ("data:" + this.state.imageData.type + ";base64," + this.state.imageData.data) : (this.state.image),
+            "_method": "put"
+        }
+        console.log("edit data", data)
+        await this.props.editSubcategory(this.state.editSubcategoryId, this.state.editId, data);
     }
 
     deleteSubcategory = async () => {
@@ -107,6 +188,19 @@ class Subcategories extends Component {
     goToProducts = (item) => {
         this.props.navigation.push("Products_Auth", {subcategoryId: item.id, name: item.name, background: item.background_color});
     }
+    cancelEdit = () => {
+        this.setState({
+            editId: '', 
+            editSubcategoryId: '', 
+            editName: '', 
+            editBackground: '',
+            imageData: null,
+            formatName: null,
+            missingName: null,
+            incorrectName: null,
+            formatBackground: null
+    })
+    }
 
     render() {
         const {background} = this.props.route.params;
@@ -117,19 +211,19 @@ class Subcategories extends Component {
                 </View>
             ) : (
                 <View style={styles(background).container}>
-                               {this.state.deleteId !== '' && (  
-                                            <ConfirmModal message="Are you sure you want to delete this item? " 
-                                                    confirm={this.deleteSubcategory}
-                                                    title="Delete action"
-                                                    close={this.cancelDelete}
-                                                    background={colors.mainWhiteYellow}
-                                                    iconColor={colors.lightBurgundy}
-                                                    borderColor={colors.bordoTransparent}
-                                                    colorOne={colors.lightBurgundy}
-                                                    colorTwo={colors.mediumGreen}
-                                                    horizontal={20} vertical={15}
-                                            />
-                                        )}
+                    {this.state.deleteId !== '' && (  
+                        <ConfirmModal message="Are you sure you want to delete this item? " 
+                                confirm={this.deleteSubcategory}
+                                title="Delete action"
+                                close={this.cancelDelete}
+                                background={colors.mainWhiteYellow}
+                                iconColor={colors.lightBurgundy}
+                                borderColor={colors.bordoTransparent}
+                                colorOne={colors.lightBurgundy}
+                                colorTwo={colors.mediumGreen}
+                                horizontal={20} vertical={15}
+                        />
+                    )}
                     {this.getInput()}
                     <CircleButton func={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id, background: background}) }} />
                     {this.props.subcategories.length == 0 ? (
@@ -142,14 +236,44 @@ class Subcategories extends Component {
                                     ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
                                     renderItem={({item}) => (
                                         <Subcategory item={item}
-                                                    deleteSubcategory={(item) => this.confirmDeleteSubcategory(item)} 
-                                                    goToProducts={() => this.goToProducts(item)}
+                                            editId={this.state.editId}
+                                            editSubcategoryId={this.state.editSubcategoryId}
+                                            editName={this.state.editName}
+                                            imageData={this.state.imageData}
+                                            editBackground={this.state.editBackground}
+                                            formatName={this.state.formatName}
+                                            missingName={this.state.missingName}
+                                            incorrectName={this.state.incorrectName}
+                                            formatBackground={this.state.formatBackground}
+                                            triggerEdit={() => this.triggerEdit(item)}
+                                            validateSubmit={() => this.validateSubmit()}
+                                            onChangeName={(value) => this.setState({editName: value})}
+                                            changeImage={() => this.changeImage(item)}
+                                            editSubcategory={() => this.editSubcategory()}
+                                            cancelEdit={() => this.cancelEdit()}
+                                            deleteSubcategory={(item) => this.confirmDeleteSubcategory(item)} 
+                                            goToProducts={() => this.goToProducts(item)}
                                         />
                                 )} />
                         ) : (
                             <FlatList data={this.state.tempArray} renderItem={({item}) => (
                                 <Subcategory item={item} 
-                                            deleteSubcategory={(item) => this.deleteSubcategory(item)} 
+                                            editId={this.state.editId}
+                                            editSubcategoryId={this.state.editSubcategoryId}
+                                            editName={this.state.editName}
+                                            imageData={this.state.imageData}
+                                            editBackground={this.state.editBackground}
+                                            formatName={this.state.formatName}
+                                            missingName={this.state.missingName}
+                                            incorrectName={this.state.incorrectName}
+                                            formatBackground={this.state.formatBackground}
+                                            triggerEdit={() => this.triggerEdit(item)}
+                                            validateSubmit={() => this.validateSubmit()}
+                                            onChangeName={(value) => this.setState({editName: value})}
+                                            changeImage={() => this.changeImage(item)}
+                                            editSubcategory={() => this.editSubcategory()}
+                                            cancelEdit={() => this.cancelEdit()}
+                                            deleteSubcategory={(item) => this.confirmDeleteSubcategory(item)} 
                                             goToProducts={() => this.goToProducts(item)}
                                 />
                             )} />
@@ -172,4 +296,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default withNavigation(connect(mapStateToProps, {getSubcategories, unmountSubcategories, deleteSubcategory})(Subcategories))
+export default withNavigation(connect(mapStateToProps, {getSubcategories, unmountSubcategories, editSubcategory, deleteSubcategory})(Subcategories))

@@ -7,11 +7,10 @@ import { colors } from './styles/Colors';
 
 const Animations = require('./styles/Animations.js')
 
-const Modal = ({message, confirm, title, close, background, borderColor, iconColor, colorOne, colorTwo, height, horizontal, vertical}) => {
+const Modal = ({message, confirm, title, close, background, borderColor, iconColor, colorOne, colorTwo, horizontal, vertical}) => {
     const scale = useState(new Animated.Value(0))[0];
 
     useEffect(() => {
-        console.log("heello world")
         Animations.buttonScale(scale);
     }, [])
 
