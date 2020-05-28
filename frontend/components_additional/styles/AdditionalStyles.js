@@ -364,6 +364,64 @@ export const errorStyle = (margin, left) => StyleSheet.create({
     message: {
         fontSize: 16,
     }
-})
+});
+
+export const authVerify = (translOne, translTwo, translThree) => StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        position: 'absolute',
+        alignSelf: 'center',
+        top: '3%'
+    },
+    mainTxt: {
+        fontSize: 18,
+        letterSpacing: 3
+    },
+    dotOne: {
+        backgroundColor: 'grey',
+        transform: [
+            { translateY: translOne } 
+        ],
+        marginLeft: 5,
+    },
+    dotOneStyle: {
+        height: 6,
+        width: 6,
+        borderColor: colors.mainBlack,
+        borderWidth: 1,
+        backgroundColor: 'red',
+        borderRadius: 3,
+    },
+    dotTwo: {
+        transform: [
+            { translateY: translTwo } 
+        ],
+        marginLeft: 6,
+    },
+    dotTwoStyle: {
+        height: 6,
+        width: 6,
+        borderColor: colors.mainBlack,
+        borderWidth: 1,
+        backgroundColor: colors.lightGreen2,
+        borderRadius: 3,
+    },
+    dotThree: {
+        transform: [
+            { translateY: translThree } 
+        ],
+        marginLeft: 6,
+    },
+    dotThreeStyle: {
+        height: 6,
+        width: 6,
+        borderColor: colors.mainBlack,
+        borderWidth: 1,
+        backgroundColor: colors.orangeBright,
+        borderRadius: 3,
+    }
+});
 
 

@@ -5,6 +5,7 @@ const initialState = {
     email: '',
     password: '',
     admin: {},
+    authenticate: null,
     isAuthorized: false,
     error: null,
     isLoading: true,
@@ -15,7 +16,7 @@ export default function(state = initialState, action) {
         case TRY_LOG_IN:
             return {
                 ...state,
-                isLoading: true
+                authenticate: action.authenticate
             }
             case LOGGED_IN:
                 return {
@@ -23,6 +24,7 @@ export default function(state = initialState, action) {
                     isLoading: action.payload,
                     admin: action.admin,
                     isAuthorized: action.isAuthorized,
+                    authenticate: action.authenticate,
                     error: null,
                 }
             case LOG_IN_FAILED:
@@ -30,7 +32,8 @@ export default function(state = initialState, action) {
                     ...state,
                     error: action.payload,
                     admin: action.admin,
-                    isAuthorized: action.isAuthorized
+                    isAuthorized: action.isAuthorized,
+                    authenticate: action.authenticate,
                 }
             case LOG_OUT:
             return {

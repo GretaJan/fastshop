@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Animated } from 'react-native';
 import { Input, Button, Form } from 'react-native-elements';
 import { styles } from '../../components_additional/styles/LoginStyles';
 import { withNavigation } from 'react-navigation';
@@ -12,6 +12,7 @@ import { colors } from '../../components_additional/styles/Colors';
 
 //components
 import Error from '../../components_additional/ErrorMsg';
+import AuthAnimation from '../../components_additional/AnimatedAuth';
 
 class Login extends Component {
     
@@ -26,6 +27,7 @@ class Login extends Component {
     // clearInputs = () => {
     //     this.textInputRef.clear();
     // } 
+
 
     loginAdmin = async () => {
         const data = {
@@ -45,6 +47,9 @@ class Login extends Component {
         render() {
             return (
                 <View style={styles().container} >
+                    { this.props.authenticate &&
+                        <AuthAnimation />
+                    }
                     <View style={styles().inputsWrap} >
                         { this.props.error &&
                             <Error message={this.props.error} margin={-40} left={'8%'}/>
@@ -69,7 +74,8 @@ Login.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    error: state.auth.error
+    error: state.auth.error,
+    authenticate: state.authenticate
 })
 
 export default withNavigation(connect(mapStateToProps, { tryLogin })(Login))
