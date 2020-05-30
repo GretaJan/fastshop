@@ -5,7 +5,7 @@ export const tryLogin = (data) => (dispatch) => {
     dispatch({
         type: TRY_LOG_IN,
         authenticate: true
-    })
+    });
     axios.post(URL + '/login', data, {withCredentials: true})
         .then(admin => {console.log(admin)
             dispatch({ 
@@ -33,25 +33,24 @@ export const tryLogin = (data) => (dispatch) => {
 } 
 
 export const logOut = (admin) => (dispatch) => {
-    // axios.get(URL + '/logout/', (admin.data.token_type + " " + admin.data.access_token), {withCredentials: true})
-    //     .then((response) => { console.log("logged out"),
-    //         dispatch({
-    //             type: LOG_OUT,
-    //             admin: {},
-    //             isAuthorized: false
-    //         })
-    //     }
-    //     ).catch(err => {
-    //         console.log("logout error: ", err, "Token: ", err.response),
-    //         dispatch({
-    //             type: LOG_OUT_FAILED,
-    //             payload: 'Loggout failed. Please try again.'
-    //         })
-    //     }
-    //     );
-    dispatch({
-        type: LOG_OUT,
-        admin: {},
-        isAuthorized: false
-    })
+    axios.get(URL + '/logout', {headers: {'Authorization': 'Bearer ' + admin.data.access_token }}, {withCredentials: true})
+        .then((response) => { console.log("logged out", response),
+            dispatch({
+                type: LOG_OUT,
+                admin: {},
+                isAuthorized: false
+            })
+        }
+        ).catch(err => {
+            dispatch({
+                type: LOG_OUT_FAILED,
+                payload: 'Loggout failed. Please try again.'
+            })
+        }
+        );
+    // dispatch({
+    //     type: LOG_OUT,
+    //     admin: {},
+    //     isAuthorized: false
+    // })
 } 

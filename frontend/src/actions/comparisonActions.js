@@ -21,7 +21,6 @@ export const productSelected = (product, subcategory) => dispatch => {
 }
 
 export const deleteProductFromList = (product) => dispatch => {
-    console.log("product", product)
     dispatch({
         type: REMOVE_SELECTED_PRODUCT,
         payload: product
