@@ -101,30 +101,12 @@ class CategoryController extends Controller
                 $category->image = $request->image;
             }
         }
-       
-       
-        // if ($request->hasfile('image')){
-
-        //     $file = $request ->file('image');
-        //         $path = public_path('/uploads/categories/');
-        //         $path2 = asset('/uploads/categories/');
-        //         $file->move($path, $file->getClientOriginalName());
-        //         $category->image = $path2 . '/' . $file->getClientOriginalName();
-               
-        // } else if ($request->hasfile('image') == false) {
-        //     $category->image = $request->image;
-        // } else {
-        //     return $request;
-        //     $category->image = '';
-        // }
 
         $category->save();
        
         $response = ["category" => $category];
 
         return response()->json($response, 201);
-        
-        // return new CategoryResource($category);
 
     }
 

@@ -11,16 +11,6 @@ use File;
 
 class SubcategoryController extends Controller
 {
-  
-    // public function index($category_id)
-    // {
-    //     $category = Category::findOrFail($category_id);
-    //     $subcategories = $category->subcategories;
-    //     $response = [
-    //         'subcategories' => $subcategories,
-    //     ];
-    //     return response()->json($response, 200);
-    // }
     public function index($category_id)
     {
         $category = Category::findOrFail($category_id);
@@ -35,8 +25,6 @@ class SubcategoryController extends Controller
         $request->validate([
             'name' => 'required|min:3|max:100',
         ]);
-
-        // $subcategory->category_id = $request->subcategory_id;
         $subcategory->category_id = $category_id;
         $subcategory->name = $request->name; 
         $subcategory->background_color = $request->background_color;
