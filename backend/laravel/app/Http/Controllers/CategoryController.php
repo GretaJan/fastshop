@@ -62,26 +62,21 @@ class CategoryController extends Controller
         {
             $response = ['category' => $category];
         }
-        return response()->json($response, 201);
+        return response()->json($response, 200);
     }
 
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
         $category = Category::findOrFail($id);
-
-        
-        if(!$id) {
+        if(!$category) {
             return response()->json(['Category not found'], 404);
         }
 
         $request->validate([
-            'name' => 'min:3|max:100'
+            'name' => 'min:3|max:100|required'
         ]);
-
         $category->name = $request->name;
         $category->background_color = $request->background_color;
-        $base64 = $request->image;
-
         $base64 = $request->image;
         if($base64 == null) {
             $category->image = null;
@@ -101,13 +96,11 @@ class CategoryController extends Controller
                 $category->image = $request->image;
             }
         }
-
-        $category->save();
-       
-        $response = ["category" => $category];
-
-        return response()->json($response, 201);
-
+        if($category->save())
+        {
+            $response = ['category' => $category];
+        }
+        return response()->json($response, 200);
     }
 
     public function destroy(Category $category)
