@@ -52,34 +52,32 @@ class SubcategoryController extends Controller
             ];
         }
 
-        return response()->json($response, 201);
+        return response()->json($response, 200);
     }
 
-    public function show($id, $category_id)
+    public function show($category_id, $id)
     {
         $subcategory = Subcategory::findOrFail($id);
 
-        return response()->json(['subcategory' => $subcategory], 201);
+        return response()->json(['subcategory' => $subcategory], 200);
     }
 
 
     public function update(Request $request, $category_id, $id )
     {
         $subcategory = Subcategory::findOrFail($id);
+        if(!$subcategory) {
+            return response()->json(['subcategory not found'], 400);
+        }
 
         $request->validate([
             'name' => 'nullable|min:3|max:100',
         ]);
-
-        if(!$id) {
-            return response()->json(['subcategory not found'], 400);
-        }
-
         $subcategory->name = $request->name; 
         $subcategory->background_color = $request->background_color;
         $base64 = $request->image;
          // IMAGE
-        if($base64 === null) {
+        if($base64 == null) {
             $subcategory->image = null;
         } else {
             if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
@@ -103,7 +101,7 @@ class SubcategoryController extends Controller
             ];
         }
 
-        return response()->json($response, 201);
+        return response()->json($response, 200);
         
     }
 
