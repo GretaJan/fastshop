@@ -34,10 +34,12 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $category = new Category();
         $request->validate([
-            'name' => 'required|min:3|max:100',
+            'name' => 'required|min:3|max:50',
+            'image' => 'regex:/^data:image\/(\w+);base64,/',
+            'background' => ['regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
+        $category = new Category();
         $category->name = $request->name;
         $category->background_color = $request->background_color;
         $base64 = $request->image;
@@ -62,7 +64,7 @@ class CategoryController extends Controller
         {
             $response = ['category' => $category];
         }
-        return response()->json($response, 200);
+        return response()->json($response, 201);
     }
 
     public function update($id, Request $request)
@@ -73,7 +75,9 @@ class CategoryController extends Controller
         }
 
         $request->validate([
-            'name' => 'min:3|max:100|required'
+            'name' => 'required|min:3|max:50',
+            'image' => 'regex:/^data:image\/(\w+);base64,/',
+            'background' => ['regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $category->name = $request->name;
         $category->background_color = $request->background_color;
@@ -100,7 +104,7 @@ class CategoryController extends Controller
         {
             $response = ['category' => $category];
         }
-        return response()->json($response, 200);
+        return response()->json($response, 201);
     }
 
     public function destroy(Category $category)

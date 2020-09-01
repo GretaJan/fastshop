@@ -23,7 +23,9 @@ class ProductController extends Controller
     {
         $product = new Product();
         $request->validate([
-            'name' => 'required|min:3|max:100',
+            'name' => 'required|min:3|max:50',
+            'energy' => 'numeric|min:2',
+            'fat' => 'numeric|between:0,9.99',
         ]);
         $product->subcategory_id = $subcategory_id;
         $product->name = $request->name;
@@ -68,7 +70,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        return response()->json(["product" => $product], 200);
+        return response()->json(["product" => $product], 201);
     }
 
     public function update(Request $request, $subcategory_id, $product)
@@ -76,7 +78,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($product);
 
         $request->validate([
-            'name' => 'nullable|min:3|max:100',
+            'name' => 'required|min:3|max:50',
         ]);
 
         if(!$product) {

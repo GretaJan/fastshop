@@ -23,7 +23,9 @@ class SubcategoryController extends Controller
         $subcategory = new Subcategory();
 
         $request->validate([
-            'name' => 'required|min:3|max:100',
+           'name' => 'required|min:3|max:50',
+            'image' => 'regex:/^data:image\/(\w+);base64,/',
+            'background' => ['regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $subcategory->category_id = $category_id;
         $subcategory->name = $request->name; 
@@ -52,7 +54,7 @@ class SubcategoryController extends Controller
             ];
         }
 
-        return response()->json($response, 200);
+        return response()->json($response, 201);
     }
 
     public function show($category_id, $id)
@@ -71,7 +73,9 @@ class SubcategoryController extends Controller
         }
 
         $request->validate([
-            'name' => 'nullable|min:3|max:100',
+            'name' => 'required|min:3|max:50',
+            'image' => 'regex:/^data:image\/(\w+);base64,/',
+            'background' => ['regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $subcategory->name = $request->name; 
         $subcategory->background_color = $request->background_color;
@@ -101,7 +105,7 @@ class SubcategoryController extends Controller
             ];
         }
 
-        return response()->json($response, 200);
+        return response()->json($response, 201);
         
     }
 
