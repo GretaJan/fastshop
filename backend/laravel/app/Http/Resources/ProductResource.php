@@ -27,7 +27,7 @@ class ProductResource extends JsonResource
             'protein' => $this->protein,
             'salt' => $this->salt,
             'vitamins' => $this->vitamins,
-            'background_color' => $this->background_color,
+            'background' => $this->background,
             'image' => $this->image,
         ];
     }

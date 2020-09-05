@@ -11,7 +11,10 @@ use File;
 
 class ProductController extends Controller
 {
-
+    private function verify_null_on_update($old_value, $new_value)
+    {
+        return $new_value === null ? $old_value : $new_value;
+    }
     public function index($subcategory_id)
     {
         $subcategory = Subcategory::findOrFail($subcategory_id);
@@ -24,8 +27,15 @@ class ProductController extends Controller
         $product = new Product();
         $request->validate([
             'name' => 'required|min:3|max:50',
-            'energy' => 'numeric|min:2',
-            'fat' => 'numeric|between:0,9.99',
+            'energy' => 'nullable|integer|min:10|digits_between: 2,6',
+            'fat' => ['nullable', 'regex:/^\d{1,2}\.\d{1,2}$/'],  // allow only decimals with dot separator
+            'saturated' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'carbs' => ['nullable', 'regex:/^\d{1,2}\.\d{1,2}$/'],  // allow only decimals with dot separator
+            'sugar' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'fiber' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'protein' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'salt' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $product->subcategory_id = $subcategory_id;
         $product->name = $request->name;
@@ -37,8 +47,7 @@ class ProductController extends Controller
         $product->fiber = $request->fiber;
         $product->protein = $request->protein;
         $product->salt = $request->salt;
-        $product->vitamins = $request->vitamins;
-        $product->background_color = $request->background_color;
+        $product->background = $request->background;
 
         $base64 = $request->image;
         if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
@@ -70,45 +79,41 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        return response()->json(["product" => $product], 201);
+        return response()->json(["product" => $product], 200);
     }
 
     public function update(Request $request, $subcategory_id, $product)
     {
         $product = Product::findOrFail($product);
 
-        $request->validate([
-            'name' => 'required|min:3|max:50',
-        ]);
-
         if(!$product) {
             return response()->json(['product not found'], 400);
         }
-        // $request->validate([
-        //     'name' => 'nullable|min:3|max:100',
-        //     // 'energy' => 'nullable|numeric|min:2',
-        //     // 'fat' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-        //     // 'saturated' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-        //     // 'carbs' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-        //     // 'sugar' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-        //     // 'fiber' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-        //     // 'protein' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-        //     // 'salt' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50',
-        //     // 'vitamins' => 'nullable|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/|max:50'
-        // ]);
+        $request->validate([
+            'name' => 'nullable|min:3|max:50',
+            'energy' => 'nullable|integer|min:10|digits_between: 2,6',
+            'fat' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'saturated' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'carbs' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'sugar' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'fiber' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'protein' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'salt' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+            'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
+        ]);
         $product->subcategory_id = $subcategory_id;
-        $product->name = $request->name;
-        $product->energy = $request->energy;
-        $product->fat = $request->fat;
-        $product->saturated = $request->saturated;
-        $product->carbs = $request->carbs;
-        $product->sugar = $request->sugar;
-        $product->fiber = $request->fiber;
-        $product->protein = $request->protein;
-        $product->salt = $request->salt;
-        $product->vitamins = $request->vitamins;
-        $product->background_color = $request->background_color;
-        
+        $product->name = $this->verify_null_on_update($product->name, $request->name);
+        $product->energy = $this->verify_null_on_update($product->energy, $request->energy);
+        $product->fat = $this->verify_null_on_update($product->fat, $request->fat);
+        // $product->fat = $request->fat;
+        $product->saturated = $this->verify_null_on_update($product->saturated, $request->saturated);
+        $product->carbs = $this->verify_null_on_update($product->carbs, $request->carbs);
+        $product->sugar = $this->verify_null_on_update($product->sugar, $request->sugar);
+        $product->fiber = $this->verify_null_on_update($product->fiber, $request->fiber);
+        $product->protein = $this->verify_null_on_update($product->protein, $request->protein);
+        $product->salt = $this->verify_null_on_update($product->salt, $request->salt);
+        $product->background = $this->verify_null_on_update($product->background, $request->background);
+
         // // IMAGE
         $base64 = $request->image;
         if($base64 === null) {

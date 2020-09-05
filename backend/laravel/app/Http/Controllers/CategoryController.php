@@ -36,12 +36,12 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|min:3|max:50',
-            'image' => 'regex:/^data:image\/(\w+);base64,/',
-            'background' => ['regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
+            'image' => ['nullable', 'regex:/^data:image\/(\w+);base64,/'],
+            'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $category = new Category();
         $category->name = $request->name;
-        $category->background_color = $request->background_color;
+        $category->background = $request->background;
         $base64 = $request->image;
         if($base64 == null) {
             $category->image = null;
@@ -76,11 +76,11 @@ class CategoryController extends Controller
 
         $request->validate([
             'name' => 'required|min:3|max:50',
-            'image' => 'regex:/^data:image\/(\w+);base64,/',
-            'background' => ['regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
+            'image' => ['nullable', 'regex:/^data:image\/(\w+);base64,/'],
+            'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $category->name = $request->name;
-        $category->background_color = $request->background_color;
+        $category->background = $request->background;
         $base64 = $request->image;
         if($base64 == null) {
             $category->image = null;

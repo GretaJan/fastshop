@@ -19,15 +19,14 @@ class CreateProductsTable extends Migration
             $table->string('name')->nullable();
             $table->string('image')->nullable();
             $table->integer('energy')->nullable();
-            $table->decimal('fat', 3,1)->nullable();
-            $table->decimal('saturated', 3,1)->nullable();
-            $table->decimal('carbs', 3,1)->nullable();
-            $table->decimal('sugar', 3,1)->nullable();
-            $table->decimal('fiber', 3,1)->nullable();
-            $table->decimal('protein', 3,1)->nullable();
-            $table->integer('salt')->nullable();
-            $table->text('vitamins')->nullable();
-            $table->string('background_color')->nullable();
+            $table->decimal('fat', 4, 2)->nullable();
+            $table->decimal('saturated', 4, 2)->nullable();
+            $table->decimal('carbs', 4, 2)->nullable();
+            $table->decimal('sugar', 4, 2)->nullable();
+            $table->decimal('fiber', 4, 2)->nullable();
+            $table->decimal('protein', 4, 2)->nullable();
+            $table->decimal('salt', 4, 2)->nullable();
+            $table->string('background')->nullable();
             $table->timestamps();
         });
     }

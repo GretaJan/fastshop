@@ -24,12 +24,12 @@ class SubcategoryController extends Controller
 
         $request->validate([
            'name' => 'required|min:3|max:50',
-            'image' => 'regex:/^data:image\/(\w+);base64,/',
-            'background' => ['regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
+            'image' => ['nullable', 'regex:/^data:image\/(\w+);base64,/'],
+            'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $subcategory->category_id = $category_id;
         $subcategory->name = $request->name; 
-        $subcategory->background_color = $request->background_color;
+        $subcategory->background = $request->background;
         $base64 = $request->image;
 
         if (preg_match('/^data:image\/(\w+);base64,/', $base64)) {
@@ -74,11 +74,11 @@ class SubcategoryController extends Controller
 
         $request->validate([
             'name' => 'required|min:3|max:50',
-            'image' => 'regex:/^data:image\/(\w+);base64,/',
-            'background' => ['regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
+            'image' => ['nullable', 'regex:/^data:image\/(\w+);base64,/'],
+            'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $subcategory->name = $request->name; 
-        $subcategory->background_color = $request->background_color;
+        $subcategory->background = $request->background;
         $base64 = $request->image;
          // IMAGE
         if($base64 == null) {

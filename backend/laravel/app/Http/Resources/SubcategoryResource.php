@@ -18,7 +18,7 @@ class SubcategoryResource extends JsonResource
             'id' => $this->id,
             'category_id' => $this->category_id,
             'name' => $this->name,
-            'background_color' => $this->background_color, 
+            'background' => $this->background, 
             'image' => $this->image
         ];
     }
