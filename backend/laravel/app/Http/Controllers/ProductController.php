@@ -28,9 +28,9 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|min:3|max:50',
             'energy' => 'nullable|integer|min:10|digits_between: 2,6',
-            'fat' => ['nullable', 'regex:/^\d{1,2}\.\d{1,2}$/'],  // allow only decimals with dot separator
+            'fat' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
             'saturated' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
-            'carbs' => ['nullable', 'regex:/^\d{1,2}\.\d{1,2}$/'],  // allow only decimals with dot separator
+            'carbs' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
             'sugar' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
             'fiber' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
             'protein' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
