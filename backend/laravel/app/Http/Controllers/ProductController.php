@@ -27,6 +27,7 @@ class ProductController extends Controller
         $product = new Product();
         $request->validate([
             'name' => 'required|min:3|max:50',
+            'image' => ['nullable', 'regex:/^(data:image\/(\w+);base64,)|(https?)/'],
             'energy' => 'nullable|integer|min:10|digits_between: 2,6',
             'fat' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
             'saturated' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
@@ -87,10 +88,11 @@ class ProductController extends Controller
         $product = Product::findOrFail($product);
 
         if(!$product) {
-            return response()->json(['product not found'], 400);
+            return response()->json(['product not found'], 404);
         }
         $request->validate([
             'name' => 'nullable|min:3|max:50',
+            'image' => ['nullable', 'regex:/^(data:image\/(\w+);base64,)|(https?)/'],
             'energy' => 'nullable|integer|min:10|digits_between: 2,6',
             'fat' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
             'saturated' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator

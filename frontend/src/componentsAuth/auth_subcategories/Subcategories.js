@@ -31,7 +31,7 @@ class Subcategories extends Component {
         deleteId: '',
         // Edit
         editId: '',
-        editSubcategoryId: '',
+        editCategoryId: '',
         editName: '',
         image: null,
         imageData: null,
@@ -51,11 +51,12 @@ class Subcategories extends Component {
     }   
 
     componentDidMount(){
-        this.props.getSubcategories(this.state.id);
+        this.props.getSubcategories(this.state.id, this.props.currentPages);
     }
-    componentWillUnmount(){
-        this.props.unmountSubcategories();
-    }
+    // componentWillUnmount(){
+    //     this.props.unmountSubcategories();
+    //     console.log("subsss unmount", this.props.subcategories )
+    // }
 
     loadMore = () => {
         setTimeout(() => {
@@ -99,10 +100,9 @@ class Subcategories extends Component {
     }
 
     triggerEdit = (item) => {
-        console.log("item: ", item)
         this.setState({
             editId: item.id,
-            editSubcategoryId: item.subcategory_id,
+            editCategoryId: item.category_id,
             editName: item.name,
             editBackground: item.background,
             image: item.image
@@ -115,7 +115,6 @@ class Subcategories extends Component {
             noData: false
         }
         if(item.id == this.state.editId) {
-            console.log('image chosen:', item)
             this.setState({imageData: null})
             ImagePicker.launchImageLibrary(options, response => {
                 if (response.uri) {
@@ -166,7 +165,7 @@ class Subcategories extends Component {
             image: this.state.imageData !== null ? ("data:" + this.state.imageData.type + ";base64," + this.state.imageData.data) : (this.state.image),
             "_method": "put"
         }
-        await this.props.editSubcategory(this.state.editSubcategoryId, this.state.editId, data);
+        await this.props.editSubcategory(this.state.editCategoryId, this.state.editId, data, this.props.subcategories);
     }
 
     deleteSubcategory = async () => {
@@ -188,7 +187,7 @@ class Subcategories extends Component {
     cancelEdit = () => {
         this.setState({
             editId: '', 
-            editSubcategoryId: '', 
+            editCategoryId: '', 
             editName: '', 
             editBackground: '',
             imageData: null,
@@ -234,7 +233,6 @@ class Subcategories extends Component {
                                     renderItem={({item}) => (
                                         <Subcategory item={item}
                                             editId={this.state.editId}
-                                            editSubcategoryId={this.state.editSubcategoryId}
                                             editName={this.state.editName}
                                             imageData={this.state.imageData}
                                             editBackground={this.state.editBackground}
@@ -256,7 +254,6 @@ class Subcategories extends Component {
                             <FlatList data={this.state.tempArray} renderItem={({item}) => (
                                 <Subcategory item={item} 
                                             editId={this.state.editId}
-                                            editSubcategoryId={this.state.editSubcategoryId}
                                             editName={this.state.editName}
                                             imageData={this.state.imageData}
                                             editBackground={this.state.editBackground}

@@ -1,4 +1,4 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT, URL } from './types';
+import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, GET_PRODUCT, LOADING_POST_PRODUCT, POST_PRODUCT, POST_PRODUCT_ERROR, LOADING_EDIT_PRODUCT, EDIT_PRODUCT, EDIT_PRODUCT_ERROR, DELETE_PRODUCT, DELETE_PRODUCT_ERROR, URL } from './types';
 import axios from 'axios';
 
 export const getProducts = (subcategory, page) => dispatch => {
@@ -18,29 +18,29 @@ export const getProducts = (subcategory, page) => dispatch => {
         } 
         return 0;
     }
-    axios.get(`${URL}/products/${subcategory}?page=${page}`)
+    return axios.get(`${URL}/products/${subcategory}?page=${page}`)
     .then(products => {
             var lastPageNo = false; 
             if(products.data.meta.last_page === products.data.meta.current_page) {
                 lastPageNo = true;                
             }
-            dispatch({
-                type: GET_PRODUCTS,
-                // payload: products.data.data.sort(sorting),
-                payload: products.data.data,
+            return dispatch({
+                    type: GET_PRODUCTS,
+                    // payload: products.data.data.sort(sorting),
+                    payload: products.data.data,
+                    loading: false,
+                    loadingNext: false,
+                    error: '',
+                    currentPage: products.data.meta.current_page,
+                    lastPage: lastPageNo,
+                })
+        }).catch(err => { 
+            return dispatch({
+                type: GET_PRODUCTS_ERROR,
+                error: 'Failed to load product list' + err,
                 loading: false,
                 loadingNext: false,
-                error: '',
-                currentPage: products.data.meta.current_page,
-                lastPage: lastPageNo,
             })
-        }).catch(err => { console.log("error:", err)
-            dispatch({
-            type: GET_PRODUCTS_ERROR,
-            error: 'Failed to load product list',
-            loading: false,
-            loadingNext: false,
-        })
     })
 } 
 
@@ -54,67 +54,86 @@ export const unmountProducts = () => dispatch => {
 }
 
 export const getProduct = (subcategory, product) => (dispatch) => {
-    // fetch( URL + '/product/' + subcategory + product, {method: 'GET'})
-    // .then(res => res.json())
-    // .then(product => {
-    //     console.log("ONE PRODUCT: ", product)
-    //         dispatch({
-    //             type: GET_PRODUCT,
-    //             payload: {}
-    //         })
-    //     }
-    // ).catch(err => console.log("Fetch Categories error: ", err))
     dispatch({
         type: LOADING_GET_PRODUCTS,
         loading: true
     })
-    axios.get( URL + '/product/' + subcategory + '/' + product)
-    .then(product => {
-            dispatch({
-                type: GET_PRODUCT,
-                payload: product.data.product,
-                loading: false,
-                error: ''
+    return axios.get( `${URL}/product/${subcategory}/${product}`)
+        .then(product => {
+                return dispatch({
+                    type: GET_PRODUCT,
+                    payload: product.data.product,
+                    loading: false,
+                    error: ''
+                })
+            }
+        ).catch(err => { 
+            return dispatch({
+                type: GET_PRODUCTS_ERROR,
+                error: 'Failed to load product ', err,
+                loading: false
             })
-        }
-    ).catch(err => { 
-        dispatch({
-            type: GET_PRODUCTS_ERROR,
-            error: 'Failed to load product ', err,
-            loading: false
-        })
-    })
-       
+        })   
 } 
 
-export const postProduct = (subcategory, data) => dispatch => {
-    axios.post(URL + '/addProduct/' + subcategory, data)
-    .then((product) => { 
-        dispatch({
-            type: POST_PRODUCT,
-            payload: product.data.product
-        })
-    }).catch((err) =>console.log("Error:", err.response))
+export const addProduct = (subcategory, data) => dispatch => {
+    dispatch({
+        type: LOADING_POST_PRODUCT,
+        error: '',
+        loading: true,
+    })
+    return axios.post(`${URL}/addProduct/${subcategory}`, data)
+        .then((product) => ( 
+            dispatch({
+                type: POST_PRODUCT,
+                payload: product.data.product,
+                error: '',
+                loading: false,
+            })
+        )).catch((err) => (
+            dispatch({
+                type: POST_PRODUCT_ERROR,
+                error: 'Failed creating a product ' + err,
+                loading: false,
+            })    
+        ))
 }
 
 export const editProduct = (subcategory, product, data) => (dispatch) => {
-    axios.post( URL + `/updateProduct/${subcategory}/${product}`, data)
-        .then(item => { 
+    dispatch({
+        type: LOADING_EDIT_PRODUCT,
+        loading: true,
+        error: ''
+    })
+    return axios.post( `${URL}/updateProduct/${subcategory}/${product}`, data)
+        .then(response => ( 
             dispatch({
                 type: EDIT_PRODUCT,
-                payload: item.data.product,
+                payload: response.data.product,
+                loading: false,
+                error: ''
             })
-        }).catch(err => 
-            console.log("EDIT PRODUCT ERROR: ", err.response))
+        )).catch(err => (
+            dispatch({
+                type: EDIT_PRODUCT_ERROR,
+                error: 'Failed editing product' + err,
+                loading: false,
+            })
+        ))
 }
 
 export const deleteProduct = (product) => (dispatch) => {
-    axios.delete( URL + `/deleteProduct/${product}`)
-        .then(() => {
+    return axios.delete( URL + `/deleteProduct/${product}`)
+        .then(() => (
             dispatch({
                 type: DELETE_PRODUCT,
                 payload: product,
+                error: ''
             })
-        }).catch(err => 
-            console.log("DELETE PRODUCT ERROR: ", err.response))
+        )).catch(err => (
+            dispatch({
+                type: DELETE_PRODUCT_ERROR,
+                error: 'Failed to delete product: ' + err
+            })
+        ))
 }

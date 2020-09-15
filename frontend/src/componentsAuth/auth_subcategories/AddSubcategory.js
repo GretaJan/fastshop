@@ -85,7 +85,7 @@ class AddSubcategory extends Component {
             background: this.state.background,
             image: image !== null ? "data:" + image.type + ";base64," + image.data : null,
         }
-        await this.props.addSubcategory(data, this.props.route.params.categoryId);
+        await this.props.addSubcategory(this.props.route.params.categoryId, data);
         this.props.navigation.push("Subcategories_Auth", {categoryId: id});
     }
 

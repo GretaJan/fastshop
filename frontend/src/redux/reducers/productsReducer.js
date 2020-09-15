@@ -1,9 +1,10 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, GET_PRODUCT, POST_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT } from '../actions/types';
+import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, GET_PRODUCT, LOADING_POST_PRODUCT, POST_PRODUCT, POST_PRODUCT_ERROR, LOADING_EDIT_PRODUCT, EDIT_PRODUCT, EDIT_PRODUCT_ERROR, DELETE_PRODUCT, DELETE_PRODUCT_ERROR } from '../actions/types';
 
 const initialState = {
     products: [],
     product: {},
     loading: null,
+    actionLoading: null,
     loadingNext: null,
     error: '',
     currentPage: 1,
@@ -49,38 +50,57 @@ export default function(state = initialState, action) {
                 loading: action.loading,
                 page: action.page,
             }
+        case LOADING_POST_PRODUCT:
+            return {
+                ...state,
+                actionLoading: state.loading,
+                error: state.error
+            }
         case POST_PRODUCT:
             return {
                 ...state,
                 products: state.products.concat(action.payload),
+                actionLoading: state.loading,
+                error: state.error,
                 page: action.page,
             }
+        case POST_PRODUCT_ERROR:
+            return {
+                ...state,
+                actionLoading: state.loading,
+                error: state.error,
+            }
+        case LOADING_EDIT_PRODUCT:
+            return {
+                ...state,
+                actionLoading: action.loading,
+                error: action.error
+            }
         case EDIT_PRODUCT:
-            // return state.products.map(item => {
-            //     if(item.id === action.payload.id) {
-            //         return {
-            //             ...state,
-            //             products: state.products.concat(action.payload) 
-            //         }
-            //     } else {
-            //         return {
-            //             ...state,
-            //             item
-            //         }
-            //     }   
-            // })
             let tempArray = state.products.filter(item => item.id !== action.payload.id);
             return {
                 ...state,
                 products: tempArray.concat(action.payload),
                 product: action.payload,
+                actionLoading: action.loading,
+                error: action.error
+            }
+        case EDIT_PRODUCT_ERROR:
+            return {
+                ...state,
+                actionLoading: action.loading,
+                error: action.error
             }
         case DELETE_PRODUCT:
             return {
                 ...state,
-                product: action.payload,
                 products: state.products.filter(item => (item.id !== action.payload)),
-                
+                error: state.error
+            }
+        case DELETE_PRODUCT_ERROR:
+            return {
+                ...state,
+                error: state.error
             }
         default:
             return state

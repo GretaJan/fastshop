@@ -288,16 +288,18 @@ class Product extends Component {
         if(this.state.fat !== null && !decimalFormatDot.test(this.state.fat) && !decimalFormatComma.test(this.state.fat)) {
             this.setState({formatFat: 'Format: 0.0/00.0'});
         } else {
-            this.setState({formatEnergy: null});
+            let value = this.state.fat;
+            this.setState({formatFat: null});
             if(decimalFormatComma.test(this.state.fat)){
                 let findComma = this.state.fat.split(',');
-                let fatValue = findComma[0] + '.' + findComma[1];
-                this.setState({fat : fatValue});
-            }
+                const fatValue = findComma[0] + '.' + findComma[1];
+                value = fatValue;
+            } 
             const data = {
-                fat: this.state.fat,
+                fat: value,
                 "_method": "put", 
             }
+         
             await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
             this.cancelFatEdit();
         }
@@ -310,14 +312,15 @@ class Product extends Component {
         if(this.state.saturated !== null && !decimalFormatDot.test(this.state.saturated) && !decimalFormatComma.test(this.state.saturated)) {
             this.setState({formatSaturated: 'Format: 0.0/00.0'}); 
         } else {
+            let value = this.state.saturated;
             this.setState({formatSaturated: null});
             if(decimalFormatComma.test(this.state.saturated)) {
                 let findComma = this.state.saturated.split(',');
                 let saturatedValue = findComma[0] + '.' + findComma[1];
-                this.setState({saturated : saturatedValue});
-            } 
+                value = saturatedValue;
+            }
             const data = {
-                saturated:  this.state.saturated,
+                saturated:  value,
                 "_method": "put", 
             }
             await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
@@ -330,14 +333,15 @@ class Product extends Component {
         if(this.state.carbs !== null && !decimalFormatDot.test(this.state.carbs) && !decimalFormatComma.test(this.state.carbs)) {
             this.setState({formatCarbs: 'Format: 0.0/00.0'});
         } else {
+            let value = this.state.carbs;
             this.setState({formatCarbs: null});
             if(decimalFormatComma.test(this.state.carbs)){
                 let findComma = this.state.carbs.split(',');
                 let carbsValue = findComma[0] + '.' + findComma[1];
-                this.setState({carbs : carbsValue});
+                value = carbsValue;
             }
             const data = {
-                carbs: this.state.carbs,
+                carbs: value,
                 "_method": "put", 
             }
             await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
@@ -350,36 +354,39 @@ class Product extends Component {
         if(this.state.sugar !== null && !decimalFormatDot.test(this.state.sugar) && !decimalFormatComma.test(this.state.sugar)) {
             this.setState({formatSugar: 'Format: 0.0/00.0'});
         } else {
+            let value = this.state.sugar;
             this.setState({formatSugar: null});
             if(decimalFormatComma.test(this.state.sugar)) {
                 let findComma = this.state.sugar.split(',');
                 let sugarValue = findComma[0] + '.' + findComma[1];
-                this.setState({sugar : sugarValue});
+                value = sugarValue;
             }
             const data = {
-                sugar: this.state.sugar,
+                sugar: value,
                 "_method": "put", 
             }
             await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
             this.cancelSugarEdit();
         }
     }
-    editFiber = async() => {
+    editFiber = async () => {
         let decimalFormatDot = new RegExp('^[0-9]{1,2}[.][0-9]{1,2}$');
         let decimalFormatComma = new RegExp('^[0-9]{1,2}\,[0-9]{1,2}$');
         if(this.state.fiber !== null && !decimalFormatDot.test(this.state.fiber) && !decimalFormatComma.test(this.state.fiber)) {
             this.setState({formatFiber: 'Format: 0.0/00.0'});
         } else {
+            let value = this.state.fiber;
             this.setState({formatFiber: null});
             if(decimalFormatComma.test(this.state.fiber)){
                 let findComma = this.state.fiber.split(',');
                 let fiberValue = findComma[0] + '.' + findComma[1];
                 this.setState({fiber : fiberValue});
-            }
+                value =  fiberValue;
+            } 
             const data = {
-                fiber: this.state.fiber,
+                fiber: value,
                 "_method": "put", 
-            }
+            }           
             await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
             this.cancelFiberEdit();
         }
@@ -390,14 +397,15 @@ class Product extends Component {
         if(this.state.protein !== null && !decimalFormatDot.test(this.state.protein) && !decimalFormatComma.test(this.state.protein)) {
             this.setState({formatProtein: 'Format: 0.0/00.0'});
         } else {
+            let value = this.state.protein;
             this.setState({formatProtein: null});
             if(decimalFormatComma.test(this.state.protein)){
                 let findComma = this.state.protein.split(',');
                 let proteinValue = findComma[0] + '.' + findComma[1];
-                this.setState({proteinValue : proteinValue});
+                value = proteinValue;
             }
             const data = {
-                protein: this.state.protein,
+                protein: value,
                 "_method": "put", 
             }
             await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
@@ -410,14 +418,15 @@ class Product extends Component {
         if(this.state.salt !== null && !decimalFormatDot.test(this.state.salt) && !decimalFormatComma.test(this.state.salt)) {
             this.setState({formatSalt: 'Format: 0.0/00.0'});
         } else {
+            let value = this.state.salt;
             this.setState({formatSalt: null});
             if(decimalFormatComma.test(this.state.salt)){
                 let findComma = this.state.salt.split('');
                 let saltValue = findComma[0] + '.' + findComma[1];
-                this.setState({salt : saltValue});
+                value = saltValue;
             }
             const data = {
-                salt: this.state.salt,
+                salt: value,
                 "_method": "put", 
             }
             await this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 

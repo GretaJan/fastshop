@@ -24,8 +24,8 @@ class SubcategoryController extends Controller
 
         $request->validate([
            'name' => 'required|min:3|max:50',
-            'image' => ['nullable', 'regex:/^data:image\/(\w+);base64,/'],
-            'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
+           'image' => ['nullable', 'regex:/^(data:image\/(\w+);base64,)|(https?)/'],
+           'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $subcategory->category_id = $category_id;
         $subcategory->name = $request->name; 
@@ -74,7 +74,7 @@ class SubcategoryController extends Controller
 
         $request->validate([
             'name' => 'required|min:3|max:50',
-            'image' => ['nullable', 'regex:/^data:image\/(\w+);base64,/'],
+            'image' => ['nullable', 'regex:/^(data:image\/(\w+);base64,)|(https?)/'],
             'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
         $subcategory->name = $request->name; 

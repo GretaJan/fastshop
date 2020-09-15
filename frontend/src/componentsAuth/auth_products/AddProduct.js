@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { postProduct } from '../../redux/actions/productActions';
+import { addProduct } from '../../redux/actions/productActions';
 import { withNavigation } from 'react-navigation';
 import { colors } from '../../components_additional/styles/Colors';
 import { categoryAdd, authCategory } from '../../components_additional/styles/CategoryStyles';
@@ -137,7 +137,7 @@ class AddProduct extends Component {
             salt: this.state.salt,
             image: this.state.image ? "data:" + this.state.image.type + ";base64," + this.state.image.data : null,
         }
-        this.props.postProduct(this.props.route.params.subcategoryId, data);
+        this.props.addProduct(this.props.route.params.subcategoryId, data);
     }
     //decimal with comma change to dots
     convertDecimal = (value) => {
