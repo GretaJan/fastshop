@@ -22,20 +22,23 @@
     "axios": "^0.19.2",
     "form-data": "^3.0.0",
     "history": "^4.10.1",
+    "jest-environment-enzyme": "^7.1.2",
+    "jest-enzyme": "^7.1.2",
     "react": "16.13.1",
-    "react-native": "0.62.0",
+    "react-native": "^0.63.2",
     "react-native-animate-number": "^0.1.2",
     "react-native-elements": "^1.2.7",
     "react-native-elevated-view": "0.0.6",
     "react-native-fetch-blob": "^0.10.8",
     "react-native-gesture-handler": "^1.6.1",
-    "react-native-image-picker": "^2.3.1",
+    "react-native-image-picker": "^0.28.0",
     "react-native-reanimated": "^1.8.0",
     "react-native-redux-router": "^1.0.7",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.4.0",
     "react-native-shadow": "^1.2.2",
     "react-native-svg": "^12.1.0",
+    "react-native-testing-library": "^6.0.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.3.7",
     "react-navigation-material-bottom-tabs": "^2.2.10",
@@ -57,16 +60,40 @@
     "@types/react-test-renderer": "^16.9.2",
     "axios-mock-adapter": "^1.18.2",
     "babel-jest": "^25.2.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.4",
+    "enzyme-to-json": "^3.5.0",
     "eslint": "6.8.0",
     "fetch-mock": "^9.10.7",
     "jest": "^25.2.3",
+    "jetifier": "^1.6.6",
     "metro-react-native-babel-preset": "0.59.0",
+    "react-dom": "^16.13.1",
     "react-native-debugger": "^1.1.0",
+    "react-native-jest-mocks": "^1.5.0",
     "react-test-renderer": "16.13.1",
     "redux-mock-store": "^1.5.4",
     "typescript": "^3.9.3"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "collectCoverage": true,
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    },
+    "setupFiles": [
+      "<rootDir>/jest/setup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|react-navigation|@react-navigation/.*))"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/jest"
+    ]
   }
 }

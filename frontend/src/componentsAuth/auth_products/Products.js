@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { getProducts, unmountProducts } from '../../redux/actions/productActions';
+import { getProducts } from '../../redux/actions/productActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
@@ -29,7 +29,6 @@ class Products extends Component {
         this.props.getProducts(this.state.id, 1);
     }
     componentWillUnmount() {
-        this.props.unmountProducts();
     }
 
     handleLoadMore = () => {
@@ -125,4 +124,4 @@ const mapStateToProps = state => ({
     error: state.products.error
 })
 
-export default withNavigation(connect(mapStateToProps, {getProducts, unmountProducts})(Products))
+export default withNavigation(connect(mapStateToProps, {getProducts})(Products))

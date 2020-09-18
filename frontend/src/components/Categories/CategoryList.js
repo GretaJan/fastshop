@@ -8,12 +8,12 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 class CategoryList extends Component {
 
     goToSubcategories = () => {
-        this.props.goToSubcategories()
+        this.props.goToSubcategories();
     }
 
     render() {
         return (
-            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id.toString()} onPress={() => this.goToSubcategories()}>
+            <TouchableOpacity style={stylesGuest().itemWrap} onPress={() => this.goToSubcategories()}>
                 {this.props.item.image ? (
                     <View style={stylesGuest().imageWrap}>
                         <Image style={stylesGuest().image} source={{uri: this.props.item.image}} />     

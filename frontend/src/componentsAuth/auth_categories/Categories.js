@@ -16,7 +16,7 @@ import CircleButton from '../../components_additional/CircleButton';
 import ConfirmModal from '../../components_additional/ModalCrud';
 import EmptyList from '../../components_additional/EmptyList';
 
-class Categories extends Component {
+export class Categories extends Component {
     state = {
         deleteId: '',
         editId: '', 
@@ -28,6 +28,13 @@ class Categories extends Component {
         incorrectName: null,
         formatBackground: null,
         imageData: null,
+        hasError: false
+    }
+    static getDerivedStateFromError(error) {
+        return { hasError: true }
+    }
+    componentDidCatch(error, errorInfo) {
+        logErrorToMyService(error, errorInfo);
     }
 
     componentDidMount() {
@@ -132,6 +139,9 @@ class Categories extends Component {
     }
 
     render() {
+        if(this.state.hasError) {
+            return <h1>Smth wehnd wrong</h1>
+        }
         return (
             (this.props.loading) ? (
                 <View style={backgroundForPages().backgroundContainer} >
@@ -156,7 +166,7 @@ class Categories extends Component {
                     { this.props.categories.length == 0 ? (
                         <EmptyList message="The List is empty" />
                         ) : (
-                        <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} renderItem={({item}) => (
+                        <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} keyExtractor={(item, index) => index.toString()} renderItem={({item}) => (
                         <CategoryList key={item} item={item} 
                                 imageData={this.state.imageData}
                                 editId={this.state.editId}
@@ -173,8 +183,8 @@ class Categories extends Component {
                                 validateSubmit={() => this.validateSubmit(item)}
                                 changeImage={() => this.changeImage()}
                                 cancelEdit={this.cancelEdit}
-                                onChangeNameText={(value) => { console.log(value), this.setState({editName: value})}}
-                                onChangeBackground={(value) => { console.log(value), this.setState({editBackground: value})}}
+                                onChangeNameText={(value) => { this.setState({editName: value})}}
+                                onChangeBackground={(value) => { this.setState({editBackground: value})}}
                             />
                         )} >
                         </FlatList>
@@ -186,7 +196,7 @@ class Categories extends Component {
 }
 Categories.propTypes = {
     getCategories: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired,
+    categories: PropTypes.array,
 }
 
 const mapStateToProps = (state) => ({

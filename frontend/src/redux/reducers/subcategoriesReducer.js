@@ -1,5 +1,5 @@
 import { ActionSheetIOS } from 'react-native';
-import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, UNMOUNT_SUBCATEGORIES, FRW_TO_SUBCATEGORIES, LOADING_POST_SUBCATEGORY, POST_SUBCATEGORY, POST_SUBCATEGORY_ERROR, EDIT_SUBCATEGORY, EDIT_SUBCATEGORY_ERROR, DELETE_SUBCATEGORY, DELETE_SUBCATEGORY_ERROR } from '../actions/types';
+import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, UNMOUNT_SUBCATEGORIES, FRW_TO_SUBCATEGORIES, LOADING_POST_SUBCATEGORY, POST_SUBCATEGORY, POST_SUBCATEGORY_ERROR,  LOADING_EDIT_SUBCATEGORY, EDIT_SUBCATEGORY, EDIT_SUBCATEGORY_ERROR, DELETE_SUBCATEGORY, DELETE_SUBCATEGORY_ERROR } from '../actions/types';
 
 const initialState = {
     subcategories: [],
@@ -18,6 +18,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 loading: action.loading,
+                error: ''
             }
         case GET_SUBCATEGORIES:
             return {
@@ -48,8 +49,8 @@ export default function(state = initialState, action) {
         case POST_SUBCATEGORY:
             return {
                 ...state,
-                subcategories: state.subcategories.concat(action.payload),
-                subcategory: action.payload,
+                subcategories: state.subcategories.concat(action.payload.subcategory),
+                subcategory: action.payload.subcategory,
                 error: action.error,
                 actionLoading: action.loading
             }
@@ -59,17 +60,25 @@ export default function(state = initialState, action) {
                 error: action.error,
                 actionLoading: action.loading
             }
-        case EDIT_SUBCATEGORY:
-            let tempArray = state.subcategories.filter(item => item.id !== action.payload.id);
+        case LOADING_EDIT_SUBCATEGORY:
             return {
                 ...state,
-                subcategories: (tempArray.concat(action.payload)),
                 error: action.error,
+                loading: action.loading
+            }
+        case EDIT_SUBCATEGORY:
+            let tempArray = state.subcategories.filter(item => item.id !== action.payload.subcategory.id);
+            return {
+                ...state,
+                subcategories: tempArray.concat(action.payload.subcategory),
+                error: action.error,
+                loading: action.loading
             }
         case EDIT_SUBCATEGORY_ERROR:
             return {
                 ...state,
                 error: action.error,
+                loading: action.loading
             }      
         case DELETE_SUBCATEGORY:
             return {

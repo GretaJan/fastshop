@@ -1,94 +1,71 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, GET_PRODUCT, LOADING_POST_PRODUCT, POST_PRODUCT, POST_PRODUCT_ERROR, LOADING_EDIT_PRODUCT, EDIT_PRODUCT, EDIT_PRODUCT_ERROR, DELETE_PRODUCT, DELETE_PRODUCT_ERROR, URL } from './types';
+import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, LOADING_GET_PRODUCT, GET_PRODUCT, GET_PRODUCT_ERROR, LOADING_POST_PRODUCT, POST_PRODUCT, POST_PRODUCT_ERROR, LOADING_EDIT_PRODUCT, EDIT_PRODUCT, EDIT_PRODUCT_ERROR, DELETE_PRODUCT, DELETE_PRODUCT_ERROR, URL } from './types';
 import axios from 'axios';
 
-export const getProducts = (subcategory, page) => dispatch => {
-    dispatch({
+export const getProducts = (subcategory, page) => async (dispatch) => {
+    await dispatch({
         type: LOADING_GET_PRODUCTS,
         loading: page == 1 ? true : false,
         loadingNext: page > 1 ? true : false,
+        error: ''
     });
-    const sorting = (a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-     
-        if(nameA < nameB) {
-            return -1;
-        } else if(nameA > nameB) {
-            return 1;
-        } 
-        return 0;
-    }
     return axios.get(`${URL}/products/${subcategory}?page=${page}`)
-    .then(products => {
-            var lastPageNo = false; 
-            if(products.data.meta.last_page === products.data.meta.current_page) {
-                lastPageNo = true;                
-            }
-            return dispatch({
-                    type: GET_PRODUCTS,
-                    // payload: products.data.data.sort(sorting),
-                    payload: products.data.data,
+        .then(response => {
+                return dispatch({
+                        type: GET_PRODUCTS,
+                        payload: response.data.data,
+                        loading: false,
+                        loadingNext: false,
+                        error: '',
+                        currentPage: response.data.meta.current_page,
+                        lastPage: response.data.meta.last_page === response.data.meta.current_page ? true : false,
+                    })
+            }).catch(err => { 
+                return dispatch({
+                    type: GET_PRODUCTS_ERROR,
+                    error: 'Failed to load product list' + err,
                     loading: false,
                     loadingNext: false,
-                    error: '',
-                    currentPage: products.data.meta.current_page,
-                    lastPage: lastPageNo,
                 })
-        }).catch(err => { 
-            return dispatch({
-                type: GET_PRODUCTS_ERROR,
-                error: 'Failed to load product list' + err,
-                loading: false,
-                loadingNext: false,
-            })
-    })
+        })
 } 
 
-export const unmountProducts = () => dispatch => {
-    dispatch({
-        type: UNMOUNT_PRODUCTS,
-        payload: [],
-        currentPage: 1,
-        lastPage: false,
+export const getProduct = (subcategory, product) => async (dispatch) => {
+    await dispatch({
+        type: LOADING_GET_PRODUCT,
+        loading: true,
+        error: ''
     })
-}
-
-export const getProduct = (subcategory, product) => (dispatch) => {
-    dispatch({
-        type: LOADING_GET_PRODUCTS,
-        loading: true
-    })
-    return axios.get( `${URL}/product/${subcategory}/${product}`)
-        .then(product => {
+    return axios.get(`${URL}/product/${subcategory}/${product}`)
+        .then(response => {
                 return dispatch({
                     type: GET_PRODUCT,
-                    payload: product.data.product,
+                    payload: response.data,
                     loading: false,
                     error: ''
                 })
             }
         ).catch(err => { 
             return dispatch({
-                type: GET_PRODUCTS_ERROR,
-                error: 'Failed to load product ', err,
+                type: GET_PRODUCT_ERROR,
+                error: 'Failed to load product ' + err,
                 loading: false
             })
         })   
 } 
 
-export const addProduct = (subcategory, data) => dispatch => {
-    dispatch({
+export const addProduct = (subcategory, data) => async dispatch => {
+    await dispatch({
         type: LOADING_POST_PRODUCT,
-        error: '',
         loading: true,
+        error: ''
     })
     return axios.post(`${URL}/addProduct/${subcategory}`, data)
-        .then((product) => ( 
+        .then((response) => ( 
             dispatch({
                 type: POST_PRODUCT,
-                payload: product.data.product,
-                error: '',
+                payload: response.data,
                 loading: false,
+                error: '',
             })
         )).catch((err) => (
             dispatch({
@@ -99,8 +76,8 @@ export const addProduct = (subcategory, data) => dispatch => {
         ))
 }
 
-export const editProduct = (subcategory, product, data) => (dispatch) => {
-    dispatch({
+export const editProduct = (subcategory, product, data) => async (dispatch) => {
+    await dispatch({
         type: LOADING_EDIT_PRODUCT,
         loading: true,
         error: ''
@@ -109,7 +86,7 @@ export const editProduct = (subcategory, product, data) => (dispatch) => {
         .then(response => ( 
             dispatch({
                 type: EDIT_PRODUCT,
-                payload: response.data.product,
+                payload: response.data,
                 loading: false,
                 error: ''
             })

@@ -8,8 +8,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/CategoryStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
-import { getSubcategories } from '../../redux/actions/subcategoryActions';
-import  NetInfo  from '@react-native-community/netinfo';
+// import  NetInfo  from '@react-native-community/netinfo';
 
 //Components
 import CategoryList from './CategoryList';
@@ -17,7 +16,7 @@ import Loading from '../../components_additional/Loading';
 import EmptyList from '../../components_additional/EmptyList';
 import Modal from '../../components_additional/Modal';
 
-class Categories extends Component {
+export class Categories extends Component {
     state = {
         tempArray: this.props.categories,
         searchName: '',
@@ -25,10 +24,11 @@ class Categories extends Component {
     }
   
     componentDidMount() {
-        NetInfo.fetch().then(state => {
-            if(state.isConnected)
+        // NetInfo.fetch().then(state => {
+            // if(state.isConnected)
                 this.props.getCategories();
-        })
+                // console.log(this.props.categories)
+        // })
     }
 
     findFunction = searchName => {
@@ -83,12 +83,12 @@ class Categories extends Component {
                     </View>
                 ) : (
                     <View style={stylesGuest().container} >
-                        {(this.props.categories.length == 0) ? (
+                        {(this.props.categories === undefined || this.props.categories.length == 0) ? (
                             <EmptyList message="The List is empty" />
                         ) : (
-                            <FlatList contentContainerStyle={stylesGuest().flatList} data={this.props.categories} renderItem={({item}) => (
-                                <CategoryList key={item} item={item} 
-                                                goToSubcategories={() => this.goToSubcategories(item)} 
+                            <FlatList contentContainerStyle={stylesGuest().flatList} keyExtractor={(item, index) => index.toString()} data={this.props.categories} renderItem={({item}) => (
+                                <CategoryList item={item} 
+                                            goToSubcategories={() => this.goToSubcategories(item)}         
                                 />
                                 )} >
                             </FlatList>
@@ -102,7 +102,7 @@ class Categories extends Component {
 }
 Categories.propTypes = {
     getCategories: PropTypes.func.isRequired,
-    // categories: PropTypes.array.isRequired,
+    categories: PropTypes.array,
 }
 
 const mapStateToProps = (state) => ({
@@ -112,4 +112,5 @@ const mapStateToProps = (state) => ({
     
 });
 
-export default withNavigation(connect(mapStateToProps, { getCategories, getSubcategories })(Categories))
+export default withNavigation(connect(mapStateToProps, { getCategories })(Categories))
+// export default connect(mapStateToProps, { getCategories })(Categories)

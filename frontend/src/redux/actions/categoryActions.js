@@ -1,7 +1,7 @@
 import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, LOADING_POST_CATEGORY, POST_CATEGORY, POST_CATEGORY_ERROR, URL, LOADING_EDIT_CATEGORY, EDIT_CATEGORY, EDIT_CATEGORY_ERROR, DELETE_CATEGORY, DELETE_CATEGORY_ERROR } from './types';
 import axios from 'axios';
 
-export const getCategories = () => async(dispatch) => {
+export const getCategories = () => async (dispatch) => {
     const sortArray = (a, b) => {
         const nameA = a.name.toUpperCase();
         const nameB = b.name.toUpperCase();
@@ -10,7 +10,8 @@ export const getCategories = () => async(dispatch) => {
     }
     await dispatch({ 
         type: LOADING_GET_CATEGORIES,
-        loading: true
+        loading: true,
+        error: '',
     })
     return axios.get(`${URL}/categories`)
         .then(categories => ( 
@@ -29,17 +30,17 @@ export const getCategories = () => async(dispatch) => {
         ))
 }
 
-export const addCategory = (data) => (dispatch) => {
-    dispatch({
+export const addCategory = (data) => async (dispatch) => {
+    await dispatch({
         type: LOADING_POST_CATEGORY,
         error: '',
         loading: true
     })
-    return axios.post(URL + '/addCategory', data)
+    return axios.post(`${URL}/addCategory`, data)
         .then((response) => (
             dispatch({
                 type: POST_CATEGORY,
-                payload: response.data.category,
+                payload: response.data,
                 error: '',
                 loading: false
             })
@@ -52,8 +53,8 @@ export const addCategory = (data) => (dispatch) => {
         ));     
 }
 
-export const editCategory = (category, data) => (dispatch) => {
-    dispatch({
+export const editCategory = (category, data) => async(dispatch) => {
+    await dispatch({
         type: LOADING_EDIT_CATEGORY,
         error: '',
         loading: true
@@ -62,12 +63,11 @@ export const editCategory = (category, data) => (dispatch) => {
         .then(response => (
             dispatch({
                 type: EDIT_CATEGORY,
-                payload: response.data.category,
+                payload: response.data,
                 error: '',
                 loading: false
             }) 
         )).catch(err => (
-            console.log("Err", err.response),
             dispatch({
                 type: EDIT_CATEGORY_ERROR,
                 error: 'Failed updating category' + err,

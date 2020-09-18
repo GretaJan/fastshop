@@ -82,7 +82,6 @@ class AddCategory extends Component {
             background: this.state.background,
             name: name
         }
-console.log(data.image)
         await this.props.addCategory(data);
         this.props.navigation.push("Dashboard");
 

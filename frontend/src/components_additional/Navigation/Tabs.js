@@ -35,11 +35,9 @@ import DescAscend from '../../components/comparison/DescAscend';
 
 class Tabs extends Component {
     componentDidMount(){       
-    console.log('auth', this.props.isAuthorized)
 }
     componentDidUpdate(nextProps) {
         return nextProps.isAuthorized !== this.props.isAuthorized;
-        console.log('auth', this.props.isAuthorized)
     } 
 
 

@@ -1,4 +1,4 @@
-import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, UNMOUNT_SUBCATEGORIES,  LOADING_POST_SUBCATEGORY, POST_SUBCATEGORY, POST_SUBCATEGORY_ERROR, EDIT_SUBCATEGORY, EDIT_SUBCATEGORY_ERROR, DELETE_SUBCATEGORY, DELETE_SUBCATEGORY_ERROR, URL } from './types';
+import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, UNMOUNT_SUBCATEGORIES,  LOADING_POST_SUBCATEGORY, POST_SUBCATEGORY, POST_SUBCATEGORY_ERROR, LOADING_EDIT_SUBCATEGORY, EDIT_SUBCATEGORY, EDIT_SUBCATEGORY_ERROR, DELETE_SUBCATEGORY, DELETE_SUBCATEGORY_ERROR, URL } from './types';
 import axios from 'axios';
 
 export const getSubcategories = (category, page) => (dispatch) => {
@@ -6,63 +6,41 @@ export const getSubcategories = (category, page) => (dispatch) => {
         type: LOADING_GET_SUBCATEGORIES,
         loading: page === 1 ? true : false,
         nextLoading:  page > 1 ? true : false,
+        error: ''
     })
-    const sorting = (a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
 
-        // if(nameA < nameB) {
-        //     return -1;
-        // } else if (nameA > nameB) {
-        //     return 1;
-        // }
-        return nameA - nameB;
-    }
     return axios.get(`${URL}/subcategories/${category}?page=${page}`)
-    .then(resp => {
-            var lastPageNo = false; 
-            if(resp.data.meta.last_page === resp.data.meta.current_page) {
-                lastPageNo = true;                
-            }
-            return dispatch({
-                type: GET_SUBCATEGORIES,
-                payload: resp.data.data,
-                loading: false,
-                loadingNext: false,
-                error: '',
-                currentPage: resp.data.meta.current_page,
-                lastPage: lastPageNo,
-            })   
-        }).catch(err => {
-            return dispatch({
-                type: GET_SUBCATEGORIES_ERROR,
-                error: 'Failed to load subcategories list.' + err,
-                loading: false
+        .then(resp => {
+                return dispatch({
+                    type: GET_SUBCATEGORIES,
+                    payload: resp.data.data,
+                    loading: false,
+                    loadingNext: false,
+                    error: '',
+                    currentPage: resp.data.meta.current_page,
+                    lastPage: resp.data.meta.last_page === resp.data.meta.current_page ? true : false,
+                })   
+            }).catch(err => {
+                return dispatch({
+                    type: GET_SUBCATEGORIES_ERROR,
+                    error: 'Failed to load subcategories list.' + err,
+                    loading: false
+                })
             })
-        })
     
 } 
-
-// export const unmountSubcategories = () => dispatch => {
-//     dispatch({
-//         type: UNMOUNT_SUBCATEGORIES,
-//         payload: [],
-//         currentPage: 1,
-//         lastPage: false,
-//     })
-// }
-
-export const addSubcategory = (category, data) => dispatch => {
-    dispatch({
+export const addSubcategory = (category, data) => async (dispatch) => {
+    await dispatch({
         type: LOADING_POST_SUBCATEGORY,
         error: '',
         loading: true
     })
+    console.log("ddd", data)
     return axios.post(`${URL}/addSubcategory/${category}`, data)
         .then((response) => (
             dispatch({
                 type: POST_SUBCATEGORY,
-                payload: response.data.subcategory,
+                payload: response.data,
                 loading: false,
                 error: ''
             })
@@ -75,21 +53,25 @@ export const addSubcategory = (category, data) => dispatch => {
         ))
 }
 
-export const editSubcategory = (category, subcategory, data, subAll) => (dispatch) => {
-    console.log("data", subAll)
+export const editSubcategory = (category, subcategory, data, subAll) => async (dispatch) => {
+    await dispatch({
+        type: LOADING_EDIT_SUBCATEGORY,
+        error: '',
+        loading: true
+    });
     return axios.post(`${URL}/updateSubcategory/${category}/${subcategory}`, data)
         .then(response => (
             dispatch({
                 type: EDIT_SUBCATEGORY,
-                payload: response.data.subcategory,
-                subcategories: subAll,
-                error: ''
+                payload: response.data,
+                error: '',
+                loading: false
             })
         )).catch(err => (
-            console.log("errrrr", err),
             dispatch({
                 type: EDIT_SUBCATEGORY_ERROR,
                 error: 'Failed updating subcategory: ' + err,
+                loading: false
             })
         ))
     }

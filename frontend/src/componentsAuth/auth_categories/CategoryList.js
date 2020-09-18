@@ -37,7 +37,7 @@ class CategoryList extends Component {
     render() {
         return (
             this.props.editId !== this.props.item.id ? (
-                <View style={authCategory().itemContainer} key={this.props.item.id.toString()} >
+                <View style={authCategory().itemContainer} key={this.props.item.name} >
                     <View style={authCategory().inactiveBtnsWrap} >
                         <TouchableOpacity style={authCategory().editBtnWrap} onPress={this.triggerEditFunc}>
                             <Icon style={authCategory().editBtn} name="pencil"/>
@@ -68,7 +68,7 @@ class CategoryList extends Component {
                     
                 </View>
             ) : (
-                <View style={authCategory().itemContainer} key={this.props.item.id.toString()}  >
+                <View style={authCategory().itemContainer} key={this.props.item.name}  >
                     <View style={authCategory().inactiveBtnsWrap} >
                         <TouchableOpacity style={authCategory().editBtnWrap} onPress={() => this.validateSubmit()} >
                             <Icon style={authCategory().editBtn} name="check-circle" />

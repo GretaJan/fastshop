@@ -234,8 +234,8 @@ class AddProduct extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        postProduct: (id, product) => {
-            dispatch(postProduct(id, product));
+        addProduct: (id, product) => {
+            dispatch(addProduct(id, product));
         }
     }
 }

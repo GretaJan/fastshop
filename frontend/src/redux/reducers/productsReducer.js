@@ -1,4 +1,5 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, GET_PRODUCT, LOADING_POST_PRODUCT, POST_PRODUCT, POST_PRODUCT_ERROR, LOADING_EDIT_PRODUCT, EDIT_PRODUCT, EDIT_PRODUCT_ERROR, DELETE_PRODUCT, DELETE_PRODUCT_ERROR } from '../actions/types';
+import { ActionSheetIOS } from 'react-native';
+import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, LOADING_GET_PRODUCT, GET_PRODUCT, GET_PRODUCT_ERROR, LOADING_POST_PRODUCT, POST_PRODUCT, POST_PRODUCT_ERROR, LOADING_EDIT_PRODUCT, EDIT_PRODUCT, EDIT_PRODUCT_ERROR, DELETE_PRODUCT, DELETE_PRODUCT_ERROR } from '../actions/types';
 
 const initialState = {
     products: [],
@@ -17,7 +18,8 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 loading: action.loading,
-                loadingNext: action.loadingNext
+                loadingNext: action.loadingNext,
+                error: action.error
             }
         case GET_PRODUCTS:
             return {
@@ -43,23 +45,36 @@ export default function(state = initialState, action) {
                 currentPage: action.currentPage,
                 lastPage: action.lastPage
             }
+        case LOADING_GET_PRODUCT:
+            return {
+                ...state,
+                loading: action.loading,
+                error: action.error
+            }
         case GET_PRODUCT:
             return {
                 ...state,
-                product: action.payload,
+                product: action.payload.product,
                 loading: action.loading,
-                page: action.page,
+                error: action.error
+            }
+        case GET_PRODUCT_ERROR:
+            return {
+                ...state,
+                error: action.error,
+                loading: action.loading,
             }
         case LOADING_POST_PRODUCT:
             return {
                 ...state,
                 actionLoading: state.loading,
-                error: state.error
+                error: state.error,
+                page: action.page,
             }
         case POST_PRODUCT:
             return {
                 ...state,
-                products: state.products.concat(action.payload),
+                products: state.products.concat(action.payload.product),
                 actionLoading: state.loading,
                 error: state.error,
                 page: action.page,
@@ -77,11 +92,11 @@ export default function(state = initialState, action) {
                 error: action.error
             }
         case EDIT_PRODUCT:
-            let tempArray = state.products.filter(item => item.id !== action.payload.id);
+            let tempArray = state.products.filter(item => item.id !== action.payload.product.id);
             return {
                 ...state,
-                products: tempArray.concat(action.payload),
-                product: action.payload,
+                products: tempArray.concat(action.payload.product),
+                product: action.payload.product,
                 actionLoading: action.loading,
                 error: action.error
             }
