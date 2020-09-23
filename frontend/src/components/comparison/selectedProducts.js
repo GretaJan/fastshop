@@ -128,7 +128,7 @@ class Products extends Component {
     render() {
         const objectLength = Object.keys(this.props.result).length;
         return (
-                <View style={stylesGuest().container} >
+                <View data-test='selectedComponents' style={stylesGuest().container} >
                     {this.state.loadingResults && <LoadingResults /> }
                     {(this.state.modalMessageNumber) && (
                     <Modal title="Warning" 
@@ -216,4 +216,5 @@ const mapStateToProps = state => ({
     result: state.selectedProducts.result,
 })
 
-export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray})(Products))
+// export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray})(Products))
+export default connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray})(Products)

@@ -306,7 +306,7 @@ render() {
                         )
                         }} />
                 </Tabs.Navigator>           
-            ) : (
+             ) : (
                 <Tabs.Navigator tabBarOptions={{
                     style: { 
                         backgroundColor:  colors.titleBlack,
@@ -344,4 +344,5 @@ const mapStateToProps = state => ({
     isAuthorized: state.auth.isAuthorized,
 })
 
-export default connect(mapStateToProps, { logOut })(Tabs)
+// export default connect(mapStateToProps, { logOut })(Tabs)
+export default Tabs

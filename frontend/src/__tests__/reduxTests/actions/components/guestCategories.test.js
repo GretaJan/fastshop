@@ -1,71 +1,60 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
-// import { Categories } from '../../../../components/Categories/Categories';
-import { Categories } from '../../../../componentsAuth/auth_categories/Categories';
-import { Flatlist } from 'react-native';
-import expect from 'expect';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-const middleware = [thunk];
-const mockStore = configureStore(middleware);
-// import { getCategories } from '../../../../redux/actions/categoryActions';
-// import { URL } from '../../../../redux/actions/types';
+import { shallow } from 'enzyme';
+import { testStore } from '../../../../utils/testing';
+import Categories from '../../../../components/Categories/Categories';
+import { getCategories } from '../../../../redux/actions/categoryActions';
+import { URL } from '../../../../redux/actions/types';
+import { combineReducers } from 'redux';
+import categoriesReducer from '../../../../redux/reducers/categoriesReducer';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+const mock = new MockAdapter(axios);
 
-// import ConfigureStore from 'redux-mock-store';
-// import axios from 'axios';
-// import MockAdapter from 'axios-mock-adapter';
-// const middlewares = [thunk];
-// const mockStore = ConfigureStore(middlewares);
-// const mock = new MockAdapter(axios);
-// const store = mockStore({});
+const setUp = () => {
+    const reducer = combineReducers({ categories: categoriesReducer })
+    const store = testStore(reducer);
+    return store
+}
 
-const categories = [
-    { id: 0, name: 'category 1', image: 'http://10.0.2.2:80/Asmeniniai/fastshop/backend/laravel/public/uploads/categories/4IcCdyAKyX.png' },
-    { id: 1, name: 'category 2', image: 'http://10.0.2.2:80/Asmeniniai/fastshop/backend/laravel/public/uploads/categories/4IcCdyAKyX.png' },
-    { id: 2, name: 'category 3', image: 'http://10.0.2.2:80/Asmeniniai/fastshop/backend/laravel/public/uploads/categories/4IcCdyAKyX.png' },
-    { id: 3, name: 'category 4', image: 'http://10.0.2.2:80/Asmeniniai/fastshop/backend/laravel/public/uploads/categories/4IcCdyAKyX.png' },
-    { id: 4,  name: 'category 5', image: 'http://10.0.2.2:80/Asmeniniai/fastshop/backend/laravel/public/uploads/categories/4IcCdyAKyX.png' }
-];
+describe('guest categories component', () => {
+    let store;
+    beforeEach(() => {
+        store = setUp();
+    })
+    it('should show loading component before categories are fetched', async () => {
+        store.dispatch(getCategories());
+        const wrapper = shallow(<Categories store={ store } />).childAt(0).dive();
+        const loadingComponent = wrapper.find('Loading');
+        expect(loadingComponent).toHaveLength(1);
+    })
 
-it('categories component render all children', () => {
-    const initialState = { categories: { categories: categories } };
-    const store = mockStore(initialState);
-    const navigation = {
-        navigate: jest.fn()
-    }
-    const wrapper = shallow(
-        // <Provider store={store}>
-            <Categories store={store} />
-        // </Provider>
-    );
-    const component = shallow(wrapper.getElement());
-    expect(component.find(Flatlist).length).toEqual(1);
-    expect(toJson(component)).toMatchSnapshot();
-    // mock.onGet(`${URL}/categories`).reply(200, {data : [
-    //     {
-    //         id: 1,
-    //         name: 'category 1'
-    //     },
-    //     {
-    //         id: 2,
-    //         name: 'category 2'
-    //     },
-    //     {
-    //         id: 3,
-    //         name: 'category 3'
-    //     },
-    // ]});
-    // const wrapper = shallow(
-    //     // <Provider store={store}>
-    //         <Categories />,
-    //         { context: { store: store } },
-    //     // </Provider>
-    // );
-    // const component = shallow(wrapper.getElement());
-    // expect(component.find(Flatlist).length).toEqual(1);
-    // expect(toJson(component)).toMatchSnapshot();
-    // await store.dispatch(getCategories()).then(() => {
-    // })
-   
+    it('should render categories list', async () => {
+        mock.onGet(`${URL}/categories`).reply(200, { categories: [
+            { id: 1, name: 'category 1' },
+            { id: 2, name: 'category 2' }
+        ]});
+        await store.dispatch(getCategories()).then(() => {
+            const wrapper = shallow(<Categories  store={ store }/>).childAt(0).dive();
+            const findFlatList = wrapper.find('FlatList');
+            expect(findFlatList).toHaveLength(1);
+        })
+    });
+
+    it('render error modal if error occures while fetching categories by redux store', async () => {
+        mock.onGet(`${URL}/categories`).reply(400, { message: 'Failed to load categories list... Error: Request failed with status code 400'});
+        await store.dispatch(getCategories()).then(() => {
+            const wrapper = shallow(<Categories  store={ store }/>).childAt(0).dive();
+            const errorComponent = wrapper.find('Modal');
+            expect(errorComponent).toHaveLength(1);
+        })
+    })
+
+    it('should render empty list on categories being null', async () => {
+        mock.onGet(`${URL}/categories`).reply(200, { categories: [] });
+        await store.dispatch(getCategories()).then(() => {
+            const wrapper = shallow(<Categories store={ store } />).childAt(0).dive();
+            const emptyComponent = wrapper.find('EmptyList');
+            expect(emptyComponent).toHaveLength(1);
+        })
+    });
 })

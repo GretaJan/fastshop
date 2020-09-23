@@ -24,6 +24,7 @@
     "history": "^4.10.1",
     "jest-environment-enzyme": "^7.1.2",
     "jest-enzyme": "^7.1.2",
+    "mock-async-storage": "^2.2.0",
     "react": "16.13.1",
     "react-native": "^0.63.2",
     "react-native-animate-number": "^0.1.2",
@@ -86,7 +87,8 @@
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
     },
     "setupFiles": [
-      "<rootDir>/jest/setup.js"
+      "<rootDir>/jest/setup.js",
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|react-navigation|@react-navigation/.*))"

@@ -1,14 +1,14 @@
 import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, LOADING_POST_CATEGORY, POST_CATEGORY, POST_CATEGORY_ERROR, URL, LOADING_EDIT_CATEGORY, EDIT_CATEGORY, EDIT_CATEGORY_ERROR, DELETE_CATEGORY, DELETE_CATEGORY_ERROR } from './types';
 import axios from 'axios';
 
-export const getCategories = () => async (dispatch) => {
+export const getCategories = () => (dispatch) => {
     const sortArray = (a, b) => {
         const nameA = a.name.toUpperCase();
         const nameB = b.name.toUpperCase();
 
         return nameA - nameB;
     }
-    await dispatch({ 
+    dispatch({ 
         type: LOADING_GET_CATEGORIES,
         loading: true,
         error: '',

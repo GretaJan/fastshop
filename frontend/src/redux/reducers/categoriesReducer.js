@@ -1,5 +1,3 @@
-import { ActionSheetIOS } from 'react-native';
-import { isTemplateSpan } from 'typescript';
 import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, LOADING_POST_CATEGORY, POST_CATEGORY, POST_CATEGORY_ERROR, LOADING_EDIT_CATEGORY, EDIT_CATEGORY, EDIT_CATEGORY_ERROR, DELETE_CATEGORY, DELETE_CATEGORY_ERROR } from '../actions/types';
 
 const initialState = {
