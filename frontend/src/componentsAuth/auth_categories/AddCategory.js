@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { View, TextInput, Image } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { addCategory } from '../../redux/actions/categoryActions';
@@ -121,7 +122,6 @@ class AddCategory extends Component {
                                 <Icon style={categoryAdd().uploadIcon} name="upload"/>
                             </TouchableOpacity> 
                         )}
-                       {/* <ButtonStyled color={colors.orangeBright} title={"Add image"} func={this.handleChoosePhoto} /> */}
                     </View>
                     <View style={styles().buttonsWrap} >
                         <ButtonStyled color={colors.mediumGreen} title={"Save"} func={this.validateSubmit} />
@@ -131,6 +131,12 @@ class AddCategory extends Component {
             )
 
     }
+}
+
+AddCategory.propTypes = {
+    name: PropTypes.string,
+    background: PropTypes.string,
+    image: PropTypes.any,
 }
 
 export default withNavigation(connect(null, { addCategory })(AddCategory))

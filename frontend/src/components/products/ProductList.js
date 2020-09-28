@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
@@ -35,6 +36,13 @@ class ProductList extends Component {
             </View>
         )
     }
+}
+
+ProductList.propTypes = {
+    selectProduct: PropTypes.func,
+    goToProduct: PropTypes.func,
+    name: PropTypes.string,
+    image: PropTypes.any
 }
 
 export default ProductList

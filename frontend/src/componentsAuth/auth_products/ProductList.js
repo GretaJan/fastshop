@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image} from 'react-native';
+import PropTypes from 'prop-types';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
@@ -30,5 +31,11 @@ class Product extends Component {
         )
     }
 }
+
+Product.propTypes = {
+    goToProduct: PropTypes.func,
+    name: PropTypes.string,
+    image: PropTypes.any,
+} 
 
 export default Product

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, TextInput, Text } from 'react-native';
+import { View, FlatList, TextInput } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProducts } from '../../redux/actions/productActions';
 import { withNavigation } from 'react-navigation';
@@ -25,13 +26,8 @@ class Products extends Component {
         showSearchInput: false
     }
 
-    componentDidMount() {
-        this.props.getProducts(this.state.id, 1);
-        console.log("Products", this.props.products);
-        console.log("this.props.loading", this.props.loading)
-
-    }
-    componentWillUnmount() {
+    async componentDidMount() {
+        await this.props.getProducts(this.props.route.params.subcategoryId, 1);
     }
 
     handleLoadMore = () => {
@@ -81,7 +77,6 @@ class Products extends Component {
     }
 
     render() {
-        console.log("PRAMS", this.props.route.params.subcategoryId)
         const { background } = this.props.route.params;
         return (
             this.props.loading ? (
@@ -111,6 +106,14 @@ class Products extends Component {
         )
     }
 }
+
+Products.propTypes = {
+    getProducts: PropTypes.func,
+    products: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        image: PropTypes.any
+    }))
+} 
 
 const mapStateToProps = state => ({
     products: state.products.products,

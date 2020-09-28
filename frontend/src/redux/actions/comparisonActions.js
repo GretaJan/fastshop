@@ -39,16 +39,6 @@ export const compare = (result) => dispatch => {
                 payload: result,
             })
         })).catch(err => {console.log("Error", err.response)})
-    
-    //  axios.get(URL + '/product/' + result.bestSubId + '/' +  result.bestId)
-    //     .then(result => {
-    //     }).catch(err => console.log("error: ", err.result))
-
-    //  axios.get(URL + '/product/' + result.lowestSubId + '/' +  result.lowestId)
-    // .then(result => {
-    //     const worstProduct = result.data.product;
-    // }).catch(err => console.log("error: ", err.result));
-
 }
 
 export const sortArray = (sortedArray) => dispatch => {

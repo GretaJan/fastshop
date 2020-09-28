@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, FlatList, ScrollView, TouchableOpacity, Image } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // import update from 'react-addons-update'; 
 var update = require('react-addons-update')
@@ -289,6 +290,19 @@ class Product extends Component {
             )
         )
     }
+}
+
+Product.propTypes = {
+    getProduct: PropTypes.func.isRequired,
+    productComponents: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        component: PropTypes.number,
+        measure: PropTypes.string.isRequired
+    })),
+    product: PropTypes.objectOf(PropTypes.shape({
+        name:  PropTypes.string.isRequired,
+        image: PropTypes.any,
+    }))
 }
 
 const mapStateToProps = (state) => ({

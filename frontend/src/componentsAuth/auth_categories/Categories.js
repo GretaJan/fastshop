@@ -15,6 +15,7 @@ import Loading from '../../components_additional/Loading';
 import CircleButton from '../../components_additional/CircleButton';
 import ConfirmModal from '../../components_additional/ModalCrud';
 import EmptyList from '../../components_additional/EmptyList';
+import Modal from '../../components_additional/Modal';
 
 export class Categories extends Component {
     state = {
@@ -148,55 +149,71 @@ export class Categories extends Component {
                     <Loading />
                 </View>
             ) : (
-                <View style={authCategory().container}  >
-                    {this.state.deleteId !== '' &&
-                        <ConfirmModal message="Are you sure you want to delete this item? " 
-                                    confirm={this.deleteCategory}
-                                    title="Delete action"
-                                    close={this.cancelDelete}
-                                    background={colors.mainWhiteYellow}
-                                    iconColor={colors.lightBurgundy}
-                                    borderColor={colors.bordoTransparent}
-                                    colorOne={colors.lightBurgundy}
-                                    colorTwo={colors.mediumGreen}
-                                    horizontal={20} vertical={15}
-                        />
-                    }
-                    <CircleButton func={() => { this.props.navigation.push("Add_Category") }} />
-                    { this.props.categories.length == 0 ? (
-                        <EmptyList message="The List is empty" />
-                        ) : (
-                        <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} keyExtractor={(item, index) => index.toString()} renderItem={({item}) => (
-                        <CategoryList key={item} item={item} 
-                                imageData={this.state.imageData}
-                                editId={this.state.editId}
-                                name={this.state.editName}
-                                background={this.state.editBackground}
-                                formatName={this.state.formatName}
-                                incorrectName={this.state.incorrectName}
-                                formatBackground={this.state.formatBackground}
-                                imageData={this.state.imageData}
-                                changeImage={() => this.changeImage}
-                                goToSubcategories={() => this.goToSubcategories(item)}
-                                deleteCategory = { (item)=> this.confirmDelete(item)} 
-                                triggerEditFunc = { ()=> this.triggerEditFunc(item)} 
-                                validateSubmit={() => this.validateSubmit(item)}
-                                changeImage={() => this.changeImage()}
-                                cancelEdit={this.cancelEdit}
-                                onChangeNameText={(value) => { this.setState({editName: value})}}
-                                onChangeBackground={(value) => { this.setState({editBackground: value})}}
+                (this.props.error !== '') ? (
+                    <View style={backgroundForPages().backgroundContainer} >
+                        <Modal title="Warning" 
+                            message={this.props.error} 
+                            close={() => this.props.navigation.navigate("Login")} 
+                            ok="OK" color={colors.bordo} 
+                            borderColor={colors.bordoTransparent}
+                            horizontal={20} vertical={10}/>
+                    </View>
+                ) : (
+                    <View style={authCategory().container}  >
+                        {this.state.deleteId !== '' &&
+                            <ConfirmModal message="Are you sure you want to delete this item? " 
+                                        confirm={this.deleteCategory}
+                                        title="Delete action"
+                                        close={this.cancelDelete}
+                                        background={colors.mainWhiteYellow}
+                                        iconColor={colors.lightBurgundy}
+                                        borderColor={colors.bordoTransparent}
+                                        colorOne={colors.lightBurgundy}
+                                        colorTwo={colors.mediumGreen}
+                                        horizontal={20} vertical={15}
                             />
-                        )} >
-                        </FlatList>
-                        )}
-                </View>
+                        }
+                        <CircleButton func={() => { this.props.navigation.push("Add_Category") }} />
+                        { this.props.categories.length == 0 ? (
+                            <EmptyList message="The List is empty" />
+                            ) : (
+                            <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} keyExtractor={(item, index) => index.toString()} renderItem={({item}) => (
+                            <CategoryList key={item} item={item} 
+                                    imageData={this.state.imageData}
+                                    editId={this.state.editId}
+                                    name={this.state.editName}
+                                    background={this.state.editBackground}
+                                    formatName={this.state.formatName}
+                                    incorrectName={this.state.incorrectName}
+                                    formatBackground={this.state.formatBackground}
+                                    imageData={this.state.imageData}
+                                    changeImage={() => this.changeImage}
+                                    goToSubcategories={() => this.goToSubcategories(item)}
+                                    deleteCategory = { (item)=> this.confirmDelete(item)} 
+                                    triggerEditFunc = { ()=> this.triggerEditFunc(item)} 
+                                    validateSubmit={() => this.validateSubmit(item)}
+                                    changeImage={() => this.changeImage()}
+                                    cancelEdit={this.cancelEdit}
+                                    onChangeNameText={(value) => { this.setState({editName: value})}}
+                                    onChangeBackground={(value) => { this.setState({editBackground: value})}}
+                                />
+                            )} >
+                            </FlatList>
+                            )}
+                    </View>
+                )
             )
         )
     }
 }
+
 Categories.propTypes = {
     getCategories: PropTypes.func.isRequired,
-    categories: PropTypes.array,
+    categories: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        background: PropTypes.string,
+        image: PropTypes.any
+    }))
 }
 
 const mapStateToProps = (state) => ({

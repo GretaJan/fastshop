@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { View, Text, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { addProduct } from '../../redux/actions/productActions';
 import { withNavigation } from 'react-navigation';
 import { colors } from '../../components_additional/styles/Colors';
-import { categoryAdd, authCategory } from '../../components_additional/styles/CategoryStyles';
+import { categoryAdd } from '../../components_additional/styles/CategoryStyles';
 import { postProductStyle } from '../../components_additional/styles/ProductStyles';
 import ButtonStyled from '../../components_additional/Button';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -232,11 +233,19 @@ class AddProduct extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addProduct: (id, product) => {
-            dispatch(addProduct(id, product));
-        }
-    }
+AddProduct.propTypes = {
+    addProduct: PropTypes.func,
+    name: PropTypes.string,
+    energy:  PropTypes.number,
+    fat:  PropTypes.number,
+    saturated:  PropTypes.number,
+    carbs:  PropTypes.number,
+    sugar: PropTypes.number,
+    fiber: PropTypes.number,
+    protein: PropTypes.number,
+    salt: PropTypes.number,
+    image: PropTypes.any,
+    background: PropTypes.string,
 }
-export default withNavigation(connect(null, mapDispatchToProps)(AddProduct))
+
+export default withNavigation(connect(null, { addProduct })(AddProduct))

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, TextInput } from 'react-native';
+import { View, FlatList, TextInput } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProducts } from '../../redux/actions/productActions';
 import { productSelected } from '../../redux/actions/comparisonActions';
@@ -136,6 +137,29 @@ class Products extends Component {
             )
         )
     }
+}
+
+Products.propTypes = {
+    getProducts: PropTypes.func.isRequired,
+    id: PropTypes.number.isRequired,
+    tempArray: PropTypes.arrayOf(PropTypes.shape({
+        name:  PropTypes.string.isRequired,
+        image: PropTypes.any,
+    })),
+    searchName: PropTypes.string,
+    inputTriggered: PropTypes.bool,
+    showSearchInput: PropTypes.bool,
+    overload: PropTypes.any,
+    products: PropTypes.arrayOf(PropTypes.shape({
+        name:  PropTypes.string.isRequired,
+        image: PropTypes.any,
+    })),
+    currentPage: PropTypes.number,
+    lastPage: PropTypes.bool,
+    loading: PropTypes.bool,
+    loadingNext: PropTypes.bool,
+    error: PropTypes.string,
+    comparisonArray: PropTypes.array
 }
 
 const mapStateToProps = state => ({

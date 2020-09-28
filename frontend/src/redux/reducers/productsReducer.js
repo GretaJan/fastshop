@@ -24,7 +24,7 @@ export default function(state = initialState, action) {
         case GET_PRODUCTS:
             return {
                 ...state,
-                products: state.products.concat(action.payload),
+                products: action.payload,
                 loading: action.loading,
                 loadingNext: action.loadingNext,
                 error: action.error,

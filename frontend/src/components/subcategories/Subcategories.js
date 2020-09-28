@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, TextInput } from 'react-native';
+import { View, FlatList, TextInput } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getSubcategories, deleteSubcategory } from '../../redux/actions/subcategoryActions';
 import { withNavigation } from 'react-navigation';
@@ -28,9 +29,6 @@ class Subcategories extends Component {
         this.props.getSubcategories(this.props.route.params.categoryId, 1);
     }
 
-    componentWillUnmount(){
-    }
-
     loadMore = () => {
         setTimeout(() => {
             this.props.getSubcategories(this.props.route.params.categoryId, this.props.currentPage + 1);
@@ -51,7 +49,6 @@ class Subcategories extends Component {
         });
         if(searchName == '') {
             this.setState({
-                // tempArray: this.props.subcategories,
                 inputTriggered: false,
                 searchName: searchName
             })
@@ -99,9 +96,7 @@ class Subcategories extends Component {
                     <View style={stylesGuest(background).container}>
                     {this.getInput()}
                         {(this.props.subcategories.length == 0) ? (
-                            // <View style={backgroundForPages(background).backgroundContainer} >
-                                <EmptyList message="The List is empty" background={background} />
-                            // </View>
+                            <EmptyList message="The List is empty" background={background} />
                         ) : (
                             <FlatList contentContainerStyle={stylesGuest().horizontalWrap} numColumns={3} 
                                     onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
@@ -117,7 +112,28 @@ class Subcategories extends Component {
             )
         )
     }
+}
 
+Subcategories.propTypes = {
+    getSubcategories: PropTypes.func.isRequired,
+    renderFooter: PropTypes.func.isRequired,
+    tempArray: PropTypes.arrayOf(PropTypes.shape({
+        name:  PropTypes.string.isRequired,
+        image: PropTypes.any,
+    })),
+    searchName: PropTypes.string,
+    inputTriggered: PropTypes.bool,
+    showSearchInput: PropTypes.bool,
+    subcategories: PropTypes.arrayOf(PropTypes.shape({
+        name:  PropTypes.string.isRequired,
+        image: PropTypes.any,
+        background: PropTypes.string
+    })),
+    currentPage: PropTypes.number,
+    lastPage: PropTypes.bool,
+    loading: PropTypes.bool,
+    loadingNext: PropTypes.bool,
+    error: PropTypes.string,
 }
 
 const mapStateToProps = (state) => {

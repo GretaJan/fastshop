@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getSubcategories, deleteSubcategory, editSubcategory } from '../../redux/actions/subcategoryActions';
 import ImagePicker from 'react-native-image-picker';
 import { withNavigation } from 'react-navigation';
@@ -77,7 +78,6 @@ class Subcategories extends Component {
         });
         if(searchName == '') {
             this.setState({
-                // tempArray: this.props.subcategories,
                 inputTriggered: false,
                 searchName: searchName
             })
@@ -255,6 +255,16 @@ class Subcategories extends Component {
             )
         )
     }
+}
+
+Subcategories.propTypes = {
+    getSubcategories: PropTypes.func.isRequired,
+    editSubcategory: PropTypes.func.isRequired,
+    deleteSubcategory: PropTypes.func.isRequired,
+    subcategories: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        image: PropTypes.any
+    }))
 }
 
 const mapStateToProps = (state) => {

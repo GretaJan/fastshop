@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { authCategory } from '../../components_additional/styles/CategoryStyles';
 import { colors } from '../../components_additional/styles/Colors';
@@ -109,6 +110,18 @@ class SubcategoryList extends Component {
             )
         )
     }
+}
+
+SubcategoryList.propTypes = {
+    goToProducts: PropTypes.func.isRequired,
+    triggerEdit: PropTypes.func.isRequired,
+    cancelEdit: PropTypes.func.isRequired,
+    validateSubmit: PropTypes.func.isRequired,
+    editSubcategory: PropTypes.func.isRequired,
+    changeImage: PropTypes.func.isRequired,
+    deleteFunction: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.any
 }
 
 export default SubcategoryList
