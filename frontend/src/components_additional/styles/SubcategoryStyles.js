@@ -81,8 +81,8 @@ export const stylesGuest = (backgroundCategory, backgroundSubcategory) => StyleS
         paddingHorizontal: 12,
     },
     horizontalWrap: {
-        flexDirection: 'row',
-        flexWrap: 'wrap', 
+        flexDirection: 'column',
+        // flexWrap: 'wrap', 
         justifyContent: 'flex-start',
         marginTop: 20,
         width: Dimensions.get('window').width /1,

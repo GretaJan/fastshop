@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, TextInput } from 'react-native';
+import { View, FlatList, TextInput, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { getProducts } from '../../redux/actions/productActions';
 import { withNavigation } from 'react-navigation';
@@ -27,6 +27,9 @@ class Products extends Component {
 
     componentDidMount() {
         this.props.getProducts(this.state.id, 1);
+        console.log("Products", this.props.products);
+        console.log("this.props.loading", this.props.loading)
+
     }
     componentWillUnmount() {
     }
@@ -78,6 +81,7 @@ class Products extends Component {
     }
 
     render() {
+        console.log("PRAMS", this.props.route.params.subcategoryId)
         const { background } = this.props.route.params;
         return (
             this.props.loading ? (
@@ -86,30 +90,23 @@ class Products extends Component {
                 </View>          
                 ) : (
                     <View style={authProducts(background).container}>
-                    {this.getInput() }
-                    <CircleButton func={() => { this.props.navigation.push("Add_Product",  {subcategoryId: this.state.id, background: background}) }} />
-                    {this.props.products.length == 0 ? (
-                        <EmptyList message="Products list is empty" background={background} />
-                    ) : (
-                        !this.state.inputTriggered ? (
-                            <FlatList data={this.props.products} 
+                        {this.getInput() }
+                        <CircleButton func={() => { this.props.navigation.push("Add_Product",  {subcategoryId: this.state.id, background: background}) }} />
+                        {this.props.products.length == 0 ? (
+                            <EmptyList message="Products list is empty" background={background} />
+                        ) : (
+                            <FlatList data={!this.state.inputTriggered ? this.props.products : this.state.tempArray} 
+                                        keyExtractor={(item, index) => index.toString()}
                                         onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
                                         onEndReachedThreshold={0.01}
                                         ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
                                         renderItem={({item}) => (
-                                <Product item={item} 
-                                        goToProduct={() => this.goToProduct(item)}
-                                />
-                            )} />
-                        ) : (
-                            <FlatList data={this.state.tempArray} renderItem={({item}) => (
-                                <Product item={item} 
-                                        goToProduct={() => this.goToProduct(item)}
-                                />
-                            )} />
-                        )
-                    )}
-                </View>
+                                        <Product item={item} 
+                                                goToProduct={() =>  this.goToProduct(item)}
+                                        />
+                                )}/>
+                            )}
+                    </View>
                 )
         )
     }

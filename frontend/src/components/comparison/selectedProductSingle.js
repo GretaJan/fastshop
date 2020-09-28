@@ -32,7 +32,7 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 
 // }
  
-class ProductList extends Component {
+class Product extends Component {
 
     // selectProduct = () => {
     //     this.props.selectProduct(this.props.item.id, this.props.item.subcategory_id);
@@ -69,4 +69,4 @@ class ProductList extends Component {
     }
 }
 
-export default ProductList
+export default Product

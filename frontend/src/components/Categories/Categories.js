@@ -66,7 +66,10 @@ export class Categories extends Component {
 
 Categories.propTypes = {
     getCategories: PropTypes.func.isRequired,
-    categories: PropTypes.array,
+    categories: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        image: PropTypes.string
+    }))
 }
 
 const mapStateToProps = (state) => ({

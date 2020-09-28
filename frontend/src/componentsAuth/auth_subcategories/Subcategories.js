@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { getSubcategories, deleteSubcategory, unmountSubcategories, editSubcategory } from '../../redux/actions/subcategoryActions';
+import { getSubcategories, deleteSubcategory, editSubcategory } from '../../redux/actions/subcategoryActions';
 import ImagePicker from 'react-native-image-picker';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -225,8 +225,8 @@ class Subcategories extends Component {
                     {this.props.subcategories.length == 0 ? (
                         <EmptyList message="The List is empty" background={background} />
                         ) : (
-                        !this.state.inputTriggered ? (
-                            <FlatList data={this.props.subcategories} 
+                            <FlatList data={ !this.state.inputTriggered ? this.props.subcategories : this.state.tempArray} 
+                                    keyExtractor={(item, index) => index.toString()}
                                     onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
                                     onEndReachedThreshold={0.01}
                                     ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
@@ -249,29 +249,7 @@ class Subcategories extends Component {
                                             deleteSubcategory={(item) => this.confirmDeleteSubcategory(item)} 
                                             goToProducts={() => this.goToProducts(item)}
                                         />
-                                )} />
-                        ) : (
-                            <FlatList data={this.state.tempArray} renderItem={({item}) => (
-                                <Subcategory item={item} 
-                                            editId={this.state.editId}
-                                            editName={this.state.editName}
-                                            imageData={this.state.imageData}
-                                            editBackground={this.state.editBackground}
-                                            formatName={this.state.formatName}
-                                            missingName={this.state.missingName}
-                                            incorrectName={this.state.incorrectName}
-                                            formatBackground={this.state.formatBackground}
-                                            triggerEdit={() => this.triggerEdit(item)}
-                                            validateSubmit={() => this.validateSubmit()}
-                                            onChangeName={(value) => this.setState({editName: value})}
-                                            changeImage={() => this.changeImage(item)}
-                                            editSubcategory={() => this.editSubcategory()}
-                                            cancelEdit={() => this.cancelEdit()}
-                                            deleteSubcategory={(item) => this.confirmDeleteSubcategory(item)} 
-                                            goToProducts={() => this.goToProducts(item)}
-                                />
-                            )} />
-                        )
+                                )} />              
                     )}
                 </View>
             )
@@ -290,4 +268,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default withNavigation(connect(mapStateToProps, {getSubcategories, unmountSubcategories, editSubcategory, deleteSubcategory})(Subcategories))
+export default withNavigation(connect(mapStateToProps, {getSubcategories, editSubcategory, deleteSubcategory})(Subcategories))

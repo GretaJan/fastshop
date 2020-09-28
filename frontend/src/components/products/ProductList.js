@@ -16,7 +16,7 @@ class ProductList extends Component {
 
     render() {
         return (
-            <View style={stylesGuest().itemWrap} key={this.props.item.id.toString()} >
+            <View style={stylesGuest().itemWrap} >
                 <TouchableOpacity style={stylesGuest().TextPicWrap } onPress={this.goToProduct}  >
                     {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>

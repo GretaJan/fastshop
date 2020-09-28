@@ -4,15 +4,15 @@ import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 
-class ProductList extends Component {
+class Product extends Component {
 
     goToProduct = () => {
-        this.props.goToProduct()
+        this.props.goToProduct();
     }
 
     render() {
         return (
-            <TouchableOpacity style={stylesGuest().itemWrap} key={this.props.item.id.toString()} onPress={this.goToProduct} >
+            <TouchableOpacity style={stylesGuest().itemWrap} onPress={this.goToProduct} >
                 <View style={stylesGuest().TextPicWrap} >
                     {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>
@@ -31,4 +31,4 @@ class ProductList extends Component {
     }
 }
 
-export default ProductList
+export default Product

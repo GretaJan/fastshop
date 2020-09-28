@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, TextInput } from 'react-native';
+import { View, FlatList, Text, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { getProducts, unmountProducts } from '../../redux/actions/productActions';
+import { getProducts } from '../../redux/actions/productActions';
 import { productSelected } from '../../redux/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -28,14 +28,10 @@ class Products extends Component {
     }
 
     async componentDidMount() {
-        await NetInfo.fetch(status => {
-            if(status.isConnected)
+        // await NetInfo.fetch(status => {
+        //     if(status.isConnected)
                 this.props.getProducts(this.state.id, 1);
-        })
-    }
-
-    componentWillUnmount() {
-        this.props.unmountProducts();
+        // })
     }
 
     handleLoadMore = () => {
@@ -86,7 +82,6 @@ class Products extends Component {
             this.props.productSelected(item1, item2);
         } else {
             this.setState({overload: 'Please select no more than 30 items.'})
-            console.log(this.state.overload)
         }
     }
 
@@ -123,28 +118,18 @@ class Products extends Component {
                         )}
                         {this.getInput()}
                         {(this.props.products.length == 0) ? (
-                            // <View style={backgroundForPages(background).backgroundContainer} >
                                 <EmptyList message="The List is empty" background={background} />
-                            // </View>
                             ) : (
-                            !this.state.inputTriggered ? (
-                                <FlatList data={this.props.products} 
-                                // onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                                <FlatList data={  !this.state.inputTriggered ? this.props.products : this.state.tempArray} 
+                                        keyExtractor={(item, index) => index.toString()}
                                         onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
                                         onEndReachedThreshold={0.01}
                                         ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
                                         renderItem={({item}) => (
-                                    <Product key={item} item={item} 
+                                    <Product item={item} 
                                         selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
                                         goToProduct={() => this.goToProduct(item)} />
                                     )} />
-                            ) : (
-                                <FlatList data={this.state.tempArray} renderItem={({item}) => (
-                                    <Product key={item} item={item} 
-                                        selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
-                                        goToProduct={() => this.goToProduct(item)} />
-                                )} />
-                            )
                         )}
                     </View>
                 )
@@ -163,4 +148,4 @@ const mapStateToProps = state => ({
     comparisonArray: state.selectedProducts.comparisonArray,
 })
 
-export default withNavigation(connect(mapStateToProps, {getProducts, productSelected, unmountProducts})(Products))
+export default withNavigation(connect(mapStateToProps, {getProducts, productSelected })(Products))

@@ -2,6 +2,7 @@ import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCT
 import axios from 'axios';
 
 export const getProducts = (subcategory, page) => async (dispatch) => {
+    console.log(subcategory)
     await dispatch({
         type: LOADING_GET_PRODUCTS,
         loading: page == 1 ? true : false,

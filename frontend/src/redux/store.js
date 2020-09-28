@@ -8,7 +8,6 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 const initialState = {};
 
 export const middleware = [thunk];
-export const storeNoPersistor = createStore(rootReducer, initialState, applyMiddleware(...middleware))
 
 const persistConfig = {
     key: 'root',

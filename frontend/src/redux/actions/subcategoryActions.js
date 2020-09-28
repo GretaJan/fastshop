@@ -35,7 +35,6 @@ export const addSubcategory = (category, data) => async (dispatch) => {
         error: '',
         loading: true
     })
-    console.log("ddd", data)
     return axios.post(`${URL}/addSubcategory/${category}`, data)
         .then((response) => (
             dispatch({

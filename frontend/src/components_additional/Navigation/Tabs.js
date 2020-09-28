@@ -15,7 +15,7 @@ import ListIndicator from './ListIndicator';
 import Categories from '../../components/Categories/Categories';
 import Subcategories from '../../components/subcategories/Subcategories';
 import Products from '../../components/products/Products';
-import Product from '../../components/products/Product';
+import Product from '../../components/products/ProductDetails';
 import LoginPage from '../../components/auth/Login';
 
 //Auth Components:
@@ -344,5 +344,4 @@ const mapStateToProps = state => ({
     isAuthorized: state.auth.isAuthorized,
 })
 
-// export default connect(mapStateToProps, { logOut })(Tabs)
-export default Tabs
+export default connect(mapStateToProps, { logOut })(Tabs)

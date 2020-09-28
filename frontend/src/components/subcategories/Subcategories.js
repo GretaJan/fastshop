@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { getSubcategories, deleteSubcategory, unmountSubcategories } from '../../redux/actions/subcategoryActions';
+import { getSubcategories, deleteSubcategory } from '../../redux/actions/subcategoryActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/SubcategoryStyles';
@@ -10,7 +10,7 @@ import { backgroundForPages } from '../../components_additional/styles/Additiona
 import { colors } from '../../components_additional/styles/Colors';
 
 //Components
-import Subcategory from './SubcategoryList';
+import Subcategory from './Subcategory';
 import Loading from '../../components_additional/Loading';
 import EmptyList from '../../components_additional/EmptyList';
 import Modal from '../../components_additional/Modal';
@@ -29,7 +29,6 @@ class Subcategories extends Component {
     }
 
     componentWillUnmount(){
-        this.props.unmountSubcategories();
     }
 
     loadMore = () => {
@@ -104,20 +103,14 @@ class Subcategories extends Component {
                                 <EmptyList message="The List is empty" background={background} />
                             // </View>
                         ) : (
-                            !this.state.inputTriggered ? (
-                                <FlatList contentContainerStyle={stylesGuest().horizontalWrap} 
-                                        onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
-                                        onEndReachedThreshold={0.01}
-                                        ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
-                                        data={this.props.subcategories} 
-                                        renderItem={({item}) => (
-                                    <Subcategory item={item} goToProducts={() => this.goToProducts(item)} />
-                                )} />
-                            ) : (
-                                <FlatList contentContainerStyle={stylesGuest().horizontalWrap} data={this.state.tempArray} renderItem={({item}) => (
-                                    <Subcategory key={item} item={item} goToProducts={() => this.goToProducts(item)} />
-                                )} />
-                            )    
+                            <FlatList contentContainerStyle={stylesGuest().horizontalWrap} numColumns={3} 
+                                    onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
+                                    onEndReachedThreshold={0.01}
+                                    ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
+                                    data={!this.state.inputTriggered ? this.props.subcategories : this.state.tempArray } 
+                                    renderItem={({item}) => (
+                                <Subcategory item={item} goToProducts={() => this.goToProducts(item) } />
+                            )} />  
                         )}  
                     </View>
                 )
@@ -138,4 +131,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default withNavigation(connect(mapStateToProps, {getSubcategories, deleteSubcategory, unmountSubcategories})(Subcategories))
+export default withNavigation(connect(mapStateToProps, {getSubcategories, deleteSubcategory})(Subcategories))
