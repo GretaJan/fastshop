@@ -1,5 +1,4 @@
-import { ActionSheetIOS } from 'react-native';
-import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, UNMOUNT_SUBCATEGORIES, FRW_TO_SUBCATEGORIES, LOADING_POST_SUBCATEGORY, POST_SUBCATEGORY, POST_SUBCATEGORY_ERROR,  LOADING_EDIT_SUBCATEGORY, EDIT_SUBCATEGORY, EDIT_SUBCATEGORY_ERROR, DELETE_SUBCATEGORY, DELETE_SUBCATEGORY_ERROR } from '../actions/types';
+import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_ERROR, FRW_TO_SUBCATEGORIES, LOADING_POST_SUBCATEGORY, POST_SUBCATEGORY, POST_SUBCATEGORY_ERROR,  LOADING_EDIT_SUBCATEGORY, EDIT_SUBCATEGORY, EDIT_SUBCATEGORY_ERROR, DELETE_SUBCATEGORY, DELETE_SUBCATEGORY_ERROR } from '../actions/types';
 
 const initialState = {
     subcategories: [],
@@ -18,6 +17,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 loading: action.loading,
+                loadingNext: action.loadingNext,
                 error: ''
             }
         case GET_SUBCATEGORIES:
@@ -25,20 +25,15 @@ export default function(state = initialState, action) {
                 ...state,
                 subcategories: action.payload,
                 loading: action.loading,
+                loadingNext: action.loadingNext,
                 error: action.error
             }
         case GET_SUBCATEGORIES_ERROR:
             return {
                 ...state,
                 error: action.error,
-                loading: action.loading
-            }
-        case UNMOUNT_SUBCATEGORIES: 
-            return {
-                ...state,
-                products: action.payload,
-                currentPage: action.currentPage,
-                lastPage: action.lastPage
+                loading: action.loading,
+                loadingNext: action.loadingNext,
             }
         case LOADING_POST_SUBCATEGORY:
             return {

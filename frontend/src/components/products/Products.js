@@ -16,7 +16,6 @@ import Product from './ProductList';
 import Loading from '../../components_additional/Loading';
 import EmptyList from '../../components_additional/EmptyList';
 import Modal from '../../components_additional/Modal';
-import  NetInfo  from '@react-native-community/netinfo';
 
 class Products extends Component {
     state = {
@@ -141,7 +140,6 @@ class Products extends Component {
 
 Products.propTypes = {
     getProducts: PropTypes.func.isRequired,
-    id: PropTypes.number.isRequired,
     tempArray: PropTypes.arrayOf(PropTypes.shape({
         name:  PropTypes.string.isRequired,
         image: PropTypes.any,

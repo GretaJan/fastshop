@@ -33,7 +33,7 @@ class Product extends Component {
 }
 
 Product.propTypes = {
-    goToProduct: PropTypes.func,
+    goToProduct: PropTypes.func.isRequired,
     name: PropTypes.string,
     image: PropTypes.any,
 } 

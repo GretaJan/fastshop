@@ -22,16 +22,16 @@ class Subcategories extends Component {
         tempArray: this.props.subcategories,
         searchName: '',
         inputTriggered: false,
-        showSearchInput: false
+        showSearchInput: false,
     }
 
    componentDidMount  () {
-        this.props.getSubcategories(this.props.route.params.categoryId, 1);
+        this.props.getSubcategories(this.state.id, 1);
     }
 
     loadMore = () => {
         setTimeout(() => {
-            this.props.getSubcategories(this.props.route.params.categoryId, this.props.currentPage + 1);
+            this.props.getSubcategories(this.state.id, this.props.currentPage + 1);
         })
     }
 
@@ -83,45 +83,43 @@ class Subcategories extends Component {
                     <Loading />
                 </View>
                 ) : (
-                (this.props.error !== '') ? (
-                    <View style={backgroundForPages(background).backgroundContainer} >
-                        <Modal title="Warning" 
-                            message={this.props.error} 
-                            close={() => this.props.navigation.goBack()} 
-                            ok="OK" color={colors.bordo} 
-                            borderColor={colors.bordoTransparent}
-                            horizontal={20} vertical={10}/>
-                    </View>
-                ) : (
-                    <View style={stylesGuest(background).container}>
-                    {this.getInput()}
-                        {(this.props.subcategories.length == 0) ? (
-                            <EmptyList message="The List is empty" background={background} />
-                        ) : (
-                            <FlatList contentContainerStyle={stylesGuest().horizontalWrap} numColumns={3} 
-                                    onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
-                                    onEndReachedThreshold={0.01}
-                                    ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
-                                    data={!this.state.inputTriggered ? this.props.subcategories : this.state.tempArray } 
-                                    renderItem={({item}) => (
-                                <Subcategory item={item} goToProducts={() => this.goToProducts(item) } />
-                            )} />  
-                        )}  
-                    </View>
+                    ( this.props.error !== '') ? (
+                        <View style={backgroundForPages(background).backgroundContainer} >
+                            <Modal title="Warning" 
+                                message={this.props.error} 
+                                close={() => this.props.navigation.goBack()} 
+                                ok="OK" color={colors.bordo} 
+                                borderColor={colors.bordoTransparent}
+                                horizontal={20} vertical={10}/>
+                        </View>
+                    ) : (
+                        <View style={stylesGuest(background).container}>
+                        {this.getInput()}
+                            {(this.props.subcategories.length === 0) ? (
+                                <EmptyList message="The List is empty" background={background} />
+                            ) : (
+                                <FlatList contentContainerStyle={stylesGuest().horizontalWrap} numColumns={3} 
+                                        onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
+                                        onEndReachedThreshold={0.01}
+                                        ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
+                                        data={!this.state.inputTriggered ? this.props.subcategories : this.state.tempArray } 
+                                        renderItem={({item}) => (
+                                    <Subcategory item={item} goToProducts={() => this.goToProducts(item) } />
+                                )} />  
+                            )}  
+                        </View>
+                    )
                 )
             )
-        )
+        }
     }
-}
 
 Subcategories.propTypes = {
     getSubcategories: PropTypes.func.isRequired,
-    renderFooter: PropTypes.func.isRequired,
     tempArray: PropTypes.arrayOf(PropTypes.shape({
-        name:  PropTypes.string.isRequired,
+        name:  PropTypes.string,
         image: PropTypes.any,
     })),
-    searchName: PropTypes.string,
     inputTriggered: PropTypes.bool,
     showSearchInput: PropTypes.bool,
     subcategories: PropTypes.arrayOf(PropTypes.shape({

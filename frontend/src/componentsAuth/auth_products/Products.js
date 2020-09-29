@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { authProducts } from '../../components_additional/styles/ProductStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
+import { colors } from '../../components_additional/styles/Colors';
 
 //Components
 import Product from './ProductList';
@@ -84,34 +85,46 @@ class Products extends Component {
                     <Loading />
                 </View>          
                 ) : (
-                    <View style={authProducts(background).container}>
-                        {this.getInput() }
-                        <CircleButton func={() => { this.props.navigation.push("Add_Product",  {subcategoryId: this.state.id, background: background}) }} />
-                        {this.props.products.length == 0 ? (
-                            <EmptyList message="Products list is empty" background={background} />
-                        ) : (
-                            <FlatList data={!this.state.inputTriggered ? this.props.products : this.state.tempArray} 
-                                        keyExtractor={(item, index) => index.toString()}
-                                        onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
-                                        onEndReachedThreshold={0.01}
-                                        ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
-                                        renderItem={({item}) => (
-                                        <Product item={item} 
-                                                goToProduct={() =>  this.goToProduct(item)}
-                                        />
-                                )}/>
-                            )}
-                    </View>
+                    (this.props.error !== '') ? (
+                        <View style={backgroundForPages(background).backgroundContainer} >
+                            <Modal title="Warning" 
+                                message={this.props.error} 
+                                close={() => this.props.navigation.goBack()} 
+                                ok="OK" color={colors.bordo} 
+                                borderColor={colors.bordoTransparent}
+                                horizontal={20} vertical={10}/>
+                        </View>
+                    ) : (
+                        <View style={authProducts(background).container}>
+                            {this.getInput() }
+                            <CircleButton func={() => { this.props.navigation.push("Add_Product",  {subcategoryId: this.state.id, background: background}) }} />
+                            {this.props.products.length == 0 ? (
+                                <EmptyList message="Products list is empty" background={background} />
+                            ) : (
+                                <FlatList data={!this.state.inputTriggered ? this.props.products : this.state.tempArray} 
+                                            keyExtractor={(item, index) => index.toString()}
+                                            onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
+                                            onEndReachedThreshold={0.01}
+                                            ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
+                                            renderItem={({item}) => (
+                                            <Product item={item} 
+                                                    goToProduct={() =>  this.goToProduct(item)}
+                                            />
+                                    )}/>
+                                )}
+                        </View>
+                    )
                 )
-        )
+            )
+        }
     }
-}
 
 Products.propTypes = {
     getProducts: PropTypes.func,
     products: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
-        image: PropTypes.any
+        image: PropTypes.any,
+        background: PropTypes.string
     }))
 } 
 

@@ -40,7 +40,7 @@ class ProductList extends Component {
 
 ProductList.propTypes = {
     selectProduct: PropTypes.func,
-    goToProduct: PropTypes.func,
+    goToProduct: PropTypes.func.isRequired,
     name: PropTypes.string,
     image: PropTypes.any
 }

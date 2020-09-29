@@ -222,35 +222,46 @@ class Subcategories extends Component {
                     )}
                     {this.getInput()}
                     <CircleButton func={() => { this.props.navigation.push("Add_Subcategory", {categoryId: this.state.id, background: background}) }} />
-                    {this.props.subcategories.length == 0 ? (
-                        <EmptyList message="The List is empty" background={background} />
-                        ) : (
-                            <FlatList data={ !this.state.inputTriggered ? this.props.subcategories : this.state.tempArray} 
-                                    keyExtractor={(item, index) => index.toString()}
-                                    onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
-                                    onEndReachedThreshold={0.01}
-                                    ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
-                                    renderItem={({item}) => (
-                                        <Subcategory item={item}
-                                            editId={this.state.editId}
-                                            editName={this.state.editName}
-                                            imageData={this.state.imageData}
-                                            editBackground={this.state.editBackground}
-                                            formatName={this.state.formatName}
-                                            missingName={this.state.missingName}
-                                            incorrectName={this.state.incorrectName}
-                                            formatBackground={this.state.formatBackground}
-                                            triggerEdit={() => this.triggerEdit(item)}
-                                            validateSubmit={() => this.validateSubmit()}
-                                            onChangeName={(value) => this.setState({editName: value})}
-                                            changeImage={() => this.changeImage(item)}
-                                            editSubcategory={() => this.editSubcategory()}
-                                            cancelEdit={() => this.cancelEdit()}
-                                            deleteSubcategory={(item) => this.confirmDeleteSubcategory(item)} 
-                                            goToProducts={() => this.goToProducts(item)}
-                                        />
-                                )} />              
-                    )}
+                    {(this.props.error !== '') ? (
+                    <View style={backgroundForPages(background).backgroundContainer} >
+                        <Modal title="Warning" 
+                            message={this.props.error} 
+                            close={() => this.props.navigation.goBack()} 
+                            ok="OK" color={colors.bordo} 
+                            borderColor={colors.bordoTransparent}
+                            horizontal={20} vertical={10}/>
+                    </View>
+                    ) : (
+                        this.props.subcategories.length == 0 ? (
+                            <EmptyList message="The List is empty" background={background} />
+                            ) : (
+                                <FlatList data={ !this.state.inputTriggered ? this.props.subcategories : this.state.tempArray} 
+                                        keyExtractor={(item, index) => index.toString()}
+                                        onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
+                                        onEndReachedThreshold={0.01}
+                                        ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
+                                        renderItem={({item}) => (
+                                            <Subcategory item={item}
+                                                editId={this.state.editId}
+                                                editName={this.state.editName}
+                                                imageData={this.state.imageData}
+                                                editBackground={this.state.editBackground}
+                                                formatName={this.state.formatName}
+                                                missingName={this.state.missingName}
+                                                incorrectName={this.state.incorrectName}
+                                                formatBackground={this.state.formatBackground}
+                                                triggerEdit={() => this.triggerEdit(item)}
+                                                validateSubmit={() => this.validateSubmit()}
+                                                onChangeName={(value) => this.setState({editName: value})}
+                                                changeImage={() => this.changeImage(item)}
+                                                editSubcategory={() => this.editSubcategory()}
+                                                cancelEdit={() => this.cancelEdit()}
+                                                deleteSubcategory={(item) => this.confirmDeleteSubcategory(item)} 
+                                                goToProducts={() => this.goToProducts(item)}
+                                            />
+                                    )} />   
+                            )           
+                        )}
                 </View>
             )
         )
