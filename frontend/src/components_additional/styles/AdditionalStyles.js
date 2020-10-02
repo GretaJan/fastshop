@@ -73,7 +73,7 @@ export const buttonStyle = (color, width, height) =>  StyleSheet.create({
     },
 });
 
-export const adminButtonStyle = (color, horizontal, vertical) => StyleSheet.create({
+export const adminButtonStyle = (color=colors.mainYellow, horizontal, vertical) => StyleSheet.create({
     buttonWrap: {
         backgroundColor: color,
         borderRadius: 3,
@@ -284,7 +284,7 @@ export const emptyList = (background) => StyleSheet.create({
     }
 });
 
-export const roundButton = (color) => StyleSheet.create({
+export const roundButton = (color=colors.mainWhiteYellow) => StyleSheet.create({
     buttonWrap: {
         position: 'absolute',
         zIndex: 20,
@@ -302,7 +302,7 @@ export const roundButton = (color) => StyleSheet.create({
         shadowRadius: 2, 
     },
     icon: {
-        color: color ? color : colors.mainWhiteYellow,
+        color: color,
         fontSize: 70,
     }
 })

@@ -129,10 +129,7 @@ class Subcategories extends Component {
     }
 
     validateSubmit = () => {
-        let regexColorWord = new RegExp('^[a-zA-Z]{3,}$');
-        let regexHex = new RegExp('#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})');
-        let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
-        let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
+        let colorFormat = new RegExp('^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
 
         if (this.state.editName === '') {
             this.setState({missingName: 'Name is required', formatName: null, incorrectName: true});
@@ -142,8 +139,7 @@ class Subcategories extends Component {
             this.setState({missingName: null, formatName: null, incorrectName: false});
         }
         if( this.state.editBackground !== null ){
-            if(!regexColorWord.test(this.state.editBackground) && !regexHex.test(this.state.editBackground) &&
-                !regRGB.test(this.state.editBackground) && !regRGBA.test(this.state.editBackground)) {
+            if(!colorFormat.test(this.state.editBackground)) {
             this.setState({formatBackground: 'Invalid color format'});
             } else {
                 this.setState({formatBackground: null});

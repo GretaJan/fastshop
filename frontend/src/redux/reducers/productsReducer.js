@@ -1,4 +1,3 @@
-import { ActionSheetIOS } from 'react-native';
 import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, LOADING_GET_PRODUCT, GET_PRODUCT, GET_PRODUCT_ERROR, LOADING_POST_PRODUCT, POST_PRODUCT, POST_PRODUCT_ERROR, LOADING_EDIT_PRODUCT, EDIT_PRODUCT, EDIT_PRODUCT_ERROR, DELETE_PRODUCT, DELETE_PRODUCT_ERROR } from '../actions/types';
 
 const initialState = {
@@ -54,7 +53,7 @@ export default function(state = initialState, action) {
         case GET_PRODUCT:
             return {
                 ...state,
-                product: action.payload.product,
+                product: action.payload,
                 loading: action.loading,
                 error: action.error
             }

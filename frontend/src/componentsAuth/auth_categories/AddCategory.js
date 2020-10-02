@@ -34,6 +34,10 @@ class AddCategory extends Component {
         this.textInputRef.clear();
     } 
 
+    addInput = (name, value) => {
+        this.setState({[name] : value});
+    }
+
     handleChoosePhoto = () => {
         const options = {
             noData: false,
@@ -46,12 +50,7 @@ class AddCategory extends Component {
     }
 
     validateSubmit = () => {
-        let regexColorWord = new RegExp('^[a-zA-Z]{3,}$');
-        let regexHex = new RegExp('#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})');
-        let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
-        let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
-
- 
+        let regexColor = new RegExp('^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
         if (this.state.name.length === 0) {
             this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
         } else if(this.state.name.length < 3 && this.state.name.length > 50) {
@@ -60,9 +59,7 @@ class AddCategory extends Component {
             this.setState({missingName: null, formatName: null, incorrectName: false});
         }
         if(this.state.background.length > 0) {
-            if (!regexColorWord.test(this.state.background) && !regexHex.test(this.state.background) 
-                && !regRGB.test(this.state.background) && !regRGBA.test(this.state.background) 
-                ) {
+            if (!regexColor.test(this.state.background)) {
             this.setState({formatBackground: 'Invalid color format'});
                 } else {
                 this.setState({formatBackground: null});
@@ -103,11 +100,11 @@ class AddCategory extends Component {
                         <View style={categoryAdd().singleWrap}>
                             {this.state.missingName && <Error message={this.state.missingName}  left={'10%'} /> }
                             {this.state.formatName && <Error message={this.state.formatName} left={'10%'}/> }
-                            <TextInput style={categoryAdd(this.state.incorrectName).textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.setState({name: value})}} value={this.state.name} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={categoryAdd(this.state.incorrectName).textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.addInput('name', value) }} value={this.state.name} ref={ref => this.textInputRef = ref} />
                         </View>
                         <View style={categoryAdd().singleWrap}>
                             {this.state.formatBackground && <Error message={this.state.formatBackground} left={'10%'}/> }
-                            <TextInput style={categoryAdd(this.state.formatBackground).textInput} type="text" autoCorrect={false}  placeholder="background color" onChangeText={value => { this.setState({background: value})}} value={this.state.background} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={categoryAdd(this.state.formatBackground).textInput} type="text" autoCorrect={false}  placeholder="background color" onChangeText={value => { this.addInput('background', value) }} value={this.state.background} ref={ref => this.textInputRef = ref} />
                         </View>
                     </View>
                     <View style={categoryAdd().imageBtnWrap} >

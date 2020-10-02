@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { roundButton } from './styles/AdditionalStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 

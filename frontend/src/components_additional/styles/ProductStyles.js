@@ -81,7 +81,7 @@ export const stylesGuestSingle = (background) => StyleSheet.create( {
         top: 5,
         zIndex: 1,
     },
-    image: {
+    imageStyle: {
         height: '100%',
         width: '100%',
         resizeMode: 'cover',

@@ -31,12 +31,6 @@ export class Categories extends Component {
         imageData: null,
         hasError: false
     }
-    static getDerivedStateFromError(error) {
-        return { hasError: true }
-    }
-    componentDidCatch(error, errorInfo) {
-        logErrorToMyService(error, errorInfo);
-    }
 
     componentDidMount() {
         this.props.getCategories();
@@ -48,6 +42,22 @@ export class Categories extends Component {
 
     deleteCategory = () => {
         this.props.deleteCategory(this.state.deleteId);
+    }
+
+    showDeleteModal = () => {
+        return (
+            <ConfirmModal message="Are you sure you want to delete this item? " 
+                confirm={this.deleteCategory}
+                title="Delete action"
+                close={this.cancelDelete}
+                background={colors.mainWhiteYellow}
+                iconColor={colors.lightBurgundy}
+                borderColor={colors.bordoTransparent}
+                colorOne={colors.lightBurgundy}
+                colorTwo={colors.mediumGreen}
+                horizontal={20} vertical={15}
+            />
+        )
     }
 
     confirmDelete = (id) => {
@@ -84,10 +94,7 @@ export class Categories extends Component {
     }
 
     validateSubmit = () => {
-        let regexColorWord = new RegExp('^[a-zA-Z]{3,}$');
-        let regexHex = new RegExp('#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})');
-        let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
-        let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
+        let regexColor = new RegExp('^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
 
         if (this.state.editName.length === 0) {
             this.setState({missingName: 'Name is required', formatName: null, incorrectName: true});
@@ -97,8 +104,7 @@ export class Categories extends Component {
             this.setState({missingName: null, formatName: null, incorrectName: false});
         }
         if(this.state.editBackground !== null ){
-            if(!regexColorWord.test(this.state.editBackground) && !regexHex.test(this.state.editBackground) &&
-                !regRGB.test(this.state.editBackground) && !regRGBA.test(this.state.editBackground)) {
+            if(!regexColor.test(this.state.editBackground)) {
             this.setState({formatBackground: 'Invalid color format'});
             } else {
                 this.setState({formatBackground: null});
@@ -160,25 +166,13 @@ export class Categories extends Component {
                     </View>
                 ) : (
                     <View style={authCategory().container}  >
-                        {this.state.deleteId !== '' &&
-                            <ConfirmModal message="Are you sure you want to delete this item? " 
-                                        confirm={this.deleteCategory}
-                                        title="Delete action"
-                                        close={this.cancelDelete}
-                                        background={colors.mainWhiteYellow}
-                                        iconColor={colors.lightBurgundy}
-                                        borderColor={colors.bordoTransparent}
-                                        colorOne={colors.lightBurgundy}
-                                        colorTwo={colors.mediumGreen}
-                                        horizontal={20} vertical={15}
-                            />
-                        }
+                        {this.state.deleteId !== '' && this.showDeleteModal }
                         <CircleButton func={() => { this.props.navigation.push("Add_Category") }} />
-                        { this.props.categories.length == 0 ? (
+                        { this.props.categories.length === 0 ? (
                             <EmptyList message="The List is empty" />
                             ) : (
                             <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} keyExtractor={(item, index) => index.toString()} renderItem={({item}) => (
-                            <CategoryList key={item} item={item} 
+                            <CategoryList item={item} 
                                     imageData={this.state.imageData}
                                     editId={this.state.editId}
                                     name={this.state.editName}

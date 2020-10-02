@@ -3,7 +3,7 @@ import {BoxShadow} from 'react-native-shadow';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
-export const authCategory = (background, error) => StyleSheet.create({
+export const authCategory = (background=colors.mainWhiteYellow, error) => StyleSheet.create({
     container: {
         backgroundColor: colors.mainYellow,
         flex: 1,
@@ -177,12 +177,11 @@ export const authCategory = (background, error) => StyleSheet.create({
     backgroundEditWrap: {
         flex: 1,
         flexDirection: 'row',
-        // justifyContent: 'center',
         alignItems: 'center',
         width: 150,
     },
     backgroundColor: {
-        backgroundColor:background ? background : colors.mainWhiteYellow,
+        backgroundColor: background,
         height: 35,
         width: 35,
         borderColor: colors.mainBlack,

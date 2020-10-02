@@ -49,10 +49,7 @@ class AddSubcategory extends Component {
     }
 
     validateSubmit = () => {
-        let regexColorWord = new RegExp('^[a-zA-Z]{3,}$');
-        let regexHex = new RegExp('#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})');
-        let regRGBA = new RegExp('^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$');
-        let regRGB = new RegExp('^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
+        let colorFormat = new RegExp('^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
 
         if (this.state.name.length === 0) {
             this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
@@ -62,9 +59,7 @@ class AddSubcategory extends Component {
             this.setState({missingName: null, formatName: null, incorrectName: false});
         }
         if(this.state.background !== '') {
-            if (!regexColorWord.test(this.state.background) && !regexHex.test(this.state.background) 
-                && !regRGB.test(this.state.background) && !regRGBA.test(this.state.background) 
-                ) {
+            if (!colorFormat.test(this.state.background)) {
             this.setState({formatBackground: 'Invalid color format'});
                 } else {
                 this.setState({formatBackground: null});

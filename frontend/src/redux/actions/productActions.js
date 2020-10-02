@@ -36,14 +36,14 @@ export const getProduct = (subcategory, product) => async (dispatch) => {
         error: ''
     })
     return axios.get(`${URL}/product/${subcategory}/${product}`)
-        .then(response => {
-                return dispatch({
+        .then(response => (
+                dispatch({
                     type: GET_PRODUCT,
                     payload: response.data,
                     loading: false,
                     error: ''
                 })
-            }
+            )
         ).catch(err => { 
             return dispatch({
                 type: GET_PRODUCT_ERROR,

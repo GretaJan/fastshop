@@ -62,9 +62,8 @@ class AddProduct extends Component {
     validateSubmit = () => {
         const { missingName, formatName, incorrectName, formatEnergy, formatFat, formatSaturated, formatCarbs, formatSugar, formatFiber, formatProtein, formatSalt, formatBackground } = this.state;
         let regexConstEnergy = new RegExp('^[0-9]*$');
-        let decimalFormatDot = new RegExp('^[0-9]{1,2}[.][0-9]{1,2}$');
-        let decimalFormatComma = new RegExp('^[0-9]{1,2}\,[0-9]{1,2}$');
-        let colorFormat = new RegExp('^([a-zA-Z]{3,})|(#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3}))|(rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)])|(rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)])$')
+        let decimalFormat = new RegExp('^([1-9]|([1-9][0-9]))(\.|\,)[0-9]{1,2}$');
+        let colorFormat = new RegExp('^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
         
         if (this.state.name === null) {
             this.setState({missingName: 'Product name is required', formatName: null, incorrectName: true});
@@ -78,39 +77,39 @@ class AddProduct extends Component {
         } else if(this.state.energy === '' || regexConstEnergy.test(this.state.energy)) {
             this.setState({formatEnergy: null});
         }
-        if(this.state.fat !== '' && !decimalFormatDot.test(this.state.fat) && !decimalFormatComma.test(this.state.fat)) {
+        if(this.state.fat !== '' && !decimalFormat.test(this.state.fat)) {
             this.setState({formatFat: 'Format: 0.0/00.0'});
-        } else if(this.state.fat === '' || decimalFormatDot.test(this.state.fat) || decimalFormatComma.test(this.state.fat)){
+        } else if(this.state.fat === '' || decimalFormat.test(this.state.fat)){
             this.setState({formatFat: null});
         } 
-        if(this.state.saturated !== '' && !decimalFormatDot.test(this.state.saturated) && !decimalFormatComma.test(this.state.saturated)) {
+        if(this.state.saturated !== '' && !decimalFormat.test(this.state.saturated)) {
             this.setState({formatSaturated: 'Format: 0.0/00.0'});
-        } else if(this.state.saturated === '' || decimalFormatDot.test(this.state.saturated) || decimalFormatComma.test(this.state.saturated)){
+        } else if(this.state.saturated === '' || decimalFormat.test(this.state.saturated)){
             this.setState({formatSaturated: null});
         }
-        if(this.state.carbs !== '' && !decimalFormatDot.test(this.state.carbs) && !decimalFormatComma.test(this.state.carbs)) {
+        if(this.state.carbs !== '' && !decimalFormat.test(this.state.carbs)) {
             this.setState({formatCarbs: 'Format: 0.0/00.0'});
-        } else if(this.state.carbs === '' || decimalFormatDot.test(this.state.carbs) || decimalFormatComma.test(this.state.carbs)){
+        } else if(this.state.carbs === '' || decimalFormat.test(this.state.carbs)){
             this.setState({formatCarbs: null});
         }
-        if(this.state.sugar !== '' && !decimalFormatDot.test(this.state.sugar) && !decimalFormatComma.test(this.state.sugar)) {
+        if(this.state.sugar !== '' && !decimalFormat.test(this.state.sugar)) {
             this.setState({formatSugar: 'Format: 0.0/00.0'});
-        } else if(this.state.sugar === '' || decimalFormatDot.test(this.state.sugar) || decimalFormatComma.test(this.state.sugar)){
+        } else if(this.state.sugar === '' || decimalFormat.test(this.state.sugar)){
             this.setState({formatSugar: null});
         }
-        if(this.state.fiber !== '' && !decimalFormatDot.test(this.state.fiber) && !decimalFormatComma.test(this.state.fiber)) {
+        if(this.state.fiber !== '' && !decimalFormat.test(this.state.fiber)) {
             this.setState({formatFiber: 'Format: 0.0/00.0'});
-        } else if(this.state.fiber === '' || decimalFormatDot.test(this.state.fiber) || decimalFormatComma.test(this.state.fiber)){
+        } else if(this.state.fiber === '' || decimalFormat.test(this.state.fiber)){
             this.setState({formatFiber: null});
         }
-        if(this.state.protein !== '' && !decimalFormatDot.test(this.state.protein) && !decimalFormatComma.test(this.state.protein)) {
+        if(this.state.protein !== '' && !decimalFormat.test(this.state.protein)) {
             this.setState({formatProtein: 'Format: 0.0/00.0'});
-        } else if(this.state.protein === '' || decimalFormatDot.test(this.state.protein) || decimalFormatComma.test(this.state.protein)){
+        } else if(this.state.protein === '' || decimalFormat.test(this.state.protein)){
             this.setState({formatProtein: null});
         }
-        if(this.state.salt !== '' && !decimalFormatDot.test(this.state.salt) && !decimalFormatComma.test(this.state.salt)) {
+        if(this.state.salt !== '' && !decimalFormat.test(this.state.salt)) {
             this.setState({formatSalt: 'Format: 0.0/00.0'});
-        } else if(this.state.salt === '' || decimalFormatDot.test(this.state.salt) || decimalFormatComma.test(this.state.salt)){
+        } else if(this.state.salt === '' || decimalFormat.test(this.state.salt)){
             this.setState({formatSalt: null});
         }
         if(this.state.background !== '' && !colorFormat.test(this.state.background)) {

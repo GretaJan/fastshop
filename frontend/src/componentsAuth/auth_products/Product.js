@@ -90,7 +90,7 @@ class Product extends Component {
     }
     editBackground = () => {
         const { componentValue } = this.state;
-        let colorFormat = new RegExp('^([a-zA-Z]{3,})|(#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3}))|(rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)])|(rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)])$')
+        let colorFormat = new RegExp('^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
         if(componentValue !== '' && !colorFormat.test(componentValue)) {
             this.setState({errorMsg: 'Invalid color format'});
         } else {
@@ -113,9 +113,9 @@ class Product extends Component {
 
     editDecimals = () => {
         const { componentValue } = this.state;
-        let decimalFormatDot = new RegExp('^[0-9]{1,2}[.][0-9]{1,2}$');
-        let decimalFormatComma = new RegExp('^[0-9]{1,2}\,[0-9]{1,2}$');
-        if(componentValue !== '' && !decimalFormatDot.test(componentValue) && !decimalFormatComma.test(componentValue)) {
+        let decimalFormat = new RegExp('^([1-9]|([1-9][0-9]))(\.|\,)[0-9]{1,2}$');
+        let decimalFormatComma = new RegExp('^([1-9]|([1-9][0-9]))\,[0-9]{1,2}$');
+        if(componentValue !== '' && !decimalFormat.test(componentValue)) {
             this.setState({errorMsg: 'Format: 0.0/00.0'});
         } else {
             let value = componentValue;
@@ -201,7 +201,7 @@ class Product extends Component {
                 ) : (
                 this.props.error !== '' ? (
                     <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
-                        <LoadingError message={this.props.error} />
+                        <Error message={this.props.error} />
                     </View>
                 ) : ( 
                     <ScrollView>
@@ -299,10 +299,8 @@ Product.propTypes = {
         component: PropTypes.number,
         measure: PropTypes.string.isRequired
     })),
-    product: PropTypes.objectOf(PropTypes.shape({
-        name:  PropTypes.string.isRequired,
-        image: PropTypes.any,
-    }))
+    image: PropTypes.any,
+    background: PropTypes.string
 }
 
 const mapStateToProps = (state) => ({
