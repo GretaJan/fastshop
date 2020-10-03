@@ -175,7 +175,7 @@ class Products extends Component {
                     </View>
                     {(objectLength == 0) ? (
                         <View style={productWrap().btnTwo}>
-                            <TouchableOpacity style={productWrap().iconWrapTwo} onPress={ this.goToCriteriaPage } >
+                            <TouchableOpacity testID="test-btn" style={productWrap().iconWrapTwo} onPress={ this.goToCriteriaPage } >
                                 <IonIcon name="ios-calculator" style={productWrap().iconItem} />
                             </TouchableOpacity>
                             <View style={productWrap().textWrap} >
@@ -216,5 +216,4 @@ const mapStateToProps = state => ({
     result: state.selectedProducts.result,
 })
 
-// export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray})(Products))
-export default connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray})(Products)
+export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray})(Products))

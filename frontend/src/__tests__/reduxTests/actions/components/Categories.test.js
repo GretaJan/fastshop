@@ -14,7 +14,6 @@ import MockAdapter from 'axios-mock-adapter';
 const mock = new MockAdapter(axios);
 import checkPropTypes from 'check-prop-types';
 
-
 const setUp = () => {
     const reducer = combineReducers({ categories: categoriesReducer })
     const store = testStore(reducer);

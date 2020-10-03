@@ -14,11 +14,11 @@ describe('Edit category component actions', () => {
             iconColor: 'green',
             colorOne: 'yellow',
             colorTwo: 'grey',
-            horizontal: 10,
+            horizontal: 12,
             vertical: 15
         }
         let component = shallow(<DeleteModal {...props}/>)
         let buttons = component.find('Button');
-        expect(buttons).toHaveLength(2)
+        expect(buttons).toHaveLength(2);
     })
 })

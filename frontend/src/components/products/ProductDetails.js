@@ -38,7 +38,7 @@ class ProductDetails extends Component {
     }
 
     selectProduct = () => {
-        this.props.productSelected(this.props.product.id, this.props.product.subcategory_id )
+        this.props.productSelected(this.props.product.subcategory_id, this.props.product.id )
     }
 
     render() {

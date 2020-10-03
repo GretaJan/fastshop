@@ -4,6 +4,7 @@ import { modalConfirm, modalStyle } from './styles/AdditionalStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import StyledButton from './AdminButton';
 import { colors } from './styles/Colors';
+import PropTypes from 'prop-types';
 
 const Animations = require('./styles/Animations.js')
 
@@ -13,7 +14,6 @@ const Modal = ({message, confirm, title, close, background, borderColor, iconCol
     useEffect(() => {
         Animations.buttonScale(scale);
     }, [])
-
     return (
         <View style={modalStyle().container} >
             <Animated.View style={modalConfirm(background, scale).itemContainer} >
@@ -34,5 +34,16 @@ const Modal = ({message, confirm, title, close, background, borderColor, iconCol
         </View>
     )
 } 
-
+Modal.propTypes = {
+    message: PropTypes.string,
+    confirm: PropTypes.func,
+    close: PropTypes.func,
+    background: PropTypes.string,
+    borderColor: PropTypes.string,
+    iconColor: PropTypes.string,
+    colorOne: PropTypes.string,
+    colorTwo: PropTypes.string,
+    horizontal: PropTypes.number,
+    vertical: PropTypes.number,
+}
 export default Modal

@@ -2,31 +2,31 @@ import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEAR_RESULT
             SORT_ARRAY, GO_TO_LIST, URL } from './types';
 import axios from 'axios';
 
-export const productSelected = (product, subcategory) => dispatch => {
-    axios.get(URL + '/product/' + subcategory + '/' +  product)
-        .then(product => {
+export const productSelected = (subcategory, product) => dispatch => {
+    return axios.get(`${URL}/product/${subcategory}/${product}`)
+        .then(result => (
             dispatch({
                 type: PRODUCT_SELECTED,
-                payload: product.data.product,
+                payload: result.data,
                 result: {},
             })
-        })
+        ))
 }
 
 export const deleteProductFromList = (product) => dispatch => {
-    dispatch({
+    return dispatch({
         type: REMOVE_SELECTED_PRODUCT,
         payload: product
     })
 }
 
 export const compare = (result) => dispatch => {
-    let firstLink = URL + '/product/' + result.healthier.subId + '/' +  result.healthier.id;
-    let secondLink = URL + '/product/' + result.unhealthier.subId + '/' +  result.unhealthier.id;
+    let firstLink = `${URL}/product/${result.healthier.subId}/${result.healthier.id}`;
+    let secondLink = `${URL}/product/${result.unhealthier.subId}/${result.unhealthier.id}`;
 
     const requestOne = axios.get(firstLink);
     const requestTwo = axios.get(secondLink);
-    axios.all([requestOne, requestTwo])
+    return axios.all([requestOne, requestTwo])
         .then(axios.spread((...responses) => {
             const responseOne = responses[0];
             const responseTwo = responses[1];
@@ -34,7 +34,7 @@ export const compare = (result) => dispatch => {
                 healthy: responseOne.data.product,
                 unhealthy: responseTwo.data.product
             }
-            dispatch({
+            return dispatch({
                 type: COMPARE_RESULT,
                 payload: result,
             })
