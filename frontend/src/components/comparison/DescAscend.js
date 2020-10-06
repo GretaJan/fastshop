@@ -57,10 +57,6 @@ const DescAscend = ({ selectedProducts, sortArray, navigation }) => {
             }
             return comparison
         }
-
-        console.log("Trigger", desc);
-        console.log("SORTED: ", selectedProducts);
-
         let sortedArray = selectedProducts.sort(compare);
        
         await sortArray(sortedArray);

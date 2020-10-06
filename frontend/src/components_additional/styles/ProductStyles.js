@@ -69,6 +69,7 @@ export const stylesGuestSingle = (background) => StyleSheet.create( {
         textAlign: 'center',
         alignItems:'center',
         backgroundColor: colors.mainWhiteYellow,
+        width: Dimensions.get('window').width /1,
     },
     imageContainer: {
         // width: Dimensions.get('window').width /2.3,
@@ -354,7 +355,7 @@ export const authProduct = (color, error) => StyleSheet.create({
      listItemWrap: {
         flex: 1,
         flexDirection: 'row',
-        height: 100,
+        height: 80,
         alignItems: 'center',
         // paddingBottom: 10,
         borderBottomColor: '#F7F7F7',
@@ -415,6 +416,7 @@ export const authProduct = (color, error) => StyleSheet.create({
     },
     nameItemBackground: {
         fontSize: 20,
+        marginLeft: 30,
         flex: .9,
     },
     nameItemInput: {
@@ -425,7 +427,6 @@ export const authProduct = (color, error) => StyleSheet.create({
         flex: .98,
         height: 38,
         paddingVertical: 0,
-        left: -4,
         borderColor: colors.bordo,
         borderWidth: error ? .7 : 0,
          // Shadow
@@ -442,22 +443,23 @@ export const authProduct = (color, error) => StyleSheet.create({
     },
 });
 
-export const postProductStyle = (error, background) => StyleSheet.create({
+export const postProductStyle = (error = null, background) => StyleSheet.create({
     container: {
         backgroundColor: background ? background : colors.mainYellow,
         // height: Dimensions.get('window').height /1,
         paddingHorizontal: 30,
     },
     inputsWrap: {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
+        // display: 'flex',
+        // flexDirection: 'row',
+        // flexWrap: 'wrap',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
         top: 10,
     },
     textInputName: {
         zIndex:10,
-        width: '99.5%',
+        width: '80%',
         fontSize: 17,
         height: 45,
         backgroundColor: colors.mainWhiteYellow,
@@ -496,9 +498,9 @@ export const postProductStyle = (error, background) => StyleSheet.create({
             shadowRadius: 2, 
     },
     singleWrap: {
-        // flex: 1,
+        flex: .5,
         flexDirection: 'row',
-        // justifyContent: 'center',
+        justifyContent: 'center',
         alignItems: 'center',
         marginTop: 22,
     },

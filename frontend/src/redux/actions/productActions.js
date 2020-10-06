@@ -29,8 +29,8 @@ export const getProducts = (subcategory, page) => async (dispatch) => {
         })
 } 
 
-export const getProduct = (subcategory, product) => async (dispatch) => {
-    await dispatch({
+export const getProduct = (subcategory, product) => (dispatch) => {
+    dispatch({
         type: LOADING_GET_PRODUCT,
         loading: true,
         error: ''

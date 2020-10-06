@@ -26,14 +26,14 @@ class ProductDetails extends Component {
         await this.props.getProduct( this.state.subcategoryId, this.state.productId);
         // })
         this.setState({productDetails: [
-            { title: 'Energy', component: this.props.product.energy, measure: 'kcal' },
-            { title: 'Fat', component: this.props.product.fat, measure: 'g' },
-            { title: 'Saturated fat', component: this.props.product.saturated, measure: 'g' },
+            { title: 'Energy', component: this.props.product.product.energy, measure: 'kcal' },
+            { title: 'Fat', component: this.props.product.product.fat, measure: 'g' },
+            { title: 'Saturated fat', component: this.props.product.product.saturated, measure: 'g' },
             { title: 'Carbohidrates', component: this.props.product.carbs, measure: 'g' },
-            { title: 'Sugar', component: this.props.product.sugar, measure: 'g' },
-            { title: 'Fiber', component: this.props.product.fiber, measure: 'g' },
-            { title: 'Protein', component: this.props.product.protein, measure: 'g' },
-            { title: 'Salt', component: this.props.product.salt, measure: 'g' },
+            { title: 'Sugar', component: this.props.product.product.sugar, measure: 'g' },
+            { title: 'Fiber', component: this.props.product.product.fiber, measure: 'g' },
+            { title: 'Protein', component: this.props.product.product.protein, measure: 'g' },
+            { title: 'Salt', component: this.props.product.product.salt, measure: 'g' },
         ]})
     }
 

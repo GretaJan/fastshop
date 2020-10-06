@@ -101,25 +101,25 @@ describe('Product GET requests', () => {
                 image: "http://10.0.2.2:80/Asmeniniai/fastshop/backend/laravel/public/uploads/categories/4IcCdyAKyX.png",
             }
         );
-        await store.dispatch(getProduct(subcategoryId, productId)).then((data) => {
-            // let expectedActions = [
-            //     {
-            //         type: LOADING_GET_PRODUCT, 
-            //         error: '',
-            //         loading: true
-            //     },
-            //     {
-            //         type: GET_PRODUCT, 
-            //         payload: {
-            //             id: 1,
-            //             name: "Beverage product",
-            //             image: "http://10.0.2.2:80/Asmeniniai/fastshop/backend/laravel/public/uploads/categories/4IcCdyAKyX.png"
-            //         },
-            //         loading: false,
-            //         error: ''
-            //     }
-            // ];
-            expect(store.getActions()[1]).toEqual(data);
+        await store.dispatch(getProduct(subcategoryId, productId)).then(() => {
+            let expectedActions = [
+                {
+                    type: LOADING_GET_PRODUCT, 
+                    error: '',
+                    loading: true
+                },
+                {
+                    type: GET_PRODUCT, 
+                    payload: {
+                        id: 1,
+                        name: "Beverage product",
+                        image: "http://10.0.2.2:80/Asmeniniai/fastshop/backend/laravel/public/uploads/categories/4IcCdyAKyX.png"
+                    },
+                    loading: false,
+                    error: ''
+                }
+            ];
+            expect(store.getActions()).toEqual(expectedActions);
         })
     });
     it('given incorrect data by GET single product request, axios fails passing single product to REDUCER and returns error', async () => {
@@ -157,25 +157,25 @@ describe('product POST actions', () => {
         mock.onPost(`${URL}/addProduct/${subcategoryId}`).reply(201, 
             data
         );
-        await store.dispatch(addProduct(subcategoryId, data)).then((data) => {
-            // let expectedActions = [
-            //     {
-            //         type: LOADING_POST_PRODUCT,
-            //         error: '',
-            //         loading: true
-            //     },
-            //     {
-            //         type: POST_PRODUCT,
-            //         payload: {
-            //             id: 12,
-            //             name: "Product added",
-            //             fat: 10.5
-            //         },
-            //         error: '',
-            //         loading: false 
-            //     }
-            // ];
-            expect(store.getActions()[1]).toEqual(data);
+        await store.dispatch(addProduct(subcategoryId, data)).then(() => {
+            let expectedActions = [
+                {
+                    type: LOADING_POST_PRODUCT,
+                    error: '',
+                    loading: true
+                },
+                {
+                    type: POST_PRODUCT,
+                    payload: {
+                        id: 12,
+                        name: "Product added",
+                        fat: 10.5
+                    },
+                    error: '',
+                    loading: false 
+                }
+            ];
+            expect(store.getActions()).toEqual(expectedActions);
         })
     });
     it('given correct data by POST request, error is passed to REDUCER', async () => {
@@ -217,7 +217,7 @@ describe('products PUT actions',() => {
                 name: 'Updated name',
             }
         );
-        await store.dispatch(editProduct(subcategoryId, productId, data)).then((data) => {
+        await store.dispatch(editProduct(subcategoryId, productId, data)).then(() => {
             let expectedActions = [
                 {
                     type: LOADING_EDIT_PRODUCT,
@@ -234,7 +234,7 @@ describe('products PUT actions',() => {
                     loading: false
                 }
             ];
-            expect(store.getActions()[1]).toEqual(data);
+            expect(store.getActions()).toEqual(expectedActions);
         })
     })
     it('given incorrect data by PUT request, error is passed to REDUCER', async () => {

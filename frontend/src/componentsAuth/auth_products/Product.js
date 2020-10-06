@@ -14,14 +14,13 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 //Components
 import Loading from '../../components_additional/Loading';
-import LoadingError from '../../components_additional/Error';
 import ConfirmModal from '../../components_additional/ModalCrud';
 import Row from './DetailsRows';
 import Error from '../../components_additional/ErrorMsg';
 
 class Product extends Component {
     state = {
-        id: this.props.product.productId,
+        id: this.props.route.params.productId,
         subcategoryId: this.props.route.params.subcategoryId,
         title: this.props.route.params.name,
         image: null,
@@ -38,18 +37,18 @@ class Product extends Component {
     async componentDidMount() {
         await this.props.getProduct( this.props.route.params.subcategoryId, this.props.route.params.productId);
         this.setState({
-            image: this.props.product.image,
+            image: this.props.product.product.image,
             productComponents: [
-                { title: 'Name', component: this.props.product.name },
-                { title: 'Background', component: this.props.product.background },
-                { title: 'Energy', component: this.props.product.energy, measure: 'kcal' },
-                { title: 'Fat', component: this.props.product.fat, measure: 'g' },
-                { title: 'Saturated fat', component: this.props.product.saturated, measure: 'g' },
-                { title: 'Carbohidrates', component: this.props.product.carbs, measure: 'g' },
-                { title: 'Sugar', component: this.props.product.sugar, measure: 'g' },
-                { title: 'Fiber', component: this.props.product.fiber, measure: 'g' },
-                { title: 'Protein', component: this.props.product.protein, measure: 'g' },
-                { title: 'Salt', component: this.props.product.salt, measure: 'g' },
+                { title: 'Name', component: this.props.product.product.name },
+                { title: 'Background', component: this.props.product.product.background },
+                { title: 'Energy', component: this.props.product.product.energy, measure: 'kcal' },
+                { title: 'Fat', component: this.props.product.product.fat, measure: 'g' },
+                { title: 'Saturated fat', component: this.props.product.product.saturated, measure: 'g' },
+                { title: 'Carbohidrates', component: this.props.product.product.carbs, measure: 'g' },
+                { title: 'Sugar', component: this.props.product.product.sugar, measure: 'g' },
+                { title: 'Fiber', component: this.props.product.product.fiber, measure: 'g' },
+                { title: 'Protein', component: this.props.product.product.protein, measure: 'g' },
+                { title: 'Salt', component: this.props.product.product.salt, measure: 'g' },
             ]});
     }
 
@@ -224,12 +223,12 @@ class Product extends Component {
                         <View style={authProduct().imageIconWrap} >
                             <TouchableOpacity style={stylesGuestSingle().imageContainer}  onPress={() => this.imageInput()}>
                         {imageData ? (
-                                <Image style={stylesGuestSingle().image} source={{ uri: imageData.uri }} />
+                                <Image style={stylesGuestSingle().imageStyle} source={{ uri: imageData.uri }} />
                             ) : (
                                 image ? (
-                                    <Image style={stylesGuestSingle().image} source={{ uri: image}} onPress={() => this.imageInput()} />
+                                    <Image style={stylesGuestSingle().imageStyle} source={{ uri: image}} onPress={() => this.imageInput()} />
                                     ) : (
-                                    <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')} onPress={() => this.imageInput()} />
+                                    <Image style={stylesGuestSingle().imageStyle} source={require('../../components_additional/images/noimage.jpeg')} onPress={() => this.imageInput()} />
                                 )
                             )}   
                                 </TouchableOpacity> 
@@ -241,12 +240,12 @@ class Product extends Component {
                             <View style={authProduct().imageIconWrap} >
                                 <TouchableOpacity style={stylesGuestSingle().imageContainer} onPress={() => this.changeImage()} >
                                 {imageData ? (
-                                        <Image style={stylesGuestSingle().image} source={{ uri: imageData.uri }} />
+                                        <Image style={stylesGuestSingle().imageStyle} source={{ uri: imageData.uri }} />
                                     ) : (
                                         image ? (
-                                            <Image style={stylesGuestSingle().image} source={{uri: image}} />
+                                            <Image style={stylesGuestSingle().imageStyle} source={{uri: image}} />
                                         ) : (
-                                            <Image style={stylesGuestSingle().image} source={require('../../components_additional/images/noimage.jpeg')} />
+                                            <Image style={stylesGuestSingle().imageStyle} source={require('../../components_additional/images/noimage.jpeg')} />
                                         )
                                     )}
                                     <Icon style={authProduct().uploadIcon} name="upload"/>

@@ -259,7 +259,6 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                 if(energyQuant < parsedEnergy) {
                     energyQuant =  array[i].energy;
                     energyComponent = array[i];
-                    console.log('energyQuantONE', energyQuant)
                 } else if(energyLeast > parsedEnergy){
                     energyLeast =  array[i].energy;
                     energyMismatch = array[i];
@@ -277,22 +276,18 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                 if(fatQuant < parsedFat) {
                     fatQuant = array[i].fat;
                     fatComponent = array[i];
-                    console.log("FAT MOST BIGGER", fatComponent.name, ": ", fatQuant )
                 } else if(fatLeast < parsedFat) {
                     fatLeast = array[i].fat;
                     fatMismatch = array[i];
                     fatLeast = array[i].fat;
-                    console.log("FAT MOST SMALLER", fatMismatch.name, ": ", fatLeast)
                 } 
             } else if(bulletFatActiveLeast) {
                 if(fatLeast > parsedFat) {
                     fatLeast = array[i].fat;
                     fatComponent = array[i];
-                    console.log("fatlmost Fat 6666 ", fatComponent)
                 } else if(fatQuant < parsedFat) {
                     fatQuant = array[i].fat;
                     fatMismatch = array[i];
-                    console.log("fatlmost Fat ", fatMismatch)
                 }
             }
 
@@ -480,7 +475,6 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         if(vitaminsMismatch !== null) {
             mismatchArray.push(vitaminsMismatch);
         }
-        console.log("check error", matchArray, "2: ", mismatchArray)
         countMatch(matchArray, mismatchArray);
     }
 

@@ -100,11 +100,11 @@ class AddCategory extends Component {
                         <View style={categoryAdd().singleWrap}>
                             {this.state.missingName && <Error message={this.state.missingName}  left={'10%'} /> }
                             {this.state.formatName && <Error message={this.state.formatName} left={'10%'}/> }
-                            <TextInput style={categoryAdd(this.state.incorrectName).textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => { this.addInput('name', value) }} value={this.state.name} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={categoryAdd(this.state.incorrectName).textInput} type="text" autoCorrect={false}  placeholder="name" onChangeText={value => this.addInput('name', value)} value={this.state.name} ref={ref => this.textInputRef = ref} />
                         </View>
                         <View style={categoryAdd().singleWrap}>
                             {this.state.formatBackground && <Error message={this.state.formatBackground} left={'10%'}/> }
-                            <TextInput style={categoryAdd(this.state.formatBackground).textInput} type="text" autoCorrect={false}  placeholder="background color" onChangeText={value => { this.addInput('background', value) }} value={this.state.background} ref={ref => this.textInputRef = ref} />
+                            <TextInput style={categoryAdd(this.state.formatBackground).textInput} type="text" autoCorrect={false}  placeholder="background color" onChangeText={value => this.addInput('background', value) } value={this.state.background} ref={ref => this.textInputRef = ref} />
                         </View>
                     </View>
                     <View style={categoryAdd().imageBtnWrap} >

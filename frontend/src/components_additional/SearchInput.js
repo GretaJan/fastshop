@@ -12,7 +12,6 @@ const Rearch = (array, title) => {
                 matchArray.push(item.name)
             }
             setNameArray(nameArray.concat(matchArray));
-            console.log('nameArray:', nameArray);
         })
     }
 

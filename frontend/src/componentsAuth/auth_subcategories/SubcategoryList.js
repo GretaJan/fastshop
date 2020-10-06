@@ -27,6 +27,9 @@ class SubcategoryList extends Component {
         this.props.validateSubmit();
     }
 
+    changeStateText = (name, value) => {
+        this.props.changeStateText(name, value)
+    }
     editSubcategory = async () => {
         this.props.editSubcategory();
     }
@@ -47,7 +50,7 @@ class SubcategoryList extends Component {
                         <TouchableOpacity style={authCategory().editBtnWrap} onPress={() => this.triggerEdit()}>
                             <Icon style={authCategory().editBtn} name="pencil"/>
                         </TouchableOpacity>
-                        <TouchableOpacity style={authCategory().removeBtnWrap} onPress={this.deleteFunction}>
+                        <TouchableOpacity style={authCategory().removeBtnWrap} onPress={this.deleteFunction }>
                             <Icon style={authCategory().removeBtn} name="trash-o" />
                         </TouchableOpacity>
                     </View>
@@ -97,13 +100,13 @@ class SubcategoryList extends Component {
                         <View style={authCategory().nameTxtWrap}>
                             {this.props.missingName && <Error message={this.props.missingName} /> }
                             {this.props.formatName && <Error message={this.props.formatName}/> }
-                            <TextInput style={authCategory(null, this.props.incorrectName).nameEdit} type="text" autoCorrect={false} onChangeText={value => this.props.onChangeName(value)}  defaultValue={this.props.item.name} value={this.props.editName}/>
+                            <TextInput style={authCategory(null, this.props.incorrectName).nameEdit} type="text" autoCorrect={false} onChangeText={value => this.changeStateText('editName', value)}  defaultValue={this.props.item.name} value={this.props.editName}/>
                         </View>
                         <Text>Background color:</Text>
                         <View style={authCategory().backgroundEditWrap}>
                             {this.props.formatBackground && <Error message={this.props.formatBackground} margin={-37}/> }
                             <Text style={authCategory(this.props.item.background, null).backgroundColor}></Text>
-                            <TextInput style={authCategory(null, this.props.formatBackground).backgroundEdit} type="text" autoCorrect={false} onChangeText={value => this.props.onChangeBackground(value)}  defaultValue={this.props.item.background} value={this.props.editBackground}/>
+                            <TextInput style={authCategory(null, this.props.formatBackground).backgroundEdit} type="text" autoCorrect={false} onChangeText={value => this.changeStateText('editBackground', value)}  defaultValue={this.props.item.background} value={this.props.editBackground}/>
                         </View>
                     </View>
                 </View>
@@ -113,14 +116,14 @@ class SubcategoryList extends Component {
 }
 
 SubcategoryList.propTypes = {
-    goToProducts: PropTypes.func.isRequired,
-    triggerEdit: PropTypes.func.isRequired,
-    cancelEdit: PropTypes.func.isRequired,
-    validateSubmit: PropTypes.func.isRequired,
-    editSubcategory: PropTypes.func.isRequired,
-    changeImage: PropTypes.func.isRequired,
-    deleteFunction: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired,
+    goToProducts: PropTypes.func,
+    triggerEdit: PropTypes.func,
+    cancelEdit: PropTypes.func,
+    validateSubmit: PropTypes.func,
+    editSubcategory: PropTypes.func,
+    changeImage: PropTypes.func,
+    name: PropTypes.string,
+    background: PropTypes.string,
     image: PropTypes.any
 }
 

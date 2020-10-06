@@ -90,7 +90,8 @@ describe('Guest products component', () => {
                     energy: 1000,
                     fat: 10.5,
                     saturated: 55.5,
-                    sugar: 15.52
+                    sugar: 15.52,
+                    image: null
                 }
             );
             await store.dispatch(getProduct(subcategoryId, productId)).then(() => {
@@ -201,17 +202,18 @@ describe('Admin Products component', () => {
                 })
             })
             it('product details page should render product info', async () => {
-                mock.onGet(`${URL}/product/${subcategoryId}/${productId}`).reply(200, 
+                mock.onGet(`${URL}/product/${subcategoryId}/${productId}`).reply(200,
                     {
                         id: productId,
+                        subcategory_id: subcategoryId,
                         name: 'Product',
                         energy: 1000,
                         fat: 10.5,
                         saturated: 55.5,
-                        sugar: 15.52
+                        sugar: 15.52,
                     }
                 );
-                await store.dispatch(getProduct(subcategoryId, productId)).then(() => {
+                await store.dispatch(getProduct(subcategoryId, productId)).then((data) => {
                     const wrapper = shallow(<Auth_ProductDetails store={ store } route={ navigationPropsProduct } />).childAt(0).dive();
                     const flatList = wrapper.find('FlatList');
                     expect(flatList).toHaveLength(1);

@@ -19,6 +19,10 @@ class CategoryList extends Component {
         this.props.triggerEditFunc()
     }
 
+    changeStateText = (name, value) => {
+        this.props.changeStateText(name, value);
+    }
+
     changeImage = () => {
         this.props.changeImage();
     }
@@ -94,13 +98,13 @@ class CategoryList extends Component {
                         <View style={authCategory().nameTxtWrap}>
                             {this.props.missingName && <Error message={this.props.missingName} /> }
                             {this.props.formatName && <Error message={this.props.formatName}/> }
-                            <TextInput style={authCategory(null, this.props.incorrectName).nameEdit} type="text" autoCorrect={false} onChangeText={value => this.props.onChangeNameText(value)} defaultValue={this.props.item.name} value={this.props.editName}/>
+                            <TextInput style={authCategory(null, this.props.incorrectName).nameEdit} type="text" autoCorrect={false} onChangeText={value => this.changeStateText('editName', value)} defaultValue={this.props.item.name} value={this.props.editName}/>
                         </View>
                         <Text>Background color:</Text>
                         <View style={authCategory().backgroundEditWrap}>
                         {this.props.formatBackground && <Error message={this.props.formatBackground} margin={-37}/> }
                             <Text style={authCategory(this.props.item.background, null).backgroundColor}></Text>
-                            <TextInput style={authCategory(null, this.props.formatBackground).backgroundEdit} type="text" autoCorrect={false} onChangeText={value => { this.props.onChangeBackground(value) }}  defaultValue={this.props.item.background} value={this.props.editBackground}/>
+                            <TextInput style={authCategory(null, this.props.formatBackground).backgroundEdit} type="text" autoCorrect={false} onChangeText={value => this.changeStateText('editBackground', value) }  defaultValue={this.props.item.background} value={this.props.editBackground}/>
                         </View>
                     </View>
                  </View>

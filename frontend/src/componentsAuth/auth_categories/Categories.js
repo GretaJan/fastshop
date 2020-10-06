@@ -92,6 +92,9 @@ export class Categories extends Component {
             }
         })
     }
+    changeState = (name, value) => {
+        this.setState({ [name] : value });
+    }
 
     validateSubmit = () => {
         let regexColor = new RegExp('^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|^rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|^rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$');
@@ -172,26 +175,25 @@ export class Categories extends Component {
                             <EmptyList message="The List is empty" />
                             ) : (
                             <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} keyExtractor={(item, index) => index.toString()} renderItem={({item}) => (
-                            <CategoryList item={item} 
-                                    imageData={this.state.imageData}
-                                    editId={this.state.editId}
-                                    name={this.state.editName}
-                                    background={this.state.editBackground}
-                                    formatName={this.state.formatName}
-                                    incorrectName={this.state.incorrectName}
-                                    formatBackground={this.state.formatBackground}
-                                    imageData={this.state.imageData}
-                                    changeImage={() => this.changeImage}
-                                    goToSubcategories={() => this.goToSubcategories(item)}
-                                    deleteCategory = { (item)=> this.confirmDelete(item)} 
-                                    triggerEditFunc = { ()=> this.triggerEditFunc(item)} 
-                                    validateSubmit={() => this.validateSubmit(item)}
-                                    changeImage={() => this.changeImage()}
-                                    cancelEdit={this.cancelEdit}
-                                    onChangeNameText={(value) => { this.setState({editName: value})}}
-                                    onChangeBackground={(value) => { this.setState({editBackground: value})}}
-                                />
-                            )} >
+                                <CategoryList item={item} 
+                                        imageData={this.state.imageData}
+                                        editId={this.state.editId}
+                                        name={this.state.editName}
+                                        background={this.state.editBackground}
+                                        formatName={this.state.formatName}
+                                        incorrectName={this.state.incorrectName}
+                                        formatBackground={this.state.formatBackground}
+                                        imageData={this.state.imageData}
+                                        changeImage={() => this.changeImage}
+                                        goToSubcategories={() => this.goToSubcategories(item)}
+                                        deleteCategory = { (item)=> this.confirmDelete(item)} 
+                                        triggerEditFunc = { ()=> this.triggerEditFunc(item)} 
+                                        validateSubmit={() => this.validateSubmit(item)}
+                                        changeImage={() => this.changeImage()}
+                                        cancelEdit={this.cancelEdit}
+                                        changeStateText={(name, value) => this.changeState(name, value) }
+                                    />
+                                )} >
                             </FlatList>
                             )}
                     </View>

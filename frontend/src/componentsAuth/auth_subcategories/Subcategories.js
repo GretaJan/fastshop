@@ -34,10 +34,10 @@ class Subcategories extends Component {
         editId: '',
         editCategoryId: '',
         editName: '',
+        editBackground: '',
         image: null,
         imageData: null,
         editImage: null,
-        editBackground: '', 
         formatName: null,
         missingName: null,
         incorrectName: null,
@@ -98,6 +98,10 @@ class Subcategories extends Component {
             </View>
         )
     }
+
+    changeState = (name, value) => {
+        this.setState({[name] : value})
+    } 
 
     triggerEdit = (item) => {
         this.setState({
@@ -248,7 +252,7 @@ class Subcategories extends Component {
                                                 formatBackground={this.state.formatBackground}
                                                 triggerEdit={() => this.triggerEdit(item)}
                                                 validateSubmit={() => this.validateSubmit()}
-                                                onChangeName={(value) => this.setState({editName: value})}
+                                                changeStateText={(name, value) => this.changeState(name, value) }
                                                 changeImage={() => this.changeImage(item)}
                                                 editSubcategory={() => this.editSubcategory()}
                                                 cancelEdit={() => this.cancelEdit()}
@@ -266,8 +270,9 @@ class Subcategories extends Component {
 
 Subcategories.propTypes = {
     getSubcategories: PropTypes.func.isRequired,
-    editSubcategory: PropTypes.func.isRequired,
-    deleteSubcategory: PropTypes.func.isRequired,
+    editSubcategory: PropTypes.func,
+    confirmDeleteSubcategory: PropTypes.func,
+    deleteSubcategory: PropTypes.func,
     subcategories: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
         image: PropTypes.any
