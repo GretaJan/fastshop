@@ -24,4 +24,5 @@ export default() => {
     return { store: store, persistor: persistor }
 }
 
-// export default {store, persistStore(store)} 
+// export default {store, persistStore(store)}      
+

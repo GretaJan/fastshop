@@ -1,4 +1,21 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, LOADING_GET_PRODUCT, GET_PRODUCT, GET_PRODUCT_ERROR, LOADING_POST_PRODUCT, POST_PRODUCT, POST_PRODUCT_ERROR, LOADING_EDIT_PRODUCT, EDIT_PRODUCT, EDIT_PRODUCT_ERROR, DELETE_PRODUCT, DELETE_PRODUCT_ERROR } from '../actions/types';
+import { 
+    LOADING_GET_PRODUCTS, 
+    GET_PRODUCTS, 
+    GET_PRODUCTS_ERROR, 
+    UNMOUNT_PRODUCTS, 
+    LOADING_GET_PRODUCT, 
+    GET_PRODUCT, 
+    GET_PRODUCT_ERROR, 
+    LOADING_POST_PRODUCT, 
+    POST_PRODUCT, 
+    POST_PRODUCT_ERROR, 
+    LOADING_EDIT_PRODUCT, 
+    EDIT_PRODUCT, 
+    EDIT_PRODUCT_ERROR, 
+    DELETE_PRODUCT, 
+    DELETE_PRODUCT_ERROR,
+    SAVE_COMBINATION
+} from '../actions/types';
 
 const initialState = {
     products: [],
@@ -9,6 +26,7 @@ const initialState = {
     error: '',
     currentPage: 1,
     lastPage: null,
+    productCombinations: []
 }
 
 export default function(state = initialState, action) {
@@ -116,6 +134,11 @@ export default function(state = initialState, action) {
                 ...state,
                 error: state.error
             }
+        case SAVE_COMBINATION: 
+            return {
+                ...state,
+                productCombinations: productCombinations.concat(action.payload)
+        }
         default:
             return state
     }

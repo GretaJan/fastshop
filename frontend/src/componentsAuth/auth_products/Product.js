@@ -147,7 +147,7 @@ class Product extends Component {
             [triggeredName.toLowerCase()] : value,
             "_method": "put", 
         }
-        this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data); 
+        this.props.editProduct(this.props.product.subcategory_id, this.props.product.id, data, this.token); 
         this.cancelEdit();
     }
     editImage = async() => {
@@ -303,6 +303,7 @@ Product.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
+    token: state.auth.token,
     product: state.products.product,
     loading: state.products.loading, 
     error: state.products.error

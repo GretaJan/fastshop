@@ -7,6 +7,7 @@ const initialState = {
     admin: {},
     authenticate: null,
     isAuthorized: false,
+    token: '',
     error: null,
     isLoading: true,
 }
@@ -23,6 +24,7 @@ export default function(state = initialState, action) {
                     ...state,
                     isLoading: action.payload,
                     admin: action.admin,
+                    token: action.token,
                     isAuthorized: action.isAuthorized,
                     authenticate: action.authenticate,
                     error: null,

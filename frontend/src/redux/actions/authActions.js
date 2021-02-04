@@ -11,6 +11,7 @@ export const tryLogin = (data) => (dispatch) => {
             dispatch({ 
                 type: LOGGED_IN,
                 admin: admin,
+                token: admin.access_token,
                 isAuthorized: true,
                 error: null,
                 authenticate: false

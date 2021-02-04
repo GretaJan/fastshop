@@ -32,9 +32,6 @@ Route::delete('/deleteSubcategory/{subcategory}', 'SubcategoryController@destroy
 
 Route::get('/products/{subcategory_id}', 'ProductController@index');
 Route::get('/product/{subcategory_id}/{id}', 'ProductController@show');
-Route::post('/addProduct/{subcategory_id}', 'ProductController@store');
-Route::put('/updateProduct/{subcategory_id}/{product}', 'ProductController@update');
-Route::delete('/deleteProduct/{product}', 'ProductController@destroy');
 
 Route::post('/login', 'UserController@login');
 Route::group([
@@ -42,5 +39,8 @@ Route::group([
 ], function() {
     Route::get('/user', 'UserController@user');
     Route::get('/logout', 'UserController@logout');
+    Route::post('/addProduct/{subcategory_id}', 'ProductController@store');
+    Route::put('/updateProduct/{subcategory_id}/{product}', 'ProductController@update');
+    Route::delete('/deleteProduct/{product}', 'ProductController@destroy');
 });
 

@@ -1,4 +1,21 @@
-import { LOADING_GET_PRODUCTS, GET_PRODUCTS, GET_PRODUCTS_ERROR, UNMOUNT_PRODUCTS, LOADING_GET_PRODUCT, GET_PRODUCT, GET_PRODUCT_ERROR, LOADING_POST_PRODUCT, POST_PRODUCT, POST_PRODUCT_ERROR, LOADING_EDIT_PRODUCT, EDIT_PRODUCT, EDIT_PRODUCT_ERROR, DELETE_PRODUCT, DELETE_PRODUCT_ERROR, URL } from './types';
+import { 
+    LOADING_GET_PRODUCTS, 
+    GET_PRODUCTS, 
+    GET_PRODUCTS_ERROR, 
+    UNMOUNT_PRODUCTS, 
+    LOADING_GET_PRODUCT, 
+    GET_PRODUCT, 
+    GET_PRODUCT_ERROR, 
+    LOADING_POST_PRODUCT, 
+    POST_PRODUCT, 
+    POST_PRODUCT_ERROR, 
+    LOADING_EDIT_PRODUCT, 
+    EDIT_PRODUCT, 
+    EDIT_PRODUCT_ERROR, 
+    DELETE_PRODUCT,
+    DELETE_PRODUCT_ERROR, 
+    URL,
+} from './types';
 import axios from 'axios';
 
 export const getProducts = (subcategory, page) => async (dispatch) => {
@@ -53,13 +70,15 @@ export const getProduct = (subcategory, product) => (dispatch) => {
         })   
 } 
 
-export const addProduct = (subcategory, data) => async dispatch => {
+export const addProduct = (subcategory, data, access_token) => async dispatch => {
     await dispatch({
         type: LOADING_POST_PRODUCT,
         loading: true,
         error: ''
     })
-    return axios.post(`${URL}/addProduct/${subcategory}`, data)
+    return axios.post(`${URL}/addProduct/${subcategory}`, data, { headers: {
+        'Authorization': `Bearer ${access_token}` }
+    }, {withCredentials: true})
         .then((response) => ( 
             dispatch({
                 type: POST_PRODUCT,
@@ -76,13 +95,14 @@ export const addProduct = (subcategory, data) => async dispatch => {
         ))
 }
 
-export const editProduct = (subcategory, product, data) => async (dispatch) => {
+export const editProduct = (subcategory, product, data, token) => async (dispatch) => {
     await dispatch({
         type: LOADING_EDIT_PRODUCT,
         loading: true,
         error: ''
     })
-    return axios.post( `${URL}/updateProduct/${subcategory}/${product}`, data)
+    return axios.post( `${URL}/updateProduct/${subcategory}/${product}`, data, { headers: {
+        'Authorization': `Bearer ${access_token}` }}, { withCredentials: true })
         .then(response => ( 
             dispatch({
                 type: EDIT_PRODUCT,
@@ -90,13 +110,13 @@ export const editProduct = (subcategory, product, data) => async (dispatch) => {
                 loading: false,
                 error: ''
             })
-        )).catch(err => (
+        )).catch(err => {
             dispatch({
                 type: EDIT_PRODUCT_ERROR,
                 error: 'Failed editing product' + err,
                 loading: false,
             })
-        ))
+        })
 }
 
 export const deleteProduct = (product) => (dispatch) => {

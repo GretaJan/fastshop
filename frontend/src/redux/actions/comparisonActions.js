@@ -1,5 +1,5 @@
 import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEAR_RESULTS, CLEAR_SELECTED_ARRAY,
-            SORT_ARRAY, GO_TO_LIST, URL } from './types';
+            SORT_ARRAY, GO_TO_LIST, URL, SAVE_COMBINATION        } from './types';
 import axios from 'axios';
 
 export const productSelected = (subcategory, product) => dispatch => {
@@ -70,3 +70,13 @@ export const clearSelectedArray = () => dispatch => {
         results: {},
     })
 }
+
+export const saveCombination = (productOne, productTwo) => (dispatch) => {
+    dispatch({
+        type: SAVE_COMBINATION,
+        payload: {
+            productOne,
+            productTwo
+        }
+    })
+} 
