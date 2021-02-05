@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getSubcategories, deleteSubcategory } from '../../redux/actions/subcategoryActions';
+import { getSubcategories, getSubcategoriesPrepend } from '../../redux/actions/subcategoryActions';
+import { closeErrorWarning } from '../../redux/actions/generalActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/SubcategoryStyles';
@@ -31,7 +32,7 @@ class Subcategories extends Component {
 
     loadMore = () => {
         setTimeout(() => {
-            this.props.getSubcategories(this.state.id, this.props.currentPage + 1);
+            this.props.getSubcategoriesPrepend(this.state.id, this.props.currentPage + 1);
         })
     }
 
@@ -78,21 +79,24 @@ class Subcategories extends Component {
     render() {
         const { background } = this.props.route.params;
         return (
-            (this.props.loading) ? (
+            this.props.loading ? (
                 <View style={backgroundForPages(background).backgroundContainer} >
                     <Loading />
                 </View>
                 ) : (
-                    ( this.props.error !== '') ? (
-                        <View style={backgroundForPages(background).backgroundContainer} >
-                            <Modal title="Warning" 
+                    <>
+                    { this.props.error !== '' && (
+                        <View>
+                            <Modal 
+                                title="Warning" 
                                 message={this.props.error} 
-                                close={() => this.props.navigation.goBack()} 
+                                close={() => this.props.closeErrorWarning('REMOVE_GET_SUBCATEGORIES_ERR') }
                                 ok="OK" color={colors.bordo} 
                                 borderColor={colors.bordoTransparent}
-                                horizontal={20} vertical={10}/>
+                                horizontal={20} vertical={10}
+                            />
                         </View>
-                    ) : (
+                    )}
                         <View style={stylesGuest(background).container}>
                         {this.getInput()}
                             {(this.props.subcategories.length === 0) ? (
@@ -108,7 +112,7 @@ class Subcategories extends Component {
                                 )} />  
                             )}  
                         </View>
-                    )
+                    </>
                 )
             )
         }
@@ -145,4 +149,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default withNavigation(connect(mapStateToProps, {getSubcategories, deleteSubcategory})(Subcategories))
+export default withNavigation(connect(mapStateToProps, { getSubcategories, getSubcategoriesPrepend, closeErrorWarning })(Subcategories))

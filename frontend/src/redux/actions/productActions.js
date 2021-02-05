@@ -2,7 +2,7 @@ import {
     LOADING_GET_PRODUCTS, 
     GET_PRODUCTS, 
     GET_PRODUCTS_ERROR, 
-    UNMOUNT_PRODUCTS, 
+    REMOVE_GET_PRODUCTS_ERROR,
     LOADING_GET_PRODUCT, 
     GET_PRODUCT, 
     GET_PRODUCT_ERROR, 
@@ -25,25 +25,23 @@ export const getProducts = (subcategory, page) => async (dispatch) => {
         loadingNext: page > 1 ? true : false,
         error: ''
     });
-    return axios.get(`${URL}/products/${subcategory}?page=${page}`)
+    axios.get(`${URL}/products/${subcategory}?page=${page}`)
         .then(response => {
                 return dispatch({
                         type: GET_PRODUCTS,
                         payload: response.data.data,
-                        loading: false,
-                        loadingNext: false,
-                        error: '',
                         currentPage: response.data.meta.current_page,
                         lastPage: response.data.meta.last_page === response.data.meta.current_page ? true : false,
                     })
-            }).catch(err => { 
+            }).catch(() => { 
                 return dispatch({
                     type: GET_PRODUCTS_ERROR,
-                    error: 'Failed to load product list' + err,
-                    loading: false,
-                    loadingNext: false,
+                    error: 'Failed to load product list',
                 })
         })
+    dispatch({
+        type: REMOVE_GET_PRODUCTS_ERROR,
+    })
 } 
 
 export const getProduct = (subcategory, product) => (dispatch) => {
@@ -52,7 +50,7 @@ export const getProduct = (subcategory, product) => (dispatch) => {
         loading: true,
         error: ''
     })
-    return axios.get(`${URL}/product/${subcategory}/${product}`)
+    axios.get(`${URL}/product/${subcategory}/${product}`)
         .then(response => (
                 dispatch({
                     type: GET_PRODUCT,
@@ -67,7 +65,13 @@ export const getProduct = (subcategory, product) => (dispatch) => {
                 error: 'Failed to load product ' + err,
                 loading: false
             })
-        })   
+        })
+    dispatch({
+        type: GET_PRODUCT,
+        payload: {},
+        loading: false,
+        error: ''
+    })   
 } 
 
 export const addProduct = (subcategory, data, access_token) => async dispatch => {

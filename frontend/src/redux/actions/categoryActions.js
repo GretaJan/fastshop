@@ -2,32 +2,38 @@ import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, LOADING_P
 import axios from 'axios';
 
 export const getCategories = () => (dispatch) => {
-    const sortArray = (a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-
-        return nameA - nameB;
-    }
-    dispatch({ 
-        type: LOADING_GET_CATEGORIES,
-        loading: true,
-        error: '',
-    })
-    return axios.get(`${URL}/categories`)
-        .then(categories => ( 
+        const sortArray = (a, b) => {
+            const nameA = a.name.toUpperCase();
+            const nameB = b.name.toUpperCase();
+    
+            return nameA - nameB;
+        }
+        dispatch({ 
+            type: LOADING_GET_CATEGORIES,
+        })
+        axios.get(`${URL}/categories`)
+            .then(() => ( 
+                    dispatch({
+                        type: GET_CATEGORIES,
+                        payload: categories.data.categories.sort(sortArray),
+                    })
+            )).catch(() => ( 
                 dispatch({
-                    type: GET_CATEGORIES,
-                    payload: categories.data.categories.sort(sortArray),
-                    loading: false, 
-                    error: ''
+                    type: GET_CATEGORIES_ERROR,
+                    error: 'Failed to load categories list... ',
                 })
-        )).catch((error) => ( 
-            dispatch({
-                type: GET_CATEGORIES_ERROR,
-                error: 'Failed to load categories list... ' + error,
-                loading: false
-            })
-        ))
+        ));
+        console.log("error..")
+        dispatch({ 
+            type: GET_CATEGORIES_ERROR,
+            error: 'Network error. Updated data may not be presented.',
+        })
+    // dispatchOfflineFunc.interceptInOffline = true; // This is the important part
+    // dispatchOfflineFunc.meta = {
+    //     retry: true, 
+    // }
+    // console.log(  dispatchOfflineFunc.meta)
+    // return dispatchOfflineFunc; // Return it afterwards
 }
 
 export const addCategory = (data) => async (dispatch) => {

@@ -3,6 +3,7 @@ import { View, FlatList, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProducts } from '../../redux/actions/productActions';
+import { closeErrorWarning } from '../../redux/actions/generalActions';
 import { productSelected } from '../../redux/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -97,42 +98,42 @@ class Products extends Component {
                     <Loading />
                 </View>             
                     ) : (
-                    (this.props.error !== '') ? (
-                        <View style={backgroundForPages(background).backgroundContainer} >
+                        <>
+                        { this.props.error !== '' && (
                             <Modal title="Warning" 
                                 message={this.props.error} 
-                                close={() => this.props.navigation.goBack()} 
+                                close={() => this.props.closeErrorWarning('REMOVE_GET_PRODUCTS_ERROR') }
                                 ok="OK" color={colors.bordo} 
                                 borderColor={colors.bordoTransparent}
-                                horizontal={20} vertical={10}/>
+                                horizontal={20} vertical={10}
+                            />
+                        )}
+                        <View style={stylesGuest(background).container}>
+                            {this.state.overload !== null && (
+                                <Modal title="Limit exceeded" 
+                                    message={this.state.overload} 
+                                    close={() => this.setState({overload: null})} 
+                                    ok="OK" color={colors.orange} 
+                                    borderColor={colors.inputOrange}
+                                    horizontal={20} vertical={10}/>
+                            )}
+                            {this.getInput()}
+                            {(this.props.products.length == 0) ? (
+                                    <EmptyList message="The List is empty" background={background} />
+                                ) : (
+                                    <FlatList data={  !this.state.inputTriggered ? this.props.products : this.state.tempArray} 
+                                            keyExtractor={(item, index) => index.toString()}
+                                            onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
+                                            onEndReachedThreshold={0.01}
+                                            ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
+                                            renderItem={({item}) => (
+                                        <Product item={item} 
+                                            selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
+                                            goToProduct={() => this.goToProduct(item)} />
+                                        )} />
+                            )}
                         </View>
-                    ) : (
-                    <View style={stylesGuest(background).container}>
-                        {this.state.overload !== null && (
-                            <Modal title="Limit exceeded" 
-                                message={this.state.overload} 
-                                close={() => this.setState({overload: null})} 
-                                ok="OK" color={colors.orange} 
-                                borderColor={colors.inputOrange}
-                                horizontal={20} vertical={10}/>
-                        )}
-                        {this.getInput()}
-                        {(this.props.products.length == 0) ? (
-                                <EmptyList message="The List is empty" background={background} />
-                            ) : (
-                                <FlatList data={  !this.state.inputTriggered ? this.props.products : this.state.tempArray} 
-                                        keyExtractor={(item, index) => index.toString()}
-                                        onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
-                                        onEndReachedThreshold={0.01}
-                                        ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
-                                        renderItem={({item}) => (
-                                    <Product item={item} 
-                                        selectProduct={(item1, item2) => this.selectProduct(item1, item2)} 
-                                        goToProduct={() => this.goToProduct(item)} />
-                                    )} />
-                        )}
-                    </View>
-                )
+                    </>
             )
         )
     }
@@ -170,4 +171,4 @@ const mapStateToProps = state => ({
     comparisonArray: state.selectedProducts.comparisonArray,
 })
 
-export default withNavigation(connect(mapStateToProps, {getProducts, productSelected })(Products))
+export default withNavigation(connect(mapStateToProps, {getProducts, closeErrorWarning, productSelected })(Products))

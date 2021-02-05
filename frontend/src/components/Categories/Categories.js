@@ -4,10 +4,12 @@ import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { getCategories } from '../../redux/actions/categoryActions';
+import { closeErrorWarning } from '../../redux/actions/generalActions';
 import { stylesGuest } from '../../components_additional/styles/CategoryStyles';
-import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
+import { backgroundForPages, modalZIndex } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
-// import  NetInfo  from '@react-native-community/netinfo';
+import  NetInfo  from '@react-native-community/netinfo';
+// import { checkInternetConnection, offlineActionCreators } from 'react-native-offline';
 
 //Components
 import Category from './Category';
@@ -16,12 +18,24 @@ import EmptyList from '../../components_additional/EmptyList';
 import Modal from '../../components_additional/Modal';
 
 export class Categories extends Component {
+    // constructor(props){
+    //     (props);
+    //     this.state = {
+            // isConnected: checkInternetConnection(),
+            // connectionChange: offlineActionCreators,
+    //     }
+    // }
+    // async checkOnlineStatus(dispatch){
+    //     const isConnected = await checkInternetConnection();
+    //     const { connectionChange } = offlineActionCreators;
+    //     dispatch(connectionChange(isConnected))
+    // }
     componentDidMount() {
-        // NetInfo.fetch().then(state => {
-            // if(state.isConnected)
+        NetInfo.fetch().then(state => {
+            if(state.isConnected){
                 this.props.getCategories();
-                // console.log(this.props.categories)
-        // })
+            }
+        })
     }
 
     goToSubcategories = (item) => {
@@ -35,34 +49,38 @@ export class Categories extends Component {
                     <Loading />
                 </View>
                 ) : (
-                (this.props.error !== '') ? (
-                    <View style={backgroundForPages().backgroundContainer} >
-                        <Modal title="Warning" 
+                    <>
+                    { this.props.error !== '' && (
+                        <Modal 
+                            title="Warning" 
                             message={this.props.error} 
-                            close={() => this.props.navigation.navigate("Login")} 
+                            close={() => this.props.closeErrorWarning('REMOVE_GET_CATEGORIES_ERR') }
                             ok="OK" color={colors.bordo} 
                             borderColor={colors.bordoTransparent}
-                            horizontal={20} vertical={10}/>
-                    </View>
-                ) : (
-                    <View style={stylesGuest().container} >
-                        {(this.props.categories === undefined || this.props.categories.length == 0) ? (
-                            <EmptyList message="The List is empty" />
-                        ) : (
-                            <FlatList contentContainerStyle={stylesGuest().flatList} keyExtractor={(item, index) => index.toString()} data={this.props.categories} renderItem={({item}) => (
-                                <Category item={item} 
-                                            goToSubcategories={() => this.goToSubcategories(item)}         
-                                />
-                                )} >
-                            </FlatList>
-                        )}
-                    </View>
+                            horizontal={20} vertical={10}
+                        />
+                    )}
+                        <View style={stylesGuest().container} >
+                            {(this.props.categories === undefined || this.props.categories.length == 0) ? (
+                                <EmptyList message="The List is empty" />
+                            ) : (
+                                <FlatList 
+                                    contentContainerStyle={stylesGuest().flatList} 
+                                    keyExtractor={(item, index) => index.toString()}
+                                    data={this.props.categories} 
+                                    renderItem={({item}) => (
+                                    <Category 
+                                        item={item} 
+                                        goToSubcategories={() => this.goToSubcategories(item)}         
+                                    />
+                                )} />
+                            )}
+                        </View>
+                        </>
+                    )
                 )
-            )
-        )
-       
-    }
-}
+            }
+        }
 
 Categories.propTypes = {
     getCategories: PropTypes.func.isRequired,
@@ -80,4 +98,4 @@ const mapStateToProps = (state) => ({
     
 });
 
-export default withNavigation(connect(mapStateToProps, { getCategories })(Categories))
+export default withNavigation(connect(mapStateToProps, { getCategories, closeErrorWarning })(Categories))

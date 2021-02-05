@@ -1,4 +1,4 @@
-import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, LOADING_POST_CATEGORY, POST_CATEGORY, POST_CATEGORY_ERROR, LOADING_EDIT_CATEGORY, EDIT_CATEGORY, EDIT_CATEGORY_ERROR, DELETE_CATEGORY, DELETE_CATEGORY_ERROR } from '../actions/types';
+import { LOADING_GET_CATEGORIES, GET_CATEGORIES, GET_CATEGORIES_ERROR, REMOVE_GET_CATEGORIES_ERR, LOADING_POST_CATEGORY, POST_CATEGORY, POST_CATEGORY_ERROR, LOADING_EDIT_CATEGORY, EDIT_CATEGORY, EDIT_CATEGORY_ERROR, DELETE_CATEGORY, DELETE_CATEGORY_ERROR } from '../actions/types';
 
 const initialState = {
        categories:[],
@@ -13,21 +13,26 @@ export default function(state = initialState, action) {
         case LOADING_GET_CATEGORIES:
             return {
                 ...state,
-                loading: action.loading,
+                loading: true,
                 error: ''
             }
         case GET_CATEGORIES:
             return {
                 ...state,
                 categories: action.payload,
-                loading: action.loading,
-                error: action.error
+                loading: false,
+                error: ''
             }
         case GET_CATEGORIES_ERROR:
             return {
                 ...state,
                 error: action.error,
-                loading: action.loading
+                loading: false
+            }
+        case REMOVE_GET_CATEGORIES_ERR:
+            return {
+                ...state,
+                error: ''
             }
         case LOADING_POST_CATEGORY:
             return {

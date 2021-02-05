@@ -93,6 +93,12 @@ export const adminButtonStyle = (color=colors.mainYellow, horizontal, vertical) 
     }
 }) 
 
+export const modalZIndex = () => StyleSheet.create({
+    container: {
+        zIndex: 99
+    }
+})
+
 export const modalStyle = (color, borderColor, scale) => StyleSheet.create({
     container: {
         position: 'absolute',
@@ -165,10 +171,11 @@ export const modalStyle = (color, borderColor, scale) => StyleSheet.create({
         marginTop: 10,
     }
 });
+
 export const modalStyleDelete = (color, borderColor, scale) => StyleSheet.create({
     container: {
         position: 'absolute',
-        zIndex: 40,
+        zIndex: 90,
         flex: 1,
         width: Dimensions.get('window').width /1,
         alignItems: 'center',

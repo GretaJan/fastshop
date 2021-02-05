@@ -2,6 +2,7 @@ import {
     LOADING_GET_PRODUCTS, 
     GET_PRODUCTS, 
     GET_PRODUCTS_ERROR, 
+    REMOVE_GET_PRODUCTS_ERROR,
     UNMOUNT_PRODUCTS, 
     LOADING_GET_PRODUCT, 
     GET_PRODUCT, 
@@ -42,9 +43,9 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 products: action.payload,
-                loading: action.loading,
-                loadingNext: action.loadingNext,
-                error: action.error,
+                loading: false,
+                loadingNext: false,
+                error: '',
                 currentPage: action.currentPage,
                 lastPage: action.lastPage,
             }
@@ -52,8 +53,14 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 error: action.error,
-                loading: action.loading,
-                loadingNext: action.loadingNext,
+                loading: false,
+                loadingNext: false,
+            }
+        case REMOVE_GET_PRODUCTS_ERROR:
+            return {
+                ...state,
+                error: '',
+                loading: '',
             }
         case UNMOUNT_PRODUCTS: 
             return {
@@ -71,7 +78,7 @@ export default function(state = initialState, action) {
         case GET_PRODUCT:
             return {
                 ...state,
-                product: action.payload,
+                product: action.payload ? action.payload : state.product,
                 loading: action.loading,
                 error: action.error
             }

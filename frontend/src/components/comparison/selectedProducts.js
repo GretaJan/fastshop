@@ -131,7 +131,8 @@ class Products extends Component {
                 <View data-test='selectedComponents' style={stylesGuest().container} >
                     {this.state.loadingResults && <LoadingResults /> }
                     {(this.state.modalMessageNumber) && (
-                    <Modal title="Warning" 
+                    <Modal 
+                        title="Warning" 
                         message={'Please select at least two products.'} 
                         close={() => this.setState({ modalMessageNumber: false })} 
                         ok="OK" color={colors.orange} borderColor={colors.inputOrange}
