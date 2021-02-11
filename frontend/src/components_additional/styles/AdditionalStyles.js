@@ -73,7 +73,7 @@ export const buttonStyle = (color, width, height) =>  StyleSheet.create({
     },
 });
 
-export const adminButtonStyle = (color=colors.mainYellow, horizontal, vertical) => StyleSheet.create({
+export const adminButtonStyle = (color=colors.mainGrey, horizontal, vertical) => StyleSheet.create({
     buttonWrap: {
         backgroundColor: color,
         borderRadius: 3,
@@ -269,7 +269,7 @@ export const modalConfirm = (color, scale) => StyleSheet.create({
 
 export const emptyList = (background) => StyleSheet.create({
     container: {
-        backgroundColor: background ? background : colors.mainYellow,
+        backgroundColor: background ? background : colors.mainGrey,
         height: Dimensions.get('window').height /1,
         width: Dimensions.get('window').width /1,
         position: 'absolute',
@@ -315,7 +315,7 @@ export const roundButton = (color=colors.mainWhiteYellow) => StyleSheet.create({
 })
 export const backgroundForPages = (background) => StyleSheet.create({
     backgroundContainer: {
-        backgroundColor: background ? background : colors.mainYellow, 
+        backgroundColor: background ? background : colors.mainGrey, 
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -326,7 +326,7 @@ export const backgroundForPages = (background) => StyleSheet.create({
 export const emptyListSelected = () => StyleSheet.create({
     container: {
        height: Dimensions.get('window').height /2.4,
-       backgroundColor: colors.mainYellow,
+       backgroundColor: colors.mainGrey,
        alignItems: 'center',
        justifyContent: 'center',
     },
@@ -426,9 +426,7 @@ export const authVerify = (translOne, translTwo, translThree) => StyleSheet.crea
         width: 6,
         borderColor: colors.mainBlack,
         borderWidth: 1,
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         borderRadius: 3,
     }
 });
-
-

@@ -1,68 +1,33 @@
 import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_APPEND, GET_SUBCATEGORIES_ERROR,  LOADING_POST_SUBCATEGORY, POST_SUBCATEGORY, POST_SUBCATEGORY_ERROR, LOADING_EDIT_SUBCATEGORY, EDIT_SUBCATEGORY, EDIT_SUBCATEGORY_ERROR, REMOVE_GET_SUBCATEGORIES_ERR, DELETE_SUBCATEGORY, DELETE_SUBCATEGORY_ERROR, URL } from './types';
 import axios from 'axios';
+import store from '../store';
 
-const fetchSubcategoriesWithPagination = (dispatch, category, actionType, page) => {
+export const getSubcategories = (subcategories, categoryId, page) => async (dispatch) => {
     dispatch({ 
         type: LOADING_GET_SUBCATEGORIES,
-        loading: page === 1 ? true : false,
-        loadingNext:  page > 1 ? true : false,
+        loading: page === 0 ? true : false,
+        loadingNext:  page > 0 ? true : false,
         error: ''
+    });
+
+    let filteredSubcategories = [];
+    let lastPage = 1;
+    subcategories.forEach(item => {
+        if(item.parentId == categoryId){
+            lastPage = item.lastPage;
+            filteredSubcategories = item.data[page];
+        }
     })
-    console.log("hello")
-    axios.get(`${URL}/subcategories/${category}?page=${page}`)
-        .then(resp => {
-            console.log("resp no errror",resp);
-                return dispatch({
-                    type: actionType,
-                    payload: resp.data.data,
-                    currentPage: resp.data.meta.current_page,
-                    lastPage: resp.data.meta.last_page === resp.data.meta.current_page ? true : false,
-                })   
-            }).catch(err => {
-                console.log("subb error");
-                return dispatch({
-                    type: GET_SUBCATEGORIES_ERROR,
-                    error: 'Network error. Some subcategories may not be listed.',
-                })
-            })    
-    dispatch({
-        type: REMOVE_GET_SUBCATEGORIES_ERR,
-    })
+    dispatch({ 
+        type: page == 0 ? GET_SUBCATEGORIES : GET_SUBCATEGORIES_APPEND,
+        payload: filteredSubcategories,
+        nextPage: page + 1,
+        lastPage: lastPage,
+    });
 }
 
-export const getSubcategories = (category, page) => dispatch => {
-    fetchSubcategoriesWithPagination(dispatch, category, GET_SUBCATEGORIES, page)
-} 
-// export const getSubcategories = (category, page) => (dispatch) => {
-//     dispatch({ 
-//         type: LOADING_GET_SUBCATEGORIES,
-//         loading: page === 1 ? true : false,
-//         loadingNext:  page > 1 ? true : false,
-//         error: ''
-//     })
-
-//     return axios.get(`${URL}/subcategories/${category}?page=${page}`)
-//         .then(resp => {
-//                 return dispatch({
-//                     type: GET_SUBCATEGORIES,
-//                     payload: resp.data.data,
-//                     loading: false,
-//                     loadingNext: false,
-//                     error: '',
-//                     currentPage: resp.data.meta.current_page,
-//                     lastPage: resp.data.meta.last_page === resp.data.meta.current_page ? true : false,
-//                 })   
-//             }).catch(err => {
-//                 return dispatch({
-//                     type: GET_SUBCATEGORIES_ERROR,
-//                     error: 'Failed to load subcategories list.' + err,
-//                     loading: false
-//                 })
-//             })    
-// }
-
-export const getSubcategoriesPrepend = (category, page) => dispatch => {
-    fetchSubcategoriesWithPagination(dispatch, category, GET_SUBCATEGORIES_APPEND, page)
+export const getSubcategoriesPrepend = (subcategories, categoryId, page) => dispatch => {
+    fetchSubcategoriesWithPagination(dispatch, subcategories, categoryId, GET_SUBCATEGORIES_APPEND, page)
 }
 
 export const addSubcategory = (category, data) => async (dispatch) => {

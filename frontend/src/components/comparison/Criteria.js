@@ -163,24 +163,16 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         setModal(false);
         const array = selectedProducts;
         const arrayLength = array.length;
-        let energyQuant = parseInt(array[0].energy);
-        let fatQuant = parseInt(array[0].fat) * 100;
-        let saturatedQuant = parseInt(array[0].saturated) * 100;
-        let carbsQuant = parseInt(array[0].carbs) * 100;
-        let sugarQuant = parseInt(array[0].sugar) * 100;
-        let fiberQuant = parseInt(array[0].fiber) * 100;
-        let proteinQuant = parseInt(array[0].protein) * 100;
-        let saltQuant = parseInt(array[0].salt) * 100;
-        let vitaminsQuant = parseInt(array[0].vitamins) * 100;
-        let energyLeast = parseInt(array[0].energy) * 100;
-        let fatLeast= parseInt(array[0].fat) * 100;
-        let saturatedLeast = parseInt(array[0].saturated) * 100;
-        let carbsLeast = parseInt(array[0].carbs) * 100;
-        let sugarLeast = parseInt(array[0].sugar) * 100;
-        let fiberLeast = parseInt(array[0].fiber) * 100;
-        let proteinLeast = parseInt(array[0].protein) * 100;
-        let saltLeast= parseInt(array[0].salt) * 100;
-        let vitaminsLeast = parseInt(array[0].vitamins) * 100;
+        const firstProduct = array[0];
+        let energyMost = parseInt(firstProduct.energy);
+        let fatMost = parseInt(firstProduct.fat) * 100;
+        let saturatedMost = parseInt(firstProduct.saturated) * 100;
+        let carbsMost = parseInt(firstProduct.carbs) * 100;
+        let sugarMost = parseInt(firstProduct.sugar) * 100;
+        let fiberMost = parseInt(firstProduct.fiber) * 100;
+        let proteinMost = parseInt(firstProduct.protein) * 100;
+        let saltMost = parseInt(firstProduct.salt) * 100;
+        let vitaminsMost = parseInt(firstProduct.vitamins) * 100;
         let energyComponent = null;
         let energyMismatch = null;
         let fatComponent = null;
@@ -202,249 +194,178 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         let matchArray = [];
         let mismatchArray = [];
 
-        if(bulletEnergyActiveMost || bulletEnergyActiveLeast) {
-            energyComponent = array[0];
-            energyMismatch = array[0];
-        }
-        if(bulletFatActiveMost || bulletFatActiveLeast) {
-            fatComponent = array[0];
-            fatMismatch = array[0];
-        }
-        if(bulletSaturatedActiveMost || bulletSaturatedActiveLeast) {
-            saturatedComponent = array[0];
-            saturatedMismatch = array[0];
-        }
-        if(bulletCarbsActiveMost || bulletCarbsActiveLeast) {
-            carbsComponent = array[0];
-            carbsMismatch = array[0];
-        }
-        if(bulletSugarActiveMost || bulletSugarActiveLeast) {
-            sugarComponent = array[0];
-            sugarMismatch = array[0];
-        }
-        if(bulletFiberActiveMost || bulletFiberActiveLeast) {
-            fiberComponent = array[0];
-            fiberMismatch = array[0];
-        }
-        if(bulletProteinActiveMost || bulletProteinActiveLeast) {
-            proteinComponent = array[0];
-            proteinMismatch = array[0];
-        }
-        if(bulletSaltActiveMost || bulletSaltActiveLeast) {
-            saltComponent = array[0];
-            saltMismatch = array[0];
-        }
-        if(bulletVitaminsActiveMost || bulletVitaminsActiveLeast) {
-            vitaminsComponent = array[0];
-            vitaminsMismatch = array[0];
-        }
+        if(bulletEnergyActiveMost) energyComponent = firstProduct;
+        if(bulletFatActiveMost) fatComponent = firstProduct;
+        if(bulletSaturatedActiveMost) saturatedComponent = firstProduct;
+        if(bulletCarbsActiveMost) carbsComponent = firstProduct;
+        if(bulletSugarActiveMost) sugarComponent = firstProduct;
+        if(bulletFiberActiveMost) fiberComponent = firstProduct;
+        if(bulletProteinActiveMost) proteinComponent = firstProduct;
+        if(bulletSaltActiveMost) saltComponent = firstProduct;
+        if(bulletVitaminsActiveMost) vitaminsComponent = firstProduct
+
         for(let i = 1; i < arrayLength; i++) {
             const parsedEnergy = parseInt(array[i].energy) * 100;
-            // const parsedFat = parseInt(array[i].fat) * 100;
-            const parsedFat = parseInt(array[i].fat);
-            const parsedSaturated = parseInt(array[i].saturated);
-            const parsedCarbs = parseInt(array[i].carbs);
-            const parsedSugar = parseInt(array[i].sugar);
-            const parsedFiber = parseInt(array[i].fiber);
-            const parsedProtein = parseInt(array[i].protein);
-            const parsedSalt = parseInt(array[i].salt);
-            const parsedVitamins = parseInt(array[i].vitamins);
-            if(parseInt(array[0].fat) < array[1].fat) {
-                console.log("yes IT IS-------------", array[1].fat, " ", array[0], " 2: ", array[1])
-            } else {
-                console.log("no IT IS-------------", array[1].fat, " ", array[1], " 2: ", array[2])
-            }
-            array
-            if(bulletEnergyActiveMost) { 
-                if(energyQuant < parsedEnergy) {
-                    energyQuant =  array[i].energy;
-                    energyComponent = array[i];
-                } else if(energyLeast > parsedEnergy){
-                    energyLeast =  array[i].energy;
-                    energyMismatch = array[i];
-                }
-            } else if(bulletEnergyActiveLeast) {
-                if(energyLeast > parsedEnergy) {
-                    energyLeast =  array[i].energy;
-                    energyComponent = array[i];
-                } else if(energyQuant < parsedEnergy) {
-                    energyQuant =  array[i].energy;
-                    energyMismatch = array[i];
-                }
-            }
-            if(bulletFatActiveMost) {
-                if(fatQuant < parsedFat) {
-                    fatQuant = array[i].fat;
-                    fatComponent = array[i];
-                } else if(fatLeast < parsedFat) {
-                    fatLeast = array[i].fat;
-                    fatMismatch = array[i];
-                    fatLeast = array[i].fat;
-                } 
-            } else if(bulletFatActiveLeast) {
-                if(fatLeast > parsedFat) {
-                    fatLeast = array[i].fat;
-                    fatComponent = array[i];
-                } else if(fatQuant < parsedFat) {
-                    fatQuant = array[i].fat;
-                    fatMismatch = array[i];
-                }
-            }
+            const parsedFat = parseInt(array[i].fat) * 100;
+            const parsedSaturated = parseInt(array[i].saturated) * 100;
+            const parsedCarbs = parseInt(array[i].carbs) * 100;
+            const parsedSugar = parseInt(array[i].sugar) * 100;
+            const parsedFiber = parseInt(array[i].fiber) * 100;
+            const parsedProtein = parseInt(array[i].protein) * 100;
+            const parsedSalt = parseInt(array[i].salt) * 100;
+            const parsedVitamins = parseInt(array[i].vitamins) * 100;
 
-            if(bulletSaturatedActiveMost) {
-                if(saturatedQuant < parsedSaturated) {
-                    saturatedQuant =  array[i].saturated;
-                    saturatedComponent = array[i];
-                } else if(saturatedLeast > parsedSaturated) {
-                    saturatedLeast =  array[i].saturated;
-                    saturatedMismatch = array[i];
-                } 
-            } else if(bulletSaturatedActiveLeast) {
-                if(saturatedLeast > parsedSaturated) {
-                    saturatedLeast =  array[i].saturated;
-                    saturatedComponent = array[i];
-                } else if(saturatedQuant > parsedSaturated) {
-                    saturatedQuant =  array[i].saturated;
-                    saturatedMismatch = array[i];
-                } 
+            if(bulletEnergyActiveMost && energyMost < parsedEnergy) { 
+                energyMost =  parsedEnergy;
+                energyComponent = array[i];
             }
+            if(bulletFatActiveMost && fatMost < parsedFat) {
+                fatMost = parsedFat;
+                fatComponent = array[i];
+            } 
 
-            if(bulletCarbsActiveMost) {
-                if(carbsQuant < parsedCarbs) {
-                    carbsQuant = array[i].carbs;
-                    carbsComponent = array[i];
-                } else if (carbsLeast <  parsedCarbs){
-                    carbsLeast = array[i].carbs;
-                    carbsMismatch = array[i];
-                } 
-            } else if(bulletCarbsActiveLeast) {
-                if(carbsLeast > parsedCarbs) {
-                    carbsLeast = array[i].carbs;
-                    carbsComponent = array[i];
-                } else if (carbsQuant < parsedCarbs) {
-                    carbsQuant = array[i].carbs;
-                    carbsMismatch = array[i];
-                } 
-            }
+            if(bulletSaturatedActiveMost && saturatedMost < parsedSaturated) {
+                saturatedMost =  parsedSaturated;
+                saturatedComponent = array[i];
+            } 
 
-            if(bulletSugarActiveMost) {
-                if(sugarQuant < parsedSugar) {
-                    sugarQuant = array[i].sugar;
-                    sugarComponent = array[i];
-                } else if (sugarLeast > parsedSugar) {
-                    sugarLeast = array[i].sugar;
-                    sugarMismatch = array[i];
-                } 
-            } else if(bulletSugarActiveLeast) {
-                if(sugarLeast > parsedSugar) {
-                    sugarLeast = array[i].sugar;
-                    sugarComponent = array[i];
-                } else if (sugarQuant < parsedSugar) {
-                    sugarQuant = array[i].sugar;
-                    sugarMismatch = array[i];
-                } 
-            }
+            if(bulletCarbsActiveMost && carbsMost < parsedCarbs) {
+                carbsMost = parsedCarbs;
+                carbsComponent = array[i];
+            } 
 
-            if(bulletFiberActiveMost) {
-                if(fiberQuant < parsedFiber) {
-                    fiberQuant = array[i].fiber;
-                    fiberComponent = array[i];
-                } else if (fiberLeast > parsedFiber) {
-                    fiberLeast = array[i].fiber;
-                    fiberMismatch = array[i].fiber;
-                } 
-            } else if(bulletFiberActiveLeast) {
-                if(fiberLeast > parsedFiber) {
-                    fiberLeast = array[i].fiber;
-                    fiberComponent = array[i];
-                } else if (fiberQuant < parsedFiber) {
-                    fiberQuant = array[i].fiber;
-                    fiberMismatch = array[i];
-                } 
-            }
+            if(bulletSugarActiveMost && sugarMost < parsedSugar) {
+                sugarMost = parsedSugar;
+                sugarComponent = array[i];
+            } 
 
-            if(bulletProteinActiveMost) {
-                if(proteinQuant < parsedProtein) {
-                    proteinQuant = array[i].protein;
-                    proteinComponent = array[i];
-                } else if (proteinLeast > parsedProtein) {
-                    proteinLeast = array[i].protein;
-                    proteinMismatch = array[i];
-                } 
-            } else if(bulletProteinActiveLeast) {
-                if(proteinLeast > parsedProtein) {
-                    proteinLeast = array[i].protein;
-                    proteinComponent = array[i];
-                } else if (proteinQuant < parsedProtein) {
-                    proteinQuant = array[i].protein;
-                    proteinMismatch = array[i];
-                }
-            }
+            if(bulletFiberActiveMost && fiberMost < parsedFiber) {
+                fiberMost = parsedFiber;
+                fiberComponent = array[i];
+            } 
 
-            if(bulletSaltActiveMost) {
-                if(saltQuant < parsedSalt) {
-                    saltQuant = array[i].salt;
-                    saltComponent = array[i];
-                } else if (saltLeast > parsedSalt) {
-                    saltLeast = array[i].salt;
-                    saltMismatch = array[i];
-                } 
-            } else if(bulletSaltActiveLeast) {
-                if(saltLeast > parsedSalt) {
-                    saltLeast = array[i].salt;
-                    saltComponent = array[i];
-                } else if (saltQuant < parsedSalt) {
-                    saltQuant = array[i].salt;
-                    saltMismatch = array[i];
-                } 
-            }
-            if(bulletVitaminsActiveMost) {
-                if(vitaminsQuant < parsedSalt) {
-                    vitaminsQuant = array[i].vitamins;
-                    vitaminsComponent = array[i];
-                } else if (vitaminsLeast < parsedSalt) {
-                    vitaminsLeast = array[i].vitamins;
-                    vitaminsMismatch = array[i];
-                } 
-            } else if(bulletVitaminsActiveLeast) {
-                if(vitaminsLeast > parsedVitamins) {
-                    vitaminsLeast = array[i].vitamins;
-                    vitaminsComponent = array[i];
-                } else if (vitaminsQuant < parsedVitamins) {
-                    vitaminsQuant = array[i].vitamins;
-                    vitaminsMismatch = array[i];
-                } 
-            }
+            if(bulletProteinActiveMost && proteinMost < parsedProtein) {
+                proteinMost = parsedProtein;
+                proteinComponent = array[i];
+            } 
+
+            if(bulletSaltActiveMost && saltMost < parsedSalt) {
+                saltMost = parsedSalt;
+                saltComponent = array[i];
+            } 
+
+            if(bulletVitaminsActiveMost && vitaminsMost < parsedVitamins) {
+                vitaminsMost = parsedVitamins;
+                vitaminsComponent = array[i];
+            } 
         }
+
         // MATCH
-        if(energyComponent !== null) {
-            matchArray.push(energyComponent);
-        }
-        if(fatComponent !== null) {
-            matchArray.push(fatComponent);
-        }
-        if(saturatedComponent !== null) {
-            matchArray.push(saturatedComponent);
-        }
-        if(carbsComponent !== null) {
-            matchArray.push(carbsComponent);
-        }
-        if(sugarComponent !== null) {
-            matchArray.push(sugarComponent);
+        if(energyComponent !== null)  matchArray.push(energyComponent);
+        if(fatComponent !== null) matchArray.push(fatComponent);
+        if(saturatedComponent !== null) matchArray.push(saturatedComponent);
+        if(carbsComponent !== null) matchArray.push(carbsComponent);
+        if(sugarComponent !== null) matchArray.push(sugarComponent);
+        if(fiberComponent !== null) matchArray.push(fiberComponent);
+        if(proteinComponent !== null) matchArray.push(proteinComponent);
+        if(saltComponent !== null) matchArray.push(saltComponent);
+        if(vitaminsComponent !== null) matchArray.push(vitaminsComponent);
+        let countMatched = {};
+        let bestMatchId = 0;
+        let countMismatched = {};
+        let bestMismatchId = 0;
+        let maxMatch = 0;
+        let maxMismatch = 0;
+        matchArray.forEach(item => {
+            countMatched[item.id] = (countMatched[item.id] || 0) + 1;
+        })
+        for (const key in countMatched) {
+            if(maxMatch < countMatched[key]) {
+                bestMatchId = key;
+                maxMatch = countMatched[key];
+            }
         }
 
-        if(fiberComponent !== null) {
-            matchArray.push(fiberComponent);
+        let leastProduct = array[0].id != bestMatchId ? array[0] : array[1];
+        console.log("leeeast", array)
+        let energyLeast = parseInt(leastProduct.energy) * 100;
+        let fatLeast = parseInt(leastProduct.fat) * 100;
+        let saturatedLeast = parseInt(leastProduct.saturated) * 100;
+        let carbsLeast = parseInt(leastProduct.carbs) * 100;
+        let sugarLeast = parseInt(leastProduct.sugar) * 100;
+        let fiberLeast = parseInt(leastProduct.fiber) * 100;
+        let proteinLeast = parseInt(leastProduct.protein) * 100;
+        let saltLeast= parseInt(leastProduct.salt) * 100;
+        let vitaminsLeast = parseInt(leastProduct.vitamins) * 100;
+        if(bulletEnergyActiveLeast) energyMismatch = leastProduct;
+        if(bulletFatActiveLeast) fatMismatch = leastProduct
+        if(bulletSaturatedActiveLeast) saturatedMismatch = leastProduct;
+        if(bulletCarbsActiveLeast) carbsMismatch = leastProduct;
+        if(bulletSugarActiveLeast) sugarMismatch = leastProduct;
+        if(bulletFiberActiveLeast) fiberMismatch = leastProduct;
+        if(bulletProteinActiveLeast) proteinMismatch = leastProduct;
+        if(bulletSaltActiveLeast) saltMismatch = leastProduct;
+        if(bulletVitaminsActiveLeast) vitaminsMismatch = leastProduct;
+
+        for(let i = 1; i < arrayLength; i++) {
+            if(array[i].id !== bestMatchId) {
+                console.log("noooo", energyMismatch);
+                const parsedEnergy = parseInt(array[i].energy) * 100;
+                const parsedFat = parseInt(array[i].fat) * 100;
+                const parsedSaturated = parseInt(array[i].saturated) * 100;
+                const parsedCarbs = parseInt(array[i].carbs) * 100;
+                const parsedSugar = parseInt(array[i].sugar) * 100;
+                const parsedFiber = parseInt(array[i].fiber) * 100;
+                const parsedProtein = parseInt(array[i].protein) * 100;
+                const parsedSalt = parseInt(array[i].salt) * 100;
+                const parsedVitamins = parseInt(array[i].vitamins) * 100;
+    
+               if(bulletEnergyActiveLeast && energyLeast > parsedEnergy) {
+                   console.log("ACTIVE")
+                    energyLeast =  parsedEnergy;
+                    energyMismatch = array[i];
+                }
+                if(bulletFatActiveLeast && fatLeast > parsedFat) {
+                    fatLeast = parsedFat;
+                    fatMismatch = array[i];
+                }
+                if(bulletSaturatedActiveLeast && saturatedLeast > parsedSaturated) { 
+                    saturatedLeasr =  parsedSaturated;
+                    saturatedMismatch = array[i];
+                }
+    
+                if(bulletCarbsActiveLeast && carbsLeast > parsedCarbs) {
+                    carbsLeast = parsedCarbs;
+                    carbsMismatch = array[i];
+                }
+    
+                if(bulletSugarActiveLeast && sugarLeast > parsedSugar) {
+                    sugarLeast = parsedSugar;
+                    sugarMismatch = array[i];
+                }
+    
+                if(bulletFiberActiveLeast && fiberLeast > parsedFiber) {
+                    fiberLeast = parsedFiber;
+                    fiberMismatch = array[i];
+                }
+    
+                if(bulletProteinActiveLeast && proteinLeast > parsedProtein) {
+                    proteinLeast = parsedProtein;
+                    proteinMismatch = array[i]; 
+                }
+    
+                if(bulletSaltActiveMost && saltLeast > parsedSal) {
+                    saltLeast = parsedSalt;
+                    saltMismatch = array[i];
+                } 
+
+                if(bulletVitaminsActiveMost && vitaminsLeast > parsedVitamins) {
+                    vitaminsLeast = parsedVitaminss;
+                    vitaminsMismatch = array[i];
+                }
+            }
         }
-        if(proteinComponent !== null) {
-            matchArray.push(proteinComponent);
-        }
-        if(saltComponent !== null) {
-            matchArray.push(saltComponent);
-        }
-        if(vitaminsComponent !== null) {
-            matchArray.push(vitaminsComponent);
-        }
+
         // MISMATCH
 
         if(energyMismatch !== null) {
@@ -475,75 +396,101 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         if(vitaminsMismatch !== null) {
             mismatchArray.push(vitaminsMismatch);
         }
-        countMatch(matchArray, mismatchArray);
+        mismatchArray.forEach(item => {
+            countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
+        })
+        for (const key in countMismatched) {
+            if(maxMismatch < countMismatched[key]) {
+                bestMismatchId = key;
+                maxMismatch = countMismatched[key];
+            }
+        }
+        findResult(bestMatchId, bestMismatchId);
     }
 
         
     }
 
-    const countMatch = function(matchArray, mismatchArray) {
-        let countMatched = {};
-        let countMismatched = {};
-        let maxMatch = 0;
-        let maxMatchAlt = 0;
-        let maxMismatch = 0;
-        let bestMatchId = null;
-        let worstMatchId = null;
-        matchArray.forEach(item => {
-            countMatched[item.id + " " + item.subcategory_id] = (countMatched[item.id + " " + item.subcategory_id] || 0) + 1;
-        })
-        mismatchArray.forEach(item => {
-            countMismatched[item.id + " " + item.subcategory_id] = (countMismatched[item.id + " " + item.subcategory_id] || 0) + 1;
-        })
-        for (const key in countMatched) {
-            if(maxMatch < countMatched[key]) {
-                bestMatchId = key;
-                maxMatch = countMatched[key];
-            }
-        }
-        for (const key in countMismatched) {
-            if(maxMismatch < countMismatched[key]) {
-                worstMatchId = key;
-                maxMismatch = countMismatched[key];
-            }
-        }
-        if(Object.keys(countMatched).length > 1 && Object.keys(countMismatched).length > 1 && bestMatchId === worstMatchId) {
-            let bestMatchAltId = null;
-            let countMatchedAlt = {};
-            var newArray = matchArray.filter(item => ( 
-               !(item.id == bestMatchId.split(" ")[0] && item.subcategory_id == bestMatchId.split(" ")[1])
-            ));
+    const countMatch = function(bestMatchId, bestMismatchId) {
+      
+        // let countMatched = {};
+        // let countMismatched = {};
+        // let maxMatch = 0;
+        // let maxMatchAlt = 0;
+        // let maxMismatch = 0;
+        // let bestMatchId= null;
+        // let worstMatchId = null;
+        // let matchProduct;
+        // let mismatchProduct;
+        
+        // matchArray.forEach(matchItem => {
+        //     mismatchArray.forEach(mismatchItem => {
+        //         if()
+        //     })
+        // })
+
+        // matchArray.forEach(item => {
+        //     countMatched[item.id] = (countMatched[item.id] || 0) + 1;
+        // })
+        // mismatchArray.forEach(item => {
+        //     countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
+        // })
+        // console.log("COUINT MAATCHED", countMatched)
+        // console.log("COUINT MIIIISSSSMAATCHED", countMismatched)
+        // for (const key in countMatched) {
+        //     if(maxMatch < countMatched[key]) {
+        //         bestMatchId = key;
+        //         maxMatch = countMatched[key];
+        //     }
+        // }
+        // for (const key in countMismatched) {
+        //     if(maxMismatch < countMismatched[key] && bestMatchId !== key) {
+        //         worstMatchId = key;
+        //         maxMismatch = countMismatched[key];
+        //     }
+        // }
+        // if(bestMatchId !== worstMatchId){
+        //     matchProduct = selectedProducts.find(item => item.id == bestMatchId)
+        //     mismatchProduct = selectedProducts.find(item => item.id == worstMatchId)
+        // } else {
+        //     for (const key in countMismatched) {
+        //         if(maxMismatch < countMismatched[key] && countMismatched[key] !== bestMatchId) {
+        //             worstMatchId = key;
+        //             maxMismatch = countMismatched[key];
+        //         }
+        //     }
+        // }
+        
+    
+        // if(Object.keys(countMatched).length > 1 && Object.keys(countMismatched).length > 1 && bestMatchId === worstMatchId) {
+        //     let bestMatchAltId = null;
+        //     let countMatchedAlt = {};
+        //     var newArray = matchArray.filter(item => ( 
+        //        !(item.id == bestMatchId.split(" ")[0] && item.subcategory_id == bestMatchId.split(" ")[1])
+        //     ));
             
-            newArray.forEach(item => {
-                countMatchedAlt[item.id + " " + item.subcategory_id] = (countMatchedAlt[item.id + " " + item.subcategory_id] || 0) + 1;
-            })
-            for (const key in countMatchedAlt) {   
-                if(maxMatchAlt < countMatchedAlt[key]) {
-                    bestMatchAltId = key;
-                    maxMatchAlt = countMatchedAlt[key];
-                }
-            }
-            findResult(bestMatchAltId, worstMatchId);
-        } else {
-            findResult(bestMatchId, worstMatchId);
-        }
+        //     newArray.forEach(item => {
+        //         countMatchedAlt[item.id + " " + item.subcategory_id] = (countMatchedAlt[item.id + " " + item.subcategory_id] || 0) + 1;
+        //     })
+        //     for (const key in countMatchedAlt) {   
+        //         if(maxMatchAlt < countMatchedAlt[key]) {
+        //             bestMatchAltId = key;
+        //             maxMatchAlt = countMatchedAlt[key];
+        //         }
+        //     }
+        //     // findResult(bestMatchAltId, worstMatchId);
+        // } else {
+        //     // findResult(bestMatchId, worstMatchId);
+        // }
     }
-    const findResult = function(bestMatchId, worstMatchId) {
-        const bestMatch_id = bestMatchId.split(" ")[0]; 
-        const bestMatch_subcategoryId = bestMatchId.split(" ")[1]; 
-        const worstMatch_id = worstMatchId.split(" ")[0]; 
-        const worstMatch_subcategoryId = worstMatchId.split(" ")[1]; 
-        const result = {
-            healthier: {
-                id: bestMatch_id,
-                subId: bestMatch_subcategoryId,
-            },
-            unhealthier: {
-                id: worstMatch_id,
-                subId: worstMatch_subcategoryId,
-            } 
+    const findResult = function(bestMatchId, bestMismatchId) {
+        const matchProduct = selectedProducts.find(item => item.id == bestMatchId)
+        const mismatchProduct = selectedProducts.find(item => item.id == bestMismatchId)
+        const data = {
+            match: matchProduct,
+            mismatch: mismatchProduct
         }    
-        compare(result);
+        compare(data);
         setCalculated(true);
     }
 

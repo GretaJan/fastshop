@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -67,7 +67,7 @@ class CategoryList extends Component {
                             <Text style={authCategory().nameTxt}>{this.props.item.name}</Text>
                         </View>
                         <View style={authCategory().goToSubBtn }>
-                            <StyledButton horizontal={20} vertical={15} title="Subcategories" func={() => this.props.goToSubcategories()} color={colors.mainYellow} />
+                            <StyledButton horizontal={20} vertical={15} title="Subcategories" func={() => this.props.goToSubcategories()} color={colors.mainGrey} />
                         </View>
                     </View>
                     

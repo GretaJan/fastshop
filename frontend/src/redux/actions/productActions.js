@@ -1,6 +1,7 @@
 import { 
     LOADING_GET_PRODUCTS, 
     GET_PRODUCTS, 
+    GET_PRODUCTS_APPEND,
     GET_PRODUCTS_ERROR, 
     REMOVE_GET_PRODUCTS_ERROR,
     LOADING_GET_PRODUCT, 
@@ -17,62 +18,88 @@ import {
     URL,
 } from './types';
 import axios from 'axios';
+;
 
-export const getProducts = (subcategory, page) => async (dispatch) => {
+export const getProducts = (allProducts, subcategoryId, page) => async (dispatch) => {
     await dispatch({
         type: LOADING_GET_PRODUCTS,
         loading: page == 1 ? true : false,
         loadingNext: page > 1 ? true : false,
         error: ''
     });
-    axios.get(`${URL}/products/${subcategory}?page=${page}`)
-        .then(response => {
-                return dispatch({
-                        type: GET_PRODUCTS,
-                        payload: response.data.data,
-                        currentPage: response.data.meta.current_page,
-                        lastPage: response.data.meta.last_page === response.data.meta.current_page ? true : false,
-                    })
-            }).catch(() => { 
-                return dispatch({
-                    type: GET_PRODUCTS_ERROR,
-                    error: 'Failed to load product list',
-                })
-        })
+    let filteredProducts = [];
+    let lastPage = 1;
+    allProducts.forEach(item => {
+        if(item.parentId == subcategoryId){
+            lastPage = item.lastPage;
+            filteredProducts = item.data[page];
+        }
+    });
+    dispatch({ 
+        type: page == 0 ? GET_PRODUCTS : GET_PRODUCTS_APPEND,
+        payload: filteredProducts,
+        nextPage: page + 1,
+        lastPage: lastPage,
+    });
+    // axios.get(`${URL}/products/${subcategory}?page=${page}`)
+    //     .then(response => {
+    //             return dispatch({
+    //                     type: GET_PRODUCTS,
+    //                     payload: response.data.data,
+    //                     currentPage: response.data.meta.current_page,
+    //                     lastPage: response.data.meta.last_page === response.data.meta.current_page ? true : false,
+    //                 })
+    //         }).catch(() => { 
+    //             return dispatch({
+    //                 type: GET_PRODUCTS_ERROR,
+    //                 error: 'Failed to load product list',
+    //             })
+    //     })
+    
     dispatch({
         type: REMOVE_GET_PRODUCTS_ERROR,
     })
 } 
 
-export const getProduct = (subcategory, product) => (dispatch) => {
+// export const getProducts = (products, subcategoryId, page) => dispatch =>{
+//     getPaginatedProducts(dispatch, allProducts, subcategoryId, page)
+// }
+
+export const getProduct = (productId) => dispatch => {
     dispatch({
         type: LOADING_GET_PRODUCT,
-        loading: true,
-        error: ''
     })
-    axios.get(`${URL}/product/${subcategory}/${product}`)
-        .then(response => (
-                dispatch({
-                    type: GET_PRODUCT,
-                    payload: response.data,
-                    loading: false,
-                    error: ''
-                })
-            )
-        ).catch(err => { 
-            return dispatch({
-                type: GET_PRODUCT_ERROR,
-                error: 'Failed to load product ' + err,
-                loading: false
-            })
-        })
     dispatch({
         type: GET_PRODUCT,
-        payload: {},
-        loading: false,
-        error: ''
-    })   
+        productId: productId,
+    })
+    // axios.get(`${URL}/product/${subcategoryId}/${productId}`)
+    //     .then(response => (
+    //             dispatch({
+    //                 type: GET_PRODUCT,
+    //                 payload: response.data,
+    //                 loading: false,
+    //                 error: ''
+    //             })
+    //         )
+    //     ).catch(err => { 
+    //         return dispatch({
+    //             type: GET_PRODUCT_ERROR,
+    //             error: 'Failed to load product ' + err,
+    //             loading: false
+    //         })
+    //     })
+    // dispatch({
+    //     type: GET_PRODUCT,
+    //     payload: product,
+    //     loading: false,
+    //     error: ''
+    // })   
 } 
+
+export const likeProduct = (productId, subcategoryId) => dispatch => {
+    axios.get(`${URL}/like-product/${productId}/${subcategoryId}`)
+}
 
 export const addProduct = (subcategory, data, access_token) => async dispatch => {
     await dispatch({

@@ -8,8 +8,27 @@ use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\CategoryResource;
 use File;
+use DB;
+
 class CategoryController extends Controller
 {
+    public function getAllData()
+    {
+        $categories = Category::all();
+        $subcategories = DB::table('subcategories')
+                        ->get()
+                        ->groupBy('category_id');
+                        
+        $products = DB::table('products')
+                        ->get()
+                        ->groupBy('subcategory_id');
+        $response = [
+            'categories' => $categories,
+            'subcategories' => $subcategories,
+            'products' => $products
+        ];
+        return response()->json($response, 200);
+    }
 
     public function index()
     {

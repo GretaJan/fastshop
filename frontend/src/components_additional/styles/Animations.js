@@ -42,6 +42,18 @@ var Animations = {
             }).start()
         ])
     },
+    numbersAnimation(translate, toValue) {
+        Animated.sequence([
+            Animated.timing(translate, {
+                toValue: toValue,
+                delay: 2,
+                // Speed: 20, 
+                // tension: 50,
+                // duration: 2500,
+                useNativeDriver: true,
+            }).start()
+        ])
+    },
     buttonScale(scale) {
         Animated.sequence([
             Animated.timing(scale, {
@@ -99,5 +111,50 @@ var Animations = {
             })
         ]).start(() => Animations.AnimateAuth(translOne, translTwo, translThree) )
     },
+    // changeHeight(height) {
+    //     console.log("height", height)
+    //     Animated.sequence([
+    //         Animated.timing(height, {
+    //             toValue: 1,
+    //             delay: 2,
+    //             duration: 50,
+    //             easing: Easing.linear,
+    //             useNativeDriver: true,
+    //         })
+    //     ]).start();
+    // }
 }
-module.exports = Animations;
+
+var productAnimations = {
+    btnAnimation(rotate, scale, transition) {
+        Animated.sequence([
+            Animated.timing(rotate, {
+                toValue: 1,
+                delay: 1,
+                duration: 210,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
+            Animated.timing(scale, {
+                toValue: 1,
+                delay: 0,
+                duration: 0,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
+            Animated.timing(transition, {
+                toValue: 0,
+                delay: 2,
+                duration: 200,
+                // easing: Easing.linear,
+                useNativeDriver: true,
+            })
+        ]).start();
+    }
+}
+
+module.exports = {
+    Animations: Animations,
+    productAnimations: productAnimations
+};
+// module.exports = Animations;

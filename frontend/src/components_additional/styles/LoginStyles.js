@@ -3,7 +3,7 @@ import {Dimensions} from 'react-native';
 
 export const styles = (background) => StyleSheet.create({
     container: {
-        backgroundColor: background ? background : '#ffcc33',
+        backgroundColor: background ? background : '#e5e9ee',
         height: Dimensions.get('window').height /1,
     },
     inputsWrap: {

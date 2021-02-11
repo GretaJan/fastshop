@@ -1,6 +1,13 @@
 export const URL = 'http://10.0.2.2:80/Asmeniniai/fastshop/backend/laravel/public/api';
 // export const URL = 'http://192.168.0.102/2019%20Reproduction/fastshop/backend/laravel/public/api';
 
+//General
+export const LOADING_DATA = 'LOADING_DATA';
+export const DATA_LOADED = 'DATA_LOADED';
+export const GET_ALL_DATA = 'GET_ALL_DATA';
+export const DATA_LOADED_ERROR = 'DATA_LOADED_ERROR';
+export const DATA_LOAD_CANCELED = 'DATA_LOAD_CANCELED';
+
 // FOR CATEGORIES
 
 export const LOADING_GET_CATEGORIES = 'LOADING_GET_CATEGORIES';
@@ -37,6 +44,7 @@ export const DELETE_SUBCATEGORY_ERROR = 'DELETE_SUBCATEGORY_ERROR';
 
 export const LOADING_GET_PRODUCTS = 'LOADING_GET_PRODUCTS';
 export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const GET_PRODUCTS_APPEND = 'GET_PRODUCTS_APPEND';
 export const GET_PRODUCTS_ERROR = 'GET_PRODUCTS_ERROR';
 export const REMOVE_GET_PRODUCTS_ERROR = 'REMOVE_GET_PRODUCTS_ERROR';
 export const UNMOUNT_PRODUCTS = 'UNMOUNT_PRODUCTs';
@@ -55,6 +63,7 @@ export const SAVE_COMBINATION = 'SAVE_COMBINATION';
 
 // FOR AUTHENTICATION
 
+export const REGISTER_TOKEN = 'REGISTER_TOKEN';
 export const TRY_LOG_IN = 'TRY_LOG_IN';
 export const LOGGED_IN = 'LOGGED_IN';
 export const LOG_IN_FAILED = 'LOG_IN_FAILED';

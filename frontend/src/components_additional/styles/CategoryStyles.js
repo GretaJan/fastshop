@@ -5,7 +5,7 @@ import {Dimensions} from 'react-native';
 
 export const authCategory = (background=colors.mainWhiteYellow, error) => StyleSheet.create({
     container: {
-        backgroundColor: colors.mainYellow,
+        backgroundColor: colors.mainGrey,
         flex: 1,
         alignItems: 'center',
     },
@@ -79,7 +79,7 @@ export const authCategory = (background=colors.mainWhiteYellow, error) => StyleS
         marginRight: 20,
     },
     editBtnWrap: {
-        backgroundColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
         height: 55,
         width: 55,
         borderRadius: 5,
@@ -100,7 +100,7 @@ export const authCategory = (background=colors.mainWhiteYellow, error) => StyleS
        
     },
     removeBtnWrap: {
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         height: 55,
         width: 55,
         borderRadius: 5,
@@ -214,11 +214,12 @@ export const authCategory = (background=colors.mainWhiteYellow, error) => StyleS
 export const stylesGuest = () => StyleSheet.create({
     container: {
         // backgroundColor: '#ffdc75',
-        backgroundColor: '#ffcc33',
+        backgroundColor: colors.mainGrey,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         alignContent: 'center',
+        height: (Dimensions.get('window').height /1) - 142,
     },
     searchBarContainer: {
         display: 'flex',
@@ -232,50 +233,125 @@ export const stylesGuest = () => StyleSheet.create({
     searchBarInput: {
         marginLeft: 5
     },
-    imageWrap: {
-        height: 120,
-        width: 120,
-        justifyContent: 'center',
-        alignItems: 'center',
+    descriptionText: {
+        position: 'absolute',
+        top: 20,
+       width: Dimensions.get('window').width /2,
+       textAlign: 'center',
     },
-    image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain' 
-    },
+    // imageWrap: {
+    //     height: 120,
+    //     width: 120,
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    // },
+    // image: {
+    //     width: '100%',
+    //     height: '100%',
+    //     resizeMode: 'contain' 
+    // },
     flatList: {
         width: Dimensions.get('window').width /1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: '25%',
+        height: (Dimensions.get('window').height /1) - 142,
     },
+    // itemWrap: {
+    //     backgroundColor: colors.mainWhiteYellow,
+    //     marginBottom: 20,
+    //     borderRadius: 10,
+    //     height: 155,
+    //     width: 160,
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     // Shadow
+    //     elevation   : 5,
+    //     overflow: 'hidden',
+    //     //iOS:
+    //     shadowColor: 'red',
+    //     shadowOffset: { width: 1, height: 1 },
+    //     shadowOpacity: 0.8,
+    //     shadowRadius: 2, 
+    // },
+    // itemText: {
+    //     textAlign: 'center',
+    //     fontFamily: 'sans-serif-condensed',
+    //     fontSize: 16,
+    // },
+    // imageIcon: {
+    //     textAlign: 'center',
+    //     fontFamily: 'sans-serif-condensed',
+    //     fontSize: 100,
+    //     color: '#000'
+    // }
     itemWrap: {
-        backgroundColor: colors.mainWhiteYellow,
-        marginBottom: 20,
-        borderRadius: 10,
-        height: 155,
-        width: 160,
-        justifyContent: 'center',
-        alignItems: 'center',
-        // Shadow
-        elevation   : 5,
-        overflow: 'hidden',
-        //iOS:
-        shadowColor: 'red',
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2, 
+        height: 60,
+        width: 185,
+        borderColor: colors.mainBtnGreen,
+        borderWidth: 2,
+        marginBottom: 40
+    },
+    itemWrapHover: {
+        height: 60,
+        width: 185,
+        borderColor: colors.mainBtnGreen,
+        borderWidth: 2,
+        marginBottom: 40
     },
     itemText: {
+        fontSize: 20,
+        color: colors.mainBtnGreen,
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed',
-        fontSize: 16,
+        height: '100%',
+        textAlignVertical: 'center',
+        fontWeight: 'bold',
     },
-    imageIcon: {
+    itemTextHover: {
+        fontSize: 20,
+        color: colors.mainGrey,
+        backgroundColor: colors.mainBtnGreen,
         textAlign: 'center',
-        fontFamily: 'sans-serif-condensed',
-        fontSize: 100,
-        color: '#000'
+        height: '100%',
+        textAlignVertical: 'center',
+        fontWeight: 'bold',
+    },
+    imgIcon: {
+        fontSize: 40,
+        top: -25,
+        left: '50%',
+        transform: [
+            { translateX: -25 }
+        ],
+        paddingHorizontal: 3,
+        backgroundColor: colors.mainGrey, 
+        color: colors.mainBtnGreen,
+        position: 'absolute',
+        zIndex: 1,
+    },
+    imgIconHover: {
+        // display: 'none',
+        fontSize: 40,
+        top: 3,
+        left: 15, 
+        color: colors.mainGrey,
+        position: 'absolute',
+        zIndex: 1,
+    },
+    arrowIcon: {
+        position: 'absolute',
+        right: 15,
+        color: colors.mainBtnGreen,
+        fontSize: 20,
+        top: 15,
+        paddingTop: 4,
+    },
+    arrowIconHover: {
+        position: 'absolute',
+        right: 15,
+        color: colors.mainGrey,
+        fontSize: 20,
+        top: 15,
+        paddingTop: 4,
     }
 })
 

@@ -214,7 +214,7 @@ export const productSelected = (subcategory, product) =&gt; dispatch =&gt; {
         ))
 }
 &nbsp;
-export const deleteProductFromList = (product) =&gt; dispatch =&gt; {
+export const removeProductFromSelected = (product) =&gt; dispatch =&gt; {
     return dispatch({
         type: REMOVE_SELECTED_PRODUCT,
         payload: product

@@ -10,4 +10,14 @@ class Product extends Model
     {
         return $this->belongsTo('App\Subcategory');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User')->withPivot('category_id');
+    }
+
+    // public function getTopOccurrencesAttribute()
+    // {
+    //     return $this->subcategory_id;
+    // }
 }

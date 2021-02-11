@@ -13,34 +13,48 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
+Route::get('/get-all-data', 'CategoryController@getAllData');
 
 Route::get('/categories', 'CategoryController@index');
 Route::get('/category/{category}', 'CategoryController@show');
-Route::post('/addCategory', 'CategoryController@store');
-Route::put('/updateCategory/{id}', 'CategoryController@update');
-Route::delete('/deleteCategory/{category}', 'CategoryController@destroy');
 
 Route::get('/subcategories/{category_id}', 'SubcategoryController@index');
 Route::get('/subcategory/{category_id}/{id}', 'SubcategoryController@show');
-Route::post('/addSubcategory/{category_id}', 'SubcategoryController@store');
-Route::put('/updateSubcategory/{category_id}/{id}', 'SubcategoryController@update');
-Route::delete('/deleteSubcategory/{subcategory}', 'SubcategoryController@destroy');
 
 Route::get('/products/{subcategory_id}', 'ProductController@index');
 Route::get('/product/{subcategory_id}/{id}', 'ProductController@show');
 
+
+Route::post('/register-user', 'UserController@register');
 Route::post('/login', 'UserController@login');
+Route::post('/login-admin', 'UserController@loginAdmin');
+Route::post('/login-user', 'UserController@loginUser');
+
 Route::group([
     'middleware' => 'auth:api'
 ], function() {
     Route::get('/user', 'UserController@user');
     Route::get('/logout', 'UserController@logout');
+    //Category actions
+    Route::post('/addCategory', 'CategoryController@store');
+    Route::put('/updateCategory/{id}', 'CategoryController@update');
+    Route::delete('/deleteCategory/{category}', 'CategoryController@destroy');
+    //Subcategory actions
+    Route::post('/addSubcategory/{category_id}', 'SubcategoryController@store');
+    Route::put('/updateSubcategory/{category_id}/{id}', 'SubcategoryController@update');
+    Route::delete('/deleteSubcategory/{subcategory}', 'SubcategoryController@destroy');
+    //Product actions
     Route::post('/addProduct/{subcategory_id}', 'ProductController@store');
     Route::put('/updateProduct/{subcategory_id}/{product}', 'ProductController@update');
     Route::delete('/deleteProduct/{product}', 'ProductController@destroy');
+    //User routes
+    Route::get('/like-product/{product_id}/{subcategory_id}', 'UserProductController@likeProduct');
+    Route::get('/unlike-product/{product_id}', 'UserProductController@unlikeProduct');
+    Route::get('/get-personal-favorites/{category_id}', 'UserProductController@getPersonalFavorites');
+    Route::get('/get-top-favorites/{category_id}', 'UserProductController@getTopFavorites');
 });
 

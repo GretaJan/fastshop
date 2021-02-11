@@ -5,7 +5,7 @@ import { colors } from './Colors';
 
 export const styles = (background) => StyleSheet.create({
     container: {
-        backgroundColor: background ? background : colors.mainYellow,
+        backgroundColor: background ? background : colors.mainGrey,
         flex: 1,
     },
     itemWrap: {
@@ -38,7 +38,7 @@ export const styles = (background) => StyleSheet.create({
         width: 65
     },
     backgroundColorIs: {
-        backgroundColor: background ? background : colors.mainYellow,
+        backgroundColor: background ? background : colors.mainGrey,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -75,7 +75,7 @@ export const styles = (background) => StyleSheet.create({
 
 export const stylesGuest = (backgroundCategory, backgroundSubcategory) => StyleSheet.create({
     container: {
-        backgroundColor: backgroundCategory ? backgroundCategory : colors.mainYellow,
+        backgroundColor: backgroundCategory ? backgroundCategory : colors.mainGrey,
         flex: 1,
         textAlign: 'center',
         paddingHorizontal: 12,
@@ -88,7 +88,7 @@ export const stylesGuest = (backgroundCategory, backgroundSubcategory) => StyleS
         width: Dimensions.get('window').width /1,
     },
     itemWrap: {
-        backgroundColor: backgroundSubcategory ? backgroundSubcategory : colors.mainWhiteYellow,
+        backgroundColor: backgroundSubcategory ? backgroundSubcategory : colors.mainWhiteGrey,
         paddingVertical: 5,
         marginHorizontal: Dimensions.get('window').width /70.5,
         marginBottom: 10,

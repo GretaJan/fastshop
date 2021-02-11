@@ -7,7 +7,7 @@ export const stylesGuest = (background) => StyleSheet.create( {
     container: {
         flex: 1,
         textAlign: 'center',
-        backgroundColor: background ? background : colors.mainYellow,
+        backgroundColor: background ? background : colors.mainGrey,
     },
     itemWrap: {
         display: 'flex',
@@ -63,35 +63,35 @@ export const stylesGuest = (background) => StyleSheet.create( {
     }
 });
 
-export const stylesGuestSingle = (background) => StyleSheet.create( {
+export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, checkTransition ) => StyleSheet.create({
     container: {
         flex: 1,
         textAlign: 'center',
         alignItems:'center',
-        backgroundColor: colors.mainWhiteYellow,
+        backgroundColor: colors.mainGrey,
         width: Dimensions.get('window').width /1,
+        maxHeight: Dimensions.get('window').height /1 - 140,
+        position: 'relative',
     },
     imageContainer: {
-        // width: Dimensions.get('window').width /2.3,
         width: 265,
-        height: 180,
+        height: 160,
+        borderRadius: 50,
         textAlign: 'center',
         alignItems:'center',
-        // justifyContent: 'center',
         alignSelf: 'center',
         top: 5,
         zIndex: 1,
     },
     imageStyle: {
+        borderRadius: 5,
         height: '100%',
         width: '100%',
         resizeMode: 'cover',
-        // borderRadius: 10,
     },
     emptyItem: {
         position: 'absolute',
-        // backgroundColor: '#f8f8f8',
-        backgroundColor: colors.mainWhiteYellow,
+        backgroundColor: background ? background : colors.mainGrey,
         width: 45,
         height: 45,
         borderRadius: 45/2,
@@ -103,48 +103,96 @@ export const stylesGuestSingle = (background) => StyleSheet.create( {
     emptyIcon: {
         fontSize: 45,
         color: background ? background : colors.yellowGreenish
-        // top: 12,
-        // left: 18, 
     },
     listContainer: {
-        backgroundColor: background ? background : colors.yellowGreenish,
+        backgroundColor: background ? background : colors.mainGrey,
         flex: 1,
-        // maxWidth: Dimensions.get('window').width /1,
+        marginBottom: 10,
         width: Dimensions.get('window').width /1,
     },
-    //Items
+    flatlistContainer: {
+        justifyContent: 'space-evenly',
+        alignContent: 'center',
+        textAlignVertical: 'center',
+        height: '100%',
+    },
     listItemWrap: {
-        flex: 1,
-        marginLeft: '5%',
-        marginRight: '5%',
         flexDirection: 'row',
-        height: 50,
         alignItems: 'center',
-        borderBottomColor: colors.transparentLight,
+        alignContent: 'center',
+        paddingHorizontal: 10,
+        marginHorizontal: 10,
+        // margin: 1,
+        borderColor: colors.mainWhiteGreyTrans,
         borderBottomWidth: 1,
         justifyContent: 'space-between',
+        paddingVertical: 6,
     },
-    listItemInfoWrap: {
-        flex: 1,
+    titleWrap: {
         flexDirection: 'row',
-        // alignContent: 'center',
-        // justifyContent: 'center',
-        alignItems: 'flex-start',
+        alignItems: 'center',
+        flexBasis: '75%',
+    },
+    componentIconWrap: {
+        height: 31,
+        width: 31,
+    },
+    componentIcon: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
     },
     componentTitle: {
-       width: '65%',
-       fontSize: 18,
-       paddingLeft: 20,
+        paddingLeft: 10,
+        fontSize: 16,
+    },
+    listItemInfoWrap: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flexBasis: 60,
+        justifyContent: 'flex-end'
     },
     componentAmount: {
-        fontSize: 18,
-        flex: 0.5,
+        fontSize: 16,
+        paddingRight: 5,
+        color: colors.mainBtnOrange
+  
     },
     componentMeasure: {
-        fontSize: 18,
-        color: colors.mainBlack,
-        flex: 0.4,
+        paddingBottom: 6,
+        color: colors.darkerGray
     },
+    //Items
+    // listItemWrap: {
+    //     flex: 1,
+    //     marginLeft: '5%',
+    //     marginRight: '5%',
+    //     flexDirection: 'row',
+    //     height: 44,
+    //     alignItems: 'center',
+    //     borderBottomColor: colors.transparentLight,
+    //     borderBottomWidth: 1,
+    //     justifyContent: 'space-between',
+    // },
+    // listItemInfoWrap: {
+    //     flex: 1,
+    //     flexDirection: 'row',
+    //     alignItems: 'flex-start',
+    // },
+    // componentTitle: {
+    //    width: '65%',
+    //    fontSize: 18,
+    //    paddingLeft: 20,
+    // },
+    // componentAmount: {
+    //     fontSize: 18,
+    //     flex: 0.5,
+    // },
+    // componentMeasure: {
+    //     fontSize: 18,
+    //     color: colors.mainBlack,
+    //     flex: 0.4,
+    // },
     triangle: {
         width: 0,
         height: 0,
@@ -156,16 +204,171 @@ export const stylesGuestSingle = (background) => StyleSheet.create( {
         borderLeftWidth: 250,
         borderTopColor: 'transparent',
         borderRightColor: 'transparent',
-        borderBottomColor: background ? background : colors.yellowGreenish,
+        borderBottomColor: background ? background : colors.mainGrey,
         borderLeftColor: 'transparent',
         position: 'absolute',
-        top: 100,
+        top: 73,
         zIndex: 0
       },
       underTriangle: {
-        height: 50,
+        height: 20,
         width: Dimensions.get('window').width /1,
-        backgroundColor: background ? background : colors.yellowGreenish,
+        backgroundColor: background ? background : colors.mainGrey,
+    },
+    // like button
+    btnsWrap: {
+        // justifyContent: 'flex-end',
+        backgroundColor: 'red',
+        position: 'absolute',
+        zIndex: 1, 
+        right: 30,
+    },
+    likeBtns: {
+        // height: 50,
+        // width: 30,
+        justifyContent: 'flex-end',
+    },
+    neutralBtnLiked: {
+        backgroundColor: isActive ? colors.mainBtnGreen  : colors.mainGrey,
+        width: 45,
+        height: 45,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        // Shadow
+        elevation   : 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+        position: 'relative',
+        transform: [
+            { rotateY: rotateBtn }
+        ]
+    },
+    neutralBtnSelected: {
+        backgroundColor: isActive ? colors.mainBtnOrange : colors.mainGrey,
+        width: 45,
+        height: 45,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        // Shadow
+        elevation   : 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+        position: 'relative',
+        transform: [
+            { rotateY: rotateBtn }
+        ]
+    },
+    iconHeartLike: {
+        fontSize: 26,
+        color: colors.mainBtnOrange,
+        position: 'absolute',
+        fontWeight: 'bold'
+    },
+    cartTxt: {
+        top: -1,
+        position: 'absolute',
+        color: colors.mainWhiteGrey,
+        fontSize: 12,
+    },
+    iconCartLike: {
+        color: '#000',
+        fontSize: 28,
+        fontWeight: 'normal',
+        position: 'absolute',
+        bottom: 4,
+    },
+    unlikeBtn: {
+        backgroundColor: colors.mainBtnGreen,
+        width: 45,
+        height: 45,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+          // Shadow
+          elevation   : 5,
+          overflow: 'hidden',
+          //iOS:
+          shadowColor: 'red',
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2, 
+          position: 'relative',
+    },
+    iconCart: {
+        color: '#000',
+        fontSize: 28,
+        fontWeight: 'normal',
+        position: 'absolute',
+    },
+    iconHeart: {
+        position: 'absolute',
+        top: 5,
+        fontSize: 16,
+        color: colors.mainBtnOrange,
+     
+    },
+    //Check btn
+    uncheckBtn: {
+        backgroundColor: colors.mainBtnOrange,
+        width: 45,
+        height: 45,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+          // Shadow
+          elevation   : 5,
+          overflow: 'hidden',
+          //iOS:
+          shadowColor: 'red',
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2, 
+          position: 'relative',
+        transform: [
+            { rotateY: rotateBtn }
+        ]
+    },
+    calcCheck: {
+        fontSize: 47,
+        color: colors.mainBtnGreen,
+        position: 'absolute',
+        fontWeight: 'bold'
+    },
+    calcUncheckList: {
+        fontSize: 28,
+        position: 'absolute',
+        fontWeight: 'bold',
+        // opacity: !listScale ? 0 : listScale,
+        transform: [
+            { rotateY: '-180deg' },
+            { scale: listScale }
+        ]
+    },
+    calcUncheck: {
+        position: 'absolute',
+        fontSize: 45,
+        color: colors.mainBtnGreen,
+        left: 3,
+        top: -8,
+        fontWeight: 'bold',
+        transform: [
+            { translateY: checkTransition },
+            { rotateY: '-180deg' }
+        ] 
     },
 });
 
@@ -173,7 +376,7 @@ export const authProducts = (background) => StyleSheet.create({
     container: {
         flex: 1,
         minHeight: Dimensions.get('window').height /1,
-        backgroundColor: background ? background : colors.mainYellow,
+        backgroundColor: background ? background : colors.mainGrey,
         zIndex: 0,
     },
 }) 
@@ -256,7 +459,7 @@ export const authProduct = (color, error) => StyleSheet.create({
         alignSelf: 'center',
         justifyContent:'center',
         alignItems: 'center',
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         height: 52,
         width: 52,
         borderRadius: 52/2,
@@ -266,7 +469,7 @@ export const authProduct = (color, error) => StyleSheet.create({
         fontSize: 40,
     },
     editBtnImg: {
-        backgroundColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
         height: 45,
         width: 45,
         borderRadius: 5,
@@ -286,7 +489,7 @@ export const authProduct = (color, error) => StyleSheet.create({
         fontSize: 35,
     },
     editBtnWrapImg: {
-        backgroundColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
         height: 45,
         width: 45,
         borderRadius: 5,
@@ -367,7 +570,7 @@ export const authProduct = (color, error) => StyleSheet.create({
          flexDirection: 'row',
      },
      saveWrap: {
-        backgroundColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
         height: 45,
         width: 45,
         borderRadius: 5,
@@ -445,7 +648,7 @@ export const authProduct = (color, error) => StyleSheet.create({
 
 export const postProductStyle = (error = null, background) => StyleSheet.create({
     container: {
-        backgroundColor: background ? background : colors.mainYellow,
+        backgroundColor: background ? background : colors.mainGrey,
         // height: Dimensions.get('window').height /1,
         paddingHorizontal: 30,
     },
@@ -559,9 +762,6 @@ export const postProductStyle = (error = null, background) => StyleSheet.create(
         flex: 1,
         alignItems: 'center',
         paddingTop:20,
-    },
-    imageStyle: {
-        width: 120,
     },
     imageWrap: {
         width: 150,

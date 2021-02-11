@@ -1,45 +1,85 @@
 import React, { Component } from 'react';
-import { View, FlatList, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, FlatList, ScrollView, TouchableOpacity, Image, Animated } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProduct } from '../../redux/actions/productActions';
-import { productSelected } from '../../redux/actions/comparisonActions';
+import { productSelected, removeProductFromSelected } from '../../redux/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+import EvilIcon from 'react-native-vector-icons/dist/EvilIcons';
 import Loading from '../../components_additional/Loading';
 import Modal from '../../components_additional/Modal';
-import ProductComponent from './DetailRow';
+import DetailRow from './DetailRow';
+
+const { productAnimations } = require('../../components_additional/styles/Animations');
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+const AnimatedIcon = Animated.createAnimatedComponent(Icon);
+const AnimatedMaterialIcon = Animated.createAnimatedComponent(MaterialIcon);
+const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
 class ProductDetails extends Component {
     state = {
         productDetails: [],
         productId: this.props.route.params.productId,
-        subcategoryId: this.props.route.params.subcategoryId
+        isSelected: false,
+        isLiked: false,
+        spinSelectBtn: '0deg',
+        spinLikeBtn: '0deg',
+        rotateSelectBtn: new Animated.Value(0),
+        rotateLikeBtn: new Animated.Value(0),
+        listSelectScale: new Animated.Value(0),
+        listLikeScale: new Animated.Value(0),
+        checkSelectTransition: new Animated.Value(-30),
+        checkLikeTransition: new Animated.Value(-30),
     }
 
     async componentDidMount() {
-        // await NetInfo.fetch(status => {
-        //     if(status.isConnected)
-        await this.props.getProduct( this.state.subcategoryId, this.state.productId);
-        // })
+        await this.props.getProduct(this.state.productId);
         this.setState({productDetails: [
-            { title: 'Energy', component: this.props.product.product.energy, measure: 'kcal' },
-            { title: 'Fat', component: this.props.product.product.fat, measure: 'g' },
-            { title: 'Saturated fat', component: this.props.product.product.saturated, measure: 'g' },
-            { title: 'Carbohidrates', component: this.props.product.carbs, measure: 'g' },
-            { title: 'Sugar', component: this.props.product.product.sugar, measure: 'g' },
-            { title: 'Fiber', component: this.props.product.product.fiber, measure: 'g' },
-            { title: 'Protein', component: this.props.product.product.protein, measure: 'g' },
-            { title: 'Salt', component: this.props.product.product.salt, measure: 'g' },
-        ]})
+            { title: 'Energy', component: this.props.product.energy, measure: 'kcal'},
+            { title: 'Fat', component: this.props.product.fat, measure: 'g' },
+            { title: 'Saturated fat', component: this.props.product.saturated, measure: 'g' },
+            { title: 'Carbohidrates', component: this.props.carbs, measure: 'g' },
+            { title: 'Sugar', component: this.props.product.sugar, measure: 'g' },
+            { title: 'Fiber', component: this.props.product.fiber, measure: 'g' },
+            { title: 'Protein', component: this.props.product.protein, measure: 'g' },
+            { title: 'Salt', component: this.props.product.salt, measure: 'g' },
+        ]});
+        if(productSelected.length > 0 && this.props.selectedProducts.find(item => item.id == this.state.productId))
+            this.setState({ isSelected: true });
     }
 
-    selectProduct = () => {
-        this.props.productSelected(this.props.product.subcategory_id, this.props.product.id )
+    likeProduct = async () => {
+        this.setState({ isSelected: true })
+        await productAnimations.btnAnimation(this.state.rotateLikeBtn, this.state.listLikeScale, this.state.checkLikeTransition)
+        let spinTemp = this.state.rotateBtn.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '180deg']
+        })
+        console.log("spinTemp", this.state.listScale)
+        this.setState({ spinSelectBtn: spinTemp })
     }
+
+    selectProduct = async () => {
+        this.setState({ isSelected: true })
+        await productAnimations.btnAnimation(this.state.rotateSelectBtn, this.state.listSelectScale, this.state.checkSelectTransition)
+        let spinTemp = this.state.rotateSelectBtn.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '180deg']
+        })
+        this.setState({ spinSelectBtn: spinTemp })
+    }
+
+    removeSelectProduct = () => {
+        this.props.removeProductFromSelected(this.state.productId)
+        this.setState({ isSelected: false })
+    }
+
 
     render() {
         const { image, background } = this.props.product;
@@ -69,16 +109,39 @@ class ProductDetails extends Component {
                             <Image style={stylesGuestSingle().imageStyle} source={require('../../components_additional/images/noimage.jpeg')}  />
                         </View>  
                     )}
-                        <TouchableOpacity style={stylesGuestSingle().emptyItem} onPress={() => this.selectProduct()}>
-                            <IonIcon style={stylesGuestSingle(background).emptyIcon} name="ios-checkmark-circle-outline" />
-                        </TouchableOpacity>
+                        <View style={stylesGuestSingle().btnsWrap } >
+                            <View style={stylesGuestSingle().likeBtns}>
+                                <AnimatedTouchable style={stylesGuestSingle(null, this.state.isLiked, this.state.spinLikeBtn).neutralBtnLiked} onPress={() => this.likeProduct()}>
+                                { !this.state.isLiked ? (
+                                    <MaterialIcon name="heart-outline" style={stylesGuestSingle().iconHeartLike} />
+                                ): (
+                                    <>
+                                        <Icon name="heart" style={stylesGuestSingle(null, null, null, null, this.state.checkLikeTransition).iconHeart} />
+                                        <EvilIcon name="cart" style={stylesGuestSingle(null, null, null, this.state.listLikeScale).iconCart} />
+                                    </>
+                                )}
+                                </AnimatedTouchable> 
+                            </View>
+                            <View style={stylesGuestSingle().calcBtns}>
+                                <AnimatedTouchable style={stylesGuestSingle(null, this.state.isSelected, this.state.spinSelectBtn).neutralBtnSelected} onPress={() => this.selectProduct()} >
+                                { !this.state.isSelected ? (
+                                    <IonIcon name="ios-checkmark" style={stylesGuestSingle().calcCheck} />
+                                ) : (
+                                    <>
+                                        <AnimatedMaterialIcon name="format-list-bulleted" style={stylesGuestSingle(null, null, null, this.state.listSelectScale).calcUncheckList} />
+                                        <AnimatedIonIcon name="ios-checkmark" style={stylesGuestSingle(null, null, null, null, this.state.checkSelectTransition).calcUncheck} />
+                                    </>
+                                )}
+                                </AnimatedTouchable>
+                            </View>
+                        </View>
                         <View style={stylesGuestSingle(background).triangle} ></View>
                         <View style={stylesGuestSingle(background).underTriangle} ></View>
-                        <ScrollView style={stylesGuestSingle(background).listContainer} >
-                            <FlatList data={ this.state.productDetails } renderItem={({ item }) => (
-                                <ProductComponent props={ item } />
+                        <View style={stylesGuestSingle(background).listContainer} >
+                            <FlatList data={ this.state.productDetails } contentContainerStyle={stylesGuestSingle(background).flatlistContainer} renderItem={({ item }) => (
+                                <DetailRow props={ item } />
                             )} />
-                        </ScrollView>
+                        </View>
                     </View>
             )
         )
@@ -90,9 +153,9 @@ ProductDetails.propTypes = {
     getProduct: PropTypes.func.isRequired,
     productSelected: PropTypes.func.isRequired,
     productDetails: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
+        // title: PropTypes.string.isRequired,
         component: PropTypes.number,
-        measure: PropTypes.string.isRequired
+        // measure: PropTypes.string.isRequired
     })),
     image: PropTypes.any,
     background: PropTypes.string
@@ -100,8 +163,9 @@ ProductDetails.propTypes = {
 
 const mapStateToProps = (state) => ({
     product: state.products.product,
+    selectedProducts: state.selectedProducts.comparisonArray,
     error: state.products.error,
     loading: state.products.loading,
 })
 
-export default withNavigation(connect(mapStateToProps, {getProduct, productSelected})(ProductDetails))
+export default withNavigation(connect(mapStateToProps, {getProduct, productSelected, removeProductFromSelected})(ProductDetails))

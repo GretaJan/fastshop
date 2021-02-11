@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from './Colors';
 
 export const styles = () => StyleSheet.create({
     container: {
@@ -9,7 +10,8 @@ export const styles = () => StyleSheet.create({
         top: -6,
         // left: 11.3,
         left: '5%',
-        backgroundColor: '#ffcc33',
+        // backgroundColor: '#e5e9ee',
+        backgroundColor: colors.mainBtnOrange,
         width: 20,
         height: 20,
         borderRadius: 20/2

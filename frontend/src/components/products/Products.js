@@ -28,17 +28,12 @@ class Products extends Component {
         overload: null,
     }
 
-    async componentDidMount() {
-        // await NetInfo.fetch(status => {
-        //     if(status.isConnected)
-                this.props.getProducts(this.state.id, 1);
-        // })
+    componentDidMount() {
+        this.props.getProducts(this.props.allProducts, this.state.id, 0);
     }
 
     handleLoadMore = () => {
-        setTimeout(() => {
-            this.props.getProducts(this.state.id, this.props.currentPage + 1); 
-        }, 600)
+        this.props.getProducts(this.props.allProducts, this.state.id, this.props.nextPage); 
     }
 
     renderFooter = () => {
@@ -90,6 +85,7 @@ class Products extends Component {
         this.props.navigation.push("Product", {subcategoryId: item.subcategory_id, productId: item.id, name: item.name, background: item.background});
     }
 
+
     render() {
         const { background } = this.props.route.params;
         return (
@@ -123,8 +119,8 @@ class Products extends Component {
                                 ) : (
                                     <FlatList data={  !this.state.inputTriggered ? this.props.products : this.state.tempArray} 
                                             keyExtractor={(item, index) => index.toString()}
-                                            onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
-                                            onEndReachedThreshold={0.01}
+                                            onEndReached={(this.props.nextPage < this.props.lastPage) ? this.handleLoadMore : null}
+                                            onEndReachedThreshold={0.02}
                                             ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
                                             renderItem={({item}) => (
                                         <Product item={item} 
@@ -153,7 +149,7 @@ Products.propTypes = {
         name:  PropTypes.string.isRequired,
         image: PropTypes.any,
     })),
-    currentPage: PropTypes.number,
+    nextPage: PropTypes.number,
     lastPage: PropTypes.bool,
     loading: PropTypes.bool,
     loadingNext: PropTypes.bool,
@@ -162,8 +158,9 @@ Products.propTypes = {
 }
 
 const mapStateToProps = state => ({
+    allProducts: state.dataUpload.allProducts,
     products: state.products.products,
-    currentPage: state.products.currentPage,
+    nextPage: state.products.nextPage,
     lastPage: state.products.lastPage,
     loading: state.products.loading,
     loadingNext: state.products.loadingNext,

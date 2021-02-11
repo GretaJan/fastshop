@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, FlatList, TextInput } from 'react-native';
+import { View, FlatList, TextInput, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getSubcategories, getSubcategoriesPrepend } from '../../redux/actions/subcategoryActions';
+import { getSubcategories } from '../../redux/actions/subcategoryActions';
 import { closeErrorWarning } from '../../redux/actions/generalActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -26,14 +26,12 @@ class Subcategories extends Component {
         showSearchInput: false,
     }
 
-   componentDidMount  () {
-        this.props.getSubcategories(this.state.id, 1);
+   componentDidMount() {
+        this.props.getSubcategories(this.props.allSubcategories, this.state.id, 0);
     }
 
     loadMore = () => {
-        setTimeout(() => {
-            this.props.getSubcategoriesPrepend(this.state.id, this.props.currentPage + 1);
-        })
+        this.props.getSubcategories(this.props.allSubcategories, this.state.id, this.props.nextPage);
     }
 
     renderFooter = () => {
@@ -102,15 +100,22 @@ class Subcategories extends Component {
                             {(this.props.subcategories.length === 0) ? (
                                 <EmptyList message="The List is empty" background={background} />
                             ) : (
-                                <FlatList contentContainerStyle={stylesGuest().horizontalWrap} numColumns={3} 
+                                <FlatList 
+                                        contentContainerStyle={stylesGuest().horizontalWrap} numColumns={3} 
                                         onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
                                         onEndReachedThreshold={0.01}
                                         ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
                                         data={!this.state.inputTriggered ? this.props.subcategories : this.state.tempArray } 
                                         renderItem={({item}) => (
-                                    <Subcategory item={item} goToProducts={() => this.goToProducts(item) } />
+                                    <Subcategory 
+                                        item={item} 
+                                        goToProducts={() => this.goToProducts(item) } 
+                                    />
                                 )} />  
                             )}  
+                            { this.props.nextPage < this.props.lastPage && (
+                                <TouchableOpacity onPress={this.loadMore} ><Text>MOOOREEE</Text></TouchableOpacity>
+                            ) }
                         </View>
                     </>
                 )
@@ -131,7 +136,7 @@ Subcategories.propTypes = {
         image: PropTypes.any,
         background: PropTypes.string
     })),
-    currentPage: PropTypes.number,
+    nextPage: PropTypes.number,
     lastPage: PropTypes.bool,
     loading: PropTypes.bool,
     loadingNext: PropTypes.bool,
@@ -140,8 +145,9 @@ Subcategories.propTypes = {
 
 const mapStateToProps = (state) => {
    return {
+    allSubcategories: state.dataUpload.allSubcategories,
     subcategories: state.subcategories.subcategories,
-    currentPage: state.subcategories.currentPage,
+    nextPage: state.subcategories.nextPage,
     lastPage: state.subcategories.lastPage,
     loading: state.subcategories.loading,
     loadingNext: state.subcategories.loadingNext,
@@ -149,4 +155,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default withNavigation(connect(mapStateToProps, { getSubcategories, getSubcategoriesPrepend, closeErrorWarning })(Subcategories))
+export default withNavigation(connect(mapStateToProps, { getSubcategories, closeErrorWarning })(Subcategories))

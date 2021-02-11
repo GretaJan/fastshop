@@ -8,7 +8,7 @@ import { colors } from './styles/Colors';
 const EmptyList = ({ message, background }) => {
 
     return (
-        <View style={emptyList(background ? background : colors.mainYellow).container} >
+        <View style={emptyList(background ? background : colors.mainGrey).container} >
             <View style={emptyList().itemContainer} >
                 <View style={emptyList().imageWrap}>
                     <Image style={emptyList().image} name="list-ol" source={require('./images/List_04.png')} />

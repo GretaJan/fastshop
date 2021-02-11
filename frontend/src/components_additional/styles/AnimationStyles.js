@@ -2,11 +2,40 @@ import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
-export const animations = (scale) => StyleSheet.create({
+export const animations = (scale, translate) => StyleSheet.create({
     diagramScale: {
         transform: [
             { scaleX: scale }
         ]
     },
-    
+    numbersTransition: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
+    numbersTransitionFirst: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
+    numbersTransitionSec: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
+    numbersTransitionThird: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
+    numbersTransitionFourth: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
 })

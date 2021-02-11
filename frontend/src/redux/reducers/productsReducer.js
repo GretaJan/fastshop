@@ -1,6 +1,7 @@
 import { 
     LOADING_GET_PRODUCTS, 
     GET_PRODUCTS, 
+    GET_PRODUCTS_APPEND,
     GET_PRODUCTS_ERROR, 
     REMOVE_GET_PRODUCTS_ERROR,
     UNMOUNT_PRODUCTS, 
@@ -25,8 +26,7 @@ const initialState = {
     actionLoading: null,
     loadingNext: null,
     error: '',
-    currentPage: 1,
-    lastPage: null,
+    nextPage: 0,
     productCombinations: []
 }
 
@@ -46,7 +46,15 @@ export default function(state = initialState, action) {
                 loading: false,
                 loadingNext: false,
                 error: '',
-                currentPage: action.currentPage,
+                nextPage: action.nextPage,
+                lastPage: action.lastPage,
+            }
+        case GET_PRODUCTS_APPEND:
+            return {
+                ...state,
+                products: state.products.concat(action.payload),
+                loadingNext: false,
+                nextPage: action.nextPage,
                 lastPage: action.lastPage,
             }
         case GET_PRODUCTS_ERROR:
@@ -72,21 +80,22 @@ export default function(state = initialState, action) {
         case LOADING_GET_PRODUCT:
             return {
                 ...state,
-                loading: action.loading,
-                error: action.error
+                loading: true,
+                error: ''
             }
         case GET_PRODUCT:
             return {
                 ...state,
-                product: action.payload ? action.payload : state.product,
-                loading: action.loading,
-                error: action.error
+                // product: action.payload ? action.payload : state.product,
+                product: state.products.find(item => item.id == action.productId),
+                loading: false,
+                error: ''
             }
         case GET_PRODUCT_ERROR:
             return {
                 ...state,
                 error: action.error,
-                loading: action.loading,
+                loading: false
             }
         case LOADING_POST_PRODUCT:
             return {

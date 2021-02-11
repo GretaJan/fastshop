@@ -7,7 +7,7 @@ const initialState = {
     actionLoading: null,
     loadingNext: null,
     error: '',
-    currentPage: 1,
+    nextPage: 0,
     lastPage: null,
 }
 
@@ -26,15 +26,17 @@ export default function(state = initialState, action) {
                 subcategories: action.payload,
                 loading: false,
                 loadingNext: false,
-                error: ''
+                error: '',
+                nextPage: action.nextPage,
+                lastPage: action.lastPage,
             }
         case GET_SUBCATEGORIES_APPEND:
             return {
                 ...state,
                 subcategories: state.subcategories.concat(action.payload),
-                loading: action.loading,
-                loadingNext: action.loadingNext,
-                error: action.error
+                nextPage: action.nextPage,
+                loadingNext: false,
+                error: ''
             }
         case GET_SUBCATEGORIES_ERROR:
             return {

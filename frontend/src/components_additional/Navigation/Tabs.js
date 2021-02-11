@@ -16,9 +16,10 @@ import Categories from '../../components/Categories/Categories';
 import Subcategories from '../../components/subcategories/Subcategories';
 import Products from '../../components/products/Products';
 import Product from '../../components/products/ProductDetails';
-import LoginPage from '../../components/auth/Login';
+import LoginAdmin from '../../components/auth/LoginAdmin';
 
 //Auth Components:
+import Register from '../../components/auth/Register';
 import Categories_Auth from '../../componentsAuth/auth_categories/Categories';
 import Subcategories_Auth from '../../componentsAuth/auth_subcategories/Subcategories';
 import Products_Auth from '../../componentsAuth/auth_products/Products';
@@ -53,12 +54,12 @@ render() {
     const LoginScreenNav = createStackNavigator();
 
     const GuestNavigationScreens = () => (
-        <GuestNavigation.Navigator initialRouteName="Categories">
+        <GuestNavigation.Navigator initialRouteName="Register">
             <GuestNavigation.Screen name="Categories" component={Categories} 
                 options={{
                     title: "SPEEDSHOP",
                     headerStyle: {
-                        backgroundColor: colors.mainYellow,
+                        backgroundColor: colors.mainGrey,
                       },
                       headerTitleStyle: {
                         fontWeight: 'bold',
@@ -70,7 +71,7 @@ render() {
                                 options={({ route }) => ({
                                     title: route.params.name,  
                                     headerStyle: {
-                                    backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                    backgroundColor: route.params.background ? route.params.background : colors.mainGrey,
                                 },
                                 headerTitleStyle: {
                                     fontWeight: 'bold',
@@ -82,7 +83,7 @@ render() {
                                 options={({route}) => ({
                                     title: route.params.name,
                                     headerStyle: {
-                                        backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                        backgroundColor: route.params.background ? route.params.background : colors.mainGrey,
                                     },
                                     headerTitleStyle: {
                                         fontWeight: 'bold',
@@ -105,6 +106,18 @@ render() {
                                         },
                                         headerTitleAlign: 'center'   
                                     })} /> 
+            <GuestNavigation.Screen name="Register" component={Register} 
+                options={{
+                    title: "SPEEDSHOP",
+                    headerStyle: {
+                        backgroundColor: colors.mainGrey,
+                      },
+                      headerTitleStyle: {
+                        fontWeight: 'bold',
+                        color: colors.titleBlack,
+                      },
+                      headerTitleAlign: 'center'
+                    }} />
         </GuestNavigation.Navigator>
     )
 
@@ -118,7 +131,7 @@ render() {
                                             color: colors.titleBlack,
                                         },
                                         headerStyle: {
-                                            backgroundColor: colors.mainYellow,
+                                            backgroundColor: colors.mainGrey,
                                         },
                                         headerTitleAlign: 'center',
             }} />
@@ -130,7 +143,7 @@ render() {
                                             color: colors.titleBlack,
                                         },
                                         headerStyle: {
-                                            backgroundColor: colors.mainYellow,
+                                            backgroundColor: colors.mainGrey,
                                         },
                                         headerTitleAlign: 'center',
                                   
@@ -143,7 +156,7 @@ render() {
                                             color: colors.titleBlack,
                                         },
                                         headerStyle: {
-                                            backgroundColor: colors.mainYellow,
+                                            backgroundColor: colors.mainGrey,
                                         },
                                         headerTitleAlign: 'center',
                                   
@@ -156,7 +169,7 @@ render() {
                                             color: colors.titleBlack,
                                         },
                                         headerStyle: {
-                                            backgroundColor: colors.mainYellow,
+                                            backgroundColor: colors.mainGrey,
                                         },
                                         headerTitleAlign: 'center',
                                   
@@ -165,7 +178,7 @@ render() {
     )
     const LoginScreen = () => (
         <LoginScreenNav.Navigator>
-            <LoginScreenNav.Screen name="Login" component={LoginPage} 
+            <LoginScreenNav.Screen name="Login" component={LoginAdmin} 
               options={{
                 title: "Login to Dashboard",
                 headerTitleStyle: {
@@ -173,7 +186,7 @@ render() {
                     color: colors.titleBlack,
                 },
                 headerStyle: {
-                    backgroundColor: colors.mainYellow,
+                    backgroundColor: colors.mainGrey,
                 },
                 headerTitleAlign: 'center'
             }} />                                      
@@ -186,7 +199,7 @@ render() {
             options={{ 
                 title: "Dashboard",
                 headerStyle: {
-                    backgroundColor: colors.mainYellow,
+                    backgroundColor: colors.mainGrey,
                   },
                   headerTitleStyle: {
                     fontWeight: 'bold',
@@ -198,7 +211,7 @@ render() {
                                options={({ route }) => ({ 
                                     title: route.params.name,
                                     headerStyle: {
-                                        backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                        backgroundColor: route.params.background ? route.params.background : colors.mainGrey,
                                       },
                                     headerTitleStyle: {
                                         fontWeight: 'bold',
@@ -210,7 +223,7 @@ render() {
                         options={({ route }) => ({ 
                                     title: route.params.name,
                                     headerStyle: {
-                                        backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                        backgroundColor: route.params.background ? route.params.background : colors.mainGrey,
                                       },
                                     headerTitleStyle: {
                                         fontWeight: 'bold',
@@ -235,7 +248,7 @@ render() {
                                     options={{
                                         title: 'Add Category',
                                         headerStyle: {
-                                            backgroundColor: colors.mainYellow,
+                                            backgroundColor: colors.mainGrey,
                                             },
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
@@ -247,7 +260,7 @@ render() {
                                     options={({route}) => ({
                                         title: 'Add Subategory',
                                         headerStyle: {
-                                            backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                            backgroundColor: route.params.background ? route.params.background : colors.mainGrey,
                                             },
                                         headerTitleStyle: {
                                             fontWeight: 'bold',
@@ -259,7 +272,7 @@ render() {
                                      options={({route}) => ({
                                         title: 'Add Product',
                                         headerStyle: {
-                                            backgroundColor: route.params.background ? route.params.background : colors.mainYellow,
+                                            backgroundColor: route.params.background ? route.params.background : colors.mainGrey,
                                             },
                                         headerTitleStyle: {
                                             fontWeight: 'bold',

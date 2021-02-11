@@ -9,22 +9,15 @@ const initialState = {
 export default function(state = initialState, action) {
     switch(action.type) {
         case PRODUCT_SELECTED:
-                let pushToArray = state.comparisonArray.concat(action.payload.product);
-                let filteredArray = Array.from(new Set(pushToArray.map(item => item.id)))
-                .map(id => {
-                    return pushToArray.find(firstItem => firstItem.id === id)
-                })
             return {
                 ...state,
-                comparisonArray: filteredArray,
+                comparisonArray: state.comparisonArray.concat(action.payload),
                 result: action.result,
             }
         case REMOVE_SELECTED_PRODUCT: 
             return {
                 ...state,
-                comparisonArray: state.comparisonArray.filter((item) => (
-                    action.payload !== item.id
-               )),
+                comparisonArray: state.comparisonArray.filter(item => item.id != action.payload),
                result: {},
             }
         case COMPARE_RESULT:

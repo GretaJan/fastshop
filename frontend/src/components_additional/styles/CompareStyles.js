@@ -52,7 +52,7 @@ export const productWrap = (scale) => StyleSheet.create({
         marginHorizontal: 20,
     },
     iconWrapOne: {
-        backgroundColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
         width: 80,
         height: 80,
         alignItems: 'center',
@@ -69,7 +69,7 @@ export const productWrap = (scale) => StyleSheet.create({
           shadowRadius: 2, 
     },
     iconWrapTwo: {
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         width: 80,
         height: 80,
         alignItems: 'center',
@@ -86,7 +86,7 @@ export const productWrap = (scale) => StyleSheet.create({
           shadowRadius: 2, 
     },
     buttonWrapAnimated: {
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         width: 80,
         height: 80,
         alignItems: 'center',
@@ -135,7 +135,7 @@ export const descAscDropDown = () => StyleSheet.create({
     container: {
         position: 'absolute',
         zIndex: 5,
-        backgroundColor: colors.mainYellow,
+        backgroundColor: colors.mainGrey,
         width: Dimensions.get('window').width /1,
         // minHeight: Dimensions.get('window').height /1,
         top: 0,
@@ -167,12 +167,12 @@ export const descAscDropDown = () => StyleSheet.create({
         alignItems: 'center',
     },
     iconWrap: {
-        // backgroundColor: colors.mediumGreen2,
+        // backgroundColor: colors.mainBtnGreen,
         // paddingVertical: 10,
     },
     btnIcon: {
         fontSize: 35,
-        color: colors.mediumGreen2,
+        color: colors.mainBtnGreen,
     },
     btnText: {
         fontSize: 20,
@@ -184,10 +184,10 @@ export const descAscDropDown = () => StyleSheet.create({
     }
 })
 
-export const diagram = (diagramLength) => StyleSheet.create({
+export const diagram = (diagramLength, itemOpacity) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.mainYellow,
+        backgroundColor: colors.mainGrey,
         paddingTop: 10
     },
     mainContentContainer: {
@@ -209,8 +209,8 @@ export const diagram = (diagramLength) => StyleSheet.create({
     imageContainerGood: {
         width: '95%',
         height: 150,
-        backgroundColor: colors.mediumGreen2,
-        // borderColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
+        // borderColor: colors.mainBtnGreen,
         // borderWidth: 5,
         alignItems: 'center',
         justifyContent: 'center',
@@ -224,7 +224,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     imageContainerBad: {
         width: '95%',
         height: 150,
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5
@@ -262,10 +262,8 @@ export const diagram = (diagramLength) => StyleSheet.create({
     measure: {
         fontSize: 15,
         paddingLeft: 5,
-        bottom: 1,
+        bottom: 4,
         color: colors.mainBlack,
-    },
-    diagramLineWrap: {
     },
     numberDiagramWrap: {
         flex: 1,
@@ -280,14 +278,42 @@ export const diagram = (diagramLength) => StyleSheet.create({
         alignItems: 'flex-start',
     },
     itemNumberWrap: {
-        flex: .18,
+        flex: .16,
         paddingLeft: 20,
-        // textAlign: 'center',
         flexDirection: 'row',
     },
+    itemNumberWrapAnimation: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        zIndex:1,
+    },
+    itemNumberWrapAnimationSingle: {
+        overflow: 'hidden',
+        position: 'relative',
+        flex: .25,
+    },
+    animatedSecDot: {
+        position: 'absolute',
+        left: 20,
+    },
+    animatedNumberContainer: {
+        zIndex: -1,
+        transform: [
+           { translateY: 0 }
+        ]
+    },
+    animatedNum: {
+        height: 23,
+        fontSize: 18,
+    },
+    // animatedNumberWrap: {
+    //     //flexGrow: 0,
+    //     //height: 20,
+    //     backgroundColor: 'red',
+    // },
     lineOneEnergy: {
         position: 'absolute',
-        backgroundColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
         height: '100%',
         width: diagramLength !== 0 ? (diagramLength / 9 + '%') : 1,
         maxWidth: '100%',
@@ -307,7 +333,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     lineTwoEnergy: {
         position: 'absolute',
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         width: diagramLength !== 0 ? ((diagramLength) / 9 + '%') : 1,
         maxWidth: '100%',
         height: 10,
@@ -322,7 +348,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     lineOne: {
         position: 'absolute',
-        backgroundColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
         width: diagramLength !== 0 ? (diagramLength + '%') : 1,
         maxWidth: '100%',
         height: 10,
@@ -337,7 +363,7 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     lineTwo: {
         position: 'absolute',
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         width: diagramLength !== 0 ? (diagramLength + '%') : (1),
         maxWidth: '100%',
         height: 10,
@@ -380,14 +406,14 @@ export const diagram = (diagramLength) => StyleSheet.create({
     },
     optionsBtnText: {
         fontSize: 22,
-        color: colors.orangeBright
+        color: colors.mainBtnOrange
     }
 })
 
 export const CriteriaStyles = (scale) => StyleSheet.create({
     container: {
         height: Dimensions.get('window').height /1 - 140,
-        backgroundColor: colors.mainYellow,
+        backgroundColor: colors.mainGrey,
         zIndex: -1,
     },
     itemContainer: {
@@ -436,7 +462,7 @@ export const CriteriaStyles = (scale) => StyleSheet.create({
         height: 14,
         width: 14,
         borderRadius: 7,
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         borderColor: colors.mainBlack, 
         borderWidth: 1,
         left: 5,
@@ -448,7 +474,7 @@ export const CriteriaStyles = (scale) => StyleSheet.create({
     buttonWrapOne: {
         width: 120,
         height: 70,
-        backgroundColor: colors.orangeBright,
+        backgroundColor: colors.mainBtnOrange,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
@@ -469,7 +495,7 @@ export const CriteriaStyles = (scale) => StyleSheet.create({
     buttonWrapTwo: {
         width: 120,
         height: 70,
-        backgroundColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
@@ -490,7 +516,7 @@ export const CriteriaStyles = (scale) => StyleSheet.create({
     buttonWrapAnimated: {
         width: 120,
         height: 70,
-        backgroundColor: colors.mediumGreen2,
+        backgroundColor: colors.mainBtnGreen,
         borderRadius: 10,
         transform: [
             { scale: scale },

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { getCategories } from '../../redux/actions/categoryActions';
-import { closeErrorWarning } from '../../redux/actions/generalActions';
+import { importAppData, closeErrorWarning } from '../../redux/actions/generalActions';
 import { stylesGuest } from '../../components_additional/styles/CategoryStyles';
-import { backgroundForPages, modalZIndex } from '../../components_additional/styles/AdditionalStyles';
+import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
 import  NetInfo  from '@react-native-community/netinfo';
+
 // import { checkInternetConnection, offlineActionCreators } from 'react-native-offline';
 
 //Components
@@ -16,26 +17,29 @@ import Category from './Category';
 import Loading from '../../components_additional/Loading';
 import EmptyList from '../../components_additional/EmptyList';
 import Modal from '../../components_additional/Modal';
+import ConfirmModal from '../../components_additional/ModalCrud';
 
 export class Categories extends Component {
-    // constructor(props){
-    //     (props);
-    //     this.state = {
-            // isConnected: checkInternetConnection(),
-            // connectionChange: offlineActionCreators,
-    //     }
-    // }
-    // async checkOnlineStatus(dispatch){
-    //     const isConnected = await checkInternetConnection();
-    //     const { connectionChange } = offlineActionCreators;
-    //     dispatch(connectionChange(isConnected))
-    // }
+    state = {
+        openDataModel: false,
+        importDataLoading: false,
+    }
+
     componentDidMount() {
         NetInfo.fetch().then(state => {
             if(state.isConnected){
-                this.props.getCategories();
+                if(this.props.categories.length === 0 && this.props.dataUploaded === null){
+                    this.props.importAppData();
+                } else if(this.props.dataUploaded === null){
+                    this.setState({openDataModel: true})
+                }
             }
         })
+    }
+
+    dataTransferModelMsg(){
+        if(this.props.loadingData) return "Loading data...";
+        else return "Load new data?";
     }
 
     goToSubcategories = (item) => {
@@ -46,7 +50,21 @@ export class Categories extends Component {
         return (
             (this.props.loading) ? (
                 <View style={backgroundForPages().backgroundContainer} >
-                    <Loading />
+                    { openDataModel ? (
+                        <ConfirmModal message={ dataTransferModelMsg() }
+                            confirm={() =>  this.props.importAppData()}
+                            title="Clear list"
+                            close={() => this.setState({openDataModel: false})}
+                            background={colors.mainWhiteYellow}
+                            iconColor={colors.lightBurgundy}
+                            borderColor={colors.bordoTransparent}
+                            colorOne={colors.lightBurgundy}
+                            colorTwo={colors.mediumGreen}
+                            horizontal={20} vertical={15}
+                        /> 
+                    ) : (
+                        <Loading />
+                    )}
                 </View>
                 ) : (
                     <>
@@ -61,6 +79,7 @@ export class Categories extends Component {
                         />
                     )}
                         <View style={stylesGuest().container} >
+                            <Text style={stylesGuest().descriptionText }>Find the best product match for preferred nutrition criteria.</Text>
                             {(this.props.categories === undefined || this.props.categories.length == 0) ? (
                                 <EmptyList message="The List is empty" />
                             ) : (
@@ -92,10 +111,12 @@ Categories.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    categories: state.categories.categories,
+    loadingData: state.dataUpload.loadingData,
+    dataUploaded: state.dataUpload.dataUploaded,
+    categories: state.dataUpload.categories,
     loading: state.categories.loading,
     error: state.categories.error,
     
 });
 
-export default withNavigation(connect(mapStateToProps, { getCategories, closeErrorWarning })(Categories))
+export default withNavigation(connect(mapStateToProps, { importAppData, getCategories, closeErrorWarning })(Categories))

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, TouchableOpacity, TextInput, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray } from '../../redux/actions/comparisonActions';
+import { productSelected, removeProductFromSelected, compare, clearSelectedArray, goToList, sortArray } from '../../redux/actions/comparisonActions';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { productWrap } from '../../components_additional/styles/CompareStyles';
@@ -110,7 +110,7 @@ class Products extends Component {
     }
 
     deleteProduct = async (item) => {
-        await this.props.deleteProductFromList(item.id);
+        await this.props.removeProductFromSelected(item.id);
         this.setState({triggeredSearchBar: false});
     } 
 
@@ -217,4 +217,4 @@ const mapStateToProps = state => ({
     result: state.selectedProducts.result,
 })
 
-export default withNavigation(connect(mapStateToProps, {productSelected, deleteProductFromList, compare, clearSelectedArray, goToList, sortArray})(Products))
+export default withNavigation(connect(mapStateToProps, {productSelected, removeProductFromSelected, compare, clearSelectedArray, goToList, sortArray})(Products))

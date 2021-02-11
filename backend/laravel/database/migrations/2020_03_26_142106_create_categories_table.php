@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Carbon\Carbon;
 
 class CreateCategoriesTable extends Migration
 {
@@ -20,13 +21,23 @@ class CreateCategoriesTable extends Migration
             $table->string('background')->nullable();
             $table->timestamps();
         });
+
+        $categories = [
+            [
+                'name' => 'Beverages',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Food',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        ];
+
+        DB::table('categories')->insert($categories);
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('categories');

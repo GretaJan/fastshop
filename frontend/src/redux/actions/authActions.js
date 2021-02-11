@@ -1,5 +1,13 @@
-import { TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED, LOG_OUT, LOG_OUT_FAILED, URL } from './types';
+import { REGISTER_TOKEN, TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED, LOG_OUT, LOG_OUT_FAILED, URL } from './types';
 import axios from 'axios';
+
+export const saveUserToken = (token) => dispatch => {
+    console.log("tooken", token)
+    dispatch({
+        type: REGISTER_TOKEN,
+        payload: token
+    })
+}
 
 export const tryLogin = (data) => (dispatch) => {
     dispatch({
