@@ -13,33 +13,61 @@ use App\User;
 class ProductTest extends TestCase
 {
     // use refreshDatabase;
-    protected $admin_headers = null;
+    protected $auth_headers = null;
     private function setUpUser($id)
     {
         $admin = User::find($id);
         $token = $admin->createToken('Personal Access Token')->accessToken;
-        $this->admin_headers['Accept'] = 'application/json';
-        $this->admin_headers['Authorization'] = "Bearer $token";
+        $this->auth_headers['Accept'] = 'application/json';
+        $this->auth_headers['Authorization'] = "Bearer $token";
     }
+
     /** @test */
-    public function product_can_be_created()
+    public function user_can_get_single_product()
     {
         $this->withoutExceptionHandling();
-        $this->postJson('/api/addCategory', [
-            'name' => 'Category'
-        ]);
-        $category = Category::first();
-        $this->setUpUser(1);
-        $this->postJson('/api/addSubcategory/' . $category->id, [
-            'name' => 'Subcategory'
-        ], $this->admin_headers);
-        $subcategory = Subcategory::first();
-        $response = $this->postJson('/api/addProduct/'. $subcategory->id, [
-            'name' => 'Product'
-        ], $admin_headers);
-        $response->assertStatus(201);
-        $this->assertCount(1, Product::all());
+        $this->setUpUser(2);
+        $product = Product::first();
+        $response = $this->getJson("/api/product/$product->id", $this->auth_headers);
+        $response->assertOk();
     }
+    /** @test */
+    public function user_can_get_all_products()
+    {
+        $this->withoutExceptionHandling();
+        $this->setUpUser(2);
+        $product = Product::first();
+        $response = $this->getJson("/api/products/$product->subcategory_id", $this->auth_headers);
+        $response->assertOk();
+    }
+
+    /** @test */
+    public function guest_can_get_single_product()
+    {
+        $this->withoutExceptionHandling();
+        $product = Product::first();
+        $response = $this->getJson("/api/product/$product->id");
+        $response->assertOk();
+    }
+    // /** @test */
+    // public function product_can_be_created()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $this->postJson('/api/addCategory', [
+    //         'name' => 'Category'
+    //     ]);
+    //     $category = Category::first();
+    //     $this->setUpUser(1);
+    //     $this->postJson('/api/addSubcategory/' . $category->id, [
+    //         'name' => 'Subcategory'
+    //     ], $this->auth_headers);
+    //     $subcategory = Subcategory::first();
+    //     $response = $this->postJson('/api/addProduct/'. $subcategory->id, [
+    //         'name' => 'Product'
+    //     ], $this->auth_headers);
+    //     $response->assertStatus(201);
+    //     $this->assertCount(1, Product::all());
+    // }
     // /** @test */
     // public function product_name_required()
     // {

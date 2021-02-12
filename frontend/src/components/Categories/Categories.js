@@ -13,6 +13,7 @@ import  NetInfo  from '@react-native-community/netinfo';
 // import { checkInternetConnection, offlineActionCreators } from 'react-native-offline';
 
 //Components
+import Register from '../../components_additional/Register';
 import Category from './Category';
 import Loading from '../../components_additional/Loading';
 import EmptyList from '../../components_additional/EmptyList';
@@ -23,18 +24,23 @@ export class Categories extends Component {
     state = {
         openDataModel: false,
         importDataLoading: false,
+        registerModel: false,
     }
 
     componentDidMount() {
+        this.props.importAppData(this.props.token);
         NetInfo.fetch().then(state => {
             if(state.isConnected){
                 if(this.props.categories.length === 0 && this.props.dataUploaded === null){
-                    this.props.importAppData();
+                    this.props.importAppData(this.props.token);
                 } else if(this.props.dataUploaded === null){
                     this.setState({openDataModel: true})
                 }
             }
         })
+        if(!this.props.token){
+            this.setState({ registerModel: true })
+        }
     }
 
     dataTransferModelMsg(){
@@ -47,6 +53,7 @@ export class Categories extends Component {
     }
 
     render() {
+        const { registerModel } = this.state;
         return (
             (this.props.loading) ? (
                 <View style={backgroundForPages().backgroundContainer} >
@@ -68,33 +75,39 @@ export class Categories extends Component {
                 </View>
                 ) : (
                     <>
-                    { this.props.error !== '' && (
-                        <Modal 
-                            title="Warning" 
-                            message={this.props.error} 
-                            close={() => this.props.closeErrorWarning('REMOVE_GET_CATEGORIES_ERR') }
-                            ok="OK" color={colors.bordo} 
-                            borderColor={colors.bordoTransparent}
-                            horizontal={20} vertical={10}
-                        />
-                    )}
-                        <View style={stylesGuest().container} >
-                            <Text style={stylesGuest().descriptionText }>Find the best product match for preferred nutrition criteria.</Text>
-                            {(this.props.categories === undefined || this.props.categories.length == 0) ? (
-                                <EmptyList message="The List is empty" />
-                            ) : (
-                                <FlatList 
-                                    contentContainerStyle={stylesGuest().flatList} 
-                                    keyExtractor={(item, index) => index.toString()}
-                                    data={this.props.categories} 
-                                    renderItem={({item}) => (
-                                    <Category 
-                                        item={item} 
-                                        goToSubcategories={() => this.goToSubcategories(item)}         
-                                    />
-                                )} />
-                            )}
-                        </View>
+                        { registerModel && (
+                            <Register 
+                                refreshPage={ () => this.forceUpdate() } 
+                                close={ this.setState({ registerModel: false}) }
+                            />
+                        ) }
+                        { this.props.error !== '' && (
+                            <Modal 
+                                title="Warning" 
+                                message={this.props.error} 
+                                close={() => this.props.closeErrorWarning('REMOVE_GET_CATEGORIES_ERR') }
+                                ok="OK" color={colors.bordo} 
+                                borderColor={colors.bordoTransparent}
+                                horizontal={20} vertical={10}
+                            />
+                        )}
+                            <View style={stylesGuest().container} >
+                                <Text style={stylesGuest().descriptionText }>Find the best product match for preferred nutrition criteria.</Text>
+                                {(this.props.categories === undefined || this.props.categories.length == 0) ? (
+                                    <EmptyList message="The List is empty" />
+                                ) : (
+                                    <FlatList 
+                                        contentContainerStyle={stylesGuest().flatList} 
+                                        keyExtractor={(item, index) => index.toString()}
+                                        data={this.props.categories} 
+                                        renderItem={({item}) => (
+                                        <Category 
+                                            item={item} 
+                                            goToSubcategories={() => this.goToSubcategories(item)}         
+                                        />
+                                    )} />
+                                )}
+                            </View>
                         </>
                     )
                 )
@@ -111,12 +124,12 @@ Categories.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
+    token: state.auth.token,
     loadingData: state.dataUpload.loadingData,
     dataUploaded: state.dataUpload.dataUploaded,
     categories: state.dataUpload.categories,
     loading: state.categories.loading,
     error: state.categories.error,
-    
 });
 
 export default withNavigation(connect(mapStateToProps, { importAppData, getCategories, closeErrorWarning })(Categories))

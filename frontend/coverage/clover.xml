@@ -1195,7 +1195,7 @@
         <line num="387" count="1" type="stmt"/>
         <line num="518" count="1" type="stmt"/>
       </file>
-      <file name="LoginStyles.js" path="D:\Darbai\Ampps\www\Asmeniniai\fastshop\frontend\src\components_additional\styles\LoginStyles.js">
+      <file name="AuthStyles.js" path="D:\Darbai\Ampps\www\Asmeniniai\fastshop\frontend\src\components_additional\styles\AuthStyles.js">
         <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="4" count="16" type="stmt"/>

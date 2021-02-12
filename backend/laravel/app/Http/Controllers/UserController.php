@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\User;
 use Mail;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -16,7 +17,6 @@ class UserController extends Controller
         $user = User::where('email', $email)->first();
         $digits = 3;
         $random_code = rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(100, 999);
-        var_dump("random", $random_code);
         $user->password = bcrypt($random_code);
         $user->save();
         
@@ -27,7 +27,7 @@ class UserController extends Controller
         return 'simple_user';
     }
 
-    public function register(Request $request)
+    private function register(Request $request)
     {
         $validationRequest = $request->validate([
             'email' => 'required|email|unique:users,email',
@@ -39,19 +39,24 @@ class UserController extends Controller
         $tokenResult = $user->where('email', $request->email)->first()->createToken('Personal Access Token');
         $token = $tokenResult->token;
         $token->save();
-        return response()->json($tokenResult->accessToken, 200);
+        return $tokenResult->accessToken;
     }
 
     public function login(Request $request) 
     {
+        $validationRequest = $request->validate([
+            'email' => 'required|email',
+        ]);
         $req_email = $request->email;
         $current_user = User::where('email', $req_email)->first();
         if(!isset($current_user))
         {
-            $response = 'User with this email does not exist.';
-            return response()->json($response, 404);
+            $token = $this->register($request);
+            $response = [
+                'token' => $token
+            ];
+            return response()->json($response, 200);
         }
-        
         if($current_user->isAdmin)
         {
             $response = 'is_admin';
@@ -125,11 +130,17 @@ class UserController extends Controller
             $message = 'Access code is invalid. Please try again.';
             return response()->json($message, 401);
         } 
+        if (Carbon::parse($user->updated_at)->addMinutes(5)->isPast()) {
+            $user->password = NULL;
+            $user->save();
+            $message = 'Access code has expired. Please try again.';
+            return response()->json($message, 405);
+        }
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         $token->save();
         $response = [
-            'access_token' => $tokenResult->accessToken
+            'token' => $tokenResult->accessToken
         ];
         return response()->json($response, 200);
     }

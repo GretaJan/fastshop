@@ -19,7 +19,6 @@ import Product from '../../components/products/ProductDetails';
 import LoginAdmin from '../../components/auth/LoginAdmin';
 
 //Auth Components:
-import Register from '../../components/auth/Register';
 import Categories_Auth from '../../componentsAuth/auth_categories/Categories';
 import Subcategories_Auth from '../../componentsAuth/auth_subcategories/Subcategories';
 import Products_Auth from '../../componentsAuth/auth_products/Products';
@@ -54,7 +53,7 @@ render() {
     const LoginScreenNav = createStackNavigator();
 
     const GuestNavigationScreens = () => (
-        <GuestNavigation.Navigator initialRouteName="Register">
+        <GuestNavigation.Navigator initialRouteName="Categories">
             <GuestNavigation.Screen name="Categories" component={Categories} 
                 options={{
                     title: "SPEEDSHOP",
@@ -106,18 +105,6 @@ render() {
                                         },
                                         headerTitleAlign: 'center'   
                                     })} /> 
-            <GuestNavigation.Screen name="Register" component={Register} 
-                options={{
-                    title: "SPEEDSHOP",
-                    headerStyle: {
-                        backgroundColor: colors.mainGrey,
-                      },
-                      headerTitleStyle: {
-                        fontWeight: 'bold',
-                        color: colors.titleBlack,
-                      },
-                      headerTitleAlign: 'center'
-                    }} />
         </GuestNavigation.Navigator>
     )
 

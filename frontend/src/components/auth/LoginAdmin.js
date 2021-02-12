@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, TextInput } from 'react-native';
-import { styles } from '../../components_additional/styles/LoginStyles';
+import { styles } from '../../components_additional/styles/AuthStyles';
 import { withNavigation } from 'react-navigation';
 import { tryLogin } from '../../redux/actions/authActions';
 import ButtonStyled from '../../components_additional/Button';

@@ -15,11 +15,12 @@ class ProductController extends Controller
     {
         return $new_value === null ? $old_value : $new_value;
     }
-    public function index($subcategory_id)
+    public function getAllProducts($subcategory_id)
     {
         $subcategory = Subcategory::findOrFail($subcategory_id);
         $products = Product::where('subcategory_id', $subcategory->id)->orderBy('name')->paginate(35);
-        return ProductResource::collection($products);
+    
+        return response()->json($products, 200);
     }
 
     public function store(Request $request, $subcategory_id)
@@ -76,11 +77,13 @@ class ProductController extends Controller
         return response()->json($response, 201);
     }
 
-    public function show( $subcategory_id, $id )
+    public function show($id )
     {
         $product = Product::findOrFail($id);
-
-        return response()->json(["product" => $product], 200);
+        $response = [
+            'product' => $product
+        ];
+        return response()->json($response, 200);
     }
 
     public function update(Request $request, $subcategory_id, $product)

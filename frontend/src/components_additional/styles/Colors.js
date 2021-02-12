@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 
 export const colors = {
     mainWhiteGrey: '#F4F4F4',
@@ -8,6 +7,7 @@ export const colors = {
     // mainGreyTransparent: 'rgba(255, 204, 51, .5)',
     mainGreyTransparent: 'rgba(229, 233, 238, .5)',
     darkerGray: '#ABABAC',
+    textGrey: '#707070',
     // mainBlack: '#3a434c',
     mainBlack: '#1F354B',
     titleBlack: '#394032',
@@ -32,4 +32,18 @@ export const colors = {
     bordo: 'firebrick',
     bordoTransparent: 'rgba(178,34,34,0.5)',
     editGreen: '#006400',
+}
+
+export const fonts = {
+    h1: {
+        fontSize: 25,
+        fontWeight: 'bold',
+    },
+    h2: 21,
+    h3: {
+        fontSize: 19,
+        fontWeight: 'bold',
+        marginBottom: 10
+    },
+    p: 16
 }

@@ -9,7 +9,7 @@ use DB;
 
 class UserProductController extends Controller
 {
-    public function likeProduct(Request $request, $product_id, $subcategory_id)
+    public function likeProduct(Request $request, $subcategory_id, $product_id)
     {
         $user = $request->user();
         $category_id = Subcategory::find($subcategory_id)->category_id;

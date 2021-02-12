@@ -18,17 +18,17 @@ class CategoryTest extends TestCase
         $this->admin_headers['Accept'] = 'application/json';
         $this->admin_headers['Authorization'] = "Bearer $token";
     }
-    /** @test */
-    public function category_can_be_added()
-    {
-        $this->withoutExceptionHandling();
-        $this->setUpUser(1);
-        $response = $this->postJson('/api/addCategory', [
-            'name' => 'Gėrimai',
-        ], $this->admin_headers);
-        $response->assertStatus(201);
-        $this->assertCount(1, Category::all());
-    }
+    // /** @test */
+    // public function category_can_be_added()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $this->setUpUser(1);
+    //     $response = $this->postJson('/api/addCategory', [
+    //         'name' => 'Gėrimai',
+    //     ], $this->admin_headers);
+    //     $response->assertStatus(201);
+    //     $this->assertCount(1, Category::all());
+    // }
     // /** @test */
     // public function category_name_is_required()
     // {

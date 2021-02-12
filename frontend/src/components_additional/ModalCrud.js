@@ -6,13 +6,13 @@ import StyledButton from './AdminButton';
 import { colors } from './styles/Colors';
 import PropTypes from 'prop-types';
 
-const Animations = require('./styles/Animations.js')
+const { modalAnimations } = require('./styles/Animations.js')
 
 const Modal = ({message, confirm, title, close, background, borderColor, iconColor, colorOne, colorTwo, horizontal, vertical}) => {
     const scale = useState(new Animated.Value(0))[0];
 
     useEffect(() => {
-        Animations.buttonScale(scale);
+        modalAnimations.buttonScale(scale);
     }, [])
     return (
         <View style={modalStyle().container} >

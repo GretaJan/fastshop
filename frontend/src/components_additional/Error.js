@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { inputErrors } from './styles/GeneralStyles';
 
 const Error = ({message}) => {
 
     return (
-        <View>
-            <Text>{message}</Text>
+        <View style={ inputErrors().container } >
+            <Text style={ inputErrors().message }>{message}</Text>
         </View>
     )
 }

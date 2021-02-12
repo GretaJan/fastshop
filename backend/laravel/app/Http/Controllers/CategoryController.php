@@ -22,6 +22,19 @@ class CategoryController extends Controller
         $products = DB::table('products')
                         ->get()
                         ->groupBy('subcategory_id');
+
+        $user = auth()->guard('api')->user(); 
+        if(isset($user))
+        {
+            $user_products = $user->products;               
+            $products->map(function($products_grouped) use ($user_products){
+                $products_grouped->map(function($product) use ($user_products){
+                    $product_liked = $user_products->find($product->id);
+                    $product->isLiked = isset($product_liked) ? true : false;
+                });
+            });
+        }
+
         $response = [
             'categories' => $categories,
             'subcategories' => $subcategories,

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ImagePicker from 'react-native-image-picker';
 import { addSubcategory } from '../../redux/actions/subcategoryActions';
 import { withNavigation } from 'react-navigation';
-import { styles } from '../../components_additional/styles/LoginStyles';
+import { styles } from '../../components_additional/styles/AuthStyles';
 import { colors } from '../../components_additional/styles/Colors';
 import { categoryAdd } from '../../components_additional/styles/CategoryStyles';
 import ButtonStyled from '../../components_additional/Button';

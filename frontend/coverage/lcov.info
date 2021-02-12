@@ -4830,7 +4830,7 @@ BRF:8
 BRH:0
 end_of_record
 TN:
-SF:src\components_additional\styles\LoginStyles.js
+SF:src\components_additional\styles\AuthStyles.js
 FN:4,styles
 FNF:1
 FNH:1

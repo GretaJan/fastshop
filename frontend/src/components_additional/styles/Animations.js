@@ -1,7 +1,7 @@
 import { Animated, Easing} from 'react-native';
 
 
-var Animations = {
+var comparisonAnimations = {
     pulsingBtn(scale, active) {
         Animated.sequence([
             Animated.spring(scale, {
@@ -54,15 +54,6 @@ var Animations = {
             }).start()
         ])
     },
-    buttonScale(scale) {
-        Animated.sequence([
-            Animated.timing(scale, {
-                toValue: 1,
-                duration: 300,
-                useNativeDriver: true,
-            }).start()
-        ])
-    },
     AnimateAuth(translOne, translTwo, translThree) {
         Animated.sequence([
             Animated.timing(translOne, {
@@ -111,18 +102,18 @@ var Animations = {
             })
         ]).start(() => Animations.AnimateAuth(translOne, translTwo, translThree) )
     },
-    // changeHeight(height) {
-    //     console.log("height", height)
-    //     Animated.sequence([
-    //         Animated.timing(height, {
-    //             toValue: 1,
-    //             delay: 2,
-    //             duration: 50,
-    //             easing: Easing.linear,
-    //             useNativeDriver: true,
-    //         })
-    //     ]).start();
-    // }
+}
+
+var modalAnimations = {
+    buttonScale(scale) {
+        Animated.sequence([
+            Animated.timing(scale, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: true,
+            }).start()
+        ])
+    },
 }
 
 var productAnimations = {
@@ -154,7 +145,8 @@ var productAnimations = {
 }
 
 module.exports = {
-    Animations: Animations,
-    productAnimations: productAnimations
+    comparisonAnimations: comparisonAnimations,
+    productAnimations: productAnimations,
+    modalAnimations: modalAnimations,
 };
 // module.exports = Animations;

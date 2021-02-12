@@ -18,13 +18,22 @@ class UserProductTest extends TestCase
         $this->user_headers['Accept'] = 'application/json';
         $this->user_headers['Authorization'] = "Bearer $token";
     }
+    /** @test */
+    public function user_can_get_all_data()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::orderBy('created_at', 'desc')->first();
+        $this->setUpUser($user->id);
+        $response = $this->getJson('/api/get-all-data', $this->user_headers);
+        $response->assertStatus(200);
+    }
     // /** @test */
     // public function user_can_like_product()
     // {
     //     $this->withoutExceptionHandling();
     //     $user = User::orderBy('created_at', 'desc')->first();
     //     $this->setUpUser($user->id);
-    //     $response = $this->getJson('/api/like-product/4/11', $this->user_headers);
+    //     $response = $this->getJson('/api/like-product/11/4', $this->user_headers);
     //     $response->assertStatus(201);
     // }
     // /** @test */
@@ -33,7 +42,7 @@ class UserProductTest extends TestCase
     //     $this->withoutExceptionHandling();
     //     $user = User::orderBy('created_at', 'desc')->first();
     //     $this->setUpUser(2);
-    //     $response = $this->getJson('/api/like-product/1/3', $this->user_headers);
+    //     $response = $this->getJson('/api/like-product/3/1', $this->user_headers);
     //     $response->assertStatus(400);
     // }
     // /** @test */

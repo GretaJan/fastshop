@@ -50,7 +50,7 @@ class Category extends Component {
             // <TouchableOpacity style={stylesGuest().itemWrap} onPress={() => this.goToSubcategories()}>
             <TouchableHighlight {...this.wrapHoverProps} style={this.state.isPressed ? stylesGuest().itemWrapHover : stylesGuest().itemWrap }>
                 <View>
-                    {this.props.item.image ? (
+                    {/* {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>
                            <Image style={stylesGuest().image} source={{uri: this.props.item.image}} />     
                         </View>
@@ -58,7 +58,7 @@ class Category extends Component {
                         <View style={stylesGuest().imageWrap}>
                             <IonIcon style={stylesGuest().imageIcon} name="md-images" />
                         </View>
-                    )}
+                    )} */}
                     { this.props.item.name == 'Beverage' ? (
                         <>
                            <MaterialIcon style={this.state.isPressed ? stylesGuest().imgIconHover : stylesGuest().imgIcon } name="bottle-wine" />

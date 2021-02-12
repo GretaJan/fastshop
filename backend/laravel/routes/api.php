@@ -25,12 +25,12 @@ Route::get('/category/{category}', 'CategoryController@show');
 Route::get('/subcategories/{category_id}', 'SubcategoryController@index');
 Route::get('/subcategory/{category_id}/{id}', 'SubcategoryController@show');
 
-Route::get('/products/{subcategory_id}', 'ProductController@index');
-Route::get('/product/{subcategory_id}/{id}', 'ProductController@show');
+Route::get('/products/{subcategory_id}', 'ProductController@getAllProducts');
+Route::get('/product/{id}', 'ProductController@show');
 
 
-Route::post('/register-user', 'UserController@register');
-Route::post('/login', 'UserController@login');
+// Route::post('/register-user', 'UserController@register');
+Route::post('/login-or-register', 'UserController@login');
 Route::post('/login-admin', 'UserController@loginAdmin');
 Route::post('/login-user', 'UserController@loginUser');
 
@@ -51,8 +51,9 @@ Route::group([
     Route::post('/addProduct/{subcategory_id}', 'ProductController@store');
     Route::put('/updateProduct/{subcategory_id}/{product}', 'ProductController@update');
     Route::delete('/deleteProduct/{product}', 'ProductController@destroy');
+
     //User routes
-    Route::get('/like-product/{product_id}/{subcategory_id}', 'UserProductController@likeProduct');
+    Route::get('/like-product/{subcategory_id}/{product_id}', 'UserProductController@likeProduct');
     Route::get('/unlike-product/{product_id}', 'UserProductController@unlikeProduct');
     Route::get('/get-personal-favorites/{category_id}', 'UserProductController@getPersonalFavorites');
     Route::get('/get-top-favorites/{category_id}', 'UserProductController@getTopFavorites');

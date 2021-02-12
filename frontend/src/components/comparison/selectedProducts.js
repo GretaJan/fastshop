@@ -18,7 +18,7 @@ import EmptyList from '../../components_additional/EmptyListSelected';
 import LoadingResults from '../../components_additional/LoadingResults';
 import Modal from '../../components_additional/Modal';
 
-const Animations = require('../../components_additional/styles/Animations.js');
+const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
 
 class Products extends Component {
     state = {
@@ -115,10 +115,10 @@ class Products extends Component {
     } 
 
     animateActiveBtn = () => {
-        Animations.pulsingBtn(this.state.scale, this.state.needAnimation);
+        comparisonAnimations.pulsingBtn(this.state.scale, this.state.needAnimation);
     }
     animateInactiveBtn = () => {
-        Animations.pulsingBtnStop(this.state.scale);
+        comparisonAnimations.pulsingBtnStop(this.state.scale);
     }
 
     goToResults = () => {
@@ -136,7 +136,7 @@ class Products extends Component {
                         message={'Please select at least two products.'} 
                         close={() => this.setState({ modalMessageNumber: false })} 
                         ok="OK" color={colors.orange} borderColor={colors.inputOrange}
-                        horizontal={20} vertical={10}/>
+                    />
                     )}
                     {(this.props.selectedProducts.length == 0) ? (
                         <View style={productWrap().flatListScrollSmall} >

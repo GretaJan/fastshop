@@ -4,29 +4,32 @@ import { modalStyle } from './styles/AdditionalStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import StyledButton from './AdminButton';
+import { modalStyles, btnStyles, textStyle } from './styles/GeneralStyles';
+import { colors } from './styles/Colors';
 
-const Animations = require('./styles/Animations.js');
+const { modalAnimations } = require('./styles/Animations.js');
 
-const Modal = ({message, close, title, ok, color, borderColor, horizontal, vertical}) => {
+const Modal = ({ message, close, title, ok, color, borderColor }) => {
     const scale = useState(new Animated.Value(0))[0];
 
     useEffect(() => {
-        Animations.buttonScale(scale);
+        modalAnimations.buttonScale(scale);
     }, [])
-
+  
     return (
-        <TouchableOpacity style={modalStyle().container} onPress={close} >
-            <Animated.View style={modalStyle(null, null, scale).itemContainer} >
-                <View style={modalStyle(null, borderColor).iconWrap}>
-                    <IonIcon style={modalStyle(color).icon} name="ios-alert" />
-                    <Text style={modalStyle().title}>{title}</Text>
+        <TouchableOpacity style={modalStyles().modalWrapContainer} onPress={close} >
+            <Animated.View style={modalStyles(null, null, scale).animatedContainer} >
+                <View style={modalStyles(null, borderColor).iconWrap}>
+                    <IonIcon style={modalStyles(color).icon} name="ios-alert" />
+                    <Text style={textStyle().iconTitle}>{title}</Text>
                 </View>
                 <View style={modalStyle().textWrap}>
-                    <Text style={modalStyle().text} >{message}</Text>
+                    <Text style={textStyle().mainMsg} >{message}</Text>
                 </View>
-                <View style={modalStyle().okTxt} >
-                    <StyledButton func={close} title={ok} horizontal={horizontal} vertical={vertical} color={color}/>
-                </View>
+                <TouchableOpacity style={ btnStyles(color).smallModalBtn } onPress={ close } >
+                    <Text style={ textStyle().p } >{ ok }</Text>
+                </TouchableOpacity>
+                    {/* <StyledButton func={close} title={ok} horizontal={horizontal} vertical={vertical} color={color}/> */}
             </Animated.View>
         </TouchableOpacity>
     )

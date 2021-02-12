@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProduct } from '../../redux/actions/productActions';
 import { productSelected, removeProductFromSelected } from '../../redux/actions/comparisonActions';
+import { likeProduct } from '../../redux/actions/productActions';
 import { withNavigation } from 'react-navigation';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
@@ -15,6 +16,7 @@ import EvilIcon from 'react-native-vector-icons/dist/EvilIcons';
 import Loading from '../../components_additional/Loading';
 import Modal from '../../components_additional/Modal';
 import DetailRow from './DetailRow';
+import RegisterModal from '../../components_additional/Register';
 
 const { productAnimations } = require('../../components_additional/styles/Animations');
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
@@ -36,16 +38,19 @@ class ProductDetails extends Component {
         listLikeScale: new Animated.Value(0),
         checkSelectTransition: new Animated.Value(-30),
         checkLikeTransition: new Animated.Value(-30),
+        error: '',
+        callRegisterModel: false,
     }
 
     async componentDidMount() {
         await this.props.getProduct(this.state.productId);
+        this.setState({ isLiked: this.props.product.isLiked })
         this.setState({productDetails: [
             { title: 'Energy', component: this.props.product.energy, measure: 'kcal'},
             { title: 'Fat', component: this.props.product.fat, measure: 'g' },
             { title: 'Saturated fat', component: this.props.product.saturated, measure: 'g' },
-            { title: 'Carbohidrates', component: this.props.carbs, measure: 'g' },
-            { title: 'Sugar', component: this.props.product.sugar, measure: 'g' },
+            { title: 'Carbohidrates', component: this.props.product.carbs, measure: 'g' },
+            { title: 'Sugar', component:this.props.product.sugar, measure: 'g' },
             { title: 'Fiber', component: this.props.product.fiber, measure: 'g' },
             { title: 'Protein', component: this.props.product.protein, measure: 'g' },
             { title: 'Salt', component: this.props.product.salt, measure: 'g' },
@@ -55,14 +60,20 @@ class ProductDetails extends Component {
     }
 
     likeProduct = async () => {
-        this.setState({ isSelected: true })
-        await productAnimations.btnAnimation(this.state.rotateLikeBtn, this.state.listLikeScale, this.state.checkLikeTransition)
-        let spinTemp = this.state.rotateBtn.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '180deg']
-        })
-        console.log("spinTemp", this.state.listScale)
-        this.setState({ spinSelectBtn: spinTemp })
+        const likeActionResp= this.props.likeProduct(this.props.route.params.subcategoryId, this.state.productId, this.props.token);
+        console.log("ERRRR::: ", likeActionResp)
+        if(likeActionResp === true){
+            this.setState({ isLiked: true })
+            await productAnimations.btnAnimation(this.state.rotateLikeBtn, this.state.listLikeScale, this.state.checkLikeTransition)
+            let spinTemp = this.state.rotateBtn.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0deg', '180deg']
+            })
+            this.setState({ spinSelectBtn: spinTemp })
+        } else {
+            setState({ errorObj: likeActionResp });
+        }
+        
     }
 
     selectProduct = async () => {
@@ -83,22 +94,35 @@ class ProductDetails extends Component {
 
     render() {
         const { image, background } = this.props.product;
+        const { token } = this.props;
+        const { callRegisterModel } = this.state;
         return (
             (this.props.loading) ? (
                 <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
                     <Loading />
                 </View>
                 ) : (
-                (this.props.error !== '') ? (
+                // (this.props.error !== '') ? (
+                //     <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
+                //         <Modal title="Warning" 
+                //             message={this.props.error} 
+                //             close={() => this.props.navigation.navigate("Login")} 
+                //             ok="OK" color={colors.bordo} 
+                //             borderColor={colors.bordoTransparent}
+                //             horizontal={20} vertical={10}/>
+                //     </View>
+                // ) : (
+               <>
+                { this.state.error !== '' && (
                     <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
-                        <Modal title="Warning" 
+                        <Modal title="Error" 
                             message={this.props.error} 
-                            close={() => this.props.navigation.navigate("Login")} 
+                            close={() => this.setState({ error: '' })} 
                             ok="OK" color={colors.bordo} 
                             borderColor={colors.bordoTransparent}
                             horizontal={20} vertical={10}/>
                     </View>
-                ) : (
+                )}
                 <View style={stylesGuestSingle(this.props.route.params.background).container} >
                     {image ? (
                         <View style={stylesGuestSingle().imageContainer} >
@@ -111,7 +135,7 @@ class ProductDetails extends Component {
                     )}
                         <View style={stylesGuestSingle().btnsWrap } >
                             <View style={stylesGuestSingle().likeBtns}>
-                                <AnimatedTouchable style={stylesGuestSingle(null, this.state.isLiked, this.state.spinLikeBtn).neutralBtnLiked} onPress={() => this.likeProduct()}>
+                                <AnimatedTouchable style={stylesGuestSingle(null, this.state.isLiked, this.state.spinLikeBtn).neutralBtnLiked} onPress={() => token ? this.likeProduct() : this.state({ callRegisterModel: true }) }>
                                 { !this.state.isLiked ? (
                                     <MaterialIcon name="heart-outline" style={stylesGuestSingle().iconHeartLike} />
                                 ): (
@@ -143,8 +167,14 @@ class ProductDetails extends Component {
                             )} />
                         </View>
                     </View>
+                    { callRegisterModel && (
+                        <Register 
+                            refreshPage={() => this.forceUpdate()} 
+                            close={() => this.setState({ callRegisterModel: false })}
+                        />
+                    ) }
+                </>
             )
-        )
         )
     }
 }
@@ -162,10 +192,11 @@ ProductDetails.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
+    token: state.auth.token,
     product: state.products.product,
     selectedProducts: state.selectedProducts.comparisonArray,
-    error: state.products.error,
+    // error: state.products.error,
     loading: state.products.loading,
 })
 
-export default withNavigation(connect(mapStateToProps, {getProduct, productSelected, removeProductFromSelected})(ProductDetails))
+export default withNavigation(connect(mapStateToProps, {getProduct, productSelected, removeProductFromSelected, likeProduct})(ProductDetails))

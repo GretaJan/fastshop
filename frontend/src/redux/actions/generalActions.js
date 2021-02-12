@@ -7,11 +7,15 @@ export const closeErrorWarning = (actionType) => (dispatch) => {
     })
 }
 
-export const importAppData = () => (dispatch) => {
+export const importAppData = (token) => (dispatch) => {
     dispatch({
         type: LOADING_DATA
     })
-    axios.get(`${URL}/get-all-data`)
+    axios.get(`${URL}/get-all-data`, {
+        headers: {
+            Authorization: `Bearer ${ token }`
+        }
+    }, { withCredentials: true })
         .then(response => {
             const respData = response.data;
             let paginatedSubcategories = paginateData(respData.subcategories, 3);
