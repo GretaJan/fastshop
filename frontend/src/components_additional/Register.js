@@ -15,8 +15,13 @@ const { modalAnimations } = require('./styles/Animations.js');
 function loginFunc(passedUrl, data){
 
     return axios.post(`${ URL }/${passedUrl}`, data).then(response => {
-        return response.data
+        // console.log("OKKK", response)
+        // const data = {
+        //     token
+        // }
+        return response.data;
     }).catch(err => {
+        console.log("OKKK", err.response)
         const errorResp = err.response
         let currentError;
         if(errorResp){
@@ -64,12 +69,12 @@ function Register({ saveUserToken, refreshPage, close }){
         const data = await loginFunc('login-or-register', sendData)
         console.log("Data", data)
         if(data.token) {
-            saveUserToken(data.token);
+            console.log("data.user::: ", data.user)
+            saveUserToken(data.token, data.user);
             refreshPage();
-        } else if(data == 'simple_user'){
+        } else if(data.type == 'simple_user'){
             setCodeInput(true)
             if(resentCode) {
-                console.log("iiiii:: ", resentCode)
                 setCodeResent('Code resent');
                 setTimeout(() => {
                     setCodeResent('');
@@ -88,9 +93,8 @@ function Register({ saveUserToken, refreshPage, close }){
             password: code
         }
         const data = await loginFunc('login-user', sendData)
-        console.log("DATA", data)
         if(data.token) {
-            saveUserToken(data.token);
+            saveUserToken(data.token, data.user);
             refreshPage();
         } else {
             if(data.expiredError){

@@ -1,5 +1,21 @@
-import { Animated, Easing} from 'react-native';
+import { Animated, Easing, LayoutAnimation, Platform, UIManager, AnimationType} from 'react-native';
+import { animations } from './AnimationStyles';
+import { Dimensions } from 'react-native';
 
+
+if (Platform.OS === 'android') {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+const heightAnimation = () => {
+    LayoutAnimation.configureNext({
+        duration: 200,
+        update: {
+           delay: 0,
+           type: LayoutAnimation.Types.linear,
+        },
+    })
+}
 
 var comparisonAnimations = {
     pulsingBtn(scale, active) {
@@ -19,7 +35,7 @@ var comparisonAnimations = {
                 duration: 250,
                 useNativeDriver: true,
             }),
-        ]).start(() => Animations.pulsingBtn(scale, active))
+        ]).start(() => comparisonAnimations.pulsingBtn(scale, active))
     },
     pulsingBtnStop(scale) {
         Animated.sequence([
@@ -28,7 +44,41 @@ var comparisonAnimations = {
                 duration: 10,
                 useNativeDriver: true,
             })
-        ])
+        ]).start()
+    },
+    checkScaleGrow(scale){
+        Animated.sequence([
+            Animated.timing(scale, {
+               toValue: 0,
+               delay: 0,
+               duration: 0,
+               useNativeDriver: true,
+            }),
+            Animated.timing(scale, {
+                toValue: 1,
+                delay: .3,
+                duration: 200,
+                useNativeDriver: true,
+             }),
+        ]).start()
+    },
+    imageIconTranslation(translateMatch, translateMismatch){
+        Animated.sequence([
+            Animated.timing(translateMatch, {
+                toValue: 0,
+                delay: .2,
+                duration: 300,
+                easing: Easing.linear,
+                useNativeDriver: true
+            }),
+            Animated.timing(translateMismatch, {
+                toValue: 0,
+                delay: .2,
+                duration: 300,
+                easing: Easing.linear,
+                useNativeDriver: true
+            })
+        ]).start();
     },
     diagramAnimation(translate) {
         Animated.sequence([
@@ -100,8 +150,32 @@ var comparisonAnimations = {
                 easing: Easing.linear,
                 useNativeDriver: true,
             })
-        ]).start(() => Animations.AnimateAuth(translOne, translTwo, translThree) )
+        ]).start(() => comparisonAnimations.AnimateAuth(translOne, translTwo, translThree) )
     },
+    optionBtnsHide(translate){
+        Animated.sequence([
+            Animated.timing(translate, {
+                toValue: Dimensions.get('window').height /5 + 100,
+                delay: 0,
+                duration: 300,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
+        ]).start()
+    },
+    optionBtnsShow(translate, func){
+        Animated.sequence([
+            Animated.timing(translate, {
+                toValue: 0,
+                delay: 0,
+                duration: 300,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
+        ]).start(() => {
+            func()
+        })
+    }
 }
 
 var modalAnimations = {
@@ -117,12 +191,13 @@ var modalAnimations = {
 }
 
 var productAnimations = {
-    btnAnimation(rotate, scale, transition) {
+    btnAnimationToActive(rotate, scale, transition) {
         Animated.sequence([
             Animated.timing(rotate, {
                 toValue: 1,
                 delay: 1,
-                duration: 210,
+                // duration: 210,
+                duration: 400,
                 easing: Easing.linear,
                 useNativeDriver: true,
             }),
@@ -141,6 +216,52 @@ var productAnimations = {
                 useNativeDriver: true,
             })
         ]).start();
+    },
+    btnAnimationToInactive(rotate, scale, listScale) {
+        Animated.sequence([
+            // Animated.timing(listScale, {
+            //     toValue: 0,
+            //     delay: 0,
+            //     duration: 0,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            Animated.timing(rotate, {
+                toValue: 0,
+                delay: 1,
+                duration: 210,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
+            Animated.timing(scale, {
+                toValue: 1,
+                delay: 1,
+                duration: 200,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
+            // Animated.timing(listScale, {
+            //     toValue: 0,
+            //     delay: 0,
+            //     duration: 0,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // })
+        ]).start();
+    },
+    removeItem(translation, heightFunc, removeFunc){
+            Animated.timing(translation, {
+                toValue: -(Dimensions.get('window').width /1),
+                delay: .3,
+                duration: 200,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }).start(() => {
+                heightAnimation()
+                heightFunc()
+                removeFunc()
+            }
+        )
     }
 }
 
@@ -149,4 +270,3 @@ module.exports = {
     productAnimations: productAnimations,
     modalAnimations: modalAnimations,
 };
-// module.exports = Animations;

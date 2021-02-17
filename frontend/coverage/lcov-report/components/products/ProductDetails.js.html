@@ -274,7 +274,7 @@ import { View, FlatList, ScrollView, TouchableOpacity, Image } from 'react-nativ
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProduct } from '../../redux/actions/productActions';
-import { productSelected } from '../../redux/actions/comparisonActions';
+import { selectProductToCalc } from '../../redux/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
@@ -309,7 +309,7 @@ class ProductDetails extends Component {
     }
 &nbsp;
     selectProduct = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >        this.props.productSelected(this.props.product.subcategory_id, this.props.product.id )</span>
+<span class="cstat-no" title="statement not covered" >        this.props.selectProductToCalc(this.props.product.subcategory_id, this.props.product.id )</span>
     }<span class="branch-2 cbranch-no" title="branch not covered" ></span>
 &nbsp;
     render() {
@@ -359,7 +359,7 @@ class ProductDetails extends Component {
 &nbsp;
 ProductDetails.propTypes = {
     getProduct: PropTypes.func.isRequired,
-    productSelected: PropTypes.func.isRequired,
+    selectProductToCalc: PropTypes.func.isRequired,
     productDetails: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired,
         component: PropTypes.number,
@@ -375,7 +375,7 @@ const mapStateToProps = (state) =&gt; ({
     loading: state.products.loading,
 })
 &nbsp;
-export default withNavigation(connect(mapStateToProps, {getProduct, productSelected})(ProductDetails))</pre></td></tr></table></pre>
+export default withNavigation(connect(mapStateToProps, {getProduct, selectProductToCalc})(ProductDetails))</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

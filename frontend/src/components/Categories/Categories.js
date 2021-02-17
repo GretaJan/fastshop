@@ -22,25 +22,25 @@ import ConfirmModal from '../../components_additional/ModalCrud';
 
 export class Categories extends Component {
     state = {
-        openDataModel: false,
-        importDataLoading: false,
-        registerModel: false,
+        // openDataModel: false,
+        // importDataLoading: false,
+        // registerModel: false,
     }
 
     componentDidMount() {
-        this.props.importAppData(this.props.token);
-        NetInfo.fetch().then(state => {
-            if(state.isConnected){
-                if(this.props.categories.length === 0 && this.props.dataUploaded === null){
-                    this.props.importAppData(this.props.token);
-                } else if(this.props.dataUploaded === null){
-                    this.setState({openDataModel: true})
-                }
-            }
-        })
-        if(!this.props.token){
-            this.setState({ registerModel: true })
-        }
+        // this.props.importAppData(this.props.token);
+        // NetInfo.fetch().then(state => {
+        //     if(state.isConnected){
+        //         if(this.props.categories.length === 0 && this.props.dataUploaded === null){
+        //             this.props.importAppData(this.props.token);
+        //         } else if(this.props.dataUploaded === null){
+        //             this.setState({openDataModel: true})
+        //         }
+        //     }
+        // })
+        // if(!this.props.token){
+        //     this.setState({ registerModel: true })
+        // }
     }
 
     dataTransferModelMsg(){
@@ -53,7 +53,7 @@ export class Categories extends Component {
     }
 
     render() {
-        const { registerModel } = this.state;
+       
         return (
             (this.props.loading) ? (
                 <View style={backgroundForPages().backgroundContainer} >
@@ -75,12 +75,12 @@ export class Categories extends Component {
                 </View>
                 ) : (
                     <>
-                        { registerModel && (
-                            <Register 
+                        {/* { registerModel && ( */}
+                            {/* <Register 
                                 refreshPage={ () => this.forceUpdate() } 
-                                close={ this.setState({ registerModel: false}) }
-                            />
-                        ) }
+                                close={ () => this.setState({ registerModel: false}) }
+                            /> */}
+                        {/* ) } */}
                         { this.props.error !== '' && (
                             <Modal 
                                 title="Warning" 
@@ -124,9 +124,9 @@ Categories.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    token: state.auth.token,
-    loadingData: state.dataUpload.loadingData,
-    dataUploaded: state.dataUpload.dataUploaded,
+    // token: state.auth.token,
+    // loadingData: state.dataUpload.loadingData,
+    // dataUploaded: state.dataUpload.dataUploaded,
     categories: state.dataUpload.categories,
     loading: state.categories.loading,
     error: state.categories.error,

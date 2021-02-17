@@ -13,12 +13,16 @@ class UserProductController extends Controller
     {
         $user = $request->user();
         $category_id = Subcategory::find($subcategory_id)->category_id;
-        $user_favorites = $user->products()->pluck('product_id')->toArray();
+        $user_favorites = $user->accounts()->find($user->current_account)->products()->pluck('product_id')->toArray();
         if(in_array($product_id, $user_favorites))
         {
             return response()->json(null, 400);
         }
-        $user->products()->attach($product_id, ['category_id' => $category_id]);
+        $current_account = $user->current_account;
+        $user->accounts()->find($current_account)->products()->attach($product_id, [
+                    'category_id' => $category_id, 
+                    'notes' => $request->notes, 
+                ]);
         $message = 'Product liked.';
         return response()->json($message, 201);
     }
@@ -26,7 +30,8 @@ class UserProductController extends Controller
     public function unlikeProduct(Request $request, $product_id)
     {
         $user = $request->user();
-        $user->products()->detach($product_id);
+        $current_account = $user->current_account;
+        $user->accounts()->find($current_account)->products()->detach($product_id);
         $message = 'Product unliked.';
         return response()->json($message, 201);
     }
@@ -34,7 +39,8 @@ class UserProductController extends Controller
     public function getPersonalFavorites(Request $request, $category_id)
     {
         $user = $request->user();
-        $favorites = $user->products()->where('category_id', $category_id)->get();
+        $current_account = $user->current_account;
+        $favorites = $user->accounts()->find($current_account)->products()->where('category_id', $category_id)->get();
         return response()->json($favorites, 200);
     }
     //find top 10 favorites from all users
@@ -47,7 +53,6 @@ class UserProductController extends Controller
             ->groupBy('product_id')
             ->limit(25)
             ->get();
-    
         $products->map(function($product) {
             $product_found = Product::find($product->product_id);
             $product->product = $product_found;

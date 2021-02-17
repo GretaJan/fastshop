@@ -406,7 +406,7 @@ import { View, FlatList, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProducts } from '../../redux/actions/productActions';
-import { productSelected } from '../../redux/actions/comparisonActions';
+import { selectProductToCalc } from '../../redux/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
@@ -482,7 +482,7 @@ class Products extends Component {
 &nbsp;
      selectProduct =<span class="fstat-no" title="function not covered" > (</span>item1, item2) =&gt; {
 <span class="cstat-no" title="statement not covered" >        if(this.props.comparisonArray.length &lt;= 30) {</span>
-<span class="cstat-no" title="statement not covered" >            this.props.productSelected(item2, item1</span>);
+<span class="cstat-no" title="statement not covered" >            this.props.selectProductToCalc(item2, item1</span>);
         } else {
 <span class="cstat-no" title="statement not covered" >            this.setState({overload: 'Please select no more than 30 items.'})</span>
         }
@@ -573,7 +573,7 @@ const mapStateToProps = state =&gt; ({
     comparisonArray: state.selectedProducts.comparisonArray,
 })
 &nbsp;
-export default withNavigation(connect(mapStateToProps, {getProducts, productSelected })(Products))</pre></td></tr></table></pre>
+export default withNavigation(connect(mapStateToProps, {getProducts, selectProductToCalc })(Products))</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

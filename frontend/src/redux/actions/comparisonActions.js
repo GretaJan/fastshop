@@ -4,7 +4,7 @@ import axios from 'axios';
 import store from '../store';
 import AsyncStorage from '@react-native-community/async-storage';
 
-// export const productSelected = (subcategory, product) => dispatch => {
+// export const selectProductToCalc = (subcategory, product) => dispatch => {
 //     return axios.get(`${URL}/product/${subcategory}/${product}`)
 //         .then(result => (
 //             dispatch({
@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 //             })
 //         ))
 // }
-export const productSelected = (selectedProducts, productId) => dispatch => {
+export const selectProductToCalc = (selectedProducts, productId) => dispatch => {
     // return axios.get(`${URL}/product/${subcategory}/${product}`)
     //     .then(result => (
     //         dispatch({
@@ -23,16 +23,15 @@ export const productSelected = (selectedProducts, productId) => dispatch => {
     //             result: {},
     //         })
     //     ))
-    console.log("yeees", selectedProducts)
-    console.log("product id", productId)
-    const existInSelected = !selectedProducts.length === 0 ? [] : selectedProducts.find(item => item.id == productId);
-    if(!existInSelected){
+   console.log("IDDD:: ", productId)
+    const existInSelected = selectedProducts.length == 0 ? [] : selectedProducts.find(item => item.id == productId);
+    if(!existInSelected || existInSelected.length == 0){
         AsyncStorage.getItem("persist:root").then((value) => {
             let root = JSON.parse(value);
                 let productsReducer = JSON.parse(root.products);
                 let products = productsReducer.products;
                 let getProduct = products.find(item => item.id == productId);
-                console.log("get products", getProduct)
+                console.log(getProduct)
                 dispatch({
                     type: PRODUCT_SELECTED,
                     payload: getProduct,
@@ -57,6 +56,7 @@ export const removeProductFromSelected = (productId) => dispatch => {
 }
 
 export const compare = (result) => dispatch => {
+    console.log("ressss:: ", result)
     const match = splitComponents(result.match);
     const mismatch = splitComponents(result.mismatch)
     dispatch({
@@ -129,6 +129,7 @@ export const saveCombination = (productOne, productTwo) => (dispatch) => {
 // Loal functions
 //Split all numbers of products components
 function splitComponents(component){
+    console.log("COMMMMM: ", component)
     let energy = component.energy;
     let fat = component.fat;
     let saturated = component.saturated;

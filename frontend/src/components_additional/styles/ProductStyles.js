@@ -3,19 +3,18 @@ import {Dimensions} from 'react-native';
 import { colors } from './Colors';
 
 
-export const stylesGuest = (background) => StyleSheet.create( {
-    container: {
-        flex: 1,
-        textAlign: 'center',
-        backgroundColor: background ? background : colors.mainGrey,
-    },
+export const stylesGuest = (background, rotateBtn, isSelected, translate) => StyleSheet.create( {
+    // container: {
+        // flex: 1,
+        // textAlign: 'center',
+        // backgroundColor: background ? background : colors.mainGrey,
+    // },
     itemWrap: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems:'center',
         height: 65,
-        marginHorizontal: 5,
         marginVertical: 2,
         backgroundColor: colors.transparentMedium,
          // Shadow
@@ -26,6 +25,27 @@ export const stylesGuest = (background) => StyleSheet.create( {
          shadowOffset: { width: 1, height: 1 },
          shadowOpacity: 0.8,
          shadowRadius: 2, 
+    },
+    itemWrapTranslation: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems:'center',
+        height: 65,
+        marginVertical: 2,
+        backgroundColor: colors.transparentMedium,
+         // Shadow
+         elevation   : 1,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.8,
+         shadowRadius: 2, 
+        transform: [
+            { translateX: translate  },
+        ],
+       
     },
     TextPicWrap: {
         flex: 1,
@@ -54,60 +74,75 @@ export const stylesGuest = (background) => StyleSheet.create( {
         fontSize: 50,
         color: '#000'
     },
-    iconItem: {
-        fontSize: 30,
-        paddingRight: 10,
-    },
+    // iconItem: {
+    //     fontSize: 45,
+    //     paddingRight: 10,
+    // },
     delVerifyContainer: {
         top: '10%'
+    },
+    animatedWrap: {
+        zIndex: 50,
+        width: 60,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: isSelected ? colors.transparentLight : colors.mainGreyTransparent,
+        borderLeftWidth: 1,
+        transform: [
+            { rotateY: rotateBtn }
+        ],
+        backgroundColor: isSelected ? colors.mainGreyTransparent : null,
     }
 });
 
-export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, checkTransition ) => StyleSheet.create({
-    container: {
-        flex: 1,
-        textAlign: 'center',
-        alignItems:'center',
-        backgroundColor: colors.mainGrey,
+export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, checkTransition, listCheckScale) => StyleSheet.create({
+    // container: {
+    //     flex: 1,
+    //     textAlign: 'center',
+    //     alignItems:'center',
+    //     width: Dimensions.get('window').width /1,
+    //     maxHeight: Dimensions.get('window').height /1 - 140,
+    //     position: 'relative',
+    // },
+    topContainer: {
+        height: Dimensions.get('window').height /4,
         width: Dimensions.get('window').width /1,
-        maxHeight: Dimensions.get('window').height /1 - 140,
-        position: 'relative',
-    },
-    imageContainer: {
-        width: 265,
-        height: 160,
-        borderRadius: 50,
         textAlign: 'center',
         alignItems:'center',
         alignSelf: 'center',
-        top: 5,
-        zIndex: 1,
+        paddingVertical: 7,
+        position: 'relative',
+        backgroundColor: colors.transparentMedium,
+        zIndex: -1
     },
     imageStyle: {
-        borderRadius: 5,
+        width: Dimensions.get('window').width - 120,
         height: '100%',
-        width: '100%',
+        zIndex: 15,
+        borderRadius: 3,
         resizeMode: 'cover',
     },
-    emptyItem: {
-        position: 'absolute',
-        backgroundColor: background ? background : colors.mainGrey,
-        width: 45,
-        height: 45,
-        borderRadius: 45/2,
-        marginTop: 160,
-        zIndex: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    emptyIcon: {
-        fontSize: 45,
-        color: background ? background : colors.yellowGreenish
-    },
+    // emptyItem: {
+    //     position: 'absolute',
+    //     backgroundColor: colors.mainGrey,
+    //     width: 45,
+    //     height: 45,
+    //     borderRadius: 45/2,
+    //     marginTop: 160,
+    //     zIndex: 2,
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    // },
+    // emptyIcon: {
+    //     fontSize: 45,
+    //     color: background ? background : colors.yellowGreenish
+    // },
     listContainer: {
         backgroundColor: background ? background : colors.mainGrey,
         flex: 1,
-        marginBottom: 10,
+        paddingTop: 7,
+        paddingBottom: 10,
         width: Dimensions.get('window').width /1,
     },
     flatlistContainer: {
@@ -122,7 +157,6 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
         alignContent: 'center',
         paddingHorizontal: 10,
         marginHorizontal: 10,
-        // margin: 1,
         borderColor: colors.mainWhiteGreyTrans,
         borderBottomWidth: 1,
         justifyContent: 'space-between',
@@ -136,15 +170,12 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
     componentIconWrap: {
         height: 31,
         width: 31,
+        marginRight: 10,
     },
     componentIcon: {
         width: '100%',
         height: '100%',
         resizeMode: 'contain',
-    },
-    componentTitle: {
-        paddingLeft: 10,
-        fontSize: 16,
     },
     listItemInfoWrap: {
         flexDirection: 'row',
@@ -193,40 +224,39 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
     //     color: colors.mainBlack,
     //     flex: 0.4,
     // },
-    triangle: {
-        width: 0,
-        height: 0,
-        backgroundColor: 'transparent',
-        borderStyle: 'solid',
-        borderTopWidth: 0,
-        borderRightWidth: 250,
-        borderBottomWidth: 90,
-        borderLeftWidth: 250,
-        borderTopColor: 'transparent',
-        borderRightColor: 'transparent',
-        borderBottomColor: background ? background : colors.mainGrey,
-        borderLeftColor: 'transparent',
-        position: 'absolute',
-        top: 73,
-        zIndex: 0
-      },
-      underTriangle: {
-        height: 20,
-        width: Dimensions.get('window').width /1,
-        backgroundColor: background ? background : colors.mainGrey,
-    },
-    // like button
+    // triangle: {
+    //     width: 0,
+    //     height: 0,
+    //     backgroundColor: 'transparent',
+    //     borderStyle: 'solid',
+    //     borderTopWidth: 0,
+    //     borderRightWidth: 250,
+    //     borderBottomWidth: 90,
+    //     borderLeftWidth: 250,
+    //     borderTopColor: 'transparent',
+    //     borderRightColor: 'transparent',
+    //     borderBottomColor: background ? background : colors.mainGrey,
+    //     borderLeftColor: 'transparent',
+    //     position: 'absolute',
+    //     top: 73,
+    //     zIndex: 1
+    //   },
+    //   underTriangle: {
+    //     height: 20,
+    //     width: Dimensions.get('window').width /1,
+    //     backgroundColor: background ? background : colors.mainGrey,
+    // },
     btnsWrap: {
-        // justifyContent: 'flex-end',
-        backgroundColor: 'red',
         position: 'absolute',
         zIndex: 1, 
-        right: 30,
+        left: Dimensions.get('window').width - 52.5,
+        height: '100%',
+        justifyContent: 'center'
     },
+    // like button
     likeBtns: {
-        // height: 50,
-        // width: 30,
-        justifyContent: 'flex-end',
+        width: 45,
+        marginBottom: 10,
     },
     neutralBtnLiked: {
         backgroundColor: isActive ? colors.mainBtnGreen  : colors.mainGrey,
@@ -345,18 +375,18 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
     calcCheck: {
         fontSize: 47,
         color: colors.mainBtnGreen,
-        position: 'absolute',
-        fontWeight: 'bold'
+        transform: [
+            { scaleX: listCheckScale }
+        ],
     },
     calcUncheckList: {
         fontSize: 28,
         position: 'absolute',
         fontWeight: 'bold',
-        // opacity: !listScale ? 0 : listScale,
         transform: [
             { rotateY: '-180deg' },
             { scale: listScale }
-        ]
+        ],
     },
     calcUncheck: {
         position: 'absolute',
@@ -368,8 +398,24 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
         transform: [
             { translateY: checkTransition },
             { rotateY: '-180deg' }
-        ] 
+        ], 
     },
+    calcUncheckMainPg: {
+        position: 'absolute',
+        fontSize: 50,
+        color: colors.mainBtnGreen,
+        left: 8,
+        top: -3,
+        fontWeight: 'bold',
+        transform: [
+            { translateY: checkTransition },
+            { rotateY: '-180deg' }
+        ], 
+    },
+    calcRemove: {
+        fontSize: 30,
+        color: colors.mainBlack
+    }
 });
 
 export const authProducts = (background) => StyleSheet.create({

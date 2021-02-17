@@ -499,7 +499,7 @@
 import { View, Text, FlatList, TouchableOpacity, TextInput, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { productSelected, removeProductFromSelected, compare, clearSelectedArray, goToList, sortArray } from '../../redux/actions/comparisonActions';
+import { selectProductToCalc, removeProductFromSelected, compare, clearSelectedArray, goToList, sortArray } from '../../redux/actions/comparisonActions';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { productWrap } from '../../components_additional/styles/CompareStyles';
@@ -713,7 +713,7 @@ const mapStateToProps = state =&gt; ({
     result: state.selectedProducts.result,
 })
 &nbsp;
-export default withNavigation(connect(mapStateToProps, {productSelected, removeProductFromSelected, compare, clearSelectedArray, goToList, sortArray})(Products))
+export default withNavigation(connect(mapStateToProps, {selectProductToCalc, removeProductFromSelected, compare, clearSelectedArray, goToList, sortArray})(Products))
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

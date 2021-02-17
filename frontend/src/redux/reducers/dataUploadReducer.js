@@ -5,7 +5,7 @@ const initialState = {
     allSubcategories: [],
     allProducts: [],
     loadingData: false,
-    dataUploaded: null,
+    dataUploadDate: null,
     dataLoadError: '',
 }
 
@@ -21,13 +21,14 @@ export default function(state = initialState, action){
                 ...state,
                 categories: action.categories,
                 allSubcategories: action.subcategories,
-                allProducts: action.products
+                allProducts: action.products,
+                dataUploadedDate: action.dataUploadDate
             }
         case DATA_LOADED:
             return {
                 ...state,
                 loadingData: false,
-                dataUploaded: true
+                dataUploadedDate: action.dataUploadDate
             }
         case DATA_LOAD_CANCELED:
             return {

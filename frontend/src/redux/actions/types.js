@@ -63,7 +63,7 @@ export const SAVE_COMBINATION = 'SAVE_COMBINATION';
 
 // FOR AUTHENTICATION
 
-export const REGISTER_TOKEN = 'REGISTER_TOKEN';
+export const SAVE_USER = 'SAVE_USER';
 export const TRY_LOG_IN = 'TRY_LOG_IN';
 export const LOGGED_IN = 'LOGGED_IN';
 export const LOG_IN_FAILED = 'LOG_IN_FAILED';

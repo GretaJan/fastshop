@@ -7,6 +7,9 @@ export const styles = (background) => StyleSheet.create({
     container: {
         backgroundColor: background ? background : colors.mainGrey,
         flex: 1,
+        // flex: 1,
+        // textAlign: 'center',
+        // backgroundColor: color ? color : colors.mainGrey,
     },
     itemWrap: {
         display: 'flex',
@@ -74,29 +77,31 @@ export const styles = (background) => StyleSheet.create({
 });
 
 export const stylesGuest = (backgroundCategory, backgroundSubcategory) => StyleSheet.create({
-    container: {
-        backgroundColor: backgroundCategory ? backgroundCategory : colors.mainGrey,
-        flex: 1,
-        textAlign: 'center',
-        paddingHorizontal: 12,
-    },
+    // container: {
+        // backgroundColor: backgroundCategory ? backgroundCategory : colors.mainGrey,
+        // flex: 1,
+        // textAlign: 'center',
+        // paddingHorizontal: 12,
+        // flex: 1,
+        // textAlign: 'center',
+        // backgroundColor: backgroundCategory ? backgroundCategory : colors.mainGrey,
+    // },
     horizontalWrap: {
-        flexDirection: 'column',
-        // flexWrap: 'wrap', 
-        justifyContent: 'flex-start',
-        marginTop: 20,
-        width: Dimensions.get('window').width /1,
+        // flexDirection: 'column',
+        // justifyContent: 'space-between',
+        // alignSelf: 'center',
+        alignItems: 'flex-start',
+        maxWidth: Dimensions.get('window').width
     },
     itemWrap: {
         backgroundColor: backgroundSubcategory ? backgroundSubcategory : colors.mainWhiteGrey,
         paddingVertical: 5,
-        marginHorizontal: Dimensions.get('window').width /70.5,
-        marginBottom: 10,
+        marginBottom: Dimensions.get('window').width / 101,
         borderRadius: 10,
         alignItems: 'center',
         alignContent: 'center',
-        width: Dimensions.get('window').width /3.5,
-        height: 114,
+        width: Dimensions.get('window').width / 4.25,
+        marginHorizontal: 2,
         // Shadow
         elevation   : 5,
         overflow: 'hidden',

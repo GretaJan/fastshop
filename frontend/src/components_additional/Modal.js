@@ -9,7 +9,7 @@ import { colors } from './styles/Colors';
 
 const { modalAnimations } = require('./styles/Animations.js');
 
-const Modal = ({ message, close, title, ok, color, borderColor }) => {
+const Modal = ({ message, close, title, ok, color, borderColor, locationX, locationY }) => {
     const scale = useState(new Animated.Value(0))[0];
 
     useEffect(() => {
@@ -17,19 +17,18 @@ const Modal = ({ message, close, title, ok, color, borderColor }) => {
     }, [])
   
     return (
-        <TouchableOpacity style={modalStyles().modalWrapContainer} onPress={close} >
-            <Animated.View style={modalStyles(null, null, scale).animatedContainer} >
-                <View style={modalStyles(null, borderColor).iconWrap}>
+        <TouchableOpacity style={modalStyles().modalWrapNoColor} onPress={close} >
+            <Animated.View style={modalStyles(null, null, scale, null, locationX, locationY).animatedContainerSmall} >
+                {/* <View style={modalStyles(null, borderColor).iconWrap}>
                     <IonIcon style={modalStyles(color).icon} name="ios-alert" />
                     <Text style={textStyle().iconTitle}>{title}</Text>
-                </View>
+                </View> */}
                 <View style={modalStyle().textWrap}>
                     <Text style={textStyle().mainMsg} >{message}</Text>
                 </View>
                 <TouchableOpacity style={ btnStyles(color).smallModalBtn } onPress={ close } >
-                    <Text style={ textStyle().p } >{ ok }</Text>
+                    <Text style={ textStyle().p } >Ok</Text>
                 </TouchableOpacity>
-                    {/* <StyledButton func={close} title={ok} horizontal={horizontal} vertical={vertical} color={color}/> */}
             </Animated.View>
         </TouchableOpacity>
     )

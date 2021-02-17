@@ -17,7 +17,7 @@ export const middleware = [networkMiddleware, thunk];
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['auth'],
+    // whitelist: ['auth'],
     stateReconciler: autoMergeLevel2,
 }
 

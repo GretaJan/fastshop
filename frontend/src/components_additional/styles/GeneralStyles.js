@@ -1,19 +1,25 @@
 import { StyleSheet } from 'react-native';
 import { colors, fonts } from './Colors';
 import { Dimensions } from 'react-native';
+// import { useHeaderHeight  } from '@react-navigation/stack';
+import { Platform } from 'react-native';
 
 export const textStyle = () => StyleSheet.create({
-    h3: {
-        fontSize: 19,
-        marginBottom: 20,
+    h1: {
+        fontSize: 24,
     },
     h2: {
         fontSize: 20,
     },
+    h3: {
+        fontSize: 19,
+        marginBottom: 20,
+    },
     h4: {
         fontSize: 18,
-        // marginBottom: 10,
-        // marginBottom: 20,
+    },
+    h5: {
+        fontSize: 16,
     },
     p: {
         fontSize: 16,
@@ -36,6 +42,47 @@ export const textStyle = () => StyleSheet.create({
         fontSize: 20,
     },
 });
+
+export const containerStyles = (color) => StyleSheet.create({
+    screenHeightContainer: {
+        flex: 1,
+        textAlign: 'center',
+        alignItems:'center',
+        width: Dimensions.get('window').width /1,
+        maxHeight: Dimensions.get('window').height /1 - 140,
+        position: 'relative',
+        backgroundColor: color ? color : colors.mainGrey,
+    },
+    simpleContainer: {
+        flex: 1,
+        textAlign: 'center',
+        backgroundColor: color ? color : colors.mainGrey,
+        paddingHorizontal: 5
+    },
+    flatListScrollSmall: {
+        height: Dimensions.get('window').height /2.25,
+        width: Dimensions.get('window').width,
+        paddingHorizontal: 5,
+    },
+    flatListScrollFull: {
+        height: Dimensions.get('window').height /1.4,
+        width: Dimensions.get('window').width,
+        paddingHorizontal: 5,
+        zIndex: 2,
+    },
+    screenHeightContainerMargin: {
+        paddingHorizontal: 10,
+        paddingTop: 7,
+        paddingBottom: 10,
+        flex: 1,
+        textAlign: 'center',
+        alignItems:'center',
+        // width: Dimensions.get('window').width /1,
+        maxHeight: Dimensions.get('window').height /1 - 140,
+        position: 'relative',
+        backgroundColor: color ? color : colors.mainGrey,
+    }
+})
 
 export const inputStyles = (error) => StyleSheet.create({
     inputContainer: {
@@ -99,14 +146,15 @@ export const btnStyles = (color) => StyleSheet.create({
         shadowRadius: 2, 
     },
     smallModalBtn: {
-        paddingVertical: 5,
-        paddingHorizontal: 7, 
-        backgroundColor: color,
+        paddingVertical: 4,
+        paddingHorizontal: 6, 
+        // backgroundColor: color,
+        backgroundColor: colors.darkerGray,
         alignSelf: 'flex-end',
     }
 })
 
-export const modalStyles = (color, borderColor, scale, wideComp) => StyleSheet.create({
+export const modalStyles = (color, borderColor, scale, wideComp, locationX, locationY) => StyleSheet.create({
     whiteContainer: {
         paddingVertical: 18,
         paddingHorizontal: '5%',
@@ -150,24 +198,25 @@ export const modalStyles = (color, borderColor, scale, wideComp) => StyleSheet.c
         zIndex: 40,
         flex: 1,
         width: Dimensions.get('window').width /1,
-        height: Dimensions.get('window').height /1,
-        minHeight: Dimensions.get('window').height /1,
+        minHeight: Dimensions.get('window').height /1 - 85 - (Platform === "ios" ? 64 : 56),
         alignItems: 'center',
         backgroundColor: colors.transparentLight,
-        paddingTop: Dimensions.get('window').height /6,
-        top: -5,
-        // Shadow
-        elevation   : 5,
-        overflow: 'hidden',
-        //iOS:
-        shadowColor: 'red',
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2, 
+        top: Platform === "ios" ? 64 : 56,
+        // paddingTop: Dimensions.get('window').height /6,
+    },
+    modalWrapNoColor: {
+        position: 'absolute',
+        zIndex: 40,
+        flex: 1,
+        width: Dimensions.get('window').width /1,
+        minHeight: Dimensions.get('window').height /1 - 85 - (Platform === "ios" ? 64 : 56),
+        // alignItems: 'center',
     },
     animatedContainer: {
         paddingVertical: 18,
         paddingHorizontal: '10%',
+        backgroundColor: 'red',
+        borderColor: colors.mainBtnOrange,
         width: wideComp ? Dimensions.get('window').width /1.1 : Dimensions.get('window').width /1.4,
         top: Dimensions.get('window').height /7.4,
         justifyContent: 'center',
@@ -188,19 +237,54 @@ export const modalStyles = (color, borderColor, scale, wideComp) => StyleSheet.c
              { scale: scale }
          ]
     },
-    iconWrap: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'flex-start',
-        width: '100%',
-        borderBottomColor: borderColor,
-        borderBottomWidth: 2,
-        paddingBottom: 5,
+    animatedContainerSmall: {
+        paddingTop: 0,
+        paddingBottom: 14,
+        paddingHorizontal: 17,
+        backgroundColor: 'red',
+        borderColor: colors.mainBtnOrange,
+        width: Dimensions.get('window').width /1.8,
+        position: 'absolute',
+        // left: Dimensions.get('window').width /1 - locationX,
+        left: locationX,
+        // top: Dimensions.get('window').height /1 - locationY,
+        bottom: Dimensions.get('window').height /1 - locationY,
+        // top: Dimensions.get('window').height /7.4,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        zIndex: 50,
+        // alignSelf: 'center',
+        // Shadow
+        elevation   : 1,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+        backgroundColor: '#fff',
+         transform: [
+             { scale: scale }
+         ]
     },
-    icon: {
-        fontSize: 35,
-        color: color,
+    textWrap: {
+        backgroundColor: 'red',
     },
+    // iconWrap: {
+    //     flexDirection: 'row',
+    //     alignItems: 'center',
+    //     alignSelf: 'flex-start',
+    //     width: '100%',
+    //     // borderBottomColor: borderColor,
+    //     borderBottomColor: colors.mainWhiteGrey,
+    //     borderBottomWidth: 2,
+    //     paddingBottom: 5,
+    // },
+    // icon: {
+    //     fontSize: 35,
+    //     // color: color,
+    //     color: colors.darkerGray,
+    // },
 });
 
 export const modalStyle = (color, borderColor, scale) => StyleSheet.create({
@@ -244,15 +328,15 @@ export const modalStyle = (color, borderColor, scale) => StyleSheet.create({
     //          { scale: scale }
     //      ]
     // },
-    iconWrap: {
-        width: 220,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomColor: borderColor,
-        borderBottomWidth: 2,
-        paddingBottom: 5,
-        marginBottom: 10,
-    },
+    // iconWrap: {
+    //     width: 220,
+    //     flexDirection: 'row',
+    //     alignItems: 'center',
+    //     borderBottomColor: borderColor,
+    //     borderBottomWidth: 2,
+    //     paddingBottom: 5,
+    //     marginBottom: 10,
+    // },
     // icon: {
     //     fontSize: 35,
     //     color: color,
@@ -260,8 +344,6 @@ export const modalStyle = (color, borderColor, scale) => StyleSheet.create({
     title: {
         marginLeft: '3%',
         fontSize: 20,
-    },
-    textWrap: {
     },
     text: {
         width: 220,
@@ -290,3 +372,4 @@ export const inputErrors = () => StyleSheet.create({
         marginBottom: 3,
     }
 });
+

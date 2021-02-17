@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\User;
+use App\Account;
 use Mail;
 use Carbon\Carbon;
 
@@ -24,22 +25,32 @@ class UserController extends Controller
             $message->from('grejan.code@gmail.com', 'Login verification');
             $message->to($email)->subject('Login verification');
         });
-        return 'simple_user';
+        $response = [
+            'type' => 'simple_user',
+            'user' => $user
+        ];
+        return $response;
     }
 
-    private function register(Request $request)
+    private function register($request)
     {
         $validationRequest = $request->validate([
             'email' => 'required|email|unique:users,email',
         ]);
-
         $user = new User();
         $user->email = $request->email;
+        $user->save();
+        $new_account = Account::create(['user_id' => $user->id,'name' => 'default']);
+        $user->current_account = $new_account->id;
         $user->save();
         $tokenResult = $user->where('email', $request->email)->first()->createToken('Personal Access Token');
         $token = $tokenResult->token;
         $token->save();
-        return $tokenResult->accessToken;
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+        return $response;
     }
 
     public function login(Request $request) 
@@ -51,10 +62,7 @@ class UserController extends Controller
         $current_user = User::where('email', $req_email)->first();
         if(!isset($current_user))
         {
-            $token = $this->register($request);
-            $response = [
-                'token' => $token
-            ];
+            $response = $this->register($request);
             return response()->json($response, 200);
         }
         if($current_user->isAdmin)
@@ -114,8 +122,8 @@ class UserController extends Controller
         $token = $tokenResult->token;
         $token->save();
         return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => "Bearer",
+            'token' => $tokenResult->accessToken,
+            'user' => $user,
         ]);
     }
     public function loginUser(Request $request)
@@ -140,7 +148,8 @@ class UserController extends Controller
         $token = $tokenResult->token;
         $token->save();
         $response = [
-            'token' => $tokenResult->accessToken
+            'token' => $tokenResult->accessToken,
+            'user' => $user
         ];
         return response()->json($response, 200);
     }

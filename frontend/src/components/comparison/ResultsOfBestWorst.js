@@ -1,6 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, Animated } from 'react-native';
 import { diagram } from '../../components_additional/styles/CompareStyles';
+import { containerStyles } from '../../components_additional/styles/GeneralStyles';
+import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import { animations } from '../../components_additional/styles/AnimationStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { connect } from 'react-redux';
@@ -8,17 +10,19 @@ import { clearResults, saveCombination } from '../../redux/actions/comparisonAct
 import { withNavigation } from 'react-navigation';
 import ResultsBestWorstChild from './ResultsBestWorstChild';
 
-// const Animations = require('../../components_additional/styles/Animations.js');
+const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
+const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
 const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) => {
     let scrollTopRef = null;
     const { match, mismatch } = result;
-
+    const translateMatch = useState(new Animated.Value(-100))[0];
+    const translateMismatch = useState(new Animated.Value(-100))[0];
 
     useEffect(() => {
         // callDiagramAnimation();
-        console.log(match)
-        console.log(mismatch)
+        comparisonAnimations.imageIconTranslation(translateMatch, translateMismatch);
+
     }, [])
     const nameSlice = (name) => {
         if(name.length > 33) {
@@ -48,42 +52,39 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
     }
 
     return (
-            Object.keys(result).length === 0 ? (
+        <ScrollView style={ containerStyles().simpleContainer } ref={scrollView => scrollTopRef = scrollView}>
+            { Object.keys(result).length === 0 ? (
                 <View style={diagram().container}>
                 </View>
-            ) : (
-                <ScrollView style={diagram().container} ref={scrollView => scrollTopRef = scrollView}>
-                    <View style={diagram().mainContentContainer} >
-                        <View style={diagram().productsContainer} >
-                            <TouchableOpacity style={diagram().itemGoodWrap} onPress={() => navigate("Product", {subcategoryId: match.subcategory_id, productId: match.id})} >
+                ) : (
+                <>
+                    <View style={diagram().productsContainer} >
+                        <View style={diagram().productsInnerContainer}>
+                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => navigate("Product", {subcategoryId: match.subcategory_id, productId: match.id})} >
                                 { match.image ? (
-                                    <View style={diagram().imageContainerGood} >
-                                        <Image style={diagram().image} source={{ uri: match.image }} />
-                                    </View>
+                                    <Image style={diagram().image} source={{ uri: match.image }} />
                                     ) : (
-                                    <View style={diagram().imageContainerGood} >
-                                        <Image style={diagram().image} source={require('../../components_additional/images/noimage.jpeg')}  />
-                                    </View> 
+                                    <Image style={diagram().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                                 )}
                                 <View style={diagram().title} >
                                     <Text style={diagram().text}>{ nameSlice(match.name) }</Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity style={diagram().itemBadWrap} onPress={() => navigate("Product", {subcategoryId: mismatch.subcategory_id, productId: mismatch.id})}>
+                            <AnimatedIonIcon name="md-checkmark" color='#32bd81' style={diagram(null, translateMatch).iconTranslation} />
+                        </View>
+                        <View  style={diagram().productsInnerContainer}>
+                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => navigate("Product", {subcategoryId: mismatch.subcategory_id, productId: mismatch.id})}>
                                 {mismatch.image ? (
-                                    <View style={diagram().imageContainerBad} >
-                                        <Image style={diagram().image} source={{ uri: mismatch.image }} />
-                                    </View>
+                                    <Image style={diagram().image} source={{ uri: mismatch.image }} />
                                     ) : (
-                                    <View style={diagram().imageContainerBad} >
                                         <Image style={diagram().image} source={require('../../components_additional/images/noimage.jpeg')}  />
-                                    </View> 
                                 )}
                                 <View style={diagram().title} >
                                     <Text style={diagram().text}>{ nameSlice(mismatch.name) }</Text>
                                 </View>
                             </TouchableOpacity>
-                        </View> 
+                            <AnimatedIonIcon name="md-close" color='#ff7725' style={ diagram(null, translateMismatch).iconTranslation } />
+                        </View>
                         {/* Diagram */}
                     </View>
                     <View style={diagram().diagramContainer}>
@@ -153,8 +154,9 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                             <Text style={diagram().optionsBtnText}>Clear Results</Text>
                         </TouchableOpacity>
                     </View>
-            </ScrollView>
-        )
+                </>
+            )}
+        </ScrollView>
     )
 }
 

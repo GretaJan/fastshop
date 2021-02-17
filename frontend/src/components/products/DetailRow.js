@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
+import { textStyle } from '../../components_additional/styles/GeneralStyles';
 
 var icons = {
     Energy: require('../../components_additional/images/nutrients/energy.png'),
@@ -20,9 +21,9 @@ const DetailRow = ({ props }) => {
         <View style={stylesGuestSingle().listItemWrap}>
             <View style={stylesGuestSingle().titleWrap}>
                 <View style={ stylesGuestSingle().componentIconWrap }>
-                <Image style={ stylesGuestSingle().componentIcon } source={ icons[props.title.replace(/\s+/g, '')] }  />
+                    <Image style={ stylesGuestSingle().componentIcon } source={ icons[props.title.replace(/\s+/g, '')] }  />
                 </View>
-                <Text style={stylesGuestSingle().componentTitle} >{ props.title }</Text>
+                <Text style={textStyle().h5} >{ props.title }</Text>
             </View>
             <View style={stylesGuestSingle().listItemInfoWrap} >
                 <Text style={stylesGuestSingle().componentAmount} >{ (props.component) ? (props.component) : ('0') }</Text>

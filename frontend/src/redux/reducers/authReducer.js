@@ -1,12 +1,13 @@
-import { REGISTER_TOKEN, TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED, LOG_OUT_FAILED, LOG_OUT } from '../actions/types';
+import { SAVE_USER, TRY_LOG_IN, LOGGED_IN, LOG_IN_FAILED, LOG_OUT_FAILED, LOG_OUT } from '../actions/types';
 
 const initialState = {
     admin_name: '',
     email: '',
     password: '',
-    admin: {},
-    authenticate: null,
-    isAuthorized: false,
+    // admin: {},
+    user: {},
+    // authenticate: null,
+    // isAuthorized: false,
     token: '',
     error: null,
     isLoading: true,
@@ -14,9 +15,10 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch(action.type) {
-        case REGISTER_TOKEN: 
+        case SAVE_USER: 
             return {
-                token: action.payload
+                token: action.token,
+                user: action.user,
             }
         case TRY_LOG_IN:
             return {

@@ -5062,7 +5062,7 @@ end_of_record
 TN:
 SF:src\redux\actions\comparisonActions.js
 FN:3,_interopRequireDefault
-FN:5,productSelected
+FN:5,selectProductToCalc
 FN:5,(anonymous_2)
 FN:7,(anonymous_3)
 FN:16,removeProductFromSelected
@@ -5082,7 +5082,7 @@ FN:66,(anonymous_17)
 FNF:18
 FNH:9
 FNDA:3,_interopRequireDefault
-FNDA:1,productSelected
+FNDA:1,selectProductToCalc
 FNDA:1,(anonymous_2)
 FNDA:1,(anonymous_3)
 FNDA:1,removeProductFromSelected

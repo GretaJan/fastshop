@@ -1,4 +1,4 @@
-import { productSelected, removeProductFromSelected, compare } from '../../../../redux/actions/comparisonActions';
+import { selectProductToCalc, removeProductFromSelected, compare } from '../../../../redux/actions/comparisonActions';
 import { URL, PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT } from '../../../../redux/actions/types';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -23,7 +23,7 @@ describe('comparison redux actions', () => {
                     name: 'Product'
                 }
            );
-            await store.dispatch(productSelected(subcategoryId, productId )).then((data) => {
+            await store.dispatch(selectProductToCalc(subcategoryId, productId )).then((data) => {
                 const expectedActions = [
                     {
                         type: PRODUCT_SELECTED,

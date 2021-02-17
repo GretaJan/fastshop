@@ -29,7 +29,7 @@ class CategoryController extends Controller
             $user_products = $user->products;               
             $products->map(function($products_grouped) use ($user_products){
                 $products_grouped->map(function($product) use ($user_products){
-                    $product_liked = $user_products->find($product->id);
+                    $product_liked = isset($user_products) ? $user_products->find($product->id) : null;
                     $product->isLiked = isset($product_liked) ? true : false;
                 });
             });

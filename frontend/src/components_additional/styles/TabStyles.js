@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 
@@ -23,7 +24,26 @@ export const styles = () => StyleSheet.create({
         fontFamily: 'sans-serif-condensed'
     },
     iconItem: {
-        color: '#FFFFE0',
+        // color: '#FFFFE0',
+        color: colors.mainGrey,
         fontSize: 30,
     }
 })
+export const signinStyle = (modelCalled) => StyleSheet.create({
+    container: {
+        // top: Dimensions.get('window').height /1 - 69,
+        top: Dimensions.get('window').height /1 - 83,
+        width: '33.33%',
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 60,
+        zIndex: 1,
+        position: 'absolute',
+        alignSelf: 'flex-end',
+    },
+    iconItem: {
+        color: modelCalled ? colors.mainBtnGreen : colors.mainGrey,
+        fontSize: 30,
+    }
+});

@@ -7,6 +7,7 @@ import { closeErrorWarning } from '../../redux/actions/generalActions';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/SubcategoryStyles';
+import { containerStyles } from '../../components_additional/styles/GeneralStyles';
 import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
@@ -95,13 +96,13 @@ class Subcategories extends Component {
                             />
                         </View>
                     )}
-                        <View style={stylesGuest(background).container}>
+                        <View style={containerStyles(background).simpleContainer}>
                         {this.getInput()}
                             {(this.props.subcategories.length === 0) ? (
                                 <EmptyList message="The List is empty" background={background} />
                             ) : (
                                 <FlatList 
-                                        contentContainerStyle={stylesGuest().horizontalWrap} numColumns={3} 
+                                        contentContainerStyle={stylesGuest().horizontalWrap} numColumns={4} 
                                         onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
                                         onEndReachedThreshold={0.01}
                                         ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 

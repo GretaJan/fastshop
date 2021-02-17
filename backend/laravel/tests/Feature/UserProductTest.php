@@ -27,54 +27,55 @@ class UserProductTest extends TestCase
         $response = $this->getJson('/api/get-all-data', $this->user_headers);
         $response->assertStatus(200);
     }
-    // /** @test */
-    // public function user_can_like_product()
-    // {
-    //     $this->withoutExceptionHandling();
-    //     $user = User::orderBy('created_at', 'desc')->first();
-    //     $this->setUpUser($user->id);
-    //     $response = $this->getJson('/api/like-product/11/4', $this->user_headers);
-    //     $response->assertStatus(201);
-    // }
-    // /** @test */
-    // public function user_cannot_like_same_product()
-    // {
-    //     $this->withoutExceptionHandling();
-    //     $user = User::orderBy('created_at', 'desc')->first();
-    //     $this->setUpUser(2);
-    //     $response = $this->getJson('/api/like-product/3/1', $this->user_headers);
-    //     $response->assertStatus(400);
-    // }
-    // /** @test */
-    // public function user_can_unlike_product()
-    // {
-    //     $this->withoutExceptionHandling();
-    //     $user = User::find(2);
-    //     $product = $user->products()->first();
-    //     $this->setUpUser($user->id);
-    //     $response = $this->getJson("/api/unlike-product/$product->id", $this->user_headers);
-    //     $response->assertStatus(201);
-    // }
+    /** @test */
+    public function user_can_like_product()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::orderBy('created_at', 'desc')->first();
+        $this->setUpUser($user->id);
+        $response = $this->getJson('/api/like-product/11/4', $this->user_headers);
+        $response->assertStatus(201);
+    }
+    /** @test */
+    public function user_cannot_like_same_product()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::orderBy('created_at', 'desc')->first();
+        $this->setUpUser(2);
+        $this->getJson('/api/like-product/11/4', $this->user_headers);
+        $response = $this->getJson('/api/like-product/11/4', $this->user_headers);
+        $response->assertStatus(400);
+    }
+    /** @test */
+    public function user_can_unlike_product()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::find(2);
+        $product = $user->accounts()->find($user->current_account)->products()->first();
+        $this->setUpUser($user->id);
+        $response = $this->getJson("/api/unlike-product/$product->id", $this->user_headers);
+        $response->assertStatus(201);
+    }
     /** @test */
     public function user_can_access_his_fav_drinks()
     {
         $this->withoutExceptionHandling();
         $user = User::orderBy('created_at', 'desc')->first();
-        $product = $user->products()->first();
+        $product = $user->accounts()->find($user->current_account)->products()->first();
         $category_id = Subcategory::find(11)->category_id;
         $this->setUpUser($user->id);
         $response = $this->getJson("/api/get-personal-favorites/$category_id", $this->user_headers);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
     }
     /** @test */
     public function user_can_access_top_twenty_drinks()
     {
         $this->withoutExceptionHandling();
         $user = User::orderBy('created_at', 'desc')->first();
-        $product = $user->products()->first();
+        $product = $user->accounts()->find($user->current_account)->products()->first();
         $category_id = Subcategory::find(11)->category_id;
         $this->setUpUser($user->id);
         $response = $this->getJson("/api/get-top-favorites/$category_id", $this->user_headers);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
     }
 }

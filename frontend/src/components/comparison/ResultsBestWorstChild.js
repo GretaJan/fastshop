@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, FlatList, Animated } from 'react-native';
+import { View, Text, FlatList, Animated, Image } from 'react-native';
 import { diagram } from '../../components_additional/styles/CompareStyles';
+import { textStyle } from '../../components_additional/styles/GeneralStyles';
+import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import { animations } from '../../components_additional/styles/AnimationStyles';
 
-const Animations = require('../../components_additional/styles/Animations.js');
+const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
 
 function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismatchComponent, mismatchComponentArr}){
     const [loading, setLoading] = useState(false);
@@ -16,6 +18,16 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
     const mismNumAnimateSec = useRef(new Animated.Value(0)).current;
     const mismNumAnimateThird = useRef(new Animated.Value(0)).current;
     const mismNumAnimateFourth = useRef(new Animated.Value(0)).current;
+    var icons = {
+        Energy: require('../../components_additional/images/nutrients/energy.png'),
+        Fat: require('../../components_additional/images/nutrients/fat.png'),
+        Saturatedfat: require('../../components_additional/images/nutrients/saturated.png'),
+        Carbohidrates: require('../../components_additional/images/nutrients/carbs.png'),
+        Sugar: require('../../components_additional/images/nutrients/sugar.png'),
+        Fiber: require('../../components_additional/images/nutrients/fiber.png'),
+        Protein: require('../../components_additional/images/nutrients/protein.png'),
+        Salt: require('../../components_additional/images/nutrients/salt.png'),
+    }
     // const [matchSpeed, setMatchSpeed] = useState(0);
     // const [mismatchSpeed, setMismatchSpeed] = useState(0);
     // const [originalMatchFirst, setOriginalMatchFirst] = useState('0');
@@ -69,7 +81,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
       
     }
     const callNumAnimation = (length, ref) => {
-        Animations.numbersAnimation(ref, -(length * 23 - 20))
+        comparisonAnimations.numbersAnimation(ref, -(length * 23 - 20))
     }
 
     // const callNumAnimationFirst = (length) => {
@@ -128,7 +140,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
     // }, mismatchSpeed)
 
     const callDiagramAnimation = () => {
-        Animations.diagramAnimation(scaleAnimate);
+        comparisonAnimations.diagramAnimation(scaleAnimate);
     }
 
     const renderArrays = (currentArray, numAnimation) => {
@@ -138,7 +150,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                 showsVerticalScrollIndicator={ false }
                 data={ currentArray }
                 vertical={ true }
-                renderItem={ ({item, index}) => <Text style={diagram().animatedNum} >{item}</Text> }
+                renderItem={ ({item, index}) => <Text style={textStyle().h4} >{item}</Text> }
             />     
         )
     }
@@ -164,7 +176,12 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
         ) : (
         <View style={diagram().diagramWrap}>
             <View style={diagram().linesWrap} >
-                <Text style={diagram().componentTitle} >{ title }</Text>
+            <View style={stylesGuestSingle().titleWrap}>
+                <View style={ stylesGuestSingle().componentIconWrap }>
+                    <Image style={ stylesGuestSingle().componentIcon } source={ icons[title.replace(/\s+/g, '')] }  />
+                </View>
+                <Text style={textStyle().h4} >{ title }</Text>
+            </View>
             </View>
             { title == 'Energy' ? (
                  <View style={diagram().diagramLineWrap}>
@@ -204,7 +221,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                             </View>
                                         )} 
                                     </>
-                                ) : ( <Text style={diagram().animatedNum}>0</Text> ) }
+                                ) : ( <Text style={textStyle().h4}>0</Text> ) }
                             </View>
                             <Text style={diagram().measure} >kcal</Text>
                         </View>
@@ -239,7 +256,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                             </View>
                                         )} 
                                     </>
-                                ) : ( <Text style={diagram().animatedNum}>0</Text> ) }
+                                ) : ( <Text style={textStyle().h4}>0</Text> ) }
                             </View>
                             <Text style={diagram().measure} >kcal</Text>
                         </View>
@@ -282,7 +299,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                             </View>
                                         )} 
                                     </>
-                                ) : ( <Text style={diagram().animatedNum}>0</Text> ) }
+                                ) : ( <Text style={textStyle().h4}>0</Text> ) }
                             </View>
                             <Text style={diagram().measure}>g</Text>
                         </View>
@@ -325,7 +342,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                             </View>
                                         )} 
                                     </>
-                                ) : ( <Text style={diagram().animatedNum}>0</Text> ) }
+                                ) : ( <Text style={textStyle().h4}>0</Text> ) }
                             </View>
                             <Text style={diagram().measure} >g</Text>
                         </View>

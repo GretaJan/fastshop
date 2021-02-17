@@ -12,9 +12,9 @@ class Product extends Model
         return $this->belongsTo('App\Subcategory');
     }
 
-    public function users()
+    public function accounts()
     {
-        return $this->belongsToMany('App\User')->withPivot('category_id');
+        return $this->belongsToMany('App\Account')->withPivot('category_id', 'notes');
     }
     protected $appends = [ 'isLiked' ]; 
 
@@ -23,7 +23,8 @@ class Product extends Model
     {
         $user = auth()->guard('api')->user();
         if(isset($user)) {
-            $product_liked = $user->products()->find($this->id);
+            $current_account = $user->current_account;
+            $product_liked = $user->accounts()->find($current_account)->products()->find($this->id);
             return isset($product_liked) ? true : false;
         } else {
             return null;

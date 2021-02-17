@@ -7,6 +7,7 @@ export const searchBar = () =>  StyleSheet.create({
     searchBarContainer: {
         flexDirection: 'row',
         top: 0,
+        marginBottom: 14,
     },
     searchBarIcon: {
         width: 'auto',

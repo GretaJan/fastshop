@@ -203,7 +203,7 @@
             SORT_ARRAY, GO_TO_LIST, URL } from './types';
 import axios from 'axios';<span class="branch-0 cbranch-no" title="branch not covered" ></span>
 &nbsp;
-export const productSelected = (subcategory, product) =&gt; dispatch =&gt; {
+export const selectProductToCalc = (subcategory, product) =&gt; dispatch =&gt; {
     return axios.get(`${URL}/product/${subcategory}/${product}`)
         .then(result =&gt; (
             dispatch({

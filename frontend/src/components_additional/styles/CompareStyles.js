@@ -2,27 +2,37 @@ import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
-export const productWrap = (scale) => StyleSheet.create({
+export const productWrap = (scale, translate) => StyleSheet.create({
     container: {
         flex: 1,
     },
-    flatListScrollSmall: {
-        height: Dimensions.get('window').height /2.25,
-    },
-    flatListScrollFull: {
-        height: Dimensions.get('window').height /1.4,
-        zIndex: 2
-    },
-    arrayContainer: {
-        marginVertical: 5,
-    },
+    // flatListScrollSmall: {
+    //     height: Dimensions.get('window').height /2.25,
+    //     width: Dimensions.get('window').width,
+    //     paddingHorizontal: 5,
+    // },
+    // flatListScrollFull: {
+    //     height: Dimensions.get('window').height /1.4,
+    //     paddingHorizontal: 5,
+    //     zIndex: 2,
+    // },
+    // arrayContainer: {
+    //     marginVertical: 5,
+    // },
     btnsContainer: {
         flex: 1,
         alignItems: 'center',
         alignContent: 'center',
-        // minHeight: Dimensions.get('window').height /5,
+        position: 'absolute',
+        bottom: 5,
+        backgroundColor: colors.mainGrey,
+        width: Dimensions.get('window').width,
+        minHeight: Dimensions.get('window').height /5,
         marginBottom: 45,
-        zIndex: 0,
+        zIndex: 2,
+        transform: [
+            { translateY: translate },
+        ]
     },
     transparentStripe: {
         width: '92%',
@@ -50,6 +60,7 @@ export const productWrap = (scale) => StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         marginHorizontal: 20,
+        marginTop: 10,
     },
     iconWrapOne: {
         backgroundColor: colors.mainBtnGreen,
@@ -119,6 +130,7 @@ export const productWrap = (scale) => StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: colors.transparentLight,
+        backgroundColor: colors.mainGrey,
         position: 'absolute',
         zIndex: 3,
         // marginTop: 5,
@@ -184,41 +196,43 @@ export const descAscDropDown = () => StyleSheet.create({
     }
 })
 
-export const diagram = (diagramLength, itemOpacity) => StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.mainGrey,
-        paddingTop: 10
-    },
-    mainContentContainer: {
-    },
+export const diagram = (diagramLength, translate) => StyleSheet.create({
     productsContainer: {
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'center',
-        paddingVertical: 0,
+        paddingVertical: 7,
+        height: Dimensions.get('window').height /3.3,
     },
-    itemGoodWrap: {
+    productsInnerContainer: {
         flex: 0.5,
-        alignItems: 'center'
+        flexDirection: 'row',
+        // backgroundColor: 'green',
+        justifyContent: 'space-around',
+        backgroundColor: colors.transparentMedium,
+        // alignContent: 'space-between',
+        // alignItems: 'stretch',
+        // justifyContent: 'center',
+        // alignContent: 'center',
+        // alignItems: 'stretch',
     },
-    itemBadWrap: {
-        flex: 0.5,
-        alignItems: 'center'
+    activeItemWrap: {
+        maxHeight: '100%',
+        // width: Dimensions.get('window').width /2.1,
+        width: '95%',
     },
     imageContainerGood: {
-        width: '95%',
-        height: 150,
-        backgroundColor: colors.mainBtnGreen,
-        // borderColor: colors.mainBtnGreen,
-        // borderWidth: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 5
+        // width: '95%',
+        // backgroundColor: colors.mainBtnGreen,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // borderRadius: 5
     },
     image: {
-        width: '75%',
-        height: '75%',
+        width: '100%',
+        height: Dimensions.get('window').height /3.3 - 57,
+        // width: '75%',
+        // height: '75%',
         // borderRadius: 10
     },
     imageContainerBad: {
@@ -230,11 +244,20 @@ export const diagram = (diagramLength, itemOpacity) => StyleSheet.create({
         borderRadius: 5
     },
     title: {
-        marginTop: 5,
-        marginBottom: 7,
-        height: 55,
-        alignItems: 'center',
-        justifyContent: 'center',
+        // marginTop: 5,
+        // marginBottom: 7,
+        // height: 55,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+    },
+    iconTranslation: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        fontSize: 45,
+        transform: [
+            { translateY: translate }
+        ]
     },
     text: {
         paddingHorizontal: 12,
@@ -248,17 +271,17 @@ export const diagram = (diagramLength, itemOpacity) => StyleSheet.create({
         marginTop: 10,
     },
     diagramWrap: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
     },
-    linesWrap: {
+    // linesWrap: {
 
-    },
-    componentTitle: {
-        fontSize: 18,
-    },
-    number: {
-        fontSize: 18,
-    },
+    // },
+    // componentTitle: {
+    //     fontSize: 18,
+    // },
+    // number: {
+    //     fontSize: 18,
+    // },
     measure: {
         fontSize: 15,
         paddingLeft: 5,
@@ -269,22 +292,24 @@ export const diagram = (diagramLength, itemOpacity) => StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
     },
     singleLineWrap: {
-        flex: .78,
+        flex: .8,
         backgroundColor: colors.transparentLight,
         height: 10,
         alignItems: 'flex-start',
+        marginRight: '1%',
     },
     itemNumberWrap: {
-        flex: .16,
+        flex: .2,
         paddingLeft: 20,
         flexDirection: 'row',
+        justifyContent: 'flex-end',
     },
     itemNumberWrapAnimation: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-end',
         zIndex:1,
     },
     itemNumberWrapAnimationSingle: {
@@ -302,10 +327,10 @@ export const diagram = (diagramLength, itemOpacity) => StyleSheet.create({
            { translateY: 0 }
         ]
     },
-    animatedNum: {
-        height: 23,
-        fontSize: 18,
-    },
+    // animatedNum: {
+    //     height: 23,
+    //     fontSize: 18,
+    // },
     // animatedNumberWrap: {
     //     //flexGrow: 0,
     //     //height: 20,
@@ -410,63 +435,86 @@ export const diagram = (diagramLength, itemOpacity) => StyleSheet.create({
     }
 })
 
-export const CriteriaStyles = (scale) => StyleSheet.create({
-    container: {
-        height: Dimensions.get('window').height /1 - 140,
-        backgroundColor: colors.mainGrey,
-        zIndex: -1,
-    },
+export const CriteriaStyles = (scale, checkScale) => StyleSheet.create({
+    // container: {
+    //     height: Dimensions.get('window').height /1 - 140,
+    //     backgroundColor: colors.mainGrey,
+    //     zIndex: -1,
+    // },
     itemContainer: {
         flexDirection: 'row',
-        marginVertical: '2.2%',
-        marginHorizontal: '3%',
     },
-    itemTitle: {
-        fontSize: 20,
-        flex: .5,
+    titleWrap: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: .4,
+        height: 49,
     },
+    // itemTitle: {
+    //     fontSize: 20,
+    // },
     bulletContainer: {
         flexDirection: 'row',
-        flex: .5,
+        alignItems: 'center',
+        flex: .6,
+        height: 49,
     },
     wrapThird: {
         flex: .33,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        fontSize: 20,
     },
     bulletWrap: {
-        height: 26,
-        width: 26,
-        borderRadius: 13,
+        height: 46,
+        width: 46,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    bulletWrapInner: {
+        height: 28,
+        width: 28,
+        paddingVertical: 5,
+        position: 'relative',
+        // borderRadius: 13,
+        borderRadius: 3,
         borderColor: colors.mainBlack,
         borderWidth: 1,
-        position: 'relative',
-        paddingHorizontal: 10,
-        paddingVertical: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
     },
-    bulletInactive: {
-        height: 14,
-        width: 14,
-        borderRadius: 7,
-        borderWidth: 1,
-        position: 'absolute',
+    // bulletInactive: {
+        // height: 14,
+        // width: 14,
+        // borderRadius: 7,
+        // borderWidth: 1,
+        // position: 'absolute',
         // backgroundColor: '#dcdcdc',
-        backgroundColor: colors.mainWhiteYellow,
-        left: 5,
-        top: 5,
-    },
+        // backgroundColor: colors.mainWhiteYellow,
+        // left: 5,
+        // top: 5,
+    // },
     bulletActive: {
-        position: 'absolute',
-        height: 14,
-        width: 14,
-        borderRadius: 7,
-        backgroundColor: colors.mainBtnOrange,
-        borderColor: colors.mainBlack, 
-        borderWidth: 1,
-        left: 5,
-        top: 5,
+        // position: 'absolute',
+        // height: 14,
+        // width: 14,
+        fontSize: 75,
+        color: colors.mainBtnGreen,
+        // zIndex: 50,
+        paddingBottom: 15,
+        left: 2,
+        // bottom: 2,
+        // borderRadius: 7,
+        // backgroundColor: colors.mainBtnOrange,
+        // backgroundColor: colors.mainBtnGreen,
+        // borderColor: colors.mainBlack, 
+        // borderWidth: 1,
+        // left: 5,
+        // top: 5,
+        transform: [
+            { scaleX: checkScale }
+        ]
     },
     buttonResults: {
         fontSize: 45,
@@ -479,10 +527,9 @@ export const CriteriaStyles = (scale) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        bottom: 0,
-        position: 'absolute',
-        bottom: 8,
-        zIndex: 20,
+        // position: 'absolute',
+        // bottom: 8,
+        // zIndex: 20,
          // Shadow
          elevation   : 5,
          overflow: 'hidden',
@@ -524,9 +571,6 @@ export const CriteriaStyles = (scale) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        bottom: 0,
-        position: 'absolute',
-        bottom: 8,
         zIndex: 20,
          // Shadow
          elevation: 5,

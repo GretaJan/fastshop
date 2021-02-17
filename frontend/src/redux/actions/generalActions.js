@@ -20,11 +20,14 @@ export const importAppData = (token) => (dispatch) => {
             const respData = response.data;
             let paginatedSubcategories = paginateData(respData.subcategories, 3);
             let paginatedProducts = paginateData(respData.products, 10)
+            let currentDate = new Date().addHours(2) //add two hours to current date so app can check if user updated data earlier than two hours ago
+            console.log
             dispatch({
                 type: GET_ALL_DATA,
                 categories: respData.categories,
                 subcategories: paginatedSubcategories,
                 products: paginatedProducts,
+                dataUploadDate: currentDate
             })
         }).catch(error => {
             dispatch({
@@ -71,3 +74,8 @@ function paginateData(groupedArr, count){
     console.log("groupedArrTemp", groupedArrTemp)
     return groupedArrTemp;
 }
+
+Date.prototype.addHours = function(h) {
+    this.setTime(this.getTime() + (h*60*60*1000));
+    return this;
+  }

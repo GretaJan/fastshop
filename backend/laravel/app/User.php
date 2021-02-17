@@ -23,8 +23,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function products()
-    {
-        return $this->belongsToMany('App\Product')->withPivot('category_id');
+    public function accounts(){
+        return $this->hasMany('App\Account');
     }
 }
