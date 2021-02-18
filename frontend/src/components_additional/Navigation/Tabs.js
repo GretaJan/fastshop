@@ -18,9 +18,9 @@ import  NetInfo  from '@react-native-community/netinfo';
 
 
 // Components:
-import Register from '../Register';
+import Register from '../../components_additional/models/Register';
 import Categories from '../../components/Categories/Categories';
-import ConfirmModal from '../../components_additional/ModalCrud';
+import ConfirmModal from '../../components_additional/models/ModalCrud';
 import { GuestNavigationScreens } from './GuestUserComponents';
 import { AdminNavigationScreens } from './AdminComponents';
 import { CalculatorScreen } from './CalculatorComponents';

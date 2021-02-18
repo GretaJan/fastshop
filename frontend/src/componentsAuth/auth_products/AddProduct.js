@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 import { colors } from '../../components_additional/styles/Colors';
 import { categoryAdd } from '../../components_additional/styles/CategoryStyles';
 import { postProductStyle } from '../../components_additional/styles/ProductStyles';
-import ButtonStyled from '../../components_additional/Button';
+import ButtonStyled from '../../components_additional/models/Button';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import AddProductRow from './AddProductRow';
 import update from 'react-addons-update'; 

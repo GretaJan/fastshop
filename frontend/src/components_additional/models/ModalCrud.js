@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Animated } from 'react-native';
-import { modalConfirm, modalStyle } from './styles/AdditionalStyles';
+import { modalConfirm, modalStyle } from '../styles/AdditionalStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import StyledButton from './AdminButton';
-import { colors } from './styles/Colors';
+import { colors } from '../styles/Colors';
 import PropTypes from 'prop-types';
 
-const { modalAnimations } = require('./styles/Animations.js')
+const { modalAnimations } = require('../styles/Animations.js')
 
 const Modal = ({message, confirm, title, close, background, borderColor, iconColor, colorOne, colorTwo, horizontal, vertical}) => {
     const scale = useState(new Animated.Value(0))[0];

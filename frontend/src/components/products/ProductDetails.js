@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProduct } from '../../redux/actions/productActions';
 import { selectProductToCalc, removeProductFromSelected } from '../../redux/actions/comparisonActions';
-import { likeProduct } from '../../redux/actions/productActions';
+import { likeProduct } from '../../redux/actions/userProductActions';
 import { withNavigation } from 'react-navigation';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import { containerStyles } from '../../components_additional/styles/GeneralStyles';
@@ -14,16 +14,17 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import EvilIcon from 'react-native-vector-icons/dist/EvilIcons';
-import Loading from '../../components_additional/Loading';
-import Modal from '../../components_additional/Modal';
+import Loading from '../../components_additional/models/Loading';
+import Modal from '../../components_additional/models/Modal';
 import DetailRow from './DetailRow';
-import RegisterModal from '../../components_additional/Register';
+import RegisterModal from '../../components_additional/models/Register';
+import ActionIcon from '../../components_additional/models/ActionIcon';
 
-const { productAnimations } = require('../../components_additional/styles/Animations');
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-const AnimatedIcon = Animated.createAnimatedComponent(Icon);
-const AnimatedMaterialIcon = Animated.createAnimatedComponent(MaterialIcon);
-const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
+// const { productAnimations } = require('../../components_additional/styles/Animations');
+// const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+// const AnimatedIcon = Animated.createAnimatedComponent(Icon);
+// const AnimatedMaterialIcon = Animated.createAnimatedComponent(MaterialIcon);
+// const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
 class ProductDetails extends Component {
     state = {
@@ -31,15 +32,15 @@ class ProductDetails extends Component {
         productId: this.props.route.params.productId,
         isSelected: false,
         isLiked: false,
-        spinSelectBtn: '0deg',
-        spinLikeBtn: '0deg',
-        rotateSelectBtn: new Animated.Value(0),
-        rotateLikeBtn: new Animated.Value(0),
-        listSelectScale: new Animated.Value(0),
-        listCheckScale: new Animated.Value(0),
-        listLikeScale: new Animated.Value(0),
-        checkSelectTransition: new Animated.Value(-30),
-        checkLikeTransition: new Animated.Value(-30),
+        // spinSelectBtn: '0deg',
+        // spinLikeBtn: '0deg',
+        // rotateSelectBtn: new Animated.Value(0),
+        // rotateLikeBtn: new Animated.Value(0),
+        // listSelectScale: new Animated.Value(0),
+        // listCheckScale: new Animated.Value(0),
+        // listLikeScale: new Animated.Value(0),
+        // checkSelectTransition: new Animated.Value(-30),
+        // checkLikeTransition: new Animated.Value(-30),
         modelMsg: '',
         callRegisterModel: false,
         locationX: 0,
@@ -49,6 +50,7 @@ class ProductDetails extends Component {
     async componentDidMount() {
         const { selectedProducts } = this.props;
         await this.props.getProduct(this.state.productId);
+        console.log("this.props.toekn: ", this.props.token)
         this.setState({ isLiked: this.props.product.isLiked })
         this.setState({productDetails: [
             { title: 'Energy', component: this.props.product.energy, measure: 'kcal'},
@@ -63,34 +65,30 @@ class ProductDetails extends Component {
         
         if(selectedProducts.length > 0 && selectedProducts.find(item => item.id == this.state.productId)){
             this.setState({ isSelected: true });
-            this.setState({ spinSelectBtn: '180deg' })
-            this.setState({ listSelectScale: new Animated.Value(1) })
-            this.setState({ checkSelectTransition: new Animated.Value(0) }) 
-        } else {
-            this.setState({ listCheckScale: new Animated.Value(1) });
         }
+        //     this.setState({ spinSelectBtn: '180deg' })
+        //     this.setState({ listSelectScale: new Animated.Value(1) })
+        //     this.setState({ checkSelectTransition: new Animated.Value(0) }) 
+        // } else {
+        //     this.setState({ listCheckScale: new Animated.Value(1) });
+        // }
     }
 
-    likeProduct = async () => {
-        if(!this.props.token){
-            const likeActionResp= this.props.likeProduct(this.props.route.params.subcategoryId, this.state.productId, this.props.token);
-            if(likeActionResp === true){
-                this.setState({ isLiked: true })
-                await productAnimations.btnAnimationToActive(this.state.rotateLikeBtn, this.state.listLikeScale, this.state.checkLikeTransition)
-                let spinTemp = this.state.rotateBtn.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0deg', '180deg']
-                })
-                this.setState({ spinSelectBtn: spinTemp })
-            } else {
-                setState({ errorObj: likeActionResp });
-            }
+    likeProduct = async (ref) => {
+        console.log('actii')
+        await this.props.likeProduct(this.props.route.params.subcategoryId, this.state.productId, this.props.token, this.props.account, true);
+        if(this.props.likeError == ''){
+            this.setState({ isLiked: true })
         } else {
-            const msg = 'Please register in order to complete this action.';
-            this.callModal(this.likeBtnRef, msg)
+            this.setState({ errorObj: likeActionResp });
+            this.callModal(ref, likeActionResp)
         }
-
+    } 
+    unlikeProduct = () => {
+        this.setState({ isLiked: false })
+        this.props.unlikeProduct(this.props.route.params.subcategoryId, this.state.productId, this.props.token, true)
     }
+
 
     callModal = (activeBtn, msg) => {
         activeBtn.measure( (fx, fy, width, height, px, py) => {
@@ -101,37 +99,38 @@ class ProductDetails extends Component {
         
     }
 
-    selectProduct = () => {
-        if(this.props.selectedProducts.length <= 30) {
-            this.allowSelectProduct()
-        } else {
-            const msg = 'Please select no more than 30 items.';
-            this.callModal(this.selectBtnRef, msg)
-        }        
-    }
+    // selectProduct = () => {
+    //     if(this.props.selectedProducts.length <= 30) {
+    //         this.allowSelectProduct()
+    //     } else {
+    //         const msg = 'Please select no more than 30 items.';
+    //         this.callModal(this.selectBtnRef, msg)
+    //     }        
+    // }
 
     allowSelectProduct = () => {
         this.props.selectProductToCalc(this.props.selectedProducts, this.state.productId);
-        productAnimations.btnAnimationToActive(this.state.rotateSelectBtn, this.state.listSelectScale, this.state.checkSelectTransition)
-        let spinTemp = this.state.rotateSelectBtn.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '180deg']
-        })
         this.setState({ isSelected: true })
-        this.setState({ spinSelectBtn: spinTemp })
-        this.setState({ listCheckScale: new Animated.Value(0) });
+        // productAnimations.btnAnimationToActive(this.state.rotateSelectBtn, this.state.listSelectScale, this.state.checkSelectTransition)
+        // let spinTemp = this.state.rotateSelectBtn.interpolate({
+        //     inputRange: [0, 1],
+        //     outputRange: ['0deg', '180deg']
+        // })
+        // this.setState({ isSelected: true })
+        // this.setState({ spinSelectBtn: spinTemp })
+        // this.setState({ listCheckScale: new Animated.Value(0) });
     }
 
-    removeSelectProduct = async () => {
+    removeSelectProduct = () => {
         this.props.removeProductFromSelected(this.state.productId)
         this.setState({ isSelected: false })
-        //
-        await productAnimations.btnAnimationToInactive(this.state.rotateSelectBtn, this.state.listCheckScale, this.state.listSelectScale)
-        let spinTemp = this.state.rotateSelectBtn.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0', '-180deg']
-        })
-        this.setState({ spinSelectBtn: spinTemp })
+        // //
+        // await productAnimations.btnAnimationToInactive(this.state.rotateSelectBtn, this.state.listCheckScale, this.state.listSelectScale)
+        // let spinTemp = this.state.rotateSelectBtn.interpolate({
+        //     inputRange: [0, 1],
+        //     outputRange: ['0', '-180deg']
+        // })
+        // this.setState({ spinSelectBtn: spinTemp })
     }
 
 
@@ -164,7 +163,7 @@ class ProductDetails extends Component {
                         )}
                         <View style={stylesGuestSingle().btnsWrap } >
                             <View style={stylesGuestSingle().likeBtns}>
-                                <AnimatedTouchable 
+                                {/* <AnimatedTouchable 
                                     style={stylesGuestSingle(null, this.state.isLiked, this.state.spinLikeBtn).neutralBtnLiked} 
                                     onPress={ this.likeProduct }
                                     ref={ component => this.likeBtnRef = component }
@@ -177,10 +176,33 @@ class ProductDetails extends Component {
                                         <EvilIcon name="cart" style={stylesGuestSingle(null, null, null, this.state.listLikeScale).iconCart} />
                                     </>
                                 )}
-                                </AnimatedTouchable> 
+                                </AnimatedTouchable>  */}
+                                <ActionIcon
+                                    deactivateFunc={ this.unlikeProduct }
+                                    activateFunc={ (ref) => this.likeProduct(ref) }
+                                    errorCondition={ !this.props.token }
+                                    errorFunc={ (ref) => this.callModal(ref, 'Please register in order to complete this action.') }
+                                    mainIcon='ios-heart'
+                                    activeIcon='cart-outline'                         
+                                    activeColor={ colors.mainBtnOrange }
+                                    activeColorSec={ colors.mainBtnGreen }
+                                    isActive={ this.state.isLiked }
+                                />
                             </View>
                             <View style={stylesGuestSingle().calcBtns}>
-                                <AnimatedTouchable 
+                                <ActionIcon
+                                    deactivateFunc={ this.removeSelectProduct }
+                                    activateFunc={ this.allowSelectProduct }
+                                    errorCondition={  this.props.selectedProducts.length > 30  }
+                                    // errorFunc={ (ref) => console.log(ref) }
+                                    errorFunc={ (ref) => this.callModal(ref, 'Please select no more than 30 items.') }
+                                    mainIcon='md-checkmark'
+                                    activeIcon='format-list-bulleted'
+                                    activeColor={ colors.mainBtnGreen }
+                                    activeColorSec={ colors.mainBtnOrange }
+                                    isActive={ this.state.isSelected }
+                                />
+                                {/* <AnimatedTouchable 
                                         style={stylesGuestSingle(null, isSelected, this.state.spinSelectBtn).neutralBtnSelected} 
                                         onPress={ !isSelected ? this.selectProduct : this.removeSelectProduct }
                                         ref={ component => this.selectBtnRef = component }
@@ -193,7 +215,7 @@ class ProductDetails extends Component {
                                             <AnimatedIonIcon name="ios-checkmark" style={stylesGuestSingle(null, null, null, null, checkSelectTransition).calcUncheck} />
                                         </>
                                     )}
-                                </AnimatedTouchable>
+                                </AnimatedTouchable> */}
                             </View>
                         </View>
                     </View>
@@ -211,7 +233,6 @@ class ProductDetails extends Component {
                             close={() => this.setState({ callRegisterModel: false })}
                         />
                     ) }
-                    
                 </>
             )
         )
@@ -232,9 +253,11 @@ ProductDetails.propTypes = {
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    account: state.auth.user.current_account,
     product: state.products.product,
     selectedProducts: state.selectedProducts.comparisonArray,
-    // error: state.products.error,
+    error: state.products.error,
+    likeError: state.products.likeError,
     loading: state.products.loading,
 })
 

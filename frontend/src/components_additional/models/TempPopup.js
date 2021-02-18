@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { modalStyles, textStyle } from './styles/GeneralStyles';
+import { modalStyles, textStyle } from '../styles/GeneralStyles';
 
 function TempPopup({ message }){
     return (

@@ -8,10 +8,10 @@ import { withNavigation } from 'react-navigation';
 import { styles } from '../../components_additional/styles/AuthStyles';
 import { colors } from '../../components_additional/styles/Colors';
 import { categoryAdd } from '../../components_additional/styles/CategoryStyles';
-import ButtonStyled from '../../components_additional/Button';
+import ButtonStyled from '../../components_additional/models/Button';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Error from '../../components_additional/ErrorMsg';
+import Error from '../../components_additional/models/ErrorMsg';
 
 class AddCategory extends Component {
     

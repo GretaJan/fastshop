@@ -13,12 +13,12 @@ import { colors } from '../../components_additional/styles/Colors';
 
 //Components
 import Subcategory from './SubcategoryList';
-import Loading from '../../components_additional/Loading';
-import Error from '../../components_additional/Error';
-import Modal from '../../components_additional/Modal';
-import EmptyList from '../../components_additional/EmptyList';
-import CircleButton from '../../components_additional/CircleButton';
-import ConfirmModal from '../../components_additional/ModalCrud';
+import Loading from '../../components_additional/models/Loading';
+import Error from '../../components_additional/models/Error';
+import Modal from '../../components_additional/models/Modal';
+import EmptyList from '../../components_additional/models/EmptyList';
+import CircleButton from '../../components_additional/models/CircleButton';
+import ConfirmModal from '../../components_additional/models/ModalCrud';
 
 class Subcategories extends Component {
 

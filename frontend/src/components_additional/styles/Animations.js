@@ -192,7 +192,15 @@ var modalAnimations = {
 
 var productAnimations = {
     btnAnimationToActive(rotate, scale, transition) {
+        console.log("rotate active", transition)
         Animated.sequence([
+            Animated.timing(scale, {
+                toValue: 0,
+                delay: 0,
+                duration: 0,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
             Animated.timing(rotate, {
                 toValue: 1,
                 delay: 1,
@@ -203,7 +211,7 @@ var productAnimations = {
             }),
             Animated.timing(scale, {
                 toValue: 1,
-                delay: 0,
+                delay: .01,
                 duration: 0,
                 easing: Easing.linear,
                 useNativeDriver: true,
@@ -218,18 +226,26 @@ var productAnimations = {
         ]).start();
     },
     btnAnimationToInactive(rotate, scale, listScale) {
+        console.log("rotate inactive", rotate)
         Animated.sequence([
-            // Animated.timing(listScale, {
-            //     toValue: 0,
-            //     delay: 0,
-            //     duration: 0,
-            //     easing: Easing.linear,
-            //     useNativeDriver: true,
-            // }),
+            Animated.timing(scale, {
+                toValue: 0,
+                delay: 0,
+                duration: 0,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
+            Animated.timing(listScale, {
+                toValue: 0,
+                delay: .1,
+                duration: 0,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
             Animated.timing(rotate, {
                 toValue: 0,
                 delay: 1,
-                duration: 210,
+                duration: 400,
                 easing: Easing.linear,
                 useNativeDriver: true,
             }),

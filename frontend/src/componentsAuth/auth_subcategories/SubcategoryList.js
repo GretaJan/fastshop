@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { authCategory } from '../../components_additional/styles/CategoryStyles';
 import { colors } from '../../components_additional/styles/Colors';
-import Error from '../../components_additional/ErrorMsg';
+import Error from '../../components_additional/models/ErrorMsg';
 
 //Components
-import StyledButton from '../../components_additional/AdminButton';
+import StyledButton from '../../components_additional/models/AdminButton';
 
 class SubcategoryList extends Component {
 

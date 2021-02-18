@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
 import { postProductStyle } from '../../components_additional/styles/ProductStyles';
-import Error from '../../components_additional/ErrorMsg';
+import Error from '../../components_additional/models/ErrorMsg';
 
 const AddProductRow = ({ props, index, inputChange }) => {
     const errorMsg = (msg) => {

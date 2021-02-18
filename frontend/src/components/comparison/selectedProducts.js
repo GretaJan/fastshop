@@ -14,10 +14,10 @@ import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons'
 // import { heightAnimation } from '../../components_additional/styles/Animations';
 //Components
 import Product from './selectedProductSingle';
-import ConfirmModal from '../../components_additional/ModalCrud';
-import EmptyList from '../../components_additional/EmptyListSelected';
-import LoadingResults from '../../components_additional/LoadingResults';
-import Modal from '../../components_additional/Modal';
+import ConfirmModal from '../../components_additional/models/ModalCrud';
+import EmptyList from '../../components_additional/models/EmptyListSelected';
+import LoadingResults from '../../components_additional/models/LoadingResults';
+import Modal from '../../components_additional/models/Modal';
 
 const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
 

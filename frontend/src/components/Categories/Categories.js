@@ -13,12 +13,12 @@ import  NetInfo  from '@react-native-community/netinfo';
 // import { checkInternetConnection, offlineActionCreators } from 'react-native-offline';
 
 //Components
-import Register from '../../components_additional/Register';
+import Register from '../../components_additional/models/Register';
 import Category from './Category';
-import Loading from '../../components_additional/Loading';
-import EmptyList from '../../components_additional/EmptyList';
-import Modal from '../../components_additional/Modal';
-import ConfirmModal from '../../components_additional/ModalCrud';
+import Loading from '../../components_additional/models/Loading';
+import EmptyList from '../../components_additional/models/EmptyList';
+import Modal from '../../components_additional/models/Modal';
+import ConfirmModal from '../../components_additional/models/ModalCrud';
 
 export class Categories extends Component {
     state = {

@@ -1,57 +1,64 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, Animated } from 'react-native';
 import { diagram } from '../../components_additional/styles/CompareStyles';
-import { containerStyles } from '../../components_additional/styles/GeneralStyles';
+import { containerStyles, textStyle } from '../../components_additional/styles/GeneralStyles';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import { animations } from '../../components_additional/styles/AnimationStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
+import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { clearResults, saveCombination } from '../../redux/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import ResultsBestWorstChild from './ResultsBestWorstChild';
+import ResultProduct from './ResultProduct';
 
 const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
+const AnimatedMaterialIcon = Animated.createAnimatedComponent(MaterialIcon);
 
 const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) => {
     let scrollTopRef = null;
     const { match, mismatch } = result;
     const translateMatch = useState(new Animated.Value(-100))[0];
     const translateMismatch = useState(new Animated.Value(-100))[0];
+    const [currSubcategoryId, setCurrSubcategoryId] = useState('');
+    const [currProductId, setCurrProductId] = useState('');
+    const [currName, setCurrName] = useState('');
+    const [currImage, setCurrImage] = useState('');
+    const [openProductModel, setOpenProductModel] = useState(false)
 
     useEffect(() => {
         // callDiagramAnimation();
         comparisonAnimations.imageIconTranslation(translateMatch, translateMismatch);
 
     }, [])
-    const nameSlice = (name) => {
-        if(name.length > 33) {
-           var newName = name.slice(0, 33);
-            return (
-                <Text style={diagram().text}>{ newName }...</Text>
-            )
-        } else {
-            return (
-                <Text style={diagram().text}>{ name }</Text>
-            )
-        }
-    }
-    const scrollUp = () => {
+
+    function scrollUp() {
         scrollTopRef.scrollTo({y: 0, animated: true});
     }
-
-    const invokeClearResults = () => {
+    
+    function invokeClearResults() {
         clearResults();
         setTimeout(() => {
             navigate("SelectedProducts");
         }, 0)
     }
-
-    const invokeSaveCombination = () => {
+    
+    function invokeSaveCombination() {
         saveCombination(match, mismatch)
     }
 
+    function openProductModelFunc(subcategoryId, productId, name, image){
+        setCurrSubcategoryId(subcategoryId)
+        setCurrProductId(productId)
+        setCurrName(name)
+        setCurrImage(image)
+        setOpenProductModel(true)
+    }
+
     return (
+        <>
         <ScrollView style={ containerStyles().simpleContainer } ref={scrollView => scrollTopRef = scrollView}>
             { Object.keys(result).length === 0 ? (
                 <View style={diagram().container}>
@@ -60,33 +67,57 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                 <>
                     <View style={diagram().productsContainer} >
                         <View style={diagram().productsInnerContainer}>
-                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => navigate("Product", {subcategoryId: match.subcategory_id, productId: match.id})} >
+                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => openProductModelFunc(match.subcategory_id, match.id, match.name, match.image)} >
                                 { match.image ? (
                                     <Image style={diagram().image} source={{ uri: match.image }} />
                                     ) : (
                                     <Image style={diagram().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                                 )}
-                                <View style={diagram().title} >
-                                    <Text style={diagram().text}>{ nameSlice(match.name) }</Text>
-                                </View>
                             </TouchableOpacity>
                             <AnimatedIonIcon name="md-checkmark" color='#32bd81' style={diagram(null, translateMatch).iconTranslation} />
                         </View>
-                        <View  style={diagram().productsInnerContainer}>
-                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => navigate("Product", {subcategoryId: mismatch.subcategory_id, productId: mismatch.id})}>
+                        <View style={diagram().productsInnerContainer}>
+                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => openProductModel(mismatch.subcategory_id, mismatch.id, mismatch.name, mismatch.image)}>
                                 {mismatch.image ? (
                                     <Image style={diagram().image} source={{ uri: mismatch.image }} />
                                     ) : (
                                         <Image style={diagram().image} source={require('../../components_additional/images/noimage.jpeg')}  />
                                 )}
-                                <View style={diagram().title} >
-                                    <Text style={diagram().text}>{ nameSlice(mismatch.name) }</Text>
-                                </View>
                             </TouchableOpacity>
                             <AnimatedIonIcon name="md-close" color='#ff7725' style={ diagram(null, translateMismatch).iconTranslation } />
                         </View>
-                        {/* Diagram */}
+                        <AnimatedTouchable 
+                                style={diagram().neutralBtnLiked} 
+                                onPress={() => console.log("helloo") }
+                                // onPress={ this.likeProduct }
+                                // ref={ component => this.likeBtnRef = component }
+                            >
+                            {/* { !isLiked ? ( */}
+                                <MaterialIcon name="heart-outline" style={stylesGuestSingle().iconHeartLike} />
+                            {/* ): (
+                                <>
+                                    <Icon name="heart" style={stylesGuestSingle(null, null, null, null, this.state.checkLikeTransition).iconHeart} />
+                                    <EvilIcon name="cart" style={stylesGuestSingle(null, null, null, this.state.listLikeScale).iconCart} />
+                                </>
+                            )} */}
+                        </AnimatedTouchable> 
+                        <AnimatedTouchable 
+                                style={diagram().neutralBtnLikedTwo} 
+                                onPress={() => console.log("helloo") }
+                                // onPress={ this.likeProduct }
+                                // ref={ component => this.likeBtnRef = component }
+                            >
+                            {/* { !isLiked ? ( */}
+                                <MaterialIcon name="heart-outline" style={stylesGuestSingle().iconHeartLike} />
+                            {/* ): (
+                                <>
+                                    <Icon name="heart" style={stylesGuestSingle(null, null, null, null, this.state.checkLikeTransition).iconHeart} />
+                                    <EvilIcon name="cart" style={stylesGuestSingle(null, null, null, this.state.listLikeScale).iconCart} />
+                                </>
+                            )} */}
+                        </AnimatedTouchable> 
                     </View>
+                      {/* Diagram */}
                     <View style={diagram().diagramContainer}>
                         <ResultsBestWorstChild 
                             title='Energy'
@@ -157,6 +188,16 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                 </>
             )}
         </ScrollView>
+        <ProductModel
+            subcategoryId={ currSubcategoryId }
+            productId={ currProductId }
+            name={ currName }
+            image={ currImage }
+            likeProduct={() => likeProduct() }
+            selectProduct={() => selectProduct() }
+            putToCart={() => putToCart() }
+        />
+        </>
     )
 }
 

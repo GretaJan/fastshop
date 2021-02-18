@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { stylesGuestSingle, authProduct } from '../../components_additional/styles/ProductStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 //Components 
-import Error from '../../components_additional/ErrorMsg';
+import Error from '../../components_additional/models/ErrorMsg';
 
 const ProductComponents = ( { props, triggeredName, changeText, triggerEdit, editName, editBackground, editEnergy, editDecimals, errorMsg, cancelEdit } ) => {
     return (

@@ -6,8 +6,8 @@ import { authCategory } from '../../components_additional/styles/CategoryStyles'
 import { colors } from '../../components_additional/styles/Colors';
 
 //Components
-import StyledButton from '../../components_additional/AdminButton';
-import Error from '../../components_additional/ErrorMsg';
+import StyledButton from '../../components_additional/models/AdminButton';
+import Error from '../../components_additional/models/ErrorMsg';
 
 class CategoryList extends Component {
 

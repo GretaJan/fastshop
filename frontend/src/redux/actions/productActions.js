@@ -16,7 +16,6 @@ import {
     DELETE_PRODUCT,
     DELETE_PRODUCT_ERROR, 
     URL,
-    LIKE_PRODUCT,
 } from './types';
 import axios from 'axios';
 ;
@@ -62,10 +61,6 @@ export const getProducts = (allProducts, subcategoryId, page) => async (dispatch
     })
 } 
 
-// export const getProducts = (products, subcategoryId, page) => dispatch =>{
-//     getPaginatedProducts(dispatch, allProducts, subcategoryId, page)
-// }
-
 export const getProduct = (productId) => dispatch => {
     dispatch({
         type: LOADING_GET_PRODUCT,
@@ -97,34 +92,6 @@ export const getProduct = (productId) => dispatch => {
     //     error: ''
     // })   
 } 
-
-export const likeProduct = (subcategoryId, productId, token) => dispatch => {
-    console.log("hello", token)
-    axios.get(`${URL}/like-product/${subcategoryId}/${productId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }, { withAuthorization: true })
-        .then((response) => {
-            console.log("response", response)
-            // dispatch({
-            //     type: LIKE_PRODUCT,
-            //     payload: response.data
-            // })
-        }).then(() => {
-             return true;
-        }).catch(error => {
-            console.log(error.response)
-            const errorResp =  error.response;
-            if(errorResp){
-                if(errorResp.status != 401){
-                    return errorResp.data;
-                }
-            } else {
-                return 'Error occurred. Please try again.';
-            }
-        })
-}
 
 export const addProduct = (subcategory, data, access_token) => async dispatch => {
     await dispatch({

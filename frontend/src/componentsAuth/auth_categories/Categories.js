@@ -11,11 +11,11 @@ import { colors } from '../../components_additional/styles/Colors';
 
 //Components
 import CategoryList from './CategoryList';
-import Loading from '../../components_additional/Loading';
-import CircleButton from '../../components_additional/CircleButton';
-import ConfirmModal from '../../components_additional/ModalCrud';
-import EmptyList from '../../components_additional/EmptyList';
-import Modal from '../../components_additional/Modal';
+import Loading from '../../components_additional/models/Loading';
+import CircleButton from '../../components_additional/models/CircleButton';
+import ConfirmModal from '../../components_additional/models/ModalCrud';
+import EmptyList from '../../components_additional/models/EmptyList';
+import Modal from '../../components_additional/models/Modal';
 
 export class Categories extends Component {
     state = {

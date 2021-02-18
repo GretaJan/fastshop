@@ -1,3 +1,4 @@
+import { ActionSheetIOS } from 'react-native';
 import { 
     LOADING_GET_PRODUCTS, 
     GET_PRODUCTS, 
@@ -16,16 +17,22 @@ import {
     EDIT_PRODUCT_ERROR, 
     DELETE_PRODUCT, 
     DELETE_PRODUCT_ERROR,
-    SAVE_COMBINATION
+    SAVE_COMBINATION,
+    LIKE_PRODUCT, 
+    LIKE_PRODUCT_ERROR,
+    GET_LIKED_PRODUCTS,
+    GET_LIKED_PRODUCTS_ERROR,
 } from '../actions/types';
 
 const initialState = {
     products: [],
     product: {},
+    likedProducts: [],
     loading: null,
     actionLoading: null,
     loadingNext: null,
     error: '',
+    likeError: '',
     nextPage: 0,
     productCombinations: []
 }
@@ -86,7 +93,6 @@ export default function(state = initialState, action) {
         case GET_PRODUCT:
             return {
                 ...state,
-                // product: action.payload ? action.payload : state.product,
                 product: state.products.find(item => item.id == action.productId),
                 loading: false,
                 error: ''
@@ -96,6 +102,27 @@ export default function(state = initialState, action) {
                 ...state,
                 error: action.error,
                 loading: false
+            }
+        case LIKE_PRODUCT:
+            return {
+                ...state,
+                likedProducts: state.likedProducts.concat(action.payload),
+                likeError: ''
+            }
+        case LIKE_PRODUCT_ERROR:
+            return {
+                ...state,
+                payload: action.likeError
+            }
+        case GET_LIKED_PRODUCTS:
+            return {
+                ...state,
+                payload: action.payload,
+            }
+        case GET_LIKED_PRODUCTS_ERROR:
+            return {
+                ...state,
+                payload: action.payload
             }
         case LOADING_POST_PRODUCT:
             return {

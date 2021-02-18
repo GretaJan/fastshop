@@ -13,10 +13,10 @@ import { colors } from '../../components_additional/styles/Colors';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 //Components
-import Loading from '../../components_additional/Loading';
-import ConfirmModal from '../../components_additional/ModalCrud';
+import Loading from '../../components_additional/models/Loading';
+import ConfirmModal from '../../components_additional/models/ModalCrud';
 import Row from './DetailsRows';
-import Error from '../../components_additional/ErrorMsg';
+import Error from '../../components_additional/models/ErrorMsg';
 
 class Product extends Component {
     state = {

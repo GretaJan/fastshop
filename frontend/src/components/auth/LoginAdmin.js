@@ -5,12 +5,12 @@ import { View, TextInput } from 'react-native';
 import { styles } from '../../components_additional/styles/AuthStyles';
 import { withNavigation } from 'react-navigation';
 import { tryLogin } from '../../redux/actions/authActions';
-import ButtonStyled from '../../components_additional/Button';
+import ButtonStyled from '../../components_additional/models/Button';
 import { colors } from '../../components_additional/styles/Colors';
 
 //components
-import Error from '../../components_additional/ErrorMsg';
-import AuthAnimation from '../../components_additional/AnimatedAuth';
+import Error from '../../components_additional/models/ErrorMsg';
+import AuthAnimation from '../../components_additional/models/AnimatedAuth';
 
 class Login extends Component {
     

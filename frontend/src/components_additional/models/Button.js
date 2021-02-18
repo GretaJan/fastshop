@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import { buttonStyle } from './styles/AdditionalStyles';
+import { buttonStyle } from '../styles/AdditionalStyles';
 
 const Button = ({ func, title, color, width, height }) => {
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { inputErrors } from './styles/GeneralStyles';
+import { inputErrors } from '../styles/GeneralStyles';
 
 const Error = ({message}) => {
 

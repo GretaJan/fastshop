@@ -101,7 +101,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
-import { emptyList } from './styles/AdditionalStyles';
+import { emptyList } from '../styles/AdditionalStyles';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import StyledButton from './AdminButton';
 import { colors } from './styles/Colors';
@@ -112,7 +112,7 @@ const EmptyList = ({ mess<span class="fstat-no" title="function not covered" >ag
         &lt;View style={emptyList(background ? background : colors.mainGrey).container} &gt;
             &lt;View style={emptyList().itemContainer} &gt;
                 &lt;View style={emptyList().imageWrap}&gt;
-                    &lt;Image style={emptyList().image} name="list-ol" source={require('./images/List_04.png')} /&gt;
+                    &lt;Image style={emptyList().image} name="list-ol" source={require('../images/List_04.png')} /&gt;
                 &lt;/View&gt;
                 &lt;Text style={emptyList().text} &gt;{message}&lt;/Text&gt;
             &lt;/View&gt;

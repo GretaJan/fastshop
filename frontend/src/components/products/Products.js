@@ -15,9 +15,9 @@ import { colors } from '../../components_additional/styles/Colors';
 
 //Components
 import Product from './ProductList';
-import Loading from '../../components_additional/Loading';
-import EmptyList from '../../components_additional/EmptyList';
-import Modal from '../../components_additional/Modal';
+import Loading from '../../components_additional/models/Loading';
+import EmptyList from '../../components_additional/models/EmptyList';
+import Modal from '../../components_additional/models/Modal';
 
 class Products extends Component {
     state = {

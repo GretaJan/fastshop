@@ -279,27 +279,27 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
             { rotateY: rotateBtn }
         ]
     },
-    neutralBtnSelected: {
-        backgroundColor: isActive ? colors.mainBtnOrange : colors.mainGrey,
-        width: 45,
-        height: 45,
-        alignItems: 'center',
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderRadius: 5,
-        // Shadow
-        elevation   : 5,
-        overflow: 'hidden',
-        //iOS:
-        shadowColor: 'red',
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2, 
-        position: 'relative',
-        transform: [
-            { rotateY: rotateBtn }
-        ]
-    },
+    // neutralBtnSelected: {
+    //     backgroundColor: isActive ? colors.mainBtnOrange : colors.mainGrey,
+    //     width: 45,
+    //     height: 45,
+    //     alignItems: 'center',
+    //     alignContent: 'center',
+    //     justifyContent: 'center',
+    //     borderRadius: 5,
+    //     // Shadow
+    //     elevation   : 5,
+    //     overflow: 'hidden',
+    //     //iOS:
+    //     shadowColor: 'red',
+    //     shadowOffset: { width: 1, height: 1 },
+    //     shadowOpacity: 0.8,
+    //     shadowRadius: 2, 
+    //     position: 'relative',
+    //     transform: [
+    //         { rotateY: rotateBtn }
+    //     ]
+    // },
     iconHeartLike: {
         fontSize: 26,
         color: colors.mainBtnOrange,

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { compare } from '../../redux/actions/comparisonActions';
 import { colors } from '../../components_additional/styles/Colors';
-import Modal from '../../components_additional/Modal';
+import Modal from '../../components_additional/models/Modal';
 
 import CriteriaChild from './CriteriaChild';
 

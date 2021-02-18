@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, Animated } from 'react-native';
-import { authVerify } from './styles/AdditionalStyles';
-const Animations = require('./styles/Animations.js');
+import { authVerify } from '../styles/AdditionalStyles';
+const Animations = require('../styles/Animations.js');
 
 const AnimatedComp = () => {
     const translateOne = useState(new Animated.Value(0))[0];

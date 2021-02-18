@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
-import { saveUserToken } from '../redux/actions/authActions';
-import { userModalStyle } from './styles/AuthStyles';
-import { textStyle, modalStyles, inputStyles,  btnStyles } from './styles/GeneralStyles';
-import { URL } from '../redux/actions/types';
+import { saveUserToken } from '../../redux/actions/authActions';
+import { userModalStyle } from '../styles/AuthStyles';
+import { textStyle, modalStyles, inputStyles,  btnStyles } from '../styles/GeneralStyles';
+import { URL } from '../../redux/actions/types';
 import axios from 'axios';
 // components
 import Error from './Error';
 import TempPopup from './TempPopup';
 
-const { modalAnimations } = require('./styles/Animations.js');
+const { modalAnimations } = require('../styles/Animations.js');
 
 function loginFunc(passedUrl, data){
 

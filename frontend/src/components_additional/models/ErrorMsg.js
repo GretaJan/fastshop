@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import { errorStyle } from './styles/AdditionalStyles';
+import { errorStyle } from '../styles/AdditionalStyles';
 const Error = ({ message, margin, left }) => {
 
     return (
