@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, Animated } from 'react-native';
+import { likeProduct, unlikeProduct } from '../../redux/actions/userProductActions';
 import { diagram } from '../../components_additional/styles/CompareStyles';
 import { containerStyles, textStyle } from '../../components_additional/styles/GeneralStyles';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
@@ -10,23 +11,20 @@ import { connect } from 'react-redux';
 import { clearResults, saveCombination } from '../../redux/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
 import ResultsBestWorstChild from './ResultsBestWorstChild';
-import ResultProduct from './ResultProduct';
+import ProductModel from '../../components_additional/models/ProductModel';
 
 const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 const AnimatedMaterialIcon = Animated.createAnimatedComponent(MaterialIcon);
 
-const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) => {
+const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, token, navigation: { navigate } }) => {
     let scrollTopRef = null;
     const { match, mismatch } = result;
     const translateMatch = useState(new Animated.Value(-100))[0];
     const translateMismatch = useState(new Animated.Value(-100))[0];
-    const [currSubcategoryId, setCurrSubcategoryId] = useState('');
-    const [currProductId, setCurrProductId] = useState('');
-    const [currName, setCurrName] = useState('');
-    const [currImage, setCurrImage] = useState('');
-    const [openProductModel, setOpenProductModel] = useState(false)
+    const [productModel, setProductModel] = useState(null);
+    const [isLiked, setIsLiked] = useState(false);
 
     useEffect(() => {
         // callDiagramAnimation();
@@ -49,12 +47,32 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
         saveCombination(match, mismatch)
     }
 
-    function openProductModelFunc(subcategoryId, productId, name, image){
-        setCurrSubcategoryId(subcategoryId)
-        setCurrProductId(productId)
-        setCurrName(name)
-        setCurrImage(image)
-        setOpenProductModel(true)
+    function openProductModelFunc(prop){
+        const { id } = prop;
+        setIsLiked(isLiked)
+        setProductModel({
+            subcategoryId: prop.subcategory_id,
+            categoryId: prop.category_id,
+            id: id,
+            name: prop.name,
+            image: prop.image,
+        })
+    }
+
+    async function likeProductLocal(){
+        console.log("hellooo", productModel)
+        const errorMsg = await likeProduct(productModel.categoryId, productModel.id, token, true)
+        if(!errorMsg){
+            setIsLiked(true);
+            return true;
+        }
+        return errorMsg;
+    }
+
+
+    function unlikeProductLocal(){
+        console.log("propp:: ", productModel)
+        unlikeProduct(productModel.id, true)
     }
 
     return (
@@ -67,7 +85,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                 <>
                     <View style={diagram().productsContainer} >
                         <View style={diagram().productsInnerContainer}>
-                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => openProductModelFunc(match.subcategory_id, match.id, match.name, match.image)} >
+                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => openProductModelFunc(match)} >
                                 { match.image ? (
                                     <Image style={diagram().image} source={{ uri: match.image }} />
                                     ) : (
@@ -77,7 +95,7 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                             <AnimatedIonIcon name="md-checkmark" color='#32bd81' style={diagram(null, translateMatch).iconTranslation} />
                         </View>
                         <View style={diagram().productsInnerContainer}>
-                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => openProductModel(mismatch.subcategory_id, mismatch.id, mismatch.name, mismatch.image)}>
+                            <TouchableOpacity style={diagram().activeItemWrap} onPress={() => openProductModelFunc(mismatch)}>
                                 {mismatch.image ? (
                                     <Image style={diagram().image} source={{ uri: mismatch.image }} />
                                     ) : (
@@ -86,36 +104,6 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                             </TouchableOpacity>
                             <AnimatedIonIcon name="md-close" color='#ff7725' style={ diagram(null, translateMismatch).iconTranslation } />
                         </View>
-                        <AnimatedTouchable 
-                                style={diagram().neutralBtnLiked} 
-                                onPress={() => console.log("helloo") }
-                                // onPress={ this.likeProduct }
-                                // ref={ component => this.likeBtnRef = component }
-                            >
-                            {/* { !isLiked ? ( */}
-                                <MaterialIcon name="heart-outline" style={stylesGuestSingle().iconHeartLike} />
-                            {/* ): (
-                                <>
-                                    <Icon name="heart" style={stylesGuestSingle(null, null, null, null, this.state.checkLikeTransition).iconHeart} />
-                                    <EvilIcon name="cart" style={stylesGuestSingle(null, null, null, this.state.listLikeScale).iconCart} />
-                                </>
-                            )} */}
-                        </AnimatedTouchable> 
-                        <AnimatedTouchable 
-                                style={diagram().neutralBtnLikedTwo} 
-                                onPress={() => console.log("helloo") }
-                                // onPress={ this.likeProduct }
-                                // ref={ component => this.likeBtnRef = component }
-                            >
-                            {/* { !isLiked ? ( */}
-                                <MaterialIcon name="heart-outline" style={stylesGuestSingle().iconHeartLike} />
-                            {/* ): (
-                                <>
-                                    <Icon name="heart" style={stylesGuestSingle(null, null, null, null, this.state.checkLikeTransition).iconHeart} />
-                                    <EvilIcon name="cart" style={stylesGuestSingle(null, null, null, this.state.listLikeScale).iconCart} />
-                                </>
-                            )} */}
-                        </AnimatedTouchable> 
                     </View>
                       {/* Diagram */}
                     <View style={diagram().diagramContainer}>
@@ -188,21 +176,25 @@ const ResultsOfBestWorst = ({ result, clearResults, navigation: { navigate } }) 
                 </>
             )}
         </ScrollView>
-        <ProductModel
-            subcategoryId={ currSubcategoryId }
-            productId={ currProductId }
-            name={ currName }
-            image={ currImage }
-            likeProduct={() => likeProduct() }
-            selectProduct={() => selectProduct() }
-            putToCart={() => putToCart() }
-        />
+        { productModel && (
+            <ProductModel
+                prop={ productModel }
+                token={ token }
+                isLiked={ isLiked }
+                likeProduct={ likeProductLocal }
+                unlikeProduct={ unlikeProductLocal }
+                putToCart={() => putToCart() }
+                close={ () => setProductModel(null) }
+                navigate={ navigate }
+            />
+        ) }
         </>
     )
 }
 
 const mapStateToProps = state => ({
     result: state.selectedProducts.result,
+    token: state.auth.token
 })
 
 // function useInterval(callback, delay) {
@@ -223,4 +215,4 @@ const mapStateToProps = state => ({
 // }
 
 
-export default withNavigation(connect(mapStateToProps, {clearResults})(ResultsOfBestWorst))
+export default withNavigation(connect(mapStateToProps, {clearResults, likeProduct, unlikeProduct})(ResultsOfBestWorst))

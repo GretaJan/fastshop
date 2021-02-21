@@ -75,12 +75,12 @@ export class Categories extends Component {
                 </View>
                 ) : (
                     <>
-                        {/* { registerModel && ( */}
-                            {/* <Register 
+                        {/* { registerModel && (
+                            <Register 
                                 refreshPage={ () => this.forceUpdate() } 
                                 close={ () => this.setState({ registerModel: false}) }
-                            /> */}
-                        {/* ) } */}
+                            />
+                        ) } */}
                         { this.props.error !== '' && (
                             <Modal 
                                 title="Warning" 

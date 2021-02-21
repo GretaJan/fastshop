@@ -38,4 +38,11 @@ export const animations = (scale, translate) => StyleSheet.create({
             { translateY: translate }
         ],
     },
+    calendarAnimation: {
+        alignItems: 'flex-start',
+        width: scale, //scale represents calendar width
+        transform: [
+            { translateX: -translate }
+        ],
+    },
 })

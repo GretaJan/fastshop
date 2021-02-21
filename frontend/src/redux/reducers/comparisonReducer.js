@@ -12,7 +12,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 comparisonArray: state.comparisonArray.concat(action.payload),
-                result: action.result,
+                result: {},
             }
         case REMOVE_SELECTED_PRODUCT: 
             return {

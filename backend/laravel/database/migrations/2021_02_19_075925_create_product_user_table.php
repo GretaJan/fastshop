@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountProductTable extends Migration
+class CreateProductUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateAccountProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('account_product', function (Blueprint $table) {
+        Schema::create('product_user', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('account_id');
+            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('product_id');
             $table->integer('category_id');
             $table->text('notes')->nullable();
@@ -30,6 +31,6 @@ class CreateAccountProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_product');
+        Schema::dropIfExists('product_user');
     }
 }

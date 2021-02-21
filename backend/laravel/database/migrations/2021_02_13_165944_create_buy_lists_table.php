@@ -15,11 +15,13 @@ class CreateBuyListsTable extends Migration
     {
         Schema::create('buy_lists', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('account_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
-            $table->json('list');  //name, quantity, favorite product, isBought? 
+            $table->json('list');  //name -string, quantity - int, products from list - array, isBought? 
             $table->date('date');
             $table->text('notes');
+            $table->boolean('is_completed')->nullable();
             $table->timestamps();
         });
     }

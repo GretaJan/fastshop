@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 
 export const iconButtons = (rotateBtn, activeColor, inactiveScale, activeScale, activeTransition) => StyleSheet.create({
     btnContainer: {
-        backgroundColor: activeColor ? activeColor : colors.mainGrey,
+        backgroundColor: activeColor,
         width: 45,
         height: 45,
         alignItems: 'center',
@@ -51,4 +51,45 @@ export const iconButtons = (rotateBtn, activeColor, inactiveScale, activeScale, 
             { rotateY: '-180deg' }
         ], 
     },
+})
+
+export const fullModal = () => StyleSheet.create({
+    titleWrap: {
+        marginTop: 0, 
+    },
+    navBtnWrap: {
+        height: 60,
+        width: 185,
+        borderColor: colors.mainBtnGreen,
+        borderWidth: 2,
+        alignSelf: 'center',
+        marginTop: 20,
+    },
+    navBtnWrapHover: {
+        height: 60,
+        width: 185,
+        borderColor: colors.mainBtnGreen,
+        borderWidth: 2,
+        alignSelf: 'center',
+        marginTop: 20,
+    },
+    btnWrapRow: {
+        // backgroundColor: 'grey',
+        height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imgIcon: {
+        fontSize: 40,
+        top: -25,
+        left: '50%',
+        transform: [
+            { translateX: -25 }
+        ],
+        paddingHorizontal: 3,
+        backgroundColor: '#fff', 
+        color: colors.mainBtnGreen,
+        position: 'absolute',
+        zIndex: 1,
+    }
 })

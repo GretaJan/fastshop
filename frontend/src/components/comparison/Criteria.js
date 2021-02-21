@@ -42,138 +42,6 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
             setLocationY(Math.round(y + height + 30))
     }, []);
 
-
-    const countResults = () => {
-        if (mostCriteria.length === 0 && leastCriteria.length === 0) {    
-                setModal(true);
-        } else {
-            setModal(false);
-            const arrayLength = selectedProducts.length;
-            let mostObj = {};
-            let matchObj = {};
-            let leastObj = {};
-            let mismatchObj = {};
-            let matchArray = [];
-            let mismatchArray = [];
-            for(let j = 0; j < mostCriteria.length; j++){
-                const title = mostCriteria[j];
-                mostObj[title] = -1;
-                matchObj[title] = selectedProducts[0];
-                for(let i = 0; i < arrayLength; i++) {
-                    let item = selectedProducts[i][title];
-                    let parsedItem = item ? parseInt(item) * 100 : 0;
-                    if(mostObj[title] > parsedItem) { 
-                        mostObj[title]  = parsedItem;
-                        matchObj[title]  = selectedProducts[i];
-                    }
-                } 
-            }
-            for(let j = 0; j < leastCriteria.length; j++){
-                const title = leastCriteria[j];
-                mostObj[title] = selectedProducts[0][title] ? parseInt(selectedProducts[0][title]) * 100 : 0;
-                matchObj[title] = selectedProducts[0];
-                console.log(" mostObj[title]:: ",  mostObj[title])
-                for(let i = 0; i < arrayLength; i++) {
-                    let item = selectedProducts[i][title];
-                    let parsedItem = item ? parseInt(item) * 100 : 0;
-                    if(mostObj[title] < parsedItem) { 
-                        mostObj[title]  = parsedItem;
-                        matchObj[title]  = selectedProducts[i];
-                    }
-                } 
-            }
-
-            let countMatched = {};
-            let bestMatchId = 0;
-            let maxMatch = 0;
-            let countMismatched = {};
-            let bestMismatchId = 0;
-            let maxMismatch = 0;
-
-            for(const [key, item] of Object.entries(matchObj)){
-                countMatched[item.id]  = (countMatched[item.id] || 0) + 1;
-            }
-            for (const key in countMatched) {
-                if(maxMatch < countMatched[key]) {
-                    bestMatchId = key;
-                    maxMatch = countMatched[key];
-                }
-            }
-
-        
-        for(let j = 0; j < mostCriteria.length; j++){
-            const title = mostCriteria[j];
-            leastObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1][title] : selectedProducts[0][title]
-            leastObj[title] = mostObj[title] ? parseInt(mostObj[title]) * 100 : 0;
-            mismatchObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1] : selectedProducts[0];
-            for(let i = 0; i < arrayLength; i++) {
-                if(selectedProducts[i].id == bestMatchId) { console.log("break 2"); break };
-                let item = selectedProducts[i][title];
-                let parsedItem = item ? parseInt(item) * 100 : 0;
-                if(leastObj[title] < parsedItem) { 
-                    leastObj[title]  = parsedItem;
-                    mismatchObj[title]  = selectedProducts[i];
-                }
-            } 
-        }
-        for(let j = 0; j < leastCriteria.length; j++){
-            const title = leastCriteria[j];
-            leastObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1][title] : selectedProducts[0][title]
-            leastObj[title] = leastObj[title] ? parseInt(leastObj[title]) * 100 : 0;
-            for(let i = 0; i < arrayLength; i++) {
-                if(selectedProducts[i].id == bestMatchId) { console.log("break 2"); break };
-                let item = selectedProducts[i][title];
-                let parsedItem = item ? parseInt(item) * 100 : 0;
-                if(leastObj[title] > parsedItem) { 
-                    leastObj[title]  = parsedItem;
-                    mismatchObj[title]  = selectedProducts[i];
-                }
-            }
-        } 
-        // MISMATCH
-   
-        // mismatchArray.forEach(item => {
-        //     countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
-        // })
-        for(const [key, item] of Object.entries(mismatchObj)){
-            countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
-        }
-        for (const key in countMismatched) {
-            if(maxMismatch < countMismatched[key]) {
-                bestMismatchId = key;
-                maxMismatch = countMismatched[key];
-            }
-        }
-        console.log("amtch", bestMatchId)
-        console.log("missamtch", bestMismatchId)
-
-        findResult(bestMatchId, bestMismatchId);
-    }
-
-        
-    }
-
-    const findResult = function(bestMatchId, bestMismatchId) {
-        const matchProduct = selectedProducts.find(item => item.id == bestMatchId)
-        const mismatchProduct = selectedProducts.find(item => item.id == bestMismatchId)
-        const data = {
-            match: matchProduct,
-            mismatch: mismatchProduct
-        }    
-        console.log(selectedProducts)
-        console.log(data)
-        compare(data);
-        setCalculated(true);
-    }
-
-    const viewResults = async () => {
-        await navigation.push('Results');
-        setCalculated(false);
-    }
-
-    function animateActiveBtn() {
-        comparisonAnimations.pulsingBtn(scale);  
-    }
     return (
         <View style={containerStyles().screenHeightContainerMargin}>
             {modal && 
@@ -289,6 +157,137 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
             </View>
         </View>
     )
+
+    function countResults(){
+        if (mostCriteria.length === 0 && leastCriteria.length === 0) {    
+                setModal(true);
+        } else {
+            setModal(false);
+            const arrayLength = selectedProducts.length;
+            let mostObj = {};
+            let matchObj = {};
+            let leastObj = {};
+            let mismatchObj = {};
+            let matchArray = [];
+            let mismatchArray = [];
+            for(let j = 0; j < mostCriteria.length; j++){
+                const title = mostCriteria[j];
+                mostObj[title] = -1;
+                matchObj[title] = selectedProducts[0];
+                for(let i = 0; i < arrayLength; i++) {
+                    let item = selectedProducts[i][title];
+                    let parsedItem = item ? parseInt(item) * 100 : 0;
+                    if(mostObj[title] > parsedItem) { 
+                        mostObj[title]  = parsedItem;
+                        matchObj[title]  = selectedProducts[i];
+                    }
+                } 
+            }
+            for(let j = 0; j < leastCriteria.length; j++){
+                const title = leastCriteria[j];
+                mostObj[title] = selectedProducts[0][title] ? parseInt(selectedProducts[0][title]) * 100 : 0;
+                matchObj[title] = selectedProducts[0];
+                console.log(" mostObj[title]:: ",  mostObj[title])
+                for(let i = 0; i < arrayLength; i++) {
+                    let item = selectedProducts[i][title];
+                    let parsedItem = item ? parseInt(item) * 100 : 0;
+                    if(mostObj[title] < parsedItem) { 
+                        mostObj[title]  = parsedItem;
+                        matchObj[title]  = selectedProducts[i];
+                    }
+                } 
+            }
+
+            let countMatched = {};
+            let bestMatchId = 0;
+            let maxMatch = 0;
+            let countMismatched = {};
+            let bestMismatchId = 0;
+            let maxMismatch = 0;
+
+            for(const [key, item] of Object.entries(matchObj)){
+                countMatched[item.id]  = (countMatched[item.id] || 0) + 1;
+            }
+            for (const key in countMatched) {
+                if(maxMatch < countMatched[key]) {
+                    bestMatchId = key;
+                    maxMatch = countMatched[key];
+                }
+            }
+
+        
+        for(let j = 0; j < mostCriteria.length; j++){
+            const title = mostCriteria[j];
+            leastObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1][title] : selectedProducts[0][title]
+            leastObj[title] = mostObj[title] ? parseInt(mostObj[title]) * 100 : 0;
+            mismatchObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1] : selectedProducts[0];
+            for(let i = 0; i < arrayLength; i++) {
+                if(selectedProducts[i].id == bestMatchId) { console.log("break 2"); break };
+                let item = selectedProducts[i][title];
+                let parsedItem = item ? parseInt(item) * 100 : 0;
+                if(leastObj[title] < parsedItem) { 
+                    leastObj[title]  = parsedItem;
+                    mismatchObj[title]  = selectedProducts[i];
+                }
+            } 
+        }
+        for(let j = 0; j < leastCriteria.length; j++){
+            const title = leastCriteria[j];
+            leastObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1][title] : selectedProducts[0][title]
+            leastObj[title] = leastObj[title] ? parseInt(leastObj[title]) * 100 : 0;
+            for(let i = 0; i < arrayLength; i++) {
+                if(selectedProducts[i].id == bestMatchId) { console.log("break 2"); break };
+                let item = selectedProducts[i][title];
+                let parsedItem = item ? parseInt(item) * 100 : 0;
+                if(leastObj[title] > parsedItem) { 
+                    leastObj[title]  = parsedItem;
+                    mismatchObj[title]  = selectedProducts[i];
+                }
+            }
+        } 
+        // MISMATCH
+   
+        // mismatchArray.forEach(item => {
+        //     countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
+        // })
+        for(const [key, item] of Object.entries(mismatchObj)){
+            countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
+        }
+        for (const key in countMismatched) {
+            if(maxMismatch < countMismatched[key]) {
+                bestMismatchId = key;
+                maxMismatch = countMismatched[key];
+            }
+        }
+
+        findResult(bestMatchId, bestMismatchId);
+    }
+
+        
+    }
+
+    function findResult(bestMatchId, bestMismatchId) {
+        const matchProduct = selectedProducts.find(item => item.id == bestMatchId)
+        const mismatchProduct = selectedProducts.find(item => item.id == bestMismatchId)
+        const data = {
+            match: matchProduct,
+            mismatch: mismatchProduct
+        }    
+        console.log("maatch", matchProduct)
+        console.log(selectedProducts)
+        console.log(data)
+        compare(data);
+        setCalculated(true);
+    }
+
+    async function viewResults(){
+        await navigation.push('Results');
+        setCalculated(false);
+    }
+
+    function animateActiveBtn() {
+        comparisonAnimations.pulsingBtn(scale);  
+    }
 }
 
 const mapStateToProps = (state) => ({

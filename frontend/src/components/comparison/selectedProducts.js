@@ -169,6 +169,7 @@ class Products extends Component {
     }
 
     render() {
+        console.log(this.props.result)
         const objectLength = Object.keys(this.props.result).length;
         const { locationX, locationY, loadingResults, modelMsg, optionsDisplay, triggeredSearchBar, tempArray, scaleBtn, transitionBtnsWrap, scaleBtnsWrap } = this.state;
         const { selectedProducts } = this.props;

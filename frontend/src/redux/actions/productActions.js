@@ -63,9 +63,6 @@ export const getProducts = (allProducts, subcategoryId, page) => async (dispatch
 
 export const getProduct = (productId) => dispatch => {
     dispatch({
-        type: LOADING_GET_PRODUCT,
-    })
-    dispatch({
         type: GET_PRODUCT,
         productId: productId,
     })

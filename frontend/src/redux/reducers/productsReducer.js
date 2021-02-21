@@ -19,7 +19,7 @@ import {
     DELETE_PRODUCT_ERROR,
     SAVE_COMBINATION,
     LIKE_PRODUCT, 
-    LIKE_PRODUCT_ERROR,
+    UNLIKE_PRODUCT,
     GET_LIKED_PRODUCTS,
     GET_LIKED_PRODUCTS_ERROR,
 } from '../actions/types';
@@ -32,7 +32,6 @@ const initialState = {
     actionLoading: null,
     loadingNext: null,
     error: '',
-    likeError: '',
     nextPage: 0,
     productCombinations: []
 }
@@ -106,13 +105,14 @@ export default function(state = initialState, action) {
         case LIKE_PRODUCT:
             return {
                 ...state,
-                likedProducts: state.likedProducts.concat(action.payload),
-                likeError: ''
+                likedProducts: state.likedProducts.concat(action.productId),
+                products: action.array,
             }
-        case LIKE_PRODUCT_ERROR:
+        case UNLIKE_PRODUCT:
             return {
                 ...state,
-                payload: action.likeError
+                likedProducts: state.likedProducts.filter(item => item.id != action.productId),
+                products: action.array,
             }
         case GET_LIKED_PRODUCTS:
             return {

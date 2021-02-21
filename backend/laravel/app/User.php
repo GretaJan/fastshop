@@ -23,7 +23,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function accounts(){
-        return $this->hasMany('App\Account');
+    
+    public function buyLists()
+    {
+        return $this->hasMany('App\BuyList');
     }
+
+    public function products()
+    {
+        return $this->belongsToMany('App\Product')->withPivot('category_id');
+    }
+
+    // public function accounts(){
+    //     return $this->hasMany('App\Account');
+    // }
 }

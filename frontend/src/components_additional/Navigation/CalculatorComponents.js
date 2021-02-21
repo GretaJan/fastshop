@@ -11,56 +11,64 @@ const CalculatorNav = createStackNavigator();
 
 export const CalculatorScreen = () => (
     <CalculatorNav.Navigator>
-        <CalculatorNav.Screen name="SelectedProducts" component={SelectedProducts} 
-                                options={{
-                                    title: "Calculate",
-                                    headerTitleStyle: {
-                                        fontWeight: 'bold',
-                                        color: colors.titleBlack,
-                                    },
-                                    headerStyle: {
-                                        backgroundColor: colors.mainGrey,
-                                    },
-                                    headerTitleAlign: 'center',
+        <CalculatorNav.Screen
+            name="SelectedProducts" 
+            component={ SelectedProducts } 
+            options={{
+                title: "Calculate",
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: colors.titleBlack,
+                },
+                headerStyle: {
+                    backgroundColor: colors.mainGrey,
+                },
+                headerTitleAlign: 'center',
         }} />
-        <CalculatorNav.Screen name="Results" component={SelectedProductsResults} 
-                                options = {{
-                                    title: "Results",
-                                    headerTitleStyle: {
-                                        fontWeight: 'bold',
-                                        color: colors.titleBlack,
-                                    },
-                                    headerStyle: {
-                                        backgroundColor: colors.mainGrey,
-                                    },
-                                    headerTitleAlign: 'center',
-                                }} 
+        <CalculatorNav.Screen 
+            name="Results" 
+            component={ SelectedProductsResults } 
+            options = {{
+                title: "Results",
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: colors.titleBlack,
+                },
+                headerStyle: {
+                    backgroundColor: colors.mainGrey,
+                },
+                headerTitleAlign: 'center',
+            }} 
         />
-        <CalculatorNav.Screen name="DescAscend" component={DescAscend} 
-                                options = {{
-                                    title: "Sort by Criteria",
-                                    headerTitleStyle: {
-                                        fontWeight: 'bold',
-                                        color: colors.titleBlack,
-                                    },
-                                    headerStyle: {
-                                        backgroundColor: colors.mainGrey,
-                                    },
-                                    headerTitleAlign: 'center',
-                              
-        }} />
-        <CalculatorNav.Screen name="Criteria" component={Criteria} 
-                                options = {{
-                                    title: "Calculate by Criteria",
-                                    headerTitleStyle: {
-                                        fontWeight: 'bold',
-                                        color: colors.titleBlack,
-                                    },
-                                    headerStyle: {
-                                        backgroundColor: colors.mainGrey,
-                                    },
-                                    headerTitleAlign: 'center',
-                              
-        }} />
+        <CalculatorNav.Screen 
+            name="DescAscend" 
+            component={ DescAscend } 
+            options = {{
+                title: "Sort by Criteria",
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: colors.titleBlack,
+                },
+                headerStyle: {
+                    backgroundColor: colors.mainGrey,
+                },
+                headerTitleAlign: 'center',
+            }} 
+         />
+        <CalculatorNav.Screen 
+            name="Criteria" 
+            component={ Criteria } 
+            options = {{
+                title: "Calculate by Criteria",
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: colors.titleBlack,
+                },
+                headerStyle: {
+                    backgroundColor: colors.mainGrey,
+                },
+                headerTitleAlign: 'center',
+            }} 
+        />
     </CalculatorNav.Navigator>
 )

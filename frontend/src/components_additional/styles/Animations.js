@@ -84,7 +84,7 @@ var comparisonAnimations = {
         Animated.sequence([
             Animated.timing(translate, {
                 toValue: 1,
-                delay: 2,
+                delay: 5,
                 // Speed: 20, 
                 // tension: 50,
                 // duration: 2500,
@@ -96,7 +96,7 @@ var comparisonAnimations = {
         Animated.sequence([
             Animated.timing(translate, {
                 toValue: toValue,
-                delay: 2,
+                delay: 6,
                 // Speed: 20, 
                 // tension: 50,
                 // duration: 2500,
@@ -192,7 +192,6 @@ var modalAnimations = {
 
 var productAnimations = {
     btnAnimationToActive(rotate, scale, transition) {
-        console.log("rotate active", transition)
         Animated.sequence([
             Animated.timing(scale, {
                 toValue: 0,
@@ -201,10 +200,16 @@ var productAnimations = {
                 easing: Easing.linear,
                 useNativeDriver: true,
             }),
+            Animated.timing(transition, {
+                toValue: -30,
+                delay: 0,
+                duration: 0,
+                // easing: Easing.linear,
+                useNativeDriver: true,
+            }),
             Animated.timing(rotate, {
                 toValue: 1,
                 delay: 1,
-                // duration: 210,
                 duration: 400,
                 easing: Easing.linear,
                 useNativeDriver: true,
@@ -226,7 +231,6 @@ var productAnimations = {
         ]).start();
     },
     btnAnimationToInactive(rotate, scale, listScale) {
-        console.log("rotate inactive", rotate)
         Animated.sequence([
             Animated.timing(scale, {
                 toValue: 0,
@@ -251,7 +255,7 @@ var productAnimations = {
             }),
             Animated.timing(scale, {
                 toValue: 1,
-                delay: 1,
+                delay: .1,
                 duration: 200,
                 easing: Easing.linear,
                 useNativeDriver: true,
@@ -281,8 +285,202 @@ var productAnimations = {
     }
 }
 
+var calendarAnimations = {
+    translateContainerForward(scale, translation){
+        Animated.sequence([
+            Animated.timing(translation, {
+                toValue: -(Dimensions.get('window').width),
+                delay: .3,
+                duration: 200,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
+        //     Animated.timing(addScale, {
+        //         toValue: 0,
+        //         delay: 0,
+        //         duration: 0,
+        //         easing: Easing.linear,
+        //         useNativeDriver: true,
+        //     }),
+        //     Animated.timing(addTranslate, {
+        //         toValue: -(Dimensions.get('window').width),
+        //         delay: 0,
+        //         duration: 0,
+        //         easing: Easing.linear,
+        //         useNativeDriver: true,
+        //     }),
+        //     Animated.timing(scale, {
+        //         toValue: 0,
+        //         delay: .3,
+        //         duration: 200,
+        //         easing: Easing.linear,
+        //         useNativeDriver: true,
+        //     }),
+        //     Animated.timing(addScale, {
+        //         toValue: 1,
+        //         delay: 0,
+        //         duration: 0,
+        //         easing: Easing.linear,
+        //         useNativeDriver: true,
+        //     }),
+        //     Animated.timing(translation, {
+        //         toValue: (Dimensions.get('window').width),
+        //         delay: .3,
+        //         duration: 200,
+        //         easing: Easing.linear,
+        //         useNativeDriver: true,
+        //     }),
+        //     Animated.timing(addTranslate, {
+        //         toValue: 0,
+        //         delay: .1,
+        //         duration: 200,
+        //         easing: Easing.linear,
+        //         useNativeDriver: true,
+        //     }),
+            // Animated.timing(addTranslate, {
+            //     toValue: 0,
+            //     delay: 0,
+            //     duration: 200,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(translation, {
+            //     toValue: (Dimensions.get('window').width),
+            //     delay: .3,
+            //     duration: 200,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(scale, {
+            //     toValue: 0,
+            //     delay: 1,
+            //     duration: 0,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(translation, {
+            //     toValue: -(Dimensions.get('window').width),
+            //     delay: 0,
+            //     duration: 0,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(scale, {
+            //     toValue: 1,
+            //     delay: 0,
+            //     duration: 0,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(translation, {
+            //     toValue: 0,
+            //     delay: 0,
+            //     duration: 200,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // })
+        ]).start()
+    },
+    translateContainerBack(scale, translation){
+        Animated.sequence([
+            Animated.timing(translation, {
+                toValue: (Dimensions.get('window').width),
+                delay: .3,
+                duration: 200,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }),
+            // Animated.timing(addScale, {
+            //     toValue: 0,
+            //     delay: 0,
+            //     duration: 0,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(addTranslate, {
+            //     toValue: (Dimensions.get('window').width),
+            //     delay: 0,
+            //     duration: 0,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(scale, {
+            //     toValue: 0,
+            //     delay: .3,
+            //     duration: 200,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(addScale, {
+            //     toValue: 1,
+            //     delay: 0,
+            //     duration: 0,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(translation, {
+            //     toValue: -(Dimensions.get('window').width),
+            //     delay: .3,
+            //     duration: 200,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(addTranslate, {
+            //     toValue: 0,
+            //     delay: 0,
+            //     duration: 200,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(addTranslate, {
+            //     toValue: 0,
+            //     delay: 0,
+            //     duration: 200,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(translation, {
+            //     toValue: -(Dimensions.get('window').width),
+            //     delay: .3,
+            //     duration: 200,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(scale, {
+            //     toValue: 0,
+            //     delay: 3,
+            //     duration: 0,
+            //     // easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(translation, {
+            //     toValue: (Dimensions.get('window').width),
+            //     delay: 0,
+            //     duration: 0,
+            //     // easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(scale, {
+            //     toValue: 1,
+            //     delay: 0,
+            //     duration: 0,
+            //     // easing: Easing.linear,
+            //     useNativeDriver: true,
+            // }),
+            // Animated.timing(translation, {
+            //     toValue: 0,
+            //     delay: 0,
+            //     duration: 200,
+            //     easing: Easing.linear,
+            //     useNativeDriver: true,
+            // })
+        ]).start()
+    }
+}
+
 module.exports = {
     comparisonAnimations: comparisonAnimations,
     productAnimations: productAnimations,
     modalAnimations: modalAnimations,
+    calendarAnimations: calendarAnimations,
 };

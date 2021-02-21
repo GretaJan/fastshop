@@ -34,7 +34,6 @@ class CategoryController extends Controller
                 });
             });
         }
-
         $response = [
             'categories' => $categories,
             'subcategories' => $subcategories,

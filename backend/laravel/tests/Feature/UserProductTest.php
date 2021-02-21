@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
 use App\Subcategory;
+use Carbon\Carbon;
 
 class UserProductTest extends TestCase
 {
@@ -51,7 +52,7 @@ class UserProductTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $user = User::find(2);
-        $product = $user->accounts()->find($user->current_account)->products()->first();
+        $product = $user->products()->first();
         $this->setUpUser($user->id);
         $response = $this->getJson("/api/unlike-product/$product->id", $this->user_headers);
         $response->assertStatus(201);
@@ -61,7 +62,7 @@ class UserProductTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $user = User::orderBy('created_at', 'desc')->first();
-        $product = $user->accounts()->find($user->current_account)->products()->first();
+        $product = $user->products()->first();
         $category_id = Subcategory::find(11)->category_id;
         $this->setUpUser($user->id);
         $response = $this->getJson("/api/get-personal-favorites/$category_id", $this->user_headers);
@@ -72,10 +73,59 @@ class UserProductTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $user = User::orderBy('created_at', 'desc')->first();
-        $product = $user->accounts()->find($user->current_account)->products()->first();
+        $product = $user->products()->first();
         $category_id = Subcategory::find(11)->category_id;
         $this->setUpUser($user->id);
         $response = $this->getJson("/api/get-top-favorites/$category_id", $this->user_headers);
         $response->assertStatus(200);
     }
+
+    /** @test */
+    public function create_products_list()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::where('email', 'gretajan09@gmail.com')->first();
+        $this->setUpUser($user->id);
+        $response = $this->postJson('/api/update-create-checklist', [
+            // 'name' => 'Sąrašas',
+            'list' => [
+                'name' => 'Agurkai',
+                'quantity' => 4,
+                'checked' => 'false',
+                'related_products' => [13, 15]
+            ],
+            'notes' => rand(20000, 1000000) . 'ABC',
+            'date' => '2021-02-20',
+            'is_completed' => false
+        ], $this->user_headers);
+        // $response->assertStatus(422)
+        //     ->assertJsonValidationErrors(['date' => 'Date']);
+        $response->assertStatus(201);
+    }
+    /** @test */
+    public function get_BuyLists_buy_date()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::where('email', 'gretajan09@gmail.com')->first();
+        $this->setUpUser($user->id);
+        $response = $this->postJson('/api/get-buy-lists', [
+            'date' => '2021-02-20',   
+        ], $this->user_headers);
+        $content = json_decode($response->getContent());
+        var_dump("content", $response->getContent());
+        $this->assertGreaterThan(0, count($content));
+        $response->assertStatus(200);
+    }
+       /** @test */
+       public function get_single_BuyList()
+       {
+           $this->withoutExceptionHandling();
+           $user = User::where('email', 'gretajan09@gmail.com')->first();
+           $this->setUpUser($user->id);
+           $response = $this->getJson('/api/get-buy-list/1', $this->user_headers);
+           $content = collect($response->getContent())->toArray();
+           var_dump("counnt: ", $content );
+           $this->assertEquals(1, count($content));
+           $response->assertStatus(200);
+       }
 }

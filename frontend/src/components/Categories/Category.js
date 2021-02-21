@@ -16,23 +16,6 @@ class Category extends Component {
         this.props.goToSubcategories();
     }
 
-    wrapHoverProps = {
-        activeOpacity: 1,
-        underlayColor: colors.mainBtnGreen,
-        //style: this.state.isPressed ?  stylesGuest().itemWrapHover : stylesGuest().itemWrap,
-        onHideUnderlay: () => this.setState({isPressed: false}),
-        onShowUnderlay: () => this.setState({isPressed: true}),
-        onPress: () => this.goToSubcategories()
-    }
-    textHoverProps = {
-        activeOpacity: 1,
-        underlayColor: colors.mainBtnGreen,
-        style: this.state.isPressed ?  stylesGuest().itemWrapHover : stylesGuest().itemWrap,
-        onHideUnderlay: () => this.setState({isPressed: false}),
-        onShowUnderlay: () => this.setState({isPressed: true}),
-        onPress: () => this.goToSubcategories()
-    }
-
     render() {
         return (
             // <TouchableOpacity style={stylesGuest().itemWrap} onPress={() => this.goToSubcategories()}>
@@ -59,7 +42,7 @@ class Category extends Component {
                             <IonIcon style={stylesGuest().imageIcon} name="md-images" />
                         </View>
                     )} */}
-                    { this.props.item.name == 'Beverage' ? (
+                    { this.props.item.id == 1 ? (
                         <>
                            <MaterialIcon style={this.state.isPressed ? stylesGuest().imgIconHover : stylesGuest().imgIcon } name="bottle-wine" />
                         </>
@@ -72,6 +55,23 @@ class Category extends Component {
             </TouchableHighlight>
         )  
     }
+
+    wrapHoverProps = {
+        activeOpacity: 1,
+        underlayColor: colors.mainBtnGreen,
+        //style: this.state.isPressed ?  stylesGuest().itemWrapHover : stylesGuest().itemWrap,
+        onHideUnderlay: () => this.setState({isPressed: false}),
+        onShowUnderlay: () => this.setState({isPressed: true}),
+        onPress: () => this.goToSubcategories()
+    }
+    // textHoverProps = {
+    //     activeOpacity: 1,
+    //     underlayColor: colors.mainBtnGreen,
+    //     style: this.state.isPressed ?  stylesGuest().itemWrapHover : stylesGuest().itemWrap,
+    //     onHideUnderlay: () => this.setState({isPressed: false}),
+    //     onShowUnderlay: () => this.setState({isPressed: true}),
+    //     onPress: () => this.goToSubcategories()
+    // }
 }
 
 Category.propTypes = {

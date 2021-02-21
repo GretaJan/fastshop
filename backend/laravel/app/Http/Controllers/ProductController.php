@@ -15,18 +15,10 @@ class ProductController extends Controller
     {
         return $new_value === null ? $old_value : $new_value;
     }
-    public function getAllProducts($subcategory_id)
-    {
-        $subcategory = Subcategory::findOrFail($subcategory_id);
-        $products = Product::where('subcategory_id', $subcategory->id)->orderBy('name')->paginate(35);
-    
-        return response()->json($products, 200);
-    }
 
-    public function store(Request $request, $subcategory_id)
+    private function productValidation($request)
     {
-        $product = new Product();
-        $request->validate([
+        return $request->validate([
             'name' => 'required|min:3|max:50',
             'image' => ['nullable', 'regex:/^(data:image\/(\w+);base64,)|(https?)/'],
             'energy' => 'nullable|integer|min:10|digits_between: 2,6',
@@ -39,7 +31,34 @@ class ProductController extends Controller
             'salt' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
             'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
         ]);
+    }
+    public function getAllProducts($subcategory_id)
+    {
+        $subcategory = Subcategory::findOrFail($subcategory_id);
+        $products = Product::where('subcategory_id', $subcategory->id)->orderBy('name')->paginate(35);
+    
+        return response()->json($products, 200);
+    }
+
+    public function store(Request $request, $subcategory_id)
+    {
+        $product = new Product();
+        // $request->validate([
+        //     'name' => 'required|min:3|max:50',
+        //     'image' => ['nullable', 'regex:/^(data:image\/(\w+);base64,)|(https?)/'],
+        //     'energy' => 'nullable|integer|min:10|digits_between: 2,6',
+        //     'fat' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'saturated' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'carbs' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'sugar' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'fiber' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'protein' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'salt' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
+        // ]);
+        $this->productValidation($request);
         $product->subcategory_id = $subcategory_id;
+        $product->category_id = Subcategory::find($subcategory_id)->category_id;
         $product->name = $request->name;
         $product->energy = $request->energy;
         $product->fat = $request->fat;
@@ -93,19 +112,20 @@ class ProductController extends Controller
         if(!$product) {
             return response()->json(['product not found'], 404);
         }
-        $request->validate([
-            'name' => 'nullable|min:3|max:50',
-            'image' => ['nullable', 'regex:/^(data:image\/(\w+);base64,)|(https?)/'],
-            'energy' => 'nullable|integer|min:10|digits_between: 2,6',
-            'fat' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
-            'saturated' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
-            'carbs' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
-            'sugar' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
-            'fiber' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
-            'protein' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
-            'salt' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
-            'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
-        ]);
+        // $request->validate([
+        //     'name' => 'nullable|min:3|max:50',
+        //     'image' => ['nullable', 'regex:/^(data:image\/(\w+);base64,)|(https?)/'],
+        //     'energy' => 'nullable|integer|min:10|digits_between: 2,6',
+        //     'fat' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'saturated' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'carbs' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'sugar' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'fiber' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'protein' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'salt' => ['nullable', 'regex:/^\d{1,2}.\d{1,2}$/'],  // allow only decimals with dot separator
+        //     'background' => ['nullable', 'max: 20', 'regex:/^[a-zA-Z]{3,}$|#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})|rgba[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?, ?[0-9]\.?[0-9]*?[)]$|rgb[(][0-9]{1,3} ?, ?[0-9]{1,3} ?, ? [0-9]{1,3} ?[)]$/']
+        // ]);
+        $this->productValidation($request);
         $product->subcategory_id = $subcategory_id;
         $product->name = $this->verify_null_on_update($product->name, $request->name);
         $product->energy = $this->verify_null_on_update($product->energy, $request->energy);

@@ -40,9 +40,9 @@ class UserController extends Controller
         $user = new User();
         $user->email = $request->email;
         $user->save();
-        $new_account = Account::create(['user_id' => $user->id,'name' => 'default']);
-        $user->current_account = $new_account->id;
-        $user->save();
+        // $new_account = Account::create(['user_id' => $user->id,'name' => 'default']);
+        // $user->current_account = $new_account->id;
+        // $user->save();
         $tokenResult = $user->where('email', $request->email)->first()->createToken('Personal Access Token');
         $token = $tokenResult->token;
         $token->save();

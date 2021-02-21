@@ -15,40 +15,27 @@ import AsyncStorage from '@react-native-community/async-storage';
 //         ))
 // }
 export const selectProductToCalc = (selectedProducts, productId) => dispatch => {
-    // return axios.get(`${URL}/product/${subcategory}/${product}`)
-    //     .then(result => (
-    //         dispatch({
-    //             type: PRODUCT_SELECTED,
-    //             payload: result.data,
-    //             result: {},
-    //         })
-    //     ))
-   console.log("IDDD:: ", productId)
     const existInSelected = selectedProducts.length == 0 ? [] : selectedProducts.find(item => item.id == productId);
     if(!existInSelected || existInSelected.length == 0){
-        AsyncStorage.getItem("persist:root").then((value) => {
+        return AsyncStorage.getItem("persist:root").then((value) => {
             let root = JSON.parse(value);
                 let productsReducer = JSON.parse(root.products);
                 let products = productsReducer.products;
                 let getProduct = products.find(item => item.id == productId);
-                console.log(getProduct)
                 dispatch({
                     type: PRODUCT_SELECTED,
                     payload: getProduct,
-                    result: {},
                     error: ''
                 })
-        }).catch(() => {
-            dispatch({
-                type: PRODUCT_SELECTED_ERROR,
-                error: 'Error occurred. Please try again.',
-            })
+        }).catch((error) => {
+            console.log("error", error)
+            const message = 'Error occurred. Please try again.';
+            return message;
         });
     }
 }
 
 export const removeProductFromSelected = (productId) => dispatch => {
-    console.log(productId)
     return dispatch({
         type: REMOVE_SELECTED_PRODUCT,
         payload: productId
@@ -151,6 +138,7 @@ function splitComponents(component){
     return {
         id: component.id,
         subcategory_id: component.subcategory_id,
+        category_id: component.category_id,
         name: component.name,
         image: component.image,
         energy: energy,

@@ -1,53 +1,113 @@
 import { 
     URL,
     LIKE_PRODUCT,
-    LIKE_PRODUCT_ERROR,
+    UNLIKE_PRODUCT,
     GET_LIKED_PRODUCTS,
     GET_LIKED_PRODUCTS_ERROR
 } from './types';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
-function likeFuncOnline(dispatch, subcategoryId, productId, token){
-    console.log("token", token)
-    axios.get(`${URL}/like-product/${subcategoryId}/${productId}`, {
+function likeProductLocalStorageFunc(productId, bool){
+    AsyncStorage.getItem("persist:root").then((value) => {
+        let root = JSON.parse(value);
+        let productsReducer = JSON.parse(root.products);
+        let products = productsReducer.products;
+        let index = products.map(item => item.id).indexOf(productId);
+        let product = products.filter(item => item.id == productId);
+        let modifiedProduct = {...product[0]};
+        modifiedProduct.isLiked = bool;
+        products.splice(index, 1, modifiedProduct);
+        return products;
+    }).catch(() => {
+        return false
+    })
+}
+
+function likeFuncOnline(dispatch, categoryId, productId, token){
+    return axios.get(`${URL}/like-product/${categoryId}/${productId}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }, { withAuthorization: true })
-        .then((response) => {
-            console.log("response", response)
-            dispatch({
-                type: LIKE_PRODUCT,
-                payload: response.data
-            })
-        }).catch(error => {
-            console.log(error.response)
-            const errorResp =  error.response;
+        .then( () => {
+            const productsArray = likeProductLocalStorageFunc(productId, true) // replace product from original products array (isLiked attribute)
+            if(productsArray)
+                dispatch({
+                    type: LIKE_PRODUCT,
+                    productId: productId,
+                    array: productsArray
+                })
+        }).catch((error) => {
+            const errorResp = error.response;
             let message = '';
-            if(errorResp && errorResp.status != 401){
+            if(errorResp && errorResp.status == 400){
                 message = errorResp.data;
+            } else {
+                message = 'Error occurred. Please try again.';
             }
-            message = 'Error occurred. Please try again.';
-            dispatch({
-                type: LIKE_PRODUCT_ERROR,
-                payload: message
-            })
+            return message;
         })
 }
 
-function likeFuncOffline(dispatch, accountId, productId, subcategoryId){
+function likeFuncOffline(dispatch, productId){
    //or if offline
-   dispatch({
-        account_id: accountId,
-        product_id: productId,
-        subcategory_id: subcategoryId
-    })
+   const productsArray = likeProductLocalStorageFunc(productId, true) // replace product from original products array (isLiked attribute)
+    if(productsArray){
+        dispatch({
+            type: LIKE_PRODUCT,
+            productId: productId,
+            array: productsArray
+        })
+    }
 }
 
 
-export const likeProduct = (subcategoryId, productId, token, accountId, isOnline) => dispatch => {
-    if(isOnline) likeFuncOnline(dispatch, subcategoryId, productId, token)
-        else likeFuncOffline(dispatch, accountId, productId, subcategoryId)
+export const likeProduct = (categoryId, productId, token, isOnline) => dispatch => {
+    if(isOnline) return likeFuncOnline(dispatch, categoryId, productId, token)
+        else return likeFuncOffline(dispatch, productId, categoryId)
+}
+
+function unlikeFuncOnline(dispatch, productId, token){
+    axios.get(`${URL}/unlike-product/${productId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }, { withAuthorization: true })
+        .then( () => {
+            const productsArray = likeProductLocalStorageFunc(productId, false) // replace product from original products array (isLiked attribute)
+            if(productsArray)
+                dispatch({
+                    type: UNLIKE_PRODUCT,
+                    productId: productId,
+                    array: productsArray
+                })
+        }).catch((error) => {
+            const errorResp = error.response;
+            let message = '';
+            if(errorResp && errorResp.status != 401){
+                message = errorResp.data;
+            } else {
+                message = 'Error occurred. Please try again.';
+            }
+            console.log("message: ", message);
+        })
+}
+
+function unlikeFuncOffline(dispatch, productId){
+    const productsArray = likeProductLocalStorageFunc(productId, false) // replace product from original products array (isLiked attribute)
+    if(productsArray){
+        dispatch({
+            type: UNLIKE_PRODUCT,
+            product_id: productId,
+            array: productsArray
+        })
+    }
+}
+
+export const unlikeProduct = (productId, token, isOnline) => dispatch => {
+    if(isOnline) unlikeFuncOnline(dispatch, productId, token)
+        else unlikeFuncOffline(dispatch, productId)
 }
 
 
@@ -77,12 +137,12 @@ function getLikedProductsOnline(dispatch, categoryId){
         })
 }
 
-function getLikedProductsOffline(dispatch, categoryId, accountId){
+function getLikedProductsOffline(dispatch, categoryId){
     AsyncStorage.getItem("persist:root").then((value) => {
         let root = JSON.parse(value);
             let productsReducer = JSON.parse(root.products);
             let products = productsReducer.likedProducts;
-            let likedProducts = products.filter(item => (item.category_id == categoryId && item.account_id == account));
+            let likedProducts = products.filter(item => item.category_id == categoryId);
             console.log('likedProducts: ', likedProducts)
             dispatch({
                 type: GET_LIKED_PRODUCTS,
@@ -96,8 +156,7 @@ function getLikedProductsOffline(dispatch, categoryId, accountId){
         });
 }
 
-export const getLikedProducts = (categoryId, accountId, isOnline) => dispatch => {
+export const getLikedProducts = (categoryId, isOnline) => dispatch => {
     if(isOnline) getLikedProductsOnline(dispatch, categoryId)
-        else getLikedProductsOffline(dispatch, categoryId, accountId)
-      
+        else getLikedProductsOffline(dispatch, categoryId)
 }

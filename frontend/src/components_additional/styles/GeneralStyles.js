@@ -195,14 +195,14 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
     },
     modalWrapContainer: {
         position: 'absolute',
-        zIndex: 40,
+        zIndex: 41,
         flex: 1,
         width: Dimensions.get('window').width /1,
         minHeight: Dimensions.get('window').height /1 - 85 - (Platform === "ios" ? 64 : 56),
         alignItems: 'center',
         backgroundColor: colors.transparentLight,
-        top: Platform === "ios" ? 64 : 56,
-        // paddingTop: Dimensions.get('window').height /6,
+        justifyContent: 'center',
+        // top: Platform === "ios" ? 64 : 56,
     },
     modalWrapNoColor: {
         position: 'absolute',
@@ -215,7 +215,6 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
     animatedContainer: {
         paddingVertical: 18,
         paddingHorizontal: '10%',
-        backgroundColor: 'red',
         borderColor: colors.mainBtnOrange,
         width: wideComp ? Dimensions.get('window').width /1.1 : Dimensions.get('window').width /1.4,
         top: Dimensions.get('window').height /7.4,
@@ -224,6 +223,33 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
         position: 'absolute',
         zIndex: 50,
         alignSelf: 'center',
+        // Shadow
+        elevation   : 1,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
+        backgroundColor: colors.transparentLight,
+         transform: [
+             { scale: scale }
+         ]
+    },
+    animatedContainerFull: {
+        borderColor: colors.mainBtnOrange,
+        width: Dimensions.get('window').width /1.1,
+        height: Dimensions.get('window').height /1.7,
+        paddingHorizontal: 20,
+        position: 'absolute',
+        paddingBottom: 7,
+        display: 'flex',
+        // alignItems: 'stretch',
+        justifyContent: 'space-between',
+        // alignContent: 'space-between',
+        // justifyContent: 'center',
+        // alignContent: 'center',
+        zIndex: 50,
         // Shadow
         elevation   : 1,
         overflow: 'hidden',
@@ -245,15 +271,9 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
         borderColor: colors.mainBtnOrange,
         width: Dimensions.get('window').width /1.8,
         position: 'absolute',
-        // left: Dimensions.get('window').width /1 - locationX,
         left: locationX,
-        // top: Dimensions.get('window').height /1 - locationY,
-        bottom: Dimensions.get('window').height /1 - locationY,
-        // top: Dimensions.get('window').height /7.4,
-        // justifyContent: 'center',
-        // alignItems: 'center',
+        top: locationY,
         zIndex: 50,
-        // alignSelf: 'center',
         // Shadow
         elevation   : 1,
         overflow: 'hidden',

@@ -49,25 +49,27 @@ class ProductTest extends TestCase
         $response = $this->getJson("/api/product/$product->id");
         $response->assertOk();
     }
-    // /** @test */
-    // public function product_can_be_created()
-    // {
-    //     $this->withoutExceptionHandling();
-    //     $this->postJson('/api/addCategory', [
-    //         'name' => 'Category'
-    //     ]);
-    //     $category = Category::first();
-    //     $this->setUpUser(1);
-    //     $this->postJson('/api/addSubcategory/' . $category->id, [
-    //         'name' => 'Subcategory'
-    //     ], $this->auth_headers);
-    //     $subcategory = Subcategory::first();
-    //     $response = $this->postJson('/api/addProduct/'. $subcategory->id, [
-    //         'name' => 'Product'
-    //     ], $this->auth_headers);
-    //     $response->assertStatus(201);
-    //     $this->assertCount(1, Product::all());
-    // }
+    /** @test */
+    public function product_can_be_created()
+    {
+        $this->withoutExceptionHandling();
+        $this->setUpUser(1);
+        $this->postJson('/api/addCategory', [
+            'name' => 'Category'
+        ], $this->auth_headers);
+        $category = Category::first();
+        $this->postJson('/api/addSubcategory/' . $category->id, [
+            'name' => 'Subcategory'
+        ], $this->auth_headers);
+        $subcategory = Subcategory::first();
+        $response = $this->postJson('/api/addProduct/'. $subcategory->id, [
+            'name' => 'Product'. rand(2, 7),
+            'energy' => 750,
+            'fat' => 9.20
+        ], $this->auth_headers);
+        $response->assertStatus(201);
+        $this->assertCount(1, Product::all());
+    }
     // /** @test */
     // public function product_name_required()
     // {

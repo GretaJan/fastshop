@@ -13,15 +13,10 @@ import TempPopup from './TempPopup';
 const { modalAnimations } = require('../styles/Animations.js');
 
 function loginFunc(passedUrl, data){
-
+    console.log("DATA send : data", data)
     return axios.post(`${ URL }/${passedUrl}`, data).then(response => {
-        // console.log("OKKK", response)
-        // const data = {
-        //     token
-        // }
         return response.data;
     }).catch(err => {
-        console.log("OKKK", err.response)
         const errorResp = err.response
         let currentError;
         if(errorResp){
@@ -92,7 +87,9 @@ function Register({ saveUserToken, refreshPage, close }){
             email: email,
             password: code
         }
+        console.log("email ldata: ", sendData)
         const data = await loginFunc('login-user', sendData)
+        console.log("DATA:: ", data)
         if(data.token) {
             saveUserToken(data.token, data.user);
             refreshPage();

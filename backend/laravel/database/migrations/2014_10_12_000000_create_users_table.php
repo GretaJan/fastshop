@@ -15,8 +15,6 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('current_account')->unsigned()->nullable();
-            $table->foreign('current_account')->references('id')->on('accounts')->onDelete('cascade');
             $table->boolean('isAdmin')->default(0);
             $table->string('name')->nullable();
             $table->string('email')->unique();

@@ -12,42 +12,41 @@ const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 function ActionIcon({ mainIcon, activeIcon, activeColor, activeColorSec, isActive, activateFunc, deactivateFunc, errorCondition, errorFunc}){
     const buttonRef = useRef(null);
     const [rotationDegrees, setRotationDegrees] = useState('0deg');
-    const [backgroundColor, setBackgroundColor] = useState(null);
+    const [backgroundColor, setBackgroundColor] = useState('#e5e9ee');
     const rotateBtn = useState(new Animated.Value(0))[0];
     const scaleActive = useRef(new Animated.Value(0)).current;
     const scaleInactive = useRef(new Animated.Value(0)).current;
     const toActiveTransition = useRef(new Animated.Value(-30)).current;
 
-    useEffect(() => {
-        console.log("active?", isActive)
+    useEffect( () => {
         if(isActive){
-            console.log("YEASSS")
             setRotationDegrees('180deg')
-            scaleActive.setValue(1)
-            toActiveTransition.setValue(0)
             setBackgroundColor(activeColorSec)
+            scaleActive.setValue(1)
+            toActiveTransition.setValue(0)           
         } else {
             scaleInactive.setValue(1)
         }
     },[])
+    
     function activateBtn(){
-        console.log("active", errorCondition)
         if(errorCondition) errorFunc(buttonRef.current)
             else {
-                activateFunc(buttonRef.current)
-                callAnimation(productAnimations.btnAnimationToActive, rotateBtn, scaleActive, toActiveTransition, setRotationDegrees, '180deg')
-                setTimeout(() => {
-                    setBackgroundColor(activeColorSec)
-                },10)
+                const success = activateFunc(buttonRef.current)
+                if(success){
+                    callAnimation(productAnimations.btnAnimationToActive, rotateBtn, scaleActive, toActiveTransition, setRotationDegrees, '180deg')
+                    setTimeout(() => {
+                        setBackgroundColor(activeColorSec)
+                    }, 1)
+                }
             }
-      
     }
+
     function deactivateBtn(){
-        console.log("deactive")
         deactivateFunc()
         callAnimation(productAnimations.btnAnimationToInactive, rotateBtn, scaleInactive, scaleActive, setRotationDegrees, '180deg')
         setTimeout(() => {
-            setBackgroundColor(null)
+            setBackgroundColor('#e5e9ee')
         },10)
     }
 

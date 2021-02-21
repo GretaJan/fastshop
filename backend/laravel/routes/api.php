@@ -53,9 +53,13 @@ Route::group([
     Route::delete('/deleteProduct/{product}', 'ProductController@destroy');
 
     //User routes
-    Route::get('/like-product/{subcategory_id}/{product_id}', 'UserProductController@likeProduct');
+    Route::get('/like-product/{category_id}/{product_id}', 'UserProductController@likeProduct');
     Route::get('/unlike-product/{product_id}', 'UserProductController@unlikeProduct');
     Route::get('/get-personal-favorites/{category_id}', 'UserProductController@getPersonalFavorites');
     Route::get('/get-top-favorites/{category_id}', 'UserProductController@getTopFavorites');
+    //USER Products LIST
+    Route::post('/update-create-checklist', 'UserProductController@updateCreateBuyList');
+    Route::post('/get-buy-lists', 'UserProductController@getBuyListsBuyDate');
+    Route::get('/get-buy-list/{id}', 'UserProductController@getSingleBuyList');
 });
 

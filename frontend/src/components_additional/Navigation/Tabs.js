@@ -24,11 +24,12 @@ import ConfirmModal from '../../components_additional/models/ModalCrud';
 import { GuestNavigationScreens } from './GuestUserComponents';
 import { AdminNavigationScreens } from './AdminComponents';
 import { CalculatorScreen } from './CalculatorComponents';
-import { Router } from 'react-router-native';
+import { SettingsScreen } from './UserSettings';
 
 
 function Tabs({ 
     token,
+    user,
     dataUploaded,
     importAppData,
     dataUploadDate,
@@ -45,7 +46,6 @@ function Tabs({
     const routeNameRef = useRef();
 
     useEffect( () => {
-
          NetInfo.fetch().then(state => {
             if(state.isConnected){
                 const currentDate = new Date();
@@ -108,7 +108,7 @@ function Tabs({
                     horizontal={20} vertical={15}
                 /> )} */}
                 <NavigationContainer>
-                    {(token) ? (
+                    {(!token) ? (
                         <Tabs.Navigator tabBarOptions={{
                             style: { 
                                 backgroundColor: colors.mainBlack,
@@ -151,32 +151,52 @@ function Tabs({
                             />
                         </Tabs.Navigator>           
                     ) : (
-                        <Tabs.Navigator tabBarOptions={{
-                            style: { 
-                                backgroundColor:  colors.titleBlack,
-                                height: 60,
-                            } }}>
-                            <Tabs.Screen name="Dashboard" component={AdminNavigationScreens} 
-                                options = {{
-                                    tabBarLabel: () => (null),
-                                    tabBarIcon: () => (
-                                        <Icon name="list-alt" style={styles().iconItem} />
-                                    )}
-                            } />
-                            <Tabs.Screen name="Logout" component={null} component={ Categories }
-                                options = {{ 
-                                    tabBarLabel: () => (null),
-                                    tabBarIcon: () => (
-                                        <Icon name="sign-out" style={styles().iconItem} />
-                                    )}
-                                }
-                                listeners={
-                                    { tabPress: () => (
-                                        logOut(token)
-                                    )}
-                                }                 
-                            />
-                        </Tabs.Navigator> 
+                        user.isAdmin === 0 ? (
+                            <Tabs.Navigator 
+                                tabBarOptions={{
+                                    style: { 
+                                        backgroundColor:  colors.titleBlack,
+                                        height: 60,
+                                } }}>
+                                <Tabs.Screen 
+                                    name="Settings"
+                                    component={ SettingsScreen }
+                                    options = {{
+                                        tabBarLabel: () => (null),
+                                        tabBarIcon: () => (
+                                            <Icon name="list-alt" style={styles().iconItem} />
+                                        )
+                                    }}
+                                /> 
+                            </Tabs.Navigator>
+                        ) : (
+                            <Tabs.Navigator tabBarOptions={{
+                                style: { 
+                                    backgroundColor:  colors.titleBlack,
+                                    height: 60,
+                                } }}>
+                                <Tabs.Screen name="Dashboard" component={AdminNavigationScreens} 
+                                    options = {{
+                                        tabBarLabel: () => (null),
+                                        tabBarIcon: () => (
+                                            <Icon name="list-alt" style={styles().iconItem} />
+                                        )}
+                                } />
+                                <Tabs.Screen name="Logout" component={null} component={ Categories }
+                                    options = {{ 
+                                        tabBarLabel: () => (null),
+                                        tabBarIcon: () => (
+                                            <Icon name="sign-out" style={styles().iconItem} />
+                                        )}
+                                    }
+                                    listeners={
+                                        { tabPress: () => (
+                                            logOut(token)
+                                        )}
+                                    }                 
+                                />
+                            </Tabs.Navigator> 
+                        )
                     )}
                 </NavigationContainer> 
                 { registerModel && (
