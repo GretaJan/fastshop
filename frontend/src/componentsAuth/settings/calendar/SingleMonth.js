@@ -5,32 +5,21 @@ import { textStyle } from '../../../components_additional/styles/GeneralStyles';
 import { stylesGuest } from '../../../components_additional/styles/SubcategoryStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function Month({ month, currentDay }){
-    const dayNames = ['Pr', 'A', 'T', 'K', 'Pn', 'Š', 'S'];
-    // console.log("moooonthg", month.days)
+function Month({ month, currentDay, isCurrentCondition }){
+
     return (
-        <View>
-            <FlatList 
-                contentContainerStyle={ stylesGuest().horizontalWrap } 
-                numColumns={7} 
-                keyExtractor={(item, index) => index.toString()}
-                data={ dayNames }
-                renderItem={( dayName, index ) => (
-                    <View style={ calendarStyles().dayWrap }>
-                        <Text style={ textStyle().h2 }>{ dayName.item }</Text>
-                    </View>
-                ) }
-            />
+        <View> 
              <FlatList 
                 contentContainerStyle={stylesGuest().horizontalWrap} 
                 numColumns={7} 
                 keyExtractor={(item, index) => index.toString()}
                 data={ month.days }
-                renderItem={( day ) => (
-                    <View style={ (day.item.current) ?
+                renderItem={({ item }) => (
+                    <View style={ (isCurrentCondition && currentDay) ?
                         calendarStyles().currentDayMarker : calendarStyles().dayWrap }>
-                        <Text style={ textStyle().h4 }>{ day.item.day }</Text>
+                        <Text style={ textStyle().h4 }>{ item }</Text>
                     </View>
                 )}
             /> 
@@ -53,6 +42,7 @@ function Month({ month, currentDay }){
                     </View>
                 )}
             />  */}
+            <TouchableOpacity onPress={ () => func(reff) }><Text>kliiiiickk: {currentDay}</Text></TouchableOpacity>
             <Text><IonIcon name="ios-restaurant" /></Text>
             <Text><MaterialIcon name="silverware-fork-knife" /></Text>
         </View>

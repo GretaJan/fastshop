@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import { Dimensions } from 'react-native';
 
-export const calendarStyles = (yearWidth) => StyleSheet.create({
+export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
     calculatorMainContainer: {
         width: Dimensions.get('window').width,
         position: 'relative',
@@ -54,14 +54,18 @@ export const calendarStyles = (yearWidth) => StyleSheet.create({
         width: Dimensions.get('window').width / 7,
         backgroundColor: colors.textGrey,
     },
-    calendarMonthWrap: {
+    flatlistWrap: {
         alignItems: 'flex-start',
-        width: yearWidth,
-        display: 'flex',
+        width: widthOrtranslate
+    },
+    calendarMonthWrapStyle: {
+        // transform: [
+        //     { translateX:  widthOrtranslate }
+        // ],
+        backgroundColor: 'red',
+        // display: 'flex',
     },
     dayWrap: {
-        // width: Dimensions.get('window').width / 7 - (20/7),
-        // height: Dimensions.get('window').width / 7 - (20/7),
         width: Dimensions.get('window').width / 7,
         height: Dimensions.get('window').width / 7,
         textAlign: 'center',

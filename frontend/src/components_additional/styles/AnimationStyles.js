@@ -39,10 +39,12 @@ export const animations = (scale, translate) => StyleSheet.create({
         ],
     },
     calendarAnimation: {
-        alignItems: 'flex-start',
+        // alignItems: 'flex-start',
+        position: 'absolute',
+        top: 120,
         width: scale, //scale represents calendar width
         transform: [
-            { translateX: -translate }
+            { translateX: translate }
         ],
     },
 })
