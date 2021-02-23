@@ -298,6 +298,7 @@ var calendarAnimations = {
         ]).start()
     },
     translateContainerBack(translationItem, translateTo){
+        console.log("translate to: ", translateTo)
             Animated.timing(translationItem, {
                 toValue: translateTo,
                 delay: 0,

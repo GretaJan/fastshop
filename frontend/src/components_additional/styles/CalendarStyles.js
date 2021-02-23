@@ -7,20 +7,6 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         width: Dimensions.get('window').width,
         position: 'relative',
     },
-    // calculatorMainContainer: {
-    //     // justifyContent: 'center',
-    //     // height: '100%',
-    // },
-    // calculatorInnerContainer: {
-    //     // height: Dimensions.get('window').height /1.6,
-    //     // justifyContent: 'center',
-    // },
-    horizontalWrapWeek: {
-        alignItems: 'flex-start',
-    },
-    horizontalWrapMonth: {
-        alignItems: 'flex-start',
-    },
     rowContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -30,7 +16,6 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         borderLeftWidth: 1,
         borderRightWidth: 1,
         borderColor: colors.transparentLight,
-        // width: Dimensions.get('window').width - (20/7),
         width: Dimensions.get('window').width,
     },
     arrowShort: {
@@ -40,7 +25,6 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         fontSize: 30,
     },
     iconMainWrap: {
-        // width: Dimensions.get('window').width / 7 - (20/7) + Dimensions.get('window').width / 7 - (20/7), 
         width: Dimensions.get('window').width / 7 + Dimensions.get('window').width / 7, 
         flexDirection: 'row',
         alignItems: 'center',
@@ -50,20 +34,21 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        // width: Dimensions.get('window').width / 7 - (20/7),
         width: Dimensions.get('window').width / 7,
         backgroundColor: colors.textGrey,
     },
-    flatlistWrap: {
-        alignItems: 'flex-start',
-        width: widthOrtranslate
+    calendarWrap: {
+        width: Dimensions.get('window').width,
+        flexDirection: 'row',
+        overflow: 'hidden'
     },
-    calendarMonthWrapStyle: {
-        // transform: [
-        //     { translateX:  widthOrtranslate }
-        // ],
-        backgroundColor: 'red',
-        // display: 'flex',
+    calendarWrapInner: {
+        // width: widthOrtranslate,
+        // top: Dimensions.get('window').width / 7,
+        flexDirection: 'row',
+        transform: [
+            { translateX: widthOrtranslate }
+        ],
     },
     dayWrap: {
         width: Dimensions.get('window').width / 7,
@@ -75,8 +60,6 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         borderWidth: 1,
     },
     currentDayMarker: {
-        // width: Dimensions.get('window').width / 7 - (20/7),
-        // height: Dimensions.get('window').width / 7 - (20/7),
         width: Dimensions.get('window').width / 7,
         height: Dimensions.get('window').width / 7,
         textAlign: 'center',
