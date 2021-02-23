@@ -43,13 +43,12 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         overflow: 'hidden'
     },
     calendarWrapInner: {
-        // width: widthOrtranslate,
-        // top: Dimensions.get('window').width / 7,
         flexDirection: 'row',
         transform: [
             { translateX: widthOrtranslate }
         ],
     },
+    //single month style
     dayWrap: {
         width: Dimensions.get('window').width / 7,
         height: Dimensions.get('window').width / 7,
@@ -68,5 +67,14 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         borderColor: colors.transparentLight,
         borderWidth: 1,
         backgroundColor: 'rgba(50, 189, 129, .5)',
+    },
+    listMarkerIcon: {
+        position: 'absolute',
+        top: Dimensions.get('window').width / 45,
+        right: Dimensions.get('window').width / 45,
+        fontSize: 20,
+        transform: [
+            { translateY: widthOrtranslate }
+        ]
     }
 })

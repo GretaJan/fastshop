@@ -39,16 +39,9 @@ export const animations = (scale, translate) => StyleSheet.create({
         ],
     },
     calendarAnimation: {
-        // position: 'absolute',
-        // top: 120,
         width: scale, //scale represents calendar width
         transform: [
             { translateX: translate }
         ],
     },
-    // calendarAnimationWrap: {
-    //     overflow: 'absolute',
-    //     width: Dimensions.get('window').width,
-    //     backgroundColor: 'red'
-    // }
 })

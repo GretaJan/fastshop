@@ -17,6 +17,22 @@ const heightAnimation = () => {
     })
 }
 
+const screenAnimation = (translateTo) => ({
+    toValue: translateTo,
+    delay: 0,
+    duration: 400,
+    easing: Easing.linear,
+    useNativeDriver: true,
+})
+
+const translateZeroOptions = {
+    toValue: 0,
+    delay: 0,
+    duration: 300,
+    easing: Easing.linear,
+    useNativeDriver: true,
+}
+
 var comparisonAnimations = {
     pulsingBtn(scale, active) {
         Animated.sequence([
@@ -165,13 +181,7 @@ var comparisonAnimations = {
     },
     optionBtnsShow(translate, func){
         Animated.sequence([
-            Animated.timing(translate, {
-                toValue: 0,
-                delay: 0,
-                duration: 300,
-                easing: Easing.linear,
-                useNativeDriver: true,
-            }),
+            Animated.timing(translate, translateZeroOptions),
         ]).start(() => {
             func()
         })
@@ -286,25 +296,11 @@ var productAnimations = {
 }
 
 var calendarAnimations = {
-    translateContainerForward(translationItem, translateTo){
-        Animated.sequence([
-            Animated.timing(translationItem, {
-                toValue: translateTo,
-                delay: 0,
-                duration: 400,
-                easing: Easing.linear,
-                useNativeDriver: true,
-            }),
-        ]).start()
+    translateContainer(translationItem, translateTo){
+        Animated.timing(translationItem, screenAnimation(translateTo)).start()
     },
-    translateContainerBack(translationItem, translateTo){
-        console.log("translate to: ", translateTo)
-            Animated.timing(translationItem, {
-                toValue: translateTo,
-                delay: 0,
-                duration: 400,
-                useNativeDriver: true,
-            }).start()
+    translateDayIcon(translate){
+        Animated.timing(translate, translateZeroOptions).start()
     }
 }
 
