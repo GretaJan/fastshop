@@ -10,7 +10,6 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { containerStyles } from '../../components_additional/styles/GeneralStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
-import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
 
 //Components
@@ -18,6 +17,7 @@ import Product from './ProductList';
 import Loading from '../../components_additional/models/Loading';
 import EmptyList from '../../components_additional/models/EmptyList';
 import Modal from '../../components_additional/models/Modal';
+import SearchBar from '../../components_additional/models/SearchBar';
 
 class Products extends Component {
     state = {
@@ -63,16 +63,6 @@ class Products extends Component {
                 searchName: searchName
             })
         }
-    }
-
-    getInput = () => {
-        return (
-            <View style={searchBar().searchBarContainer} >
-                <Icon style={searchBar().searchBarIcon} name="search" onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
-                { this.state.showSearchInput && 
-                    <TextInput style={searchBar().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
-            </View>
-        )
     }
 
     callModal = (activeBtn, msg) => {
@@ -133,7 +123,10 @@ class Products extends Component {
                                     horizontal={20} vertical={10}
                                 />
                             )}
-                            {this.getInput()}
+                            <SearchBar 
+                                func={ (value) => this.findFunction(value) }
+                                parentValue={ this.state.searchName }
+                            />
                             {(this.props.products.length == 0) ? (
                                     <EmptyList message="The List is empty" background={background} />
                                 ) : (

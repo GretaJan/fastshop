@@ -93,3 +93,49 @@ export const fullModal = () => StyleSheet.create({
         zIndex: 1,
     }
 })
+
+export const searchBar = () =>  StyleSheet.create({
+    searchBarContainer: {
+        flexDirection: 'row',
+        marginBottom: 25,
+        height: 50,
+        alignItems: 'center',
+        backgroundColor: colors.mainWhiteGrey,
+        borderColor: colors.darkerGray,
+        borderWidth: 1,
+        borderRadius: 2,
+    },
+    iconWrap: {
+        height: 49,
+        width: 49,
+        borderRightColor: colors.mainGrey,
+        borderRightWidth: 1,
+    },
+    searchBarIcon: {
+        fontSize: 22,
+        alignSelf: 'center',
+        top: 14,
+    },
+    searchBarInput: {
+        width: '75%',
+        fontSize: 18,
+        textAlign: 'left',
+        paddingLeft: 12
+    },
+    searchBarInputInSelected: {
+        marginLeft: 15,
+        fontSize: 16,
+        marginTop: 5,
+    },
+    animatedWrap: {
+        width: 60,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: colors.mainGreyTransparent,
+        borderLeftWidth: 1,
+    },
+    removeList: {
+        fontSize: 40,
+    }
+});

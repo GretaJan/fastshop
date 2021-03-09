@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 import { getSubcategories } from '../../redux/actions/subcategoryActions';
 import { closeErrorWarning } from '../../redux/actions/generalActions';
 import { withNavigation } from 'react-navigation';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { stylesGuest } from '../../components_additional/styles/SubcategoryStyles';
 import { containerStyles } from '../../components_additional/styles/GeneralStyles';
-import { searchBar } from '../../components_additional/styles/AdditionalStyles';
+// import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
 
@@ -17,6 +16,7 @@ import Subcategory from './Subcategory';
 import Loading from '../../components_additional/models/Loading';
 import EmptyList from '../../components_additional/models/EmptyList';
 import Modal from '../../components_additional/models/Modal';
+import SearchBar from '../../components_additional/models/SearchBar';
 
 class Subcategories extends Component {
     state = {
@@ -60,16 +60,6 @@ class Subcategories extends Component {
         }
     }
     
-    getInput = () => {
-        return (
-            <View style={searchBar().searchBarContainer} >
-                <Icon style={searchBar().searchBarIcon} name="search" onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
-                { this.state.showSearchInput && 
-                    <TextInput style={searchBar().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.searchFunction(value)} value={this.state.searchName} />}
-            </View>
-        )
-    }
-    
     goToProducts = (item) => {
         this.props.navigation.push("Products", {subcategoryId: item.id, name: item.name, background: item.background});
   
@@ -97,7 +87,10 @@ class Subcategories extends Component {
                         </View>
                     )}
                         <View style={containerStyles(background).simpleContainer}>
-                        {this.getInput()}
+                            <SearchBar 
+                                func={ (value) => this.searchFunction(value) }
+                                parentValue={ this.state.searchName }
+                            />
                             {(this.props.subcategories.length === 0) ? (
                                 <EmptyList message="The List is empty" background={background} />
                             ) : (

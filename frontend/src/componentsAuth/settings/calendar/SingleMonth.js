@@ -1,23 +1,17 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, FlatList, Animated } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, FlatList, Animated, TouchableOpacity } from 'react-native';
 import { calendarStyles } from '../../../components_additional/styles/CalendarStyles';
 import { textStyle } from '../../../components_additional/styles/GeneralStyles';
 import { stylesGuest } from '../../../components_additional/styles/SubcategoryStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { calendarAnimations } = require('../../../components_additional/styles/Animations');
 
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
-function Month({ month, currentDay, isCurrentCondition }){
-    const translateIcon = useRef(new Animated.Value(-30)).current;
-
-    useEffect(() => {
-        calendarAnimations.translateDayIcon(translateIcon);
-    }, [])
-
+function Month({ month, currentDay, currentYear, isCurrentCondition, listsArray, goToInnerPage }){
+ 
     return (
         <View> 
              <FlatList 
@@ -26,24 +20,56 @@ function Month({ month, currentDay, isCurrentCondition }){
                 keyExtractor={(item, index) => index.toString()}
                 data={ month.days }
                 renderItem={({ item }) => (
-                    <View style={ (isCurrentCondition && currentDay == item) ?
-                        calendarStyles().currentDayMarker : calendarStyles().dayWrap }
-                        key={ item } >
-                        <Text style={ textStyle().h4 }>{ item }</Text>
-                        <AnimatedIonIcon 
-                            name="ios-restaurant" 
-                            style={ calendarStyles(translateIcon).listMarkerIcon } 
-                        />
-                        {/* <MaterialIcon 
-                            name="silverware-fork-knife" 
-                            style={ calendarStyles().listMarkerIcon } 
-                        /> */}
-                    </View>
-                )}
+                    <Day 
+                        key={ item }
+                        item={ item }
+                        month={ month }
+                        currentYear={ currentYear }
+                        currentDay={ currentDay }
+                        isCurrentCondition={ isCurrentCondition }
+                        listsArray={ listsArray }
+                        goToInnerPage={ goToInnerPage }
+                    />
+                )
+            }
             /> 
-            <TouchableOpacity onPress={ () => func(reff) }><Text>kliiiiickk: {currentDay}</Text></TouchableOpacity>
         </View>
     )
 }
 
-export default(Month)
+function Day({ item, month, isCurrentCondition, currentYear, currentDay, listsArray, goToInnerPage }){
+    const translateIcon = useRef(new Animated.Value(-30)).current;
+    const [hasList, setHasList] = useState(null);
+    const screenDate = `${currentYear}-${month.name}`;
+
+    useEffect(() => {
+        calendarAnimations.translateDayIcon(translateIcon);
+        checkIfDayHasList(item)
+    }, [])
+
+    return (
+        <TouchableOpacity style={ (isCurrentCondition && currentDay == item) ?
+            calendarStyles().currentDayMarker : calendarStyles().dayWrap }
+            onPress={ () => goToInnerPage(screenDate, item) }
+        >
+            <Text style={ textStyle().h4 }>{ item }</Text>
+            { hasList && (
+                <AnimatedIonIcon 
+                    name="ios-restaurant" 
+                    style={ calendarStyles(translateIcon).listMarkerIcon } 
+                />
+            ) }
+            {/* <MaterialIcon 
+                name="silverware-fork-knife" 
+                style={ calendarStyles().listMarkerIcon } 
+            /> */}
+        </TouchableOpacity>
+    )
+
+    function checkIfDayHasList(day){
+        const existsDate = listsArray.find(item => item.years == screenDate && item.day == day)
+        if(existsDate) setHasList(true)
+    }
+}
+
+export default Month

@@ -9,7 +9,7 @@ const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 const AnimatedMaterialIcon = Animated.createAnimatedComponent(MaterialIcon);
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
-function ActionIcon({ mainIcon, activeIcon, activeColor, activeColorSec, isActive, activateFunc, deactivateFunc, errorCondition, errorFunc}){
+function ActionIcon({ mainIcon, activeIcon, activeColor, activeColorSec, isActive, activateFunc, deactivateFunc, errorCondition, errorFunc }){
     const buttonRef = useRef(null);
     const [rotationDegrees, setRotationDegrees] = useState('0deg');
     const [backgroundColor, setBackgroundColor] = useState('#e5e9ee');

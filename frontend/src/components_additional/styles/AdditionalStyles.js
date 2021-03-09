@@ -3,51 +3,6 @@ import {Dimensions} from 'react-native';
 import { colors } from './Colors';
 import {Platform} from 'react-native';
 
-export const searchBar = () =>  StyleSheet.create({
-    searchBarContainer: {
-        flexDirection: 'row',
-        top: 0,
-        marginBottom: 14,
-    },
-    searchBarIcon: {
-        width: 'auto',
-        paddingTop: 10,
-        paddingRight: 10,
-        paddingBottom: 5,
-        marginBottom: 10,
-        fontSize: 20,
-        marginLeft: 5,
-    },
-    searchBarInput: {
-        position: 'absolute',
-        width: '85%',
-        marginLeft: 35,
-        borderBottomColor: '#000',
-        borderBottomWidth: 2,
-        paddingBottom: -20,
-        marginTop: 0,
-        marginBottom: 30,
-        fontSize: 14
-    },
-    // Selected Products
-    searchBarInputInSelected: {
-        position: 'absolute',
-        width: '75%',
-        left: 80,
-        borderBottomColor: '#000',
-        borderBottomWidth: 2,
-        paddingBottom: -20,
-        marginTop: 0,
-        marginBottom: 30,
-        fontSize: 14
-    },
-    searchBarIconSelected: {
-        fontSize: 38,
-        paddingRight: 5,
-        marginLeft: 5,
-        marginRight: 5,
-    }
-});
 
 export const buttonStyle = (color, width, height) =>  StyleSheet.create({
     buttonWrap: {
@@ -268,29 +223,28 @@ export const modalConfirm = (color, scale) => StyleSheet.create({
     }
 });
 
-export const emptyList = (background) => StyleSheet.create({
-    container: {
-        backgroundColor: background ? background : colors.mainGrey,
-        height: Dimensions.get('window').height /1,
-        width: Dimensions.get('window').width /1,
-        position: 'absolute',
-        alignItems: 'center',
-    },
-    itemContainer: {
-        alignItems: 'center',
-        top: (Dimensions.get('window').height /4),
-    },
-    imageWrap: {
-        backgroundColor: colors.transparentLight,
-        paddingVertical: 16,
-        paddingHorizontal: 15,
-        borderRadius: 10,
-    },
-    text: {
-        marginTop: 55,
-        fontSize: 18,
-    }
-});
+// export const emptyList = (background) => StyleSheet.create({
+//     container: {
+//         backgroundColor: background ? background : colors.mainGrey,
+//         height: Dimensions.get('window').height /1,
+//         width: Dimensions.get('window').width /1,
+//         position: 'absolute',
+//         alignItems: 'center',
+//     },
+//     itemContainer: {
+//         alignItems: 'center',
+//     },
+//     imageWrap: {
+//         backgroundColor: colors.transparentLight,
+//         paddingVertical: 16,
+//         paddingHorizontal: 15,
+//         borderRadius: 10,
+//     },
+//     text: {
+//         marginTop: 55,
+//         fontSize: 18,
+//     }
+// });
 
 export const roundButton = (color=colors.mainWhiteYellow) => StyleSheet.create({
     buttonWrap: {

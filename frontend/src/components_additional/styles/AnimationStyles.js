@@ -44,4 +44,16 @@ export const animations = (scale, translate) => StyleSheet.create({
             { translateX: translate }
         ],
     },
+    calendarDatesAnimation: {
+        position: 'absolute',
+        transform: [
+            { translateX: translate }
+        ],
+        flexDirection: 'row',
+        alignContent: 'flex-start',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        width: (Dimensions.get('window').width - 40) * 3,
+        backgroundColor: 'yellow',
+    },
 })

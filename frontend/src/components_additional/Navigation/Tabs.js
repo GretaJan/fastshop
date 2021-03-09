@@ -10,7 +10,7 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import OctIcon from 'react-native-vector-icons/dist/Octicons';
 import { styles, signinStyle } from '../styles/TabStyles';
 import { connect } from 'react-redux';
-import { importAppData } from '../../redux/actions/generalActions';
+import { importAppData, generateCalendar, removeCalendar } from '../../redux/actions/generalActions';
 import { logOut } from '../../redux/actions/authActions';
 import { colors }  from '../styles/Colors';
 import ListIndicator from './ListIndicator';
@@ -34,6 +34,8 @@ function Tabs({
     importAppData,
     dataUploadDate,
     loadingData,
+    generateCalendar,
+    removeCalendar,
     logOut,
 }) {
     const Tabs = createBottomTabNavigator();
@@ -57,13 +59,15 @@ function Tabs({
                 }
             }
         })  
-        if(!token){
-            // this.setState({ registerModel: true })
+        if(token){
+            generateCalendar()
+        } else {
             setRegisterModel(true)
-        } 
+        }
         setLoading(false)
-        // console.log("navigationRef.current.getCurrentRoute().name", navigationRef.current.getRootState().routes[routes.length - 1])
-        // console.log("navigationRef.current.getCurrentRoute().name", navigationRef.current)
+        return (() => {
+            removeCalendar()
+        })
     }, [token])
 
 
@@ -93,6 +97,14 @@ function Tabs({
         return null;
     }
 
+    const MyTheme = {
+        // ...DefaultTheme,
+        colors: {
+        //   ...DefaultTheme.colors,
+          background: colors.mainGrey
+        },
+      };
+
     return ( 
         <>
             {/* { openDataModel && (
@@ -107,13 +119,12 @@ function Tabs({
                     colorTwo={colors.mediumGreen}
                     horizontal={20} vertical={15}
                 /> )} */}
-                <NavigationContainer>
+                <NavigationContainer theme={ MyTheme }>
                     {(!token) ? (
                         <Tabs.Navigator tabBarOptions={{
                             style: { 
-                                backgroundColor: colors.mainBlack,
+                                backgroundColor: '#A5A9AF',
                                 height: 60,
-                               
                             },
                             // activeTintColor: colors.mainBtnGreen,
                             // inactiveTintColor: colors.mainGrey,
@@ -155,9 +166,21 @@ function Tabs({
                             <Tabs.Navigator 
                                 tabBarOptions={{
                                     style: { 
-                                        backgroundColor:  colors.titleBlack,
+                                        // backgroundColor:  colors.titleBlack,
+                                        backgroundColor: '#A5A9AF',
                                         height: 60,
                                 } }}>
+                                {/* <Tabs.Screen name="Home" component={GuestNavigationScreens}
+                                    options = {{ 
+                                        tabBarLabel: () => (null),
+                                        tabBarIcon: () => (
+                                            <IonIcon 
+                                                name="ios-home" 
+                                                style={styles().iconItem} 
+                                            />
+                                        ),
+                                    }
+                                } /> */}
                                 <Tabs.Screen 
                                     name="Settings"
                                     component={ SettingsScreen }
@@ -166,7 +189,7 @@ function Tabs({
                                         tabBarIcon: () => (
                                             <Icon name="list-alt" style={styles().iconItem} />
                                         )
-                                    }}
+                                    }} 
                                 /> 
                             </Tabs.Navigator>
                         ) : (
@@ -220,4 +243,4 @@ const mapStateToProps = state => ({
     dataUploadDate: state.dataUpload.dataUploadDate,
 })
 
-export default connect(mapStateToProps, { logOut, importAppData })(Tabs)
+export default connect(mapStateToProps, { logOut, importAppData, generateCalendar, removeCalendar })(Tabs)

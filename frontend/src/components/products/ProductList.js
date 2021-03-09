@@ -102,7 +102,7 @@ class ProductList extends Component {
 
         return (
             <View style={stylesGuest().itemWrap} >
-                <TouchableOpacity style={stylesGuest().TextPicWrap } onPress={this.goToProduct}  >
+                <TouchableOpacity style={stylesGuest().stylesGuest } onPress={this.goToProduct}  >
                     {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>
                             <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />

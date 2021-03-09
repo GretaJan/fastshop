@@ -14,14 +14,6 @@ import CriteriaChild from './CriteriaChild';
 const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
 
 const Criteria = ({compare, selectedProducts, navigation}) => {
-    const [energyCriteria, setEnergyCriteria] = useState(0);
-    const [fatCriteria, setFatCriteria] = useState(0);
-    const [saturatedCriteria, setSaturatedCriteria] = useState(0);
-    const [carbsCriteria, setCarbsCriteria] = useState(0);
-    const [sugarCriteria, setSugarCriteria] = useState(0);
-    const [fiberCriteria, setFiberCriteria] = useState(0);
-    const [proteinCriteria, setProteinCriteria] = useState(0);
-    const [saltCriteria, setSaltCriteria] = useState(0);
     const [mostCriteria, setMostCriteria] = useState([]);
     const [leastCriteria, setLeastCriteria] = useState([]);
     const [noneCriteria, setNoneCriteria] = useState([]);
@@ -150,7 +142,7 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     <Animated.View style={CriteriaStyles(scale).buttonWrapAnimated}>
                         {animateActiveBtn()}
                         <TouchableOpacity style={CriteriaStyles().buttonAnimated} onPress={viewResults} >
-                                <IonIcon name="ios-stats" style={CriteriaStyles().buttonResults}  />
+                            <IonIcon name="ios-stats" style={CriteriaStyles().buttonResults}  />
                         </TouchableOpacity>
                     </Animated.View>
                 )}
@@ -246,10 +238,6 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
             }
         } 
         // MISMATCH
-   
-        // mismatchArray.forEach(item => {
-        //     countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
-        // })
         for(const [key, item] of Object.entries(mismatchObj)){
             countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
         }
@@ -261,10 +249,8 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
         }
 
         findResult(bestMatchId, bestMismatchId);
-    }
-
-        
-    }
+    } 
+}
 
     function findResult(bestMatchId, bestMismatchId) {
         const matchProduct = selectedProducts.find(item => item.id == bestMatchId)

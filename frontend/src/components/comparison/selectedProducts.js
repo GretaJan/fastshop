@@ -3,21 +3,23 @@ import { View, Text, FlatList, TouchableOpacity, TextInput, Animated, LayoutAnim
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { selectProductToCalc, removeProductFromSelected, compare, clearSelectedArray, goToList, sortArray } from '../../redux/actions/comparisonActions';
-import { stylesGuest } from '../../components_additional/styles/ProductStyles';
+import { stylesGuest, stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import { containerStyles, textStyle } from '../../components_additional/styles/GeneralStyles';
-import { searchBar } from '../../components_additional/styles/AdditionalStyles';
+import { searchBar } from '../../components_additional/styles/ModalStyles';
 import { productWrap } from '../../components_additional/styles/CompareStyles';
 import { colors } from '../../components_additional/styles/Colors';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-// import { heightAnimation } from '../../components_additional/styles/Animations';
+
 //Components
 import Product from './selectedProductSingle';
 import ConfirmModal from '../../components_additional/models/ModalCrud';
 import EmptyList from '../../components_additional/models/EmptyListSelected';
 import LoadingResults from '../../components_additional/models/LoadingResults';
 import Modal from '../../components_additional/models/Modal';
+import SearchBar from '../../components_additional/models/SearchBar';
+import { Dimensions } from 'react-native';
 
 const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
 
@@ -29,7 +31,6 @@ class Products extends Component {
         sortedArray: [],
         show: true,
         hide: false,
-        // modalMessageNumber: false,
         modelMsg: '',
         optionsDisplay: true,
         showSearchInput: false,
@@ -63,32 +64,6 @@ class Products extends Component {
                 searchName: searchName,
             })
         } 
-    }
-
-    showSearchBar = () => {
-        return (
-            <View style={searchBar().searchBarContainer} >
-                {this.state.delConfirm && 
-                    <View style={stylesGuest().delVerifyContainer}>
-                        <ConfirmModal message="Are you sure you want to clear the list? " 
-                            confirm={() => this.confirmClearList()}
-                            title="Clear list"
-                            close={() => this.setState({delConfirm: false})}
-                            background={colors.mainWhiteYellow}
-                            iconColor={colors.lightBurgundy}
-                            borderColor={colors.bordoTransparent}
-                            colorOne={colors.lightBurgundy}
-                            colorTwo={colors.mediumGreen}
-                            horizontal={20} vertical={15}
-                        /> 
-                    </View>
-                }
-                <MaterialIcon style={searchBar().searchBarIconSelected} name="playlist-remove" onPress={() => this.setState({delConfirm: true})}/>
-                <Icon style={searchBar().searchBarIcon} name="search" onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
-                { this.state.showSearchInput && 
-                    <TextInput style={searchBar().searchBarInputInSelected} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
-            </View>
-        )
     }
     
     confirmClearList() {
@@ -133,18 +108,20 @@ class Products extends Component {
     }
 
     showHideOptionsContainer = () => {
+        const statefunc = () => {
+            this.setState({optionsDisplay: !this.state.optionsDisplay })
+        }
         if(this.state.optionsDisplay){
-            comparisonAnimations.optionBtnsHide(this.state.transitionBtnsWrap);   
-            this.setState({ optionsDisplay: false })
+            comparisonAnimations.optionBtnsHide(this.state.transitionBtnsWrap, statefunc);   
+            // this.setState({ optionsDisplay: false })
         } else {
-            const statefunc = () => {
-                this.setState({optionsDisplay: !this.state.optionsDisplay })
-            }
+            // const statefunc = () => {
+            //     this.setState({optionsDisplay: !this.state.optionsDisplay })
+            // }
             comparisonAnimations.optionBtnsShow(this.state.transitionBtnsWrap, statefunc);
         }
         
     }
-
 
     deleteProduct = async (item) => {
         await this.props.removeProductFromSelected(item.id);
@@ -169,7 +146,6 @@ class Products extends Component {
     }
 
     render() {
-        console.log(this.props.result)
         const objectLength = Object.keys(this.props.result).length;
         const { locationX, locationY, loadingResults, modelMsg, optionsDisplay, triggeredSearchBar, tempArray, scaleBtn, transitionBtnsWrap, scaleBtnsWrap } = this.state;
         const { selectedProducts } = this.props;
@@ -177,84 +153,107 @@ class Products extends Component {
         return (
             // <View data-test='selectedComponents' style={stylesGuest().container} >
             <View data-test='selectedComponents' style={containerStyles().screenHeightContainer} >
-                { loadingResults && <LoadingResults /> }
-                { (modelMsg !== '') && (
-                    <Modal 
-                        title="Warning" 
-                        message={ modelMsg } 
-                        close={() => this.setState({ modelMsg: '' })} 
-                        ok="Ok" color={colors.orange} borderColor={colors.inputOrange}
-                        locationX={ locationX }
-                        locationY={ locationY }
-                    />
-                    )}
-                    {(selectedProducts.length == 0) ? (
-                        <View style={containerStyles().flatListScrollSmall} >
-                            <EmptyList message={'Products have not been selected yet'} />
-                        </View>
-                    ) : (    
-                    <View style={(optionsDisplay) ? (containerStyles().flatListScrollSmall) : (containerStyles().flatListScrollFull)}>
-                        {this.showSearchBar()}
-                        { triggeredSearchBar ? (
-                            <FlatList nestedScrollEnabled={true} contentContainerStyle={ null } data={ tempArray } renderItem={({item}) => (
-                                <Product key={item} item={item} 
-                                        removeProduct={() => this.deleteProduct(item)}
-                                        goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
-                                />
-                            )} />
-                        ) : (
-                            <FlatList nestedScrollEnabled={true} contentContainerStyle={ null } data={ selectedProducts } renderItem={({item}) => (
-                                <Product key={item} item={item} 
-                                        removeProduct={() => this.deleteProduct(item)}
-                                        goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
-                                />
-                            )} />
+                <View style={containerStyles().simpleContainer}>
+                    { loadingResults && <LoadingResults /> }
+                    { (modelMsg !== '') && (
+                        <Modal 
+                            title="Warning" 
+                            message={ modelMsg } 
+                            close={() => this.setState({ modelMsg: '' })} 
+                            ok="Ok" color={colors.orange} borderColor={colors.inputOrange}
+                            locationX={ locationX }
+                            locationY={ locationY }
+                        />
                         )}
-                    </View>
-                    )}
-                {/* { optionsDisplay && ( */}
-                    <Animated.View style={productWrap(scaleBtnsWrap, transitionBtnsWrap).btnsContainer} >
-                        <Text style={productWrap().transparentStripe} ></Text>
-                        <View style={productWrap().btnOne}>
-                            <TouchableOpacity style={productWrap().iconWrapOne} ref={view => { this.compareFirstBtn = view; }} onPress={ this.goToDescAscPage } >
-                                <IonIcon name="md-list" style={productWrap().iconItem}  />
-                            </TouchableOpacity>
-                            <View style={productWrap().textWrap} >
-                                <Text style={textStyle().h2} >Compare each component</Text>
-                                <Text>Click Me!</Text>
+                        { this.state.delConfirm && 
+                        <View style={stylesGuest().delVerifyContainer}>
+                            <ConfirmModal message="Are you sure you want to clear the list? " 
+                                confirm={() => this.confirmClearList()}
+                                title="Clear list"
+                                close={() => this.setState({delConfirm: false})}
+                                background={colors.mainWhiteYellow}
+                                iconColor={colors.lightBurgundy}
+                                borderColor={colors.bordoTransparent}
+                                colorOne={colors.lightBurgundy}
+                                colorTwo={colors.mediumGreen}
+                                horizontal={20} vertical={15}
+                            /> 
+                        </View> }
+                        {(selectedProducts.length == 0) ? (
+                            <EmptyList message={'Products have not been selected yet'} />
+                        ) : (    
+                        <View style={(optionsDisplay) ? (containerStyles().flatListScrollSmall) : (containerStyles().flatListScrollFull)}>
+                            <View style={{ flexDirection: 'row', marginRight: 10 }} >
+                                <View style={ searchBar().searchBarWrap }>
+                                    <SearchBar 
+                                        func={ (value) => this.findFunction(value) }
+                                        parentValue={ this.state.searchName }
+                                    />
+                                </View>
+                                <TouchableOpacity style={ searchBar().animatedWrap } onPress={ () => this.setState({ delConfirm: true }) }>
+                                    <MaterialIcon name="playlist-remove" style={ searchBar().removeList } />
+                                </TouchableOpacity>
                             </View>
+                            { triggeredSearchBar ? (
+                                <FlatList nestedScrollEnabled={true} contentContainerStyle={ null } data={ tempArray } renderItem={({item}) => (
+                                    <Product key={item} item={item} 
+                                        removeProduct={() => this.deleteProduct(item)}
+                                        goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
+                                    />
+                                )} />
+                            ) : (
+                                <FlatList nestedScrollEnabled={true} contentContainerStyle={ null } data={ selectedProducts } renderItem={({item}) => (
+                                    <Product key={item} item={item} 
+                                            removeProduct={() => this.deleteProduct(item)}
+                                            goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
+                                    />
+                                )} />
+                            )}
                         </View>
-                        {(objectLength == 0) ? (
-                        <View style={productWrap().btnTwo}>
-                            <TouchableOpacity testID="test-btn" ref={view => { this.compareSecBtn = view; }} style={productWrap().iconWrapTwo} onPress={ this.goToCriteriaPage } >
-                                <IonIcon name="ios-calculator" style={productWrap().iconItem} />
-                            </TouchableOpacity>
-                            <View style={productWrap().textWrap} >
-                                <Text style={textStyle().h2}>Find best and worst match</Text>
-                                <Text>Click Me!</Text>
-                            </View>
-                        </View> 
-                        ) : (
-                            <View style={productWrap().btnTwo}>                            
-                                { this.animateActiveBtn() }
-                                <Animated.View style={productWrap(scaleBtn).buttonWrapAnimated}>
-                                    <TouchableOpacity style={productWrap().buttonAnimated} onPress={ this.goToResults } >
-                                        <IonIcon name="ios-stats" style={productWrap().iconItem} />
-                                    </TouchableOpacity>
-                                </Animated.View>
+                        )}
+                        <Animated.View style={productWrap(scaleBtnsWrap, transitionBtnsWrap).btnsContainer} >
+                            <Text style={productWrap().transparentStripe} ></Text>
+                            <View style={productWrap().btnOne}>
+                                <TouchableOpacity style={productWrap().iconWrapOne} ref={view => { this.compareFirstBtn = view; }} onPress={ this.goToDescAscPage } >
+                                    <IonIcon name="md-list" style={productWrap().iconItem}  />
+                                </TouchableOpacity>
                                 <View style={productWrap().textWrap} >
-                                    <Text style={textStyle().h2}>View your results</Text>
+                                    <Text style={textStyle().h2} >Compare each component</Text>
+                                    <Text>Click Me!</Text>
+                                </View>
+                            </View>
+                            {(objectLength == 0) ? (
+                            <View style={productWrap().btnTwo}>
+                                <TouchableOpacity testID="test-btn" ref={view => { this.compareSecBtn = view; }} style={productWrap().iconWrapTwo} onPress={ this.goToCriteriaPage } >
+                                    <IonIcon name="ios-calculator" style={productWrap().iconItem} />
+                                </TouchableOpacity>
+                                <View style={productWrap().textWrap} >
+                                    <Text style={textStyle().h2}>Find best and worst match</Text>
                                     <Text>Click Me!</Text>
                                 </View>
                             </View> 
-                        )}
-                    </Animated.View>
-                {/* )} */}
-                <TouchableOpacity style={productWrap().optionsBtnWrap} onPress={ this.showHideOptionsContainer }>
-                    <Text style={productWrap().optionsBtnText}>
-                        { optionsDisplay ? ("Hide Options") : ("Show Options")}
-                    </Text>
-                </TouchableOpacity>
+                            ) : (
+                                <View style={productWrap().btnTwo}>                            
+                                    { this.animateActiveBtn() }
+                                    <Animated.View style={productWrap(scaleBtn).buttonWrapAnimated}>
+                                        <TouchableOpacity style={productWrap().buttonAnimated} onPress={ this.goToResults } >
+                                            <IonIcon name="ios-stats" style={productWrap().iconItem} />
+                                        </TouchableOpacity>
+                                    </Animated.View>
+                                    <View style={productWrap().textWrap} >
+                                        <Text style={textStyle().h2}>View your results</Text>
+                                        <Text>Click Me!</Text>
+                                    </View>
+                                </View> 
+                            )}
+                        </Animated.View>
+                    {/* )} */}
+                    <TouchableOpacity style={productWrap().optionsBtnWrap} onPress={ this.showHideOptionsContainer }>
+                        <Text style={productWrap().optionsBtnText}>
+                            { optionsDisplay ? ("Hide Options") : ("Show Options")}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
             )
     }

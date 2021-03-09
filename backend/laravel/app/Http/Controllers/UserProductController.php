@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Category;
 use App\Product;
 use App\Subcategory;
 use App\BuyList;
@@ -12,11 +13,47 @@ use Carbon\Carbon;
 
 class UserProductController extends Controller
 {
+
+    public function getAllData()
+    {
+        $categories = Category::all();
+        $subcategories = DB::table('subcategories')
+                        ->get()
+                        ->groupBy('category_id');
+                        
+        $products = DB::table('products')
+                        ->get()
+                        ->groupBy('subcategory_id');
+        $buy_lists = null;
+        $user = auth()->guard('api')->user(); 
+        if(isset($user))
+        {
+            $user_products = $user->products;               
+            $products->map(function($products_grouped) use ($user_products){
+                $products_grouped->map(function($product) use ($user_products){
+                    $product_liked = isset($user_products) ? $user_products->find($product->id) : null;
+                    $product->isLiked = isset($product_liked) ? true : false;
+                });
+            });
+            $buy_lists = $user->buyLists->groupBy(function ($item) {
+                return Carbon::parse($item->date)->format('Y-m'); // grouping by years
+            });
+        }
+ 
+        $response = [
+            'categories' => $categories,
+            'subcategories' => $subcategories,
+            'products' => $products,
+            'buy_lists' =>  $buy_lists
+        ];
+        return response()->json($response, 200);
+    }
+
     private function validateBuyList($request)
     {
         $product_ids = Product::pluck('id')->toArray();
         return $request->validate([
-            'date' => 'required|date|date_format:Y-m-d',
+            'date' => 'required|date_format:Y-m-d',
             'name' => 'nullable|max:30',
             'list' => 'array|nullable',
             'list.name' => 'nullable|max:100',
@@ -95,7 +132,7 @@ class UserProductController extends Controller
         ], [
             'date' => $request->date,
             'name' => isset($request->name) ? $request->name : Carbon::now()->format('H:i:s'),
-            'list' => json_encode($request->list),
+            'list' => $request->list,
             'notes' => $request->notes,
             'is_completed' => $this->checkIfCompetedList($request->is_completed, $request->date),
             'created_at' => isset($id) ? $request->created_at : $now,
@@ -103,6 +140,12 @@ class UserProductController extends Controller
         ]);
 
         return response()->json(null, 201);
+    }
+
+    public function getBuyAllLists(Request $request)
+    {
+        $buy_lists = $request->user()->buyLists->groupBy('date');
+        return response()->json($buy_lists, 200);
     }
 
     public function getBuyListsBuyDate(Request $request)
@@ -114,6 +157,12 @@ class UserProductController extends Controller
     {
         $buy_list = $request->user()->buyLists()->find($id);
         return response()->json($buy_list, 200);
+    }
+
+    public function deleteBuyList(Request $request, $id)
+    {
+        $request->user()->buyLists()->delete($id);
+        return response()->json(null, 201);
     }
 
 }

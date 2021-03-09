@@ -1,4 +1,4 @@
-import { URL, LOADING_DATA, DATA_LOADED, GET_ALL_DATA, DATA_LOAD_CANCELED, DATA_LOADED_ERROR } from './types';
+import { URL, LOADING_DATA, CREATE_CALENDAR, DATA_LOADED, GET_ALL_DATA, DATA_LOAD_CANCELED, DATA_LOADED_ERROR } from './types';
 import axios from 'axios';
 
 export const closeErrorWarning = (actionType) => (dispatch) => {
@@ -19,14 +19,15 @@ export const importAppData = (token) => (dispatch) => {
         .then(response => {
             const respData = response.data;
             let paginatedSubcategories = paginateData(respData.subcategories, 3);
-            let paginatedProducts = paginateData(respData.products, 10)
+            let paginatedProducts = paginateData(respData.products, 10);
+            let buyLists = respData.buy_lists;
             let currentDate = new Date().addHours(2) //add two hours to current date so app can check if user updated data earlier than two hours ago
-            console.log
             dispatch({
                 type: GET_ALL_DATA,
                 categories: respData.categories,
                 subcategories: paginatedSubcategories,
                 products: paginatedProducts,
+                buyLists: buyLists,
                 dataUploadDate: currentDate
             })
         }).catch(error => {
@@ -71,11 +72,83 @@ function paginateData(groupedArr, count){
         }
         groupedArrTemp.push(object);
     }
-    console.log("groupedArrTemp", groupedArrTemp)
     return groupedArrTemp;
 }
 
 Date.prototype.addHours = function(h) {
     this.setTime(this.getTime() + (h*60*60*1000));
     return this;
-  }
+}
+
+export const generateCalendar = () => (dispatch) => {
+    const currentYear = new Date().getFullYear();
+    let array = [];
+    const startYear = 2020,
+            endYear = currentYear + 3;
+    for(let i = startYear; i <= endYear; i++){
+        let yearObj = {
+            year: i
+        }
+        const monthsArr = [];
+        for(let j = 1; j <= 12; j++){
+            const daysArr = createDaysArr(i, j)
+            const monthObj= {
+                name: sliceFunc(j),
+                days: daysArr
+            }
+            monthsArr.push(monthObj)
+        }
+        yearObj.months = monthsArr;
+        array.push(yearObj)
+    }
+    dispatch({
+        type: CREATE_CALENDAR,
+        payload: array
+    })
+}
+
+function sliceFunc(digit){
+    return (`0${digit}`).slice(-2);
+}
+
+export function createDaysArr(year, month){
+    let daysCount = 0;
+    if(month == 2 ) daysCount = leapYear(year)
+        else if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+            daysCount = 31
+                else if(month == 4 || month == 6 || month == 9 || month == 11)
+                    daysCount = 30
+    let arr = [];
+    for(let i = 1; i <= daysCount; i++){
+        arr.push(i);
+    }
+    const daysArr = insertEmptyToDaysArr(arr, year, month)
+    return daysArr
+}
+
+function leapYear(year){
+    if(year % 4 === 0){
+        return 29
+    }
+    return 28
+}
+
+function insertEmptyToDaysArr(arr, year, month){
+    const lastDay = arr.length;
+    let startTimes = new Date(year + "-" + month  + "-01").getDay();
+        startTimes = startTimes == 0 ? '07' : startTimes;
+    let endTimes = new Date(year + "-" + month + "-" + lastDay).getDay();
+        endTimes = endTimes == 0 ? '07' : endTimes;
+    for(let i = 1; i < startTimes; i++)
+        arr.unshift('');
+        for(let i = 7; i > endTimes; i--)
+            arr.push('')
+    return arr
+}
+
+export const removeCalendar = () => dispatch => {
+    dispatch({
+        type: CREATE_CALENDAR,
+        payload: []
+    })
+}

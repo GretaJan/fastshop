@@ -6,36 +6,21 @@ export const productWrap = (scale, translate) => StyleSheet.create({
     container: {
         flex: 1,
     },
-    // flatListScrollSmall: {
-    //     height: Dimensions.get('window').height /2.25,
-    //     width: Dimensions.get('window').width,
-    //     paddingHorizontal: 5,
-    // },
-    // flatListScrollFull: {
-    //     height: Dimensions.get('window').height /1.4,
-    //     paddingHorizontal: 5,
-    //     zIndex: 2,
-    // },
-    // arrayContainer: {
-    //     marginVertical: 5,
-    // },
     btnsContainer: {
         flex: 1,
         alignItems: 'center',
         alignContent: 'center',
-        position: 'absolute',
-        bottom: 5,
-        backgroundColor: colors.mainGrey,
         width: Dimensions.get('window').width,
         minHeight: Dimensions.get('window').height /5,
         marginBottom: 45,
         zIndex: 2,
         transform: [
             { translateY: translate },
-        ]
+        ],
+        paddingHorizontal: 10,
     },
     transparentStripe: {
-        width: '92%',
+        width: Dimensions.get('window').width - 20,
         height: 1,
         backgroundColor: colors.transparentLight,
         zIndex: 10,
@@ -52,14 +37,14 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         alignContent: 'center',
-        marginHorizontal: 20,
+        // marginHorizontal: 20,
     },
     btnTwo: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         alignContent: 'center',
-        marginHorizontal: 20,
+        // marginHorizontal: 20,
         marginTop: 10,
     },
     iconWrapOne: {
@@ -81,6 +66,23 @@ export const productWrap = (scale, translate) => StyleSheet.create({
     },
     iconWrapTwo: {
         backgroundColor: colors.mainBtnOrange,
+        width: 80,
+        height: 80,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+          // Shadow
+          elevation   : 5,
+          overflow: 'hidden',
+          //iOS:
+          shadowColor: 'red',
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2, 
+    },
+    iconWrapWhite: {
+        backgroundColor: '#fff',
         width: 80,
         height: 80,
         alignItems: 'center',
@@ -474,7 +476,6 @@ export const CriteriaStyles = (scale, checkScale) => StyleSheet.create({
         width: 28,
         paddingVertical: 5,
         position: 'relative',
-        // borderRadius: 13,
         borderRadius: 3,
         borderColor: colors.mainBlack,
         borderWidth: 1,
@@ -515,19 +516,19 @@ export const CriteriaStyles = (scale, checkScale) => StyleSheet.create({
         ]
     },
     buttonResults: {
-        fontSize: 45,
+        // fontSize: 45,
+        fontSize: 35,
     },
     buttonWrapOne: {
-        width: 120,
-        height: 70,
-        backgroundColor: colors.mainBtnOrange,
+        // width: 120,
+        // height: 70,
+        width: 90,
+        height: 60,
+        backgroundColor: scale ? scale : colors.mainBtnOrange,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        // position: 'absolute',
-        // bottom: 8,
-        // zIndex: 20,
          // Shadow
          elevation   : 5,
          overflow: 'hidden',

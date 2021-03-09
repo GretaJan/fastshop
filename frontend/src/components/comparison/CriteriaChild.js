@@ -5,6 +5,9 @@ import { containerStyles } from '../../components_additional/styles/GeneralStyle
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 
+//Components
+import CheckInput from '../../components_additional/models/Check';
+
 const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
@@ -18,7 +21,7 @@ function CriteriaChild({ title, originalName, setMostCriteria, setLeastCriteria,
         setActiveMost(true);
         setActiveLeast(false);
         setActiveNone(false);
-        comparisonAnimations.checkScaleGrow(checkScale);  
+        // comparisonAnimations.checkScaleGrow(checkScale);  
         setMostCriteria(oldArr => [...oldArr, originalName])
         setLeastCriteria(oldArr => {
             let index = oldArr.indexOf(originalName);
@@ -35,7 +38,7 @@ function CriteriaChild({ title, originalName, setMostCriteria, setLeastCriteria,
         setActiveMost(false);
         setActiveLeast(true);
         setActiveNone(false);
-        comparisonAnimations.checkScaleGrow(checkScale);  
+        // comparisonAnimations.checkScaleGrow(checkScale);  
         setLeastCriteria(oldArr => [...oldArr, originalName] )
         setMostCriteria(oldArr => {
             let index = oldArr.indexOf(originalName);
@@ -52,7 +55,7 @@ function CriteriaChild({ title, originalName, setMostCriteria, setLeastCriteria,
         setActiveMost(false);
         setActiveLeast(false);
         setActiveNone(true);
-        comparisonAnimations.checkScaleGrow(checkScale);  
+        // comparisonAnimations.checkScaleGrow(checkScale);  
         setNoneCriteria(oldArr => [...oldArr, originalName])
         setMostCriteria(oldArr => {
             let index = oldArr.indexOf(originalName);
@@ -78,31 +81,34 @@ function CriteriaChild({ title, originalName, setMostCriteria, setLeastCriteria,
             </View>
             <View style={CriteriaStyles().bulletContainer}>
                 <View style={CriteriaStyles().wrapThird}>
-                    <TouchableOpacity style={CriteriaStyles().bulletWrap} onPress={ itemMost }>
+                    <CheckInput isVisible={ activeMost } func={ itemMost } />
+                    {/* <TouchableOpacity style={CriteriaStyles().bulletWrap} onPress={ itemMost }>
                         <View style={CriteriaStyles().bulletWrapInner}>
                         { activeMost && (
                             <AnimatedIonIcon name="ios-checkmark" style={CriteriaStyles(null, checkScale).bulletActive} />
                         )}
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
                 <View style={CriteriaStyles().wrapThird}>
-                    <TouchableOpacity style={CriteriaStyles().bulletWrap} onPress={ itemLeast }>
+                    <CheckInput isVisible={ activeLeast } func={ itemLeast } />
+                    {/* <TouchableOpacity style={CriteriaStyles().bulletWrap} onPress={ itemLeast }>
                         <View style={CriteriaStyles().bulletWrapInner}>
                         { activeLeast && (
                             <AnimatedIonIcon name="ios-checkmark" style={CriteriaStyles(null, checkScale).bulletActive} />
                         )}
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
                 <View style={CriteriaStyles().wrapThird}>
-                    <TouchableOpacity style={CriteriaStyles().bulletWrap} onPress={ itemNone }>
+                    <CheckInput isVisible={ activeNone } func={ itemNone } />
+                    {/* <TouchableOpacity style={CriteriaStyles().bulletWrap} onPress={ itemNone }>
                         <View style={CriteriaStyles().bulletWrapInner}>
                         { activeNone && (
                             <AnimatedIonIcon name="ios-checkmark" style={CriteriaStyles(null, checkScale).bulletActive} />
                         )}
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
         </View>

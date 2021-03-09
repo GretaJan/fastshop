@@ -12,35 +12,38 @@ use DB;
 
 class CategoryController extends Controller
 {
-    public function getAllData()
-    {
-        $categories = Category::all();
-        $subcategories = DB::table('subcategories')
-                        ->get()
-                        ->groupBy('category_id');
+    // public function getAllData()
+    // {
+    //     $categories = Category::all();
+    //     $subcategories = DB::table('subcategories')
+    //                     ->get()
+    //                     ->groupBy('category_id');
                         
-        $products = DB::table('products')
-                        ->get()
-                        ->groupBy('subcategory_id');
-
-        $user = auth()->guard('api')->user(); 
-        if(isset($user))
-        {
-            $user_products = $user->products;               
-            $products->map(function($products_grouped) use ($user_products){
-                $products_grouped->map(function($product) use ($user_products){
-                    $product_liked = isset($user_products) ? $user_products->find($product->id) : null;
-                    $product->isLiked = isset($product_liked) ? true : false;
-                });
-            });
-        }
-        $response = [
-            'categories' => $categories,
-            'subcategories' => $subcategories,
-            'products' => $products
-        ];
-        return response()->json($response, 200);
-    }
+    //     $products = DB::table('products')
+    //                     ->get()
+    //                     ->groupBy('subcategory_id');
+    //     $buy_lists = null;
+    //     $user = auth()->guard('api')->user(); 
+    //     if(isset($user))
+    //     {
+    //         $user_products = $user->products;               
+    //         $products->map(function($products_grouped) use ($user_products){
+    //             $products_grouped->map(function($product) use ($user_products){
+    //                 $product_liked = isset($user_products) ? $user_products->find($product->id) : null;
+    //                 $product->isLiked = isset($product_liked) ? true : false;
+    //             });
+    //         });
+    //         $buy_lists = $user->buyLists->groupBy('date');
+    //     }
+    //     var_dump("buy: ", $buy_lists);
+    //     $response = [
+    //         'categories' => $categories,
+    //         'subcategories' => $subcategories,
+    //         'products' => $products,
+    //         'buy_lists' =>  $buy_lists
+    //     ];
+    //     return response()->json($response, 200);
+    // }
 
     public function index()
     {

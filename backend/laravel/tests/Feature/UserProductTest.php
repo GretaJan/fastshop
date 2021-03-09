@@ -23,7 +23,8 @@ class UserProductTest extends TestCase
     public function user_can_get_all_data()
     {
         $this->withoutExceptionHandling();
-        $user = User::orderBy('created_at', 'desc')->first();
+        // $user = User::orderBy('created_at', 'desc')->first();
+        $user = User::where('email', 'gretajan09@gmail.com')->first();
         $this->setUpUser($user->id);
         $response = $this->getJson('/api/get-all-data', $this->user_headers);
         $response->assertStatus(200);
@@ -87,16 +88,31 @@ class UserProductTest extends TestCase
         $user = User::where('email', 'gretajan09@gmail.com')->first();
         $this->setUpUser($user->id);
         $response = $this->postJson('/api/update-create-checklist', [
-            // 'name' => 'Sąrašas',
+            'name' => 'Sąrašas',
             'list' => [
-                'name' => 'Agurkai',
-                'quantity' => 4,
-                'checked' => 'false',
-                'related_products' => [13, 15]
+                [
+                    'name' => 'Agurkai',
+                    'quantity' => 4,
+                    'checked' => 'false',
+                    'related_products' => [13, 15]
+                ]
             ],
             'notes' => rand(20000, 1000000) . 'ABC',
-            'date' => '2021-02-20',
+            'date' => '2021-02-24',
             'is_completed' => false
+        ], $this->user_headers);
+        // $response->assertStatus(422)
+        //     ->assertJsonValidationErrors(['date' => 'Date']);
+        $response->assertStatus(201);
+    }
+    /** @test */
+    public function create_products_list_date_only()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::where('email', 'gretajan09@gmail.com')->first();
+        $this->setUpUser($user->id);
+        $response = $this->postJson('/api/update-create-checklist', [
+            'date' => '2021-03-08',
         ], $this->user_headers);
         // $response->assertStatus(422)
         //     ->assertJsonValidationErrors(['date' => 'Date']);
@@ -108,24 +124,46 @@ class UserProductTest extends TestCase
         $this->withoutExceptionHandling();
         $user = User::where('email', 'gretajan09@gmail.com')->first();
         $this->setUpUser($user->id);
-        $response = $this->postJson('/api/get-buy-lists', [
-            'date' => '2021-02-20',   
+        $response = $this->postJson('/api/get-buy-lists-by-date', [
+            'date' => '2021-02-24',   
         ], $this->user_headers);
         $content = json_decode($response->getContent());
-        var_dump("content", $response->getContent());
         $this->assertGreaterThan(0, count($content));
         $response->assertStatus(200);
     }
-       /** @test */
-       public function get_single_BuyList()
-       {
-           $this->withoutExceptionHandling();
-           $user = User::where('email', 'gretajan09@gmail.com')->first();
-           $this->setUpUser($user->id);
-           $response = $this->getJson('/api/get-buy-list/1', $this->user_headers);
-           $content = collect($response->getContent())->toArray();
-           var_dump("counnt: ", $content );
-           $this->assertEquals(1, count($content));
-           $response->assertStatus(200);
-       }
+    /** @test */
+    public function get_single_BuyList()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::where('email', 'gretajan09@gmail.com')->first();
+        $this->setUpUser($user->id);
+        $response = $this->getJson('/api/get-buy-list/1', $this->user_headers);
+        $content = collect($response->getContent())->toArray();
+        $this->assertEquals(1, count($content));
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function get_BuyLists_all()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::where('email', 'gretajan09@gmail.com')->first();
+        $this->setUpUser($user->id);
+        $response = $this->getJson('/api/get-buy-lists', $this->user_headers);
+        // $content = json_decode($response->getContent());
+        // $this->assertGreaterThan(0, count($content));
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+
+    public function delete_buyList()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::where('email', 'gretajan09@gmail.com')->first();
+        $this->setUpUser($user->id);
+        $id = $user->buyLists()->first()->id;
+        $response = $this->deleteJson('/api/delete-buy-list/'.$id, $this->user_headers);
+        $response->assertStatus(201);
+    }
 }

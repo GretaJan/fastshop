@@ -6,9 +6,7 @@ import { loadingBackground } from '../styles/AdditionalStyles';
 const Loading = () => {
 
     return (
-        <View >
-            <ActivityIndicator size="large" color={colors.mainBlack} />
-        </View>
+        <ActivityIndicator size="large" color={colors.mainBlack} />
     )
 }
 

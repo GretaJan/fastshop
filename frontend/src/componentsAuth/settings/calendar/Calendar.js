@@ -1,47 +1,68 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { View, Text, ScrollView, FlatList, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Swiper from 'react-native-swiper'
+import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
+import { getBuyListsByDate, createDaysArr } from '../../../redux/actions/calendar';
 import { containerStyles, textStyle } from '../../../components_additional/styles/GeneralStyles';
 import { animations } from '../../../components_additional/styles/AnimationStyles';
 import { calendarStyles } from '../../../components_additional/styles/CalendarStyles';
 import { stylesGuest } from '../../../components_additional/styles/SubcategoryStyles';
+import { CriteriaStyles } from '../../../components_additional/styles/CompareStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import GestureRecognizer from 'react-native-swipe-gestures';
+
 
 //Component 
 import Month from './SingleMonth';
+import Header from '../../../components_additional/models/Header';
+import CreateListModal from './CreateListModal';
 
 const { calendarAnimations } = require('../../../components_additional/styles/Animations.js')
 
-function Calendar(){
+var AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
+
+//add 0 to the beggining of month in less than 10
+function sliceFunc(digit){
+    return (`0${digit}`).slice(-2);
+}
+
+function Calendar({ navigation: { navigate } }){
     const [isLoading, setIsLoading] = useState(true);
     const screenWidth = Dimensions.get('window').width;
+    const [listsDates, setListsDates] = useState([]);
+    const monthNames = ['', 'Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
     const date = new Date();
     const initialYear = date.getFullYear();
-    const initialMonth = date.getMonth() + 1;
+    const initialMonth = sliceFunc(date.getMonth() + 1);
+    const initialDay = sliceFunc(date.getDate());
     const [currentYear, setCurrentYear] = useState(initialYear);
     const [currentMonth, setCurrentMonth] = useState(initialMonth); //set monthNames index
-    const [currentDay, setCurrentDay] = useState(date.getDate());
-    const calendarTransl = useRef(new Animated.Value(0)).current;
     const [calendarWidth, setCalendarWidth] = useState(0);
-    const [translateTo, setTranslateTo] = useState(0);
+    const calendarTransl = useRef(new Animated.Value(-screenWidth + 20)).current;
+    const [translateTo, setTranslateTo] = useState(-screenWidth + 20);
     const [translateInnerList, setTranslateInnerList] = useState(0);
     const [calendarArray, setCalendarArray] = useState([]);
+    const [openListModel, setOpenListModel] = useState(false);
 
-    function initialArray(){
+    async function initialArray(){
+        const date = `${ initialYear }-${ initialMonth }`;
+        const lists = await getBuyListsByDate(date);
+        if (lists) setListsDates(lists);
         const monthObj = {
-            name: currentMonth,
-            days: createDaysArr(currentYear, currentMonth)
+            name: initialMonth,
+            days: createDaysArr(initialYear, initialMonth)
         }
         const calendarArr= [{
-            year: currentYear,
+            year: initialYear,
             months: [monthObj]
         }]
         const newChangedArr = countPrevDateInit(calendarArr);
         const initialArr = countNextDateInt(newChangedArr)
         setCalendarArray(initialArr)
-        setTranslateInnerList(-screenWidth)
         return Promise.resolve(false);
     }
 
@@ -49,96 +70,87 @@ function Calendar(){
         initialArray().then((resp) => {
             setIsLoading(resp);
         })
-    }, [])
+    }, [listsDates])
 
     
     function arrayMain() {
         return calendarArray.map((item) => (
             item.months.map(month => (
-                    <Month 
-                        key={ month.name }
-                        month={ month } 
-                        currentDay={ currentDay }
-                        isCurrentCondition={ initialMonth == month.name && item.year === initialYear }
-                    />
+                <Month 
+                    key={ month.name }
+                    month={ month } 
+                    currentDay={ initialDay }
+                    currentYear={ currentYear }
+                    isCurrentCondition={ initialMonth == month.name && item.year === initialYear }
+                    listsArray={ listsDates }
+                    goToInnerPage={ (years, day) => goToInnerPage(years, day) }
+                />
                 )
             )
         ))
     }
 
     return (
-        <View style={ containerStyles().screenHeightContainer }>
-            { isLoading ? (
-                <Text>Loading</Text>
-            ) : (
-                <View style={ containerStyles().calculatorMainContainer } >
-                    <MonthsYearsComponent 
-                        currentYear={ currentYear }
-                        currentMonth={ currentMonth }
-                        translateBackFunc={(value) => animateBack() }
-                        translateForwardFunc={(value, state) => animateForward() }
-                    />
-                    <View style={ calendarStyles().calendarWrap }>
-                        <Animated.View style={ animations(calendarWidth, calendarTransl).calendarAnimation }>
-                            <View style={ calendarStyles(translateInnerList).calendarWrapInner }>
-                                { arrayMain() }
-                            </View>
-                        </Animated.View>
-                    </View>
-                </View>
+        <>
+            <Header 
+                title='Kalendorius'
+                navigate={ () => navigate("SettingsScreen") }
+            />
+            { openListModel && (
+                <CreateListModal 
+                    currentYear={ initialYear }
+                    currentMonth={ initialMonth }
+                    currentDay={ initialDay }
+                    close={ () => setOpenListModel(false) }
+                    goToNewList={ (id, years) => navigate("BuyList", { id: id, years: years }) }
+                />
             ) }
-        </View>
+            <View style={ containerStyles().screenHeightContainer }>
+                { isLoading ? (
+                    <Text>Loading</Text>
+                ) : (
+                    <>
+                        <View style={ calendarStyles().calculatorMainContainer } >
+                            <Weeks 
+                                currentYear={ currentYear }
+                                currentMonth={ currentMonth }
+                                translateLeft={ animateBack }
+                                translateRight={ animateForward }
+                            />
+                            <View style={ calendarStyles().calendarWrap }>
+                                <Animated.View style={ animations(calendarWidth, calendarTransl).calendarAnimation } >
+                                    <View style={ calendarStyles(translateInnerList).calendarWrapInner }>
+                                        { arrayMain() }
+                                    </View>
+                                </Animated.View>
+                            </View>
+                        </View>
+                        <View style={ calendarStyles().btnEdit }>
+                            <TouchableOpacity style={CriteriaStyles('#fff').buttonWrapOne} onPress={() => setOpenListModel(true)} >
+                                <IonIcon name="md-create" style={CriteriaStyles().buttonResults} />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                ) }
+            </View>
+        </>
     )
-
-    function createDaysArr(year, month){
-        let daysCount = 0;
-        if(month == 2 ) daysCount = leapYear(year)
-            else if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
-                daysCount = 31
-                    else if(month == 4 || month == 6 || month == 9 || month == 11)
-                        daysCount = 30
-        let arr = [];
-        for(let i = 1; i <= daysCount; i++){
-            arr.push(i);
-        }
-        const daysArr = insertEmptyToDaysArr(arr, year, month)
-        return daysArr
-    }
-    
-    function leapYear(year){
-        if(year % 4 === 0){
-            return 29
-        }
-        return 28
-    }
-    
-    function insertEmptyToDaysArr(arr, year, month){
-        const lastDay = arr.length;
-        let startTimes = new Date(year + "-" + month  + "-01").getDay();
-            startTimes = startTimes == 0 ? 7 : startTimes;
-        let endTimes = new Date(year + "-" + month + "-" + lastDay).getDay();
-            endTimes = endTimes == 0 ? 7 : endTimes;
-        for(let i = 1; i < startTimes; i++)
-            arr.unshift('');
-            for(let i = 7; i > endTimes; i--)
-                arr.push('')
-        return arr
-    }
 
     function animateBack(){
         if(currentMonth == 1 && currentYear <= 2020) return
         countPrevDate()
-        const translateMonth = translateTo + screenWidth //translate to left
-        calendarAnimations.translateContainer(calendarTransl, translateMonth)
+        const translateMonth = translateTo + screenWidth - 20 //translate to left
+        calendarAnimations.translateContainer(calendarTransl, translateMonth, 400)
         setTranslateTo(translateMonth);
+       
     }
 
     function animateForward(){
         let disallowedYear = initialYear + 3;
         if(currentMonth == 12 && currentYear >= disallowedYear) return
         countNextDate()
-        const translateMonth = translateTo - screenWidth //translate to right
-        calendarAnimations.translateContainer(calendarTransl, translateMonth)
+        const translateMonth = translateTo - screenWidth + 20 //translate to right
+        calendarAnimations.translateContainer(calendarTransl, translateMonth, 400)
         setTranslateTo(translateMonth);
     }
 
@@ -162,7 +174,7 @@ function Calendar(){
                 currentArray.splice(yearIndex, 0, newArrObj)
             }
         } else {
-            prevMonth = currentMonth - 1;
+            prevMonth = sliceFunc(parseInt(currentMonth) - 1);
             const monthObj = {
                     name: prevMonth,
                     days: createDaysArr(currentYear, prevMonth)
@@ -185,7 +197,7 @@ function Calendar(){
                 nextYear = currentYear + 1;
                 nextMonth = 1
                 const monthObj = {
-                    name: nextMonth,
+                    name: sliceFunc(nextMonth),
                     days: createDaysArr(nextYear, 1)
                 }
                 const newArrObj = {
@@ -196,9 +208,9 @@ function Calendar(){
                 currentArray.splice(yearIndex + 1, 0, newArrObj)
             }
         } else {
-            nextMonth = currentMonth + 1;
+            nextMonth = parseInt(currentMonth) + 1;
             const monthArr = {
-                    name: nextMonth,
+                    name: sliceFunc(nextMonth),
                     days: createDaysArr(currentYear, nextMonth)
             }
             const yearIndex = currentArray.map(item => item.year).indexOf(currentYear);
@@ -223,7 +235,6 @@ function Calendar(){
 
 
     function countPrevDate(){
-        console.log("transalte 1", new Date())
         let prevMonth = currentMonth;
         let prevYear = currentYear - 1;
         let appendMonth = 0;
@@ -236,7 +247,7 @@ function Calendar(){
                 const appendItem = checkIfExists(changedArray, prevYear, appendMonth)
                 if(appendItem){
                     const  monthObj = {
-                        name: appendMonth,
+                        name: sliceFunc(appendMonth),
                         days: createDaysArr(prevYear, 12)
                     }
                     const newObj = {
@@ -245,7 +256,8 @@ function Calendar(){
                     }
                     yearIndex = changedArray.map(item => item.year).indexOf(prevYear);
                     changedArray.splice(yearIndex, 0, newObj)
-                    setTranslateInnerList(oldValue => oldValue - screenWidth)
+                    setTranslateInnerList(oldValue => oldValue - screenWidth + 20)
+                    setCalendarWidth(oldValue => oldValue + screenWidth - 20);
                 }
             }
             setCurrentMonth(prevMonth)
@@ -256,8 +268,8 @@ function Calendar(){
                     setCurrentYear(prevYear)
             } else {
                 prevYear = currentYear // changed prev year to current year
-                prevMonth = currentMonth - 1;
-                appendMonth = currentMonth - 2;
+                prevMonth = sliceFunc(parseInt(currentMonth) - 1);
+                appendMonth = sliceFunc(parseInt(currentMonth) - 2);
             }
             const appendItem = checkIfExists(changedArray, prevYear, appendMonth)
             if(appendItem){
@@ -268,12 +280,12 @@ function Calendar(){
                 const yearIndex = changedArray.map(item => item.year).indexOf(prevYear);
                 const monthIndex = changedArray[yearIndex].months.map(item => item.name).indexOf(prevMonth);
                 changedArray[yearIndex].months.splice(monthIndex, 0, monthObject)
-                setTranslateInnerList(oldValue => oldValue - screenWidth)
+                setTranslateInnerList(oldValue => oldValue - screenWidth + 20)
+                // const finalWidth = getFlatListWidth(changedArray) 
+                setCalendarWidth(oldValue => oldValue + screenWidth - 20);
             }
             setCurrentMonth(prevMonth)
         }
-        const finalWidth = getFlatListWidth(changedArray) 
-        setCalendarWidth(finalWidth);
         setCalendarArray(changedArray);
     }
     function countNextDate(){
@@ -284,7 +296,7 @@ function Calendar(){
         const currentYearAdditional = initialYear + 4;
         if(currentMonth == 11){
             if(nextYear < currentYearAdditional){
-                appendMonth = 1;
+                appendMonth = '01';
                 const appendItem = checkIfExists(changedArray, nextYear, appendMonth)
                 if(appendItem){
                     const monthObj = {
@@ -297,17 +309,18 @@ function Calendar(){
                     }
                     const yearIndex = changedArray.map(item => item.year).indexOf(currentYear);
                     changedArray.splice(yearIndex + 1, 0, newArrObj)
+                    setCalendarWidth(oldValue => oldValue + screenWidth);
                 }
             }
             setCurrentMonth(12)
         } else {
             if(currentMonth == 12){
-                appendMonth = 2;
-                nextMonth = 1;
+                appendMonth = '02';
+                nextMonth = '01';
                 setCurrentYear(nextYear)
             } else {
-                nextMonth = currentMonth + 1;
-                appendMonth = currentMonth + 2;
+                nextMonth = sliceFunc(parseInt(currentMonth) + 1);
+                appendMonth = sliceFunc(parseInt(currentMonth) + 2);
                 nextYear = currentYear
             }
             const appendItem = checkIfExists(changedArray, nextYear, appendMonth)
@@ -319,11 +332,11 @@ function Calendar(){
                 const yearIndex = changedArray.map(item => item.year).indexOf(nextYear);
                 const monthIndex = changedArray[yearIndex].months.map(item => item.name).indexOf(nextMonth);
                 changedArray[yearIndex].months.splice(monthIndex + 1, 0, monthObj)
+                setCalendarWidth(oldValue => oldValue + screenWidth);
             }
             setCurrentMonth(nextMonth)
         }   
-        const finalWidth = getFlatListWidth(changedArray) 
-        setCalendarWidth(finalWidth);
+        // const finalWidth = getFlatListWidth(changedArray) 
         setCalendarArray(changedArray)
     }
 
@@ -339,62 +352,44 @@ function Calendar(){
         return arrayWidth * screenWidth
     }
 
+    function goToInnerPage(years, day){
+        navigate("DayPage", { years: years, day: day })
+    }
+
 }
 
-export default Calendar
 
-function MonthsYearsComponent({ currentYear, currentMonth, translateBackFunc, translateForwardFunc }){
-    const monthNames = ['', 'Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
+export default withNavigation(Calendar)
+
+
+function Weeks({ currentYear, currentMonth, translateLeft, translateRight }){
+    const monthNames = ['', 'Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis' ]
     const dayNames = ['Pr', 'A', 'T', 'K', 'Pn', 'Š', 'S'];
-  
-    useEffect( () => {
-    }, [currentYear, currentMonth])
-
 
     return (
-        <View>
-            <View style={ calendarStyles().rowContainer }>
-                <TouchableOpacity onPress={ () => changeYear(false) } style={ calendarStyles().iconWrap }>
-                    <Icon name="arrow-left" style={ calendarStyles().arrowShort } />
+        <>
+        <View style={ calendarStyles().rowContainerMonth }>
+                <TouchableOpacity onPress={ translateLeft } style={ calendarStyles().iconWrap }>
+                    <IonIcon name="ios-copy" style={ calendarStyles().arrowShort } />
                 </TouchableOpacity>
-                <Text style={textStyle().h1}>{ currentYear }</Text>
-                <TouchableOpacity onPress={ () => changeYear(true) } style={ calendarStyles().iconWrap }>
-                    <Icon name="arrow-right" style={ calendarStyles().arrowShort } />
+                <Text style={ textStyle().h2 }>{currentYear } { monthNames[parseInt(currentMonth)] }</Text>
+                <TouchableOpacity onPress={ translateRight } style={ calendarStyles().iconWrap }>
+                    <IonIcon name="ios-copy" style={ calendarStyles().arrowShort } />
                 </TouchableOpacity>
             </View>
-            <View style={ calendarStyles().rowContainer }>
-                <View style={ calendarStyles().iconMainWrap }>
-                    <TouchableOpacity onPress={ translateBackFunc } style={ calendarStyles().iconWrap }>
-                        <Icon name="long-arrow-left" style={ calendarStyles().arrowLong } />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={ translateBackFunc } style={ calendarStyles().iconWrap }>
-                        <Icon name="arrow-left" style={ calendarStyles().arrowShort } />
-                    </TouchableOpacity>
-                </View>
-                <Text style={textStyle().h2}>{ monthNames[currentMonth] }</Text>
-                <View style={ calendarStyles().iconMainWrap }>
-                    <TouchableOpacity onPress={ translateForwardFunc } style={ calendarStyles().iconWrap }>
-                        <Icon name="arrow-right" style={ calendarStyles().arrowShort } />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={ () => minMaxMonth(true) } style={ calendarStyles().iconWrap }>
-                        <Icon name="long-arrow-right" style={ calendarStyles().arrowLong } />
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View style={ calendarStyles().rowContainer }>
-                <FlatList 
-                    contentContainerStyle={ stylesGuest().horizontalWrap } 
-                    numColumns={7} 
-                    keyExtractor={(item, index) => index.toString()}
-                    data={ dayNames }
-                    renderItem={( dayName, index ) => (
-                        <View style={ calendarStyles().dayWrap }>
-                            <Text style={ textStyle().h2 }>{ dayName.item}</Text>
-                        </View>
-                    ) }
-                />
-            </View>
+        <View style={ calendarStyles().rowContainerWeek }>
+            <FlatList 
+                contentContainerStyle={ stylesGuest().horizontalWrap } 
+                numColumns={7} 
+                keyExtractor={(item, index) => index.toString()}
+                data={ dayNames }
+                renderItem={( dayName, index ) => (
+                    <View style={ calendarStyles().dayTitleWrap }>
+                        <Text style={ textStyle().h2 }>{ dayName.item}</Text>
+                    </View>
+                )}
+            />
         </View>
+        </>
     )
 }
-

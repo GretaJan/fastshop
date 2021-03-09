@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/get-all-data', 'CategoryController@getAllData');
+Route::get('/get-all-data', 'UserProductController@getAllData');
 
 Route::get('/categories', 'CategoryController@index');
 Route::get('/category/{category}', 'CategoryController@show');
@@ -39,6 +39,7 @@ Route::group([
 ], function() {
     Route::get('/user', 'UserController@user');
     Route::get('/logout', 'UserController@logout');
+
     //Category actions
     Route::post('/addCategory', 'CategoryController@store');
     Route::put('/updateCategory/{id}', 'CategoryController@update');
@@ -59,7 +60,9 @@ Route::group([
     Route::get('/get-top-favorites/{category_id}', 'UserProductController@getTopFavorites');
     //USER Products LIST
     Route::post('/update-create-checklist', 'UserProductController@updateCreateBuyList');
-    Route::post('/get-buy-lists', 'UserProductController@getBuyListsBuyDate');
+    Route::get('/get-buy-lists', 'UserProductController@getBuyAllLists');
+    Route::post('/get-buy-lists-by-date', 'UserProductController@getBuyListsBuyDate');
     Route::get('/get-buy-list/{id}', 'UserProductController@getSingleBuyList');
+    Route::delete('/delete-buy-list/{id}', 'UserProductController@deleteBuyList');
 });
 

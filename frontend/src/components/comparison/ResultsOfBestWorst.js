@@ -60,7 +60,6 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
     }
 
     async function likeProductLocal(){
-        console.log("hellooo", productModel)
         const errorMsg = await likeProduct(productModel.categoryId, productModel.id, token, true)
         if(!errorMsg){
             setIsLiked(true);
@@ -71,7 +70,6 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
 
 
     function unlikeProductLocal(){
-        console.log("propp:: ", productModel)
         unlikeProduct(productModel.id, true)
     }
 

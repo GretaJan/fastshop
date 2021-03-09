@@ -1,12 +1,15 @@
 import { StyleSheet } from 'react-native';
 import { colors, fonts } from './Colors';
 import { Dimensions } from 'react-native';
-// import { useHeaderHeight  } from '@react-navigation/stack';
 import { Platform } from 'react-native';
 
 export const textStyle = () => StyleSheet.create({
     h1: {
         fontSize: 24,
+    },
+    h2Bold: {
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     h2: {
         fontSize: 20,
@@ -41,23 +44,46 @@ export const textStyle = () => StyleSheet.create({
         marginLeft: '3%',
         fontSize: 20,
     },
+    greyText: {
+        fontSize: 15,
+        color: colors.lighterBlack
+    },
+    whiteTitle: {
+        fontSize: 22,
+        fontWeight: '100',
+        color: '#fff',
+        alignSelf: 'center'
+    },
+    largeFont: {
+        fontSize: 30,
+    }
 });
 
 export const containerStyles = (color) => StyleSheet.create({
     screenHeightContainer: {
         flex: 1,
+        alignSelf: 'center',
+        width: Dimensions.get('window').width /1 - 20,
+        height: Dimensions.get('window').height - (Dimensions.get('window').height / 5.5 / 2 + 95),
+        top: (Dimensions.get('window').height /5.5 ) /2,
+        zIndex: 1,
+    },
+    screenHeightContainerTop: {
+        flex: 1,
         textAlign: 'center',
         alignItems:'center',
-        width: Dimensions.get('window').width /1,
-        maxHeight: Dimensions.get('window').height /1 - 140,
-        position: 'relative',
-        backgroundColor: color ? color : colors.mainGrey,
+        width: Dimensions.get('window').width /1 - 20,
+        maxHeight: Dimensions.get('window').height - (Dimensions.get('window').height / 5.5 / 2 + 95),
+        marginLeft: 10,
+        zIndex: 1,
     },
     simpleContainer: {
         flex: 1,
         textAlign: 'center',
-        backgroundColor: color ? color : colors.mainGrey,
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+        paddingVertical: 10,
+        zIndex: 2,
+        top: (Dimensions.get('window').height /5.5 ) /2,
     },
     flatListScrollSmall: {
         height: Dimensions.get('window').height /2.25,
@@ -65,7 +91,7 @@ export const containerStyles = (color) => StyleSheet.create({
         paddingHorizontal: 5,
     },
     flatListScrollFull: {
-        height: Dimensions.get('window').height /1.4,
+        height: Dimensions.get('window').height /1.4 - Dimensions.get('window').height /5.5 /2,
         width: Dimensions.get('window').width,
         paddingHorizontal: 5,
         zIndex: 2,
@@ -77,20 +103,42 @@ export const containerStyles = (color) => StyleSheet.create({
         flex: 1,
         textAlign: 'center',
         alignItems:'center',
-        // width: Dimensions.get('window').width /1,
-        maxHeight: Dimensions.get('window').height /1 - 140,
+        maxHeight: Dimensions.get('window').height /1 - 130,
         position: 'relative',
         backgroundColor: color ? color : colors.mainGrey,
-    }
+    },
+    topContainer: {
+        height: Dimensions.get('window').height /5.5,
+        backgroundColor: '#fff'
+    },
+    horizontalWrap: {
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        width: Dimensions.get('window').width - 40,
+    },
+    topTitle: {
+        top: Dimensions.get('window').height /5.5 / 10,
+        height: Dimensions.get('window').height /5.5 / 2,
+        flexDirection: 'row',
+    },
+    topTitleTwo: {
+        flexDirection: 'row',
+        flex: 1,
+    },
+    flatListScrollFullCalendar: {
+        height: Dimensions.get('window').height - (Dimensions.get('window').height /5.5) - 85,
+        zIndex: 2,
+        justifyContent: 'space-between',
+    },
 })
 
-export const inputStyles = (error) => StyleSheet.create({
+export const inputStyles = (errorOrCol) => StyleSheet.create({
     inputContainer: {
         width: '86%',
         marginBottom: 15,
     },
     inputGreen: {
-        borderColor: !error ? colors.mainBtnGreen : colors.mainBtnOrange,
+        borderColor: !errorOrCol ? colors.mainBtnGreen : colors.mainBtnOrange,
         borderWidth: 2,
         marginVertical: 7,
         paddingHorizontal: 10,
@@ -102,6 +150,23 @@ export const inputStyles = (error) => StyleSheet.create({
         backgroundColor: colors.mainWhiteGrey,
         justifyContent: 'center',
         marginVertical: 7,
+    },
+    inputRow: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignContent: 'center',
+        flexDirection: 'row', 
+        width: 150,  
+        textAlign: 'center'
+    },
+    shortInputContainer: {
+        marginBottom: 15,
+        alignItems: 'center',
+        flexBasis: (Dimensions.get('window').width - 40)  / errorOrCol,
+    },
+    optionText: {
+        fontSize: 18,
+        paddingLeft: 10
     },
 })
 
@@ -198,7 +263,7 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
         zIndex: 41,
         flex: 1,
         width: Dimensions.get('window').width /1,
-        minHeight: Dimensions.get('window').height /1 - 85 - (Platform === "ios" ? 64 : 56),
+        minHeight: Dimensions.get('window').height - 30 - (Platform === "ios" ? 64 : 56),
         alignItems: 'center',
         backgroundColor: colors.transparentLight,
         justifyContent: 'center',
@@ -210,7 +275,6 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
         flex: 1,
         width: Dimensions.get('window').width /1,
         minHeight: Dimensions.get('window').height /1 - 85 - (Platform === "ios" ? 64 : 56),
-        // alignItems: 'center',
     },
     animatedContainer: {
         paddingVertical: 18,
@@ -221,7 +285,7 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        zIndex: 50,
+        zIndex: 60,
         alignSelf: 'center',
         // Shadow
         elevation   : 1,
@@ -234,7 +298,8 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
         backgroundColor: colors.transparentLight,
          transform: [
              { scale: scale }
-         ]
+         ],
+         backgroundColor: '#fff',
     },
     animatedContainerFull: {
         borderColor: colors.mainBtnOrange,

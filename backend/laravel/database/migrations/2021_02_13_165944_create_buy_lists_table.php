@@ -18,9 +18,9 @@ class CreateBuyListsTable extends Migration
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
-            $table->json('list');  //name -string, quantity - int, products from list - array, isBought? 
+            $table->json('list')->nullable();  //name -string, quantity - int, products from list - array, isBought? 
             $table->date('date');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->boolean('is_completed')->nullable();
             $table->timestamps();
         });

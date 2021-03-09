@@ -17,21 +17,32 @@ const heightAnimation = () => {
     })
 }
 
-const screenAnimation = (translateTo) => ({
+const heightLargeAnimation = () => {
+    console.log("heightt")
+    LayoutAnimation.configureNext({
+        duration: 400,
+        update: {
+           delay: 0,
+           type: LayoutAnimation.Types.linear,
+        },
+    })
+}
+
+const screenAnimation = (translateTo, duration) => ({
     toValue: translateTo,
     delay: 0,
-    duration: 400,
+    duration: duration,
     easing: Easing.linear,
     useNativeDriver: true,
 })
 
-const translateZeroOptions = {
-    toValue: 0,
+const translateZeroOptions = (translateTo) => ({
+    toValue: translateTo,
     delay: 0,
     duration: 300,
     easing: Easing.linear,
     useNativeDriver: true,
-}
+})
 
 var comparisonAnimations = {
     pulsingBtn(scale, active) {
@@ -168,21 +179,14 @@ var comparisonAnimations = {
             })
         ]).start(() => comparisonAnimations.AnimateAuth(translOne, translTwo, translThree) )
     },
-    optionBtnsHide(translate){
-        Animated.sequence([
-            Animated.timing(translate, {
-                toValue: Dimensions.get('window').height /5 + 100,
-                delay: 0,
-                duration: 300,
-                easing: Easing.linear,
-                useNativeDriver: true,
-            }),
-        ]).start()
+    optionBtnsHide(translate, func){
+        const height = Dimensions.get('window').height /5 + 100;
+        Animated.timing(translate, translateZeroOptions(height)).start(() => {
+            func()
+        })
     },
     optionBtnsShow(translate, func){
-        Animated.sequence([
-            Animated.timing(translate, translateZeroOptions),
-        ]).start(() => {
+        Animated.timing(translate, translateZeroOptions(0)).start(() => {
             func()
         })
     }
@@ -292,15 +296,29 @@ var productAnimations = {
                 removeFunc()
             }
         )
+    },
+    removeLargeItem(translation, heightFunc, removeFunc){
+            Animated.timing(translation, {
+                toValue: -(Dimensions.get('window').width /1),
+                delay: .3,
+                duration: 300,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            }).start(() => {
+                heightLargeAnimation()
+                heightFunc()
+                removeFunc()
+            }
+        )
     }
 }
 
 var calendarAnimations = {
-    translateContainer(translationItem, translateTo){
-        Animated.timing(translationItem, screenAnimation(translateTo)).start()
+    translateContainer(translationItem, translateTo, duration){
+        Animated.timing(translationItem, screenAnimation(translateTo, duration)).start()
     },
     translateDayIcon(translate){
-        Animated.timing(translate, translateZeroOptions).start()
+        Animated.timing(translate,  translateZeroOptions(0)).start()
     }
 }
 
