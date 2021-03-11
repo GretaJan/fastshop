@@ -4,10 +4,7 @@ const initialState = {
     admin_name: '',
     email: '',
     password: '',
-    // admin: {},
     user: {},
-    // authenticate: null,
-    // isAuthorized: false,
     token: '',
     error: null,
     isLoading: true,
@@ -23,33 +20,32 @@ export default function(state = initialState, action) {
         case TRY_LOG_IN:
             return {
                 ...state,
-                authenticate: action.authenticate
+                authenticate: true
             }
-            case LOGGED_IN:
-                return {
-                    ...state,
-                    isLoading: action.payload,
-                    admin: action.admin,
-                    token: action.token,
-                    isAuthorized: action.isAuthorized,
-                    authenticate: action.authenticate,
-                    error: null,
-                }
-            case LOG_IN_FAILED:
-                return {
-                    ...state,
-                    error: action.payload,
-                    admin: action.admin,
-                    isAuthorized: action.isAuthorized,
-                    authenticate: action.authenticate,
-                }
-            case LOG_OUT:
+        case LOGGED_IN:
             return {
                 ...state,
+                isLoading: action.payload,
                 admin: action.admin,
-                isAuthorized: action.isAuthorized
+                token: action.token,
+                authenticate: false,
+                error: null,
             }
-            case LOG_OUT_FAILED:
+        case LOG_IN_FAILED:
+            return {
+                ...state,
+                error: action.payload,
+                admin: action.admin,
+                isAuthorized: action.isAuthorized,
+                authenticate: false,
+            }
+        case LOG_OUT:
+            return {
+                ...state,
+                token: '',
+                user: 'logged_out'
+            }
+        case LOG_OUT_FAILED:
             return {
                 ...state,
                 logErrorMsg: action.payload,

@@ -59,10 +59,6 @@ function Day({ item, month, isCurrentCondition, currentYear, currentDay, listsAr
                     style={ calendarStyles(translateIcon).listMarkerIcon } 
                 />
             ) }
-            {/* <MaterialIcon 
-                name="silverware-fork-knife" 
-                style={ calendarStyles().listMarkerIcon } 
-            /> */}
         </TouchableOpacity>
     )
 

@@ -1,13 +1,13 @@
 
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, Animated, ScrollView } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Animated, ScrollView, Pressable } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-import { getSingleList, getRelatedProducts } from '../../../redux/actions/calendar';
+import { getSingleList, getRelatedProducts, createUpdateListRedux } from '../../../redux/actions/calendar';
 import { containerStyles, textStyle, modalStyles, inputStyles, btnStyles } from '../../../components_additional/styles/GeneralStyles';
-import { buyListSingle, calendarStyles } from '../../../components_additional/styles/CalendarStyles';
-import { diagram, productWrap } from '../../../components_additional/styles/CompareStyles';
+import { buyListSingle } from '../../../components_additional/styles/CalendarStyles';
 import { colors } from '../../../components_additional/styles/Colors';
 
 //Components 
@@ -15,24 +15,20 @@ import Header from '../../../components_additional/models/Header';
 import Error from '../../../components_additional/models/Error';
 import Loading from '../../../components_additional/models/Loading';
 import EmptyList from '../../../components_additional/models/EmptyList';
-import CheckInput from '../../../components_additional/models/Check';
+import CheckWithText from '../../../components_additional/models/CheckWithText';
 import ActionIcon from '../../../components_additional/models/ActionIcon';
 
-const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
+const AnimatedPressable  = Animated.createAnimatedComponent(Pressable);
 const { modalAnimations } = require('../../../components_additional/styles/Animations.js');
-function sliceFunc(digit){
-    return (`0${digit}`).slice(-2);
-}
 
-function BuyList({ route, navigation: { navigate } }){
-    const { id, years } = route.params;
+function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
+    const { createdAt, years } = route.params;
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [name, setName] = useState('');
     const [date, setDate] = useState('');
     const [list, setList] = useState([]);
     const [notes, setNotes] = useState({});  
-    const [createdAt, setCreatedAt] = useState('');
     const [updatedAt, setUpdatedAt] = useState('');
     const [isCompleted, setIsCompleted] = useState(false);
     const [editableList, setEditableList] = useState({
@@ -43,23 +39,31 @@ function BuyList({ route, navigation: { navigate } }){
                                             });
     const [listIndex, setListIndex] = useState(null);
 
-    useEffect(() => {
-        setTimeout(() => {
-            getSingleList(id, years).then(response => {
+    async function getListFunc(){
+        return getSingleList(createdAt, years).then((response) => {
                 if(response){
                     setName(response.name)
                     setDate(response.date)
                     setList(response.list)
                     setNotes(response.notes)
-                    setCreatedAt(response.created_at)
                     setUpdatedAt(response.updated_at)
                     setIsCompleted(response.is_completed)
+                    return true
                 } else {
-                    setError('Įvyko klaida.')
+                    return response
                 }
+            });
+    }
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            getListFunc().then(response => {
+                if(response == null) setError('Įvyko klaida')
                 setLoading(false)
             })
         }, 500)
+           
     },[])
 
     return (
@@ -69,16 +73,6 @@ function BuyList({ route, navigation: { navigate } }){
             </View>
         ) : (
             <>
-                { listIndex && (
-                    <EditSingleItem 
-                        item={ editableObj } 
-                        index={ listIndex }
-                        close={ closeFunc }
-                        editCreateListFunc={ (key, value) => editCreateListFunc(key, value) } 
-                        editCreateListFuncQuantity={ (type) => editCreateListFuncQuantity(type) }
-                        saveList={ () => editBuyListFunc(years, null, id) }
-                    />
-                )}
                 <Header 
                     title={ name }
                     navigate={ () => navigate("Calendar") }
@@ -87,7 +81,16 @@ function BuyList({ route, navigation: { navigate } }){
                 { error ? (
                         <Error message={ error } />
                     ) : (
-                        <>
+                        <View>
+                            { listIndex !== null && (
+                                <EditSingleItem 
+                                    item={ editableList } 
+                                    close={ closeFunc }
+                                    editCreateListFunc={ (key, value) => editCreateListFunc(key, value) } 
+                                    editCreateListFuncQuantity={ (type) => editCreateListFuncQuantity(type) }
+                                    saveList={ () => editBuyListFunc(years, null, id) }
+                                /> 
+                            )}
                             <View style={ buyListSingle().innerContainer }>
                                 <View style={ buyListSingle().iconsWrap } >
                                     <TouchableOpacity style={ buyListSingle().iconWrap } onPress={ getCreateListIndex } >
@@ -100,11 +103,6 @@ function BuyList({ route, navigation: { navigate } }){
                                 <View style={ buyListSingle().titleTextWrap }>
                                     <View>
                                         <Text style={ textStyle().h4 }>{ date }</Text>
-                                    </View>
-                                    <View>
-                                        <AnimatedIonIcon name="md-checkmark" color='#32bd81' style={ diagram(null, 0).iconTranslation } />
-                                        <AnimatedIonIcon name="md-close" color='#ff7725' style={ diagram(null, 0).iconTranslation } />
-                                        <Text style={ textStyle().h4 }>Užbaigta</Text>
                                     </View>
                                 </View>
                             </View>
@@ -121,11 +119,11 @@ function BuyList({ route, navigation: { navigate } }){
                                     <View><Text style={ textStyle().p }>Atnaujinta: { updatedAt }</Text></View>
                                 </View>
                             </ScrollView>
-                        </>
+                        </View>
                     )}
                 </View>
             </>
-        )   
+        )
     )
 
     function getCreateListIndex(){
@@ -135,47 +133,41 @@ function BuyList({ route, navigation: { navigate } }){
     }
 
     function closeFunc(){
-        setEditModal(false)
+        setListIndex(null)
     }
 
     function editCreateListFunc(key, value){
-        const tempObj = {...editableObj}
+        let tempObj = {...editableList}
         tempObj[key] = value
-        setEditableObj(tempObj)
+        setEditableList(tempObj)
     }
 
     function editCreateListFuncQuantity(type){
-        let tempObj = {...editableObj}
+        let tempObj = {...editableList}
         //do not let number to be smaller than 1
-        if(type == 'desc' && editableObj.quantity > 1){
-            tempObj.quantity = value - 1
-            setEditableObj(tempObj)
-        } else {
-            //do not let number to be larger than 1
-            if(editableObj.quantity < 150 ){
-                tempObj.quantity = value + 1
-                setEditableObj(tempObj)
-            }
+        if(type == 'desc' && tempObj.quantity > 1){
+            tempObj.quantity = tempObj.quantity - 1
+            setEditableList(tempObj)
+        } else if(type == 'asc' && tempObj.quantity < 150){  //do not let number to be larger than 1
+            tempObj.quantity = tempObj.quantity + 1
+            setEditableList(tempObj)
         }
     }
 
     function editBuyListFunc(){
-    const currentDate = new Date();
-    const updatedDate = `${currentDate.getFullYear()}-${sliceFunc(currentDate.getMonth() + 1)}-${sliceFunc(currentDate.getDate())}`;
         const data = {
-            id: id,
             name: name,
             date: date,
             notes: notes,
+            list: list,
             created_at: createdAt,
-            updated_at: updatedDate
         }
         createUpdateListRedux(years, data)
     }
-
 }
 
-export default withNavigation(BuyList)
+
+export default withNavigation(connect(null, { createUpdateListRedux })(BuyList))
 
 function List({ list }){
 
@@ -235,39 +227,48 @@ function SingleItem({ item, index }){
 }
 
 function EditSingleItem({ item, close, editCreateListFunc, editCreateListFuncQuantity, saveList }){
-    const scale = useState(new Animated.Value(0))[0];
+    const scale = useRef(new Animated.Value(0)).current;
 
     useState(() => {
-        modalAnimations.buttonScale(scale);
+        modalAnimations.modalScale(scale);
     }, [])
 
     return (
         <TouchableOpacity style={ modalStyles().modalWrapContainer } onPress={ close } >
-            <Animated.View style={ modalStyles(null, null, scale, true).animatedContainer } >
-                <View style={ inputStyles().inputContainer } >
-                    <CheckInput isVisible={ item.checked } func={ () => editCreateListFunc('checked', !item.checked) } />
+            <AnimatedPressable style={ modalStyles(null, null, scale, true).animatedContainer }>
+                <View style={ inputStyles().formTextGap } >
+                    <CheckWithText
+                        isSelected={ item.checked } 
+                        item="Jau krepšelyje"
+                        selectItem={ () => editCreateListFunc('checked', !item.checked)  }
+                    />
+                </View>
+                 <View style={ inputStyles().inputContainer } >
                     <TextInput 
                         value={ item.name } 
                         onChangeText={ (value) => editCreateListFunc('name', value) }
                         style={ inputStyles().inputGreen }
+                        maxLength={ 100 }
                     />
                 </View>
-                <View style={ inputStyles().inputRow }>
-                    <TouchableOpacity 
-                        onPress={ () => editCreateListFuncQuantity('desc') } 
-                        style={ buyListSingle().largeFont } 
-                    >
-                        <IonIcon size={ 30 } name="md-arrow-back" />
-                    </TouchableOpacity>
-                    <View style={ buyListSingle().editQuantity } >
-                        <Text style={ textStyle().largeFont }>{ item.quantity }</Text>
+                <View style={ inputStyles().formTextGap } >
+                    <View style={ inputStyles().inputRow }>
+                        <TouchableOpacity 
+                            onPress={ () => editCreateListFuncQuantity('desc') } 
+                            style={ buyListSingle().largeFont } 
+                        >
+                            <IonIcon size={ 30 } name="md-arrow-back" />
+                        </TouchableOpacity>
+                        <View style={ buyListSingle().editQuantity } >
+                            <Text style={ textStyle().largeFont }>{ item.quantity }</Text>
+                        </View>
+                        <TouchableOpacity 
+                            onPress={ () => editCreateListFuncQuantity('asc') } 
+                            style={ buyListSingle().largeFont }  
+                        >
+                            <IonIcon  size={ 30 } name="md-arrow-forward" />
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity 
-                        onPress={ () => editCreateListFuncQuantity('asc') } 
-                        style={ buyListSingle().largeFont }  
-                    >
-                        <IonIcon  size={ 30 } name="md-arrow-forward" />
-                    </TouchableOpacity>
                 </View>
                 <View style={ btnStyles().buttonsRowWrap }>
                     <TouchableOpacity 
@@ -283,7 +284,7 @@ function EditSingleItem({ item, close, editCreateListFunc, editCreateListFuncQua
                         <Text style={ btnStyles().inputBtnText } >Atšaukti</Text>
                     </TouchableOpacity>
                 </View>
-            </Animated.View>
+            </AnimatedPressable>
         </TouchableOpacity>
     )
 }

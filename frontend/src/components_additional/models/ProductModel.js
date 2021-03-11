@@ -16,8 +16,7 @@ function ProductModel({
     token, 
     isLiked,
     likeProduct, 
-    unlikeProduct, 
-    putToCart, 
+    unlikeProduct,  
     close,
     navigate
 }){
@@ -29,7 +28,7 @@ function ProductModel({
     const [pressNavigate, setPressNavigate] = useState(false)
 
     useEffect(() => {
-        modalAnimations.buttonScale(scale);
+        modalAnimations.modalScale(scale);
     }, [])
 
     async function likeProductLocal(ref){
@@ -53,7 +52,6 @@ function ProductModel({
     const wrapHoverProps = {
         activeOpacity: 1,
         underlayColor: colors.mainBtnGreen,
-        //style: this.state.isPressed ?  stylesGuest().itemWrapHover : stylesGuest().itemWrap,
         onHideUnderlay: () => setPressNavigate(false),
         onShowUnderlay: () => setPressNavigate(true),
         onPress: () => navigate("Product", {subcategoryId: prop.subcategoryId, productId: prop.id, name: prop.name, background: null })
@@ -96,17 +94,6 @@ function ProductModel({
                         activeColorSec={ colors.mainBtnGreen }
                         isActive={ isLiked }
                     />
-                    {/* <ActionIcon
-                        deactivateFunc={ unselectProduct }
-                        activateFunc={(ref) => selectProduct(ref) }
-                        errorCondition={  selectErrorCondition }
-                        // errorFunc={ (ref) => this.callModal(ref, 'Please select no more than 30 items.') }
-                        mainIcon='md-checkmark'
-                        activeIcon='format-list-bulleted'
-                        activeColor={ colors.mainBtnGreen }
-                        activeColorSec={ colors.mainBtnOrange }
-                        isActive={ prop.isSelected }
-                    /> */}
                 </View>
                 <TouchableHighlight {...wrapHoverProps} style={pressNavigate ? fullModal().navBtnWrapHover : fullModal().navBtnWrap }>
                     <View>
@@ -121,7 +108,6 @@ function ProductModel({
                         <Icon style={ pressNavigate ? stylesGuest().arrowIconHover : stylesGuest().arrowIcon } name="long-arrow-right" />
                     </View>
                 </TouchableHighlight>
-                {/* <AnimatedIonIcon name="md-close" color='#ff7725' style={ diagram(null, translateMismatch).iconTranslation } /> */}
             </Animated.View>
         </TouchableOpacity>
     )

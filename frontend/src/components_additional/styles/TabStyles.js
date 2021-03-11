@@ -24,14 +24,12 @@ export const styles = () => StyleSheet.create({
         fontFamily: 'sans-serif-condensed'
     },
     iconItem: {
-        // color: '#FFFFE0',
         color: colors.mainGrey,
         fontSize: 30,
     }
 })
-export const signinStyle = (modelCalled) => StyleSheet.create({
+export const signinStyle = () => StyleSheet.create({
     container: {
-        // top: Dimensions.get('window').height /1 - 69,
         top: Dimensions.get('window').height /1 - 83,
         width: '33.33%',
         height: 60,
@@ -43,7 +41,7 @@ export const signinStyle = (modelCalled) => StyleSheet.create({
         alignSelf: 'flex-end',
     },
     iconItem: {
-        color: modelCalled ? colors.mainBtnGreen : colors.mainGrey,
+        color: colors.mainGrey,
         fontSize: 30,
     }
 });

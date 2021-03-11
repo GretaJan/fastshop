@@ -10,14 +10,13 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         alignContent: 'center',
-        width: Dimensions.get('window').width,
+        width: Dimensions.get('window').width - 20,
         minHeight: Dimensions.get('window').height /5,
-        marginBottom: 45,
+        marginBottom: 95,
         zIndex: 2,
         transform: [
             { translateY: translate },
         ],
-        paddingHorizontal: 10,
     },
     transparentStripe: {
         width: Dimensions.get('window').width - 20,
@@ -37,14 +36,12 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         alignContent: 'center',
-        // marginHorizontal: 20,
     },
     btnTwo: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         alignContent: 'center',
-        // marginHorizontal: 20,
         marginTop: 10,
     },
     iconWrapOne: {
@@ -54,7 +51,7 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
+        borderRadius: 5,
           // Shadow
           elevation   : 5,
           overflow: 'hidden',
@@ -71,7 +68,7 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
+        borderRadius: 5,
           // Shadow
           elevation   : 5,
           overflow: 'hidden',
@@ -88,7 +85,7 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
+        borderRadius: 5,
           // Shadow
           elevation   : 5,
           overflow: 'hidden',
@@ -135,9 +132,8 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         backgroundColor: colors.mainGrey,
         position: 'absolute',
         zIndex: 3,
-        // marginTop: 5,
         height: 40,
-        bottom: 0,
+        bottom: 60,
         width: Dimensions.get('window').width /1
     },
     optionsBtnText: {
@@ -151,7 +147,6 @@ export const descAscDropDown = () => StyleSheet.create({
         zIndex: 5,
         backgroundColor: colors.mainGrey,
         width: Dimensions.get('window').width /1,
-        // minHeight: Dimensions.get('window').height /1,
         top: 0,
         left: 0,
         right: 0,
@@ -167,8 +162,6 @@ export const descAscDropDown = () => StyleSheet.create({
         paddingHorizontal: 30,
         borderBottomColor: colors.transparentLight,
         borderBottomWidth: 1,
-        // borderColor: activeItem ? colors.mainWhiteYellow : 'rgba(0, 0, 0, 0)',
-        // borderWidth: 3,
     },
     text: {
         fontSize: 18,
@@ -179,10 +172,6 @@ export const descAscDropDown = () => StyleSheet.create({
         paddingHorizontal: 30,
         paddingVertical: 10,
         alignItems: 'center',
-    },
-    iconWrap: {
-        // backgroundColor: colors.mainBtnGreen,
-        // paddingVertical: 10,
     },
     btnIcon: {
         fontSize: 35,

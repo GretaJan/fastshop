@@ -12,7 +12,7 @@ class Subcategory extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={stylesGuest(null, this.props.item.background).itemWrap} key={this.props.item.id.toString()} onPress={this.goToProducts } >
+            <TouchableOpacity style={stylesGuest(null, this.props.item.background, this.props.index + 1).itemWrap} key={this.props.item.id.toString()} onPress={this.goToProducts } >
                 {this.props.item.image ? (
                     <View style={stylesGuest().imageWrap} >
                         <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />

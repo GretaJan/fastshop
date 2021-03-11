@@ -83,7 +83,7 @@ var comparisonAnimations = {
             }),
             Animated.timing(scale, {
                 toValue: 1,
-                delay: .3,
+                delay: 0,
                 duration: 200,
                 useNativeDriver: true,
              }),
@@ -193,7 +193,7 @@ var comparisonAnimations = {
 }
 
 var modalAnimations = {
-    buttonScale(scale) {
+    modalScale(scale) {
         Animated.sequence([
             Animated.timing(scale, {
                 toValue: 1,

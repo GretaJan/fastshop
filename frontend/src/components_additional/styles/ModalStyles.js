@@ -97,17 +97,19 @@ export const fullModal = () => StyleSheet.create({
 export const searchBar = () =>  StyleSheet.create({
     searchBarContainer: {
         flexDirection: 'row',
-        marginBottom: 25,
-        height: 50,
+        // marginBottom: 25,
+        height: Dimensions.get('window').height / 5.5 / 2 - 10,
         alignItems: 'center',
         backgroundColor: colors.mainWhiteGrey,
         borderColor: colors.darkerGray,
         borderWidth: 1,
         borderRadius: 2,
+        flex: 1,
+        // width: Dimensions.get('window').width - 20
     },
     iconWrap: {
-        height: 49,
-        width: 49,
+        height: Dimensions.get('window').height / 5.5 / 2 - 11,
+        width: Dimensions.get('window').height / 5.5 / 2 - 11,
         borderRightColor: colors.mainGrey,
         borderRightWidth: 1,
     },

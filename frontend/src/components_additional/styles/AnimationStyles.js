@@ -50,10 +50,8 @@ export const animations = (scale, translate) => StyleSheet.create({
             { translateX: translate }
         ],
         flexDirection: 'row',
-        alignContent: 'flex-start',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         justifyContent: 'flex-start',
         width: (Dimensions.get('window').width - 40) * 3,
-        backgroundColor: 'yellow',
     },
 })

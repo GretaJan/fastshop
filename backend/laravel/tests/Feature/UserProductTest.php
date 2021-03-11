@@ -99,10 +99,10 @@ class UserProductTest extends TestCase
             ],
             'notes' => rand(20000, 1000000) . 'ABC',
             'date' => '2021-02-24',
+            'created_at' => '2021-02-24 10:15:20',
+            'updated_at' => '2021-02-24 10:15:20',
             'is_completed' => false
         ], $this->user_headers);
-        // $response->assertStatus(422)
-        //     ->assertJsonValidationErrors(['date' => 'Date']);
         $response->assertStatus(201);
     }
     /** @test */
@@ -112,7 +112,10 @@ class UserProductTest extends TestCase
         $user = User::where('email', 'gretajan09@gmail.com')->first();
         $this->setUpUser($user->id);
         $response = $this->postJson('/api/update-create-checklist', [
+            'name' => 'Sąrašas',
             'date' => '2021-03-08',
+            'created_at' => '2021-02-24 10:15:20',
+            'updated_at' => '2021-02-24 10:15:20',
         ], $this->user_headers);
         // $response->assertStatus(422)
         //     ->assertJsonValidationErrors(['date' => 'Date']);
@@ -125,7 +128,10 @@ class UserProductTest extends TestCase
         $user = User::where('email', 'gretajan09@gmail.com')->first();
         $this->setUpUser($user->id);
         $response = $this->postJson('/api/get-buy-lists-by-date', [
+            'name' => 'Sąrašas',
             'date' => '2021-02-24',   
+            'created_at' => '2021-02-24 10:15:20',
+            'updated_at' => '2021-02-24 10:15:20',
         ], $this->user_headers);
         $content = json_decode($response->getContent());
         $this->assertGreaterThan(0, count($content));

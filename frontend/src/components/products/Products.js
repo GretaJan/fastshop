@@ -14,6 +14,7 @@ import { colors } from '../../components_additional/styles/Colors';
 
 //Components
 import Product from './ProductList';
+import Header from '../../components_additional/models/Header';
 import Loading from '../../components_additional/models/Loading';
 import EmptyList from '../../components_additional/models/EmptyList';
 import Modal from '../../components_additional/models/Modal';
@@ -89,12 +90,20 @@ class Products extends Component {
 
 
     goToProduct = (item) => {
-        this.props.navigation.push("Product", {subcategoryId: item.subcategory_id, productId: item.id, name: item.name, background: item.background});
+        const { name, categoryId, categoryName } = this.props.route.params;
+        this.props.navigation.push("Product", {
+            subcategoryId: item.subcategory_id, 
+            subcategoryName: name,
+            productId: item.id, 
+            background: item.background,
+            categoryId: categoryId,
+            categoryName: categoryName,
+        });
     }
 
 
     render() {
-        const { background } = this.props.route.params;
+        const { background, name, categoryId, categoryName } = this.props.route.params;
         const { modelMsg } = this.state;
         const { selectedProducts } = this.props;
         return (
@@ -113,6 +122,18 @@ class Products extends Component {
                                 horizontal={20} vertical={10}
                             />
                         )} */}
+                        <Header 
+                            title={ name }
+                            navigate={ () => this.props.navigation.push("Subcategories", {
+                                categoryId: categoryId, 
+                                name: categoryName, 
+                                background: background
+                            }) }
+                        />
+                        <SearchBar 
+                            func={ (value) => this.findFunction(value) }
+                            parentValue={ this.state.searchName }
+                        />
                         <View style={containerStyles(background).simpleContainer}>
                             { modelMsg !== '' && (
                                 <Modal title="Limit exceeded" 
@@ -123,10 +144,6 @@ class Products extends Component {
                                     horizontal={20} vertical={10}
                                 />
                             )}
-                            <SearchBar 
-                                func={ (value) => this.findFunction(value) }
-                                parentValue={ this.state.searchName }
-                            />
                             {(this.props.products.length == 0) ? (
                                     <EmptyList message="The List is empty" background={background} />
                                 ) : (

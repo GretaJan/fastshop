@@ -21,8 +21,8 @@ class ProductList extends Component {
         listSelectScale: new Animated.Value(0),
         listCheckScale: new Animated.Value(0),
         listLikeScale: new Animated.Value(0),
-        checkSelectTransition: new Animated.Value(-35),
-        checkLikeTransition: new Animated.Value(-30),
+        checkSelectTransition: new Animated.Value(-40),
+        checkLikeTransition: new Animated.Value(-40),
     }
 
     componentDidMount() {
@@ -102,7 +102,7 @@ class ProductList extends Component {
 
         return (
             <View style={stylesGuest().itemWrap} >
-                <TouchableOpacity style={stylesGuest().stylesGuest } onPress={this.goToProduct}  >
+                <TouchableOpacity style={stylesGuest().TextPicWrap } onPress={this.goToProduct}  >
                     {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>
                             <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />

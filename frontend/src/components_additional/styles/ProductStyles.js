@@ -15,10 +15,10 @@ export const stylesGuest = (background, rotateBtn, isSelected, translate) => Sty
         justifyContent: 'space-between',
         alignItems:'center',
         height: 65,
-        marginVertical: 2,
+        marginBottom: 5,
         backgroundColor: colors.transparentMedium,
          // Shadow
-         elevation   : 1,
+         elevation   : .5,
          overflow: 'hidden',
          //iOS:
          shadowColor: 'red',
@@ -30,27 +30,27 @@ export const stylesGuest = (background, rotateBtn, isSelected, translate) => Sty
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems:'center',
+        alignItems: 'center',
         height: 65,
         marginVertical: 2,
         backgroundColor: colors.transparentMedium,
-         // Shadow
-         elevation   : 1,
-         overflow: 'hidden',
-         //iOS:
-         shadowColor: 'red',
-         shadowOffset: { width: 1, height: 1 },
-         shadowOpacity: 0.8,
-         shadowRadius: 2, 
+        // Shadow
+        elevation: 0.8,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
         transform: [
             { translateX: translate  },
         ],
-       
     },
     TextPicWrap: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
+
     },
     itemText: {
         fontFamily: 'sans-serif-condensed',
@@ -63,6 +63,7 @@ export const stylesGuest = (background, rotateBtn, isSelected, translate) => Sty
         width: 60,
         height: 60,
         paddingLeft: 2,
+        justifyContent: 'center',
     },
     image: {
         height: '100%',
@@ -72,7 +73,7 @@ export const stylesGuest = (background, rotateBtn, isSelected, translate) => Sty
         textAlign: 'center',
         fontFamily: 'sans-serif-condensed',
         fontSize: 50,
-        color: '#000'
+        color: '#000',
     },
     // iconItem: {
     //     fontSize: 45,
@@ -106,18 +107,18 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
     //     position: 'relative',
     // },
     topContainer: {
-        height: Dimensions.get('window').height /4,
-        width: Dimensions.get('window').width /1,
-        textAlign: 'center',
-        alignItems:'center',
-        alignSelf: 'center',
-        paddingVertical: 7,
-        position: 'relative',
-        backgroundColor: colors.transparentMedium,
-        zIndex: -1
+        // height: Dimensions.get('window').height /4,
+        // width: Dimensions.get('window').width /1,
+        // textAlign: 'center',
+        // alignItems:'center',
+        // alignSelf: 'center',
+        // paddingVertical: 7,
+        // position: 'relative',
+        // backgroundColor: colors.transparentMedium,
+        // zIndex: -1
     },
     imageStyle: {
-        width: Dimensions.get('window').width - 120,
+        width: Dimensions.get('window').width - 140,
         height: '100%',
         zIndex: 15,
         borderRadius: 3,
@@ -141,26 +142,22 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
     listContainer: {
         backgroundColor: background ? background : colors.mainGrey,
         flex: 1,
-        paddingTop: 7,
+        paddingTop: 5,
         paddingBottom: 10,
-        width: Dimensions.get('window').width /1,
     },
     flatlistContainer: {
         justifyContent: 'space-evenly',
         alignContent: 'center',
-        textAlignVertical: 'center',
-        height: '100%',
+        height: Dimensions.get('window').height - Dimensions.get('window').height /3.5 - Dimensions.get('window').height/5.5 - 30,
     },
     listItemWrap: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
         alignContent: 'center',
-        paddingHorizontal: 10,
-        marginHorizontal: 10,
-        borderColor: colors.mainWhiteGreyTrans,
-        borderBottomWidth: 1,
-        justifyContent: 'space-between',
-        paddingVertical: 6,
+        paddingVertical: 4,
+        borderTopColor: colors.mainWhiteGreyTrans,
+        borderTopWidth: 1,
     },
     titleWrap: {
         flexDirection: 'row',
@@ -249,7 +246,8 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
     btnsWrap: {
         position: 'absolute',
         zIndex: 1, 
-        left: Dimensions.get('window').width - 52.5,
+        // left: Dimensions.get('window').width - 52.5,
+        right: 0,
         height: '100%',
         justifyContent: 'center'
     },

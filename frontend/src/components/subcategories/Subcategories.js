@@ -12,6 +12,7 @@ import { backgroundForPages } from '../../components_additional/styles/Additiona
 import { colors } from '../../components_additional/styles/Colors';
 
 //Components
+import Header from '../../components_additional/models/Header';
 import Subcategory from './Subcategory';
 import Loading from '../../components_additional/models/Loading';
 import EmptyList from '../../components_additional/models/EmptyList';
@@ -61,12 +62,18 @@ class Subcategories extends Component {
     }
     
     goToProducts = (item) => {
-        this.props.navigation.push("Products", {subcategoryId: item.id, name: item.name, background: item.background});
+        this.props.navigation.push("Products", {
+            subcategoryId: item.id, 
+            name: item.name, 
+            background: item.background,
+            categoryId: this.state.id,
+            categoryName: this.props.route.params.name
+        });
   
     }
 
     render() {
-        const { background } = this.props.route.params;
+        const { background, name } = this.props.route.params;
         return (
             this.props.loading ? (
                 <View style={backgroundForPages(background).backgroundContainer} >
@@ -74,41 +81,46 @@ class Subcategories extends Component {
                 </View>
                 ) : (
                     <>
-                    { this.props.error !== '' && (
-                        <View>
-                            <Modal 
-                                title="Warning" 
-                                message={this.props.error} 
-                                close={() => this.props.closeErrorWarning('REMOVE_GET_SUBCATEGORIES_ERR') }
-                                ok="OK" color={colors.bordo} 
-                                borderColor={colors.bordoTransparent}
-                                horizontal={20} vertical={10}
-                            />
-                        </View>
-                    )}
-                        <View style={containerStyles(background).simpleContainer}>
-                            <SearchBar 
-                                func={ (value) => this.searchFunction(value) }
-                                parentValue={ this.state.searchName }
-                            />
+                        <Header 
+                            title={ name }
+                            navigate={ () => this.props.navigation.push("Categories") }
+                        />
+                        <SearchBar 
+                            func={ (value) => this.searchFunction(value) }
+                            parentValue={ this.state.searchName }
+                        />
+                        <View style={ containerStyles().simpleContainer }>
+                        { this.props.error !== '' && (
+                            <View>
+                                <Modal 
+                                    title="Warning" 
+                                    message={this.props.error} 
+                                    close={() => this.props.closeErrorWarning('REMOVE_GET_SUBCATEGORIES_ERR') }
+                                    ok="OK" color={colors.bordo} 
+                                    borderColor={colors.bordoTransparent}
+                                    horizontal={20} vertical={10}
+                                />
+                            </View>
+                        )}
                             {(this.props.subcategories.length === 0) ? (
                                 <EmptyList message="The List is empty" background={background} />
                             ) : (
                                 <FlatList 
-                                        contentContainerStyle={stylesGuest().horizontalWrap} numColumns={4} 
+                                        contentContainerStyle={stylesGuest().horizontalWrap} numColumns={3} 
                                         onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
                                         onEndReachedThreshold={0.01}
                                         ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
                                         data={!this.state.inputTriggered ? this.props.subcategories : this.state.tempArray } 
-                                        renderItem={({item}) => (
+                                        renderItem={({item, index}) => (
                                     <Subcategory 
                                         item={item} 
+                                        index={ index }
                                         goToProducts={() => this.goToProducts(item) } 
                                     />
                                 )} />  
                             )}  
                             { this.props.nextPage < this.props.lastPage && (
-                                <TouchableOpacity onPress={this.loadMore} ><Text>MOOOREEE</Text></TouchableOpacity>
+                                <TouchableOpacity onPress={this.loadMore} ><Text>More</Text></TouchableOpacity>
                             ) }
                         </View>
                     </>

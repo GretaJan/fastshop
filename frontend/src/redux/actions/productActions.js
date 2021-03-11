@@ -17,8 +17,10 @@ import {
     DELETE_PRODUCT_ERROR, 
     URL,
 } from './types';
+import { asyncStorageFunc } from './generalActions';
 import axios from 'axios';
-;
+
+
 
 export const getProducts = (allProducts, subcategoryId, page) => async (dispatch) => {
     await dispatch({
@@ -61,11 +63,11 @@ export const getProducts = (allProducts, subcategoryId, page) => async (dispatch
     })
 } 
 
-export const getProduct = (productId) => dispatch => {
-    dispatch({
-        type: GET_PRODUCT,
-        productId: productId,
-    })
+// export const getProduct = (productId) => dispatch => {
+//     dispatch({
+//         type: GET_PRODUCT,
+//         productId: productId,
+//     })
     // axios.get(`${URL}/product/${subcategoryId}/${productId}`)
     //     .then(response => (
     //             dispatch({
@@ -88,7 +90,20 @@ export const getProduct = (productId) => dispatch => {
     //     loading: false,
     //     error: ''
     // })   
-} 
+// } 
+export async function getProduct(productId, subcategoryId){
+    return asyncStorageFunc().then(response => {
+        let dataReducer = JSON.parse(response.dataUpload);
+        let subcategoryProducts = dataReducer.allProducts.find(item => item.parentId == subcategoryId); //get all products of the same subcategory
+        let data = subcategoryProducts.data;
+        let product;
+        for(let i = 0; i < data.length; i++){
+            product = data[i].find(item => item.id == productId)
+            if(typeof(product) === 'object') break;
+        }
+        return product
+    })
+}
 
 export const addProduct = (subcategory, data, access_token) => async dispatch => {
     await dispatch({

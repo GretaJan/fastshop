@@ -1,15 +1,10 @@
-import { URL, GET_BYU_LISTS, BUY_LIST_BY_DATE, ADD_LIST, DELETE_LIST } from './types';
-import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
+import { URL, GET_BYU_LISTS, ADD_LIST, DELETE_LIST } from "./types";
+import { asyncStorageFunc } from './generalActions';
+import axios from "axios";
 
 
-function asyncStorageFunc(){
-    return AsyncStorage.getItem("persist:root").then((value) => {
-        let root = JSON.parse(value);
-        return root
-    }).catch(() => {
-        return null
-    })
+function sliceFunc(digit){
+    return (`0${digit}`).slice(-2);
 }
 
 export const getAllBuyLists = dispatch => {
@@ -27,13 +22,12 @@ export const getAllBuyLists = dispatch => {
 }
 
 export function getBuyListsByDate(date) {
-    return AsyncStorage.getItem("persist:root").then((value) => {
-        let root = JSON.parse(value);
-        let dataReducer = JSON.parse(root.dataUpload);
+    return asyncStorageFunc().then(response => {
+        let dataReducer = JSON.parse(response.dataUpload);
         let lists = dataReducer.allBuyLists[date];
         if(lists && lists.length > 0) {
             lists = lists.map(item => {
-                const day = item.date.split('-')[2]
+                const day = item.date.split("-")[2]
                 return {
                     years: date,
                     day: day
@@ -48,12 +42,10 @@ export function getBuyListsByDate(date) {
 }
 
 export function getListByDay(year, day){
-    // return AsyncStorage.getItem("persist:root").then((value) => {
-    //     let root = JSON.parse(value);
     return asyncStorageFunc().then(response => {
         let dataReducer = JSON.parse(response.dataUpload);
         let lists = dataReducer.allBuyLists[year];
-        let list = lists.filter(item => item.date.split('-')[2] == day)
+        let list = lists.filter(item => item.date.split("-")[2] == day)
         list.forEach((item, index) => {
             let totalProducts = 0;
             let checkedProducts = 0;
@@ -75,27 +67,26 @@ export function getListByDay(year, day){
     })
 } 
 
-export async function getSingleList(id, date){
-    return asyncStorageFunc().then(response => {
+export function getSingleList(createdAt, date){
+    return asyncStorageFunc().then(async response => {
         let dataReducer = JSON.parse(response.dataUpload);
         let lists = dataReducer.allBuyLists[date];
-        let list = lists.find(item => item.id == id)
+        let list = lists.find(item => item.created_at == createdAt)
         return list
     }).catch(() => {
         return null
     })
 }
 
-export function getRelatedProducts(ids){
-    return AsyncStorage.getItem("persist:root").then(value => {
-        let root = JSON.parse(value);
-        let dataReducer = JSON.parse(root.dataUpload);
+export function getRelatedProducts(createdAt){
+    return asyncStorageFunc().then(response => {
+        let dataReducer = JSON.parse(response.dataUpload);
         let products = dataReducer.allProducts;
         let getRelatedProducts = [];
-        ids.forEach(id => {
+        createdAt.forEach(date => {
             products.forEach((productPage) => {
                 productPage.data.forEach((data) => {
-                    const related = data.find(item => item.id == id)
+                    const related = data.find(item => item.created_at == date)
                     if(related) getRelatedProducts.push(related)
                 })
               ;
@@ -106,10 +97,6 @@ export function getRelatedProducts(ids){
     }).catch(() => {
         return null
     })
-}
-
-function sliceFunc(digit){
-    return (`0${digit}`).slice(-2);
 }
 
 export function createDaysArr(year, month){
@@ -138,61 +125,30 @@ function leapYear(year){
 function insertEmptyToDaysArr(arr, year, month){
     const lastDay = arr.length;
     let startTimes = new Date(year + "-" + month  + "-01").getDay();
-        startTimes = startTimes == 0 ? '07' : startTimes;
+        startTimes = startTimes == 0 ? "07" : startTimes;
     let endTimes = new Date(year + "-" + month + "-" + lastDay).getDay();
-        endTimes = endTimes == 0 ? '07' : endTimes;
+        endTimes = endTimes == 0 ? "07" : endTimes;
     for(let i = 1; i < startTimes; i++)
-        arr.unshift('');
+        arr.unshift("");
         for(let i = 7; i > endTimes; i--)
-            arr.push('')
+            arr.push("")
     return arr
 }
 
-async function createList(dispatch, selectedDate, currentDate){
-    const currentDateInit = new Date();
-    return AsyncStorage.getItem("persist:root").then(value => {
-        let root = JSON.parse(value);
-        let dataReducer = JSON.parse(root.dataUpload);
-        let lists = dataReducer.allBuyLists;
-        let newId;
-       if(lists.length > 0){
-            const lastList = lists[Object.keys(lists)[Object.keys(lists).length - 1]];
-            const lastItemId = lastList[lastList.length - 1].id
-            newId = lastItemId + 1;
-       } else {
-            newId = 1;
-       }
-        const dateHours =  `${sliceFunc(currentDateInit.getHours())}:${sliceFunc(currentDateInit.getMinutes())}:${sliceFunc(currentDateInit.getSeconds())}`
-        const newData = {
-            id: newId,
-            name: dateHours,
-            date: selectedDate.fullDate,
-            created_at: `${currentDate} ${dateHours}`,
-            updated_at: `${currentDate} ${dateHours}`
-        }
-        if(!lists[selectedDate.keyDate]){
-            lists[selectedDate.keyDate] = [newData]
-        } else {
-            lists[selectedDate.keyDate].push(newData)
-        }
-        dispatch({
-            type: ADD_LIST,
-            payload: lists,
-        })
-        return newId
-    }).catch(() => {
-        return null
+async function createList(dispatch, selectedDate, data){
+    dispatch({
+        type: ADD_LIST,
+        date: selectedDate.keyDate,
+        data: data
     })
 }
 
 function updateList(dispatch, selectedDate, data){
-
-    return AsyncStorage.getItem("persist:root").then(value => {
-        let root = JSON.parse(value);
-        let dataReducer = JSON.parse(root.dataUpload);
+    return asyncStorageFunc().then(response => {
+        let dataReducer = JSON.parse(response.dataUpload);
         let lists = dataReducer.allBuyLists[selectedDate];
-        let list = lists.find(item => item.id === data.id)
-        console.log("liiist", list)
+        let itemIndex = lists.map(item => item.created_at).indexOf(data.createdAt)
+        lists[itemIndex] = data;
         dispatch({
             type: ADD_LIST,
             payload: lists,
@@ -203,21 +159,28 @@ function updateList(dispatch, selectedDate, data){
     })
 }
 
-// export const createUpdateListRedux = (selectedDate, currentDate) => dispatch => {
-//     const listData = createList(dispatch, selectedDate, currentDate)
-//     return listData.then((response) => {
-//         return response
-//     })
-// }
-
-export const createUpdateListRedux = (selectedDate, currentDate, editData) => {
+export const createUpdateListRedux = (selectedDate, editData) => {
+    const currentDateInit = new Date();
+    const dateYears = `${currentDateInit.getFullYear()}-${sliceFunc(currentDateInit.getMonth() + 1)}-${sliceFunc(currentDateInit.getDate())}`;
+    const dateHours = `${sliceFunc(currentDateInit.getHours())}:${sliceFunc(currentDateInit.getMinutes())}:${sliceFunc(currentDateInit.getSeconds())}`
+    const createdAt = `${ dateYears } ${ dateHours }`;
     let data = {
-        id: id,
-        date: selectedDate.fullDate
+        created_at: createdAt,
+        updated_at: createdAt
     }
+
     if(editData){
-        data = editData
+        data.name = editData.name ? editData.name : dateHours;
+        data.date = editData.date;
+        data.notes = editData.notes;
+        data.list = editData.list,
+        data.created_at = editData.created_at,
+        data.editable = true
+    } else {
+        data.name = dateHours
+        data.date = selectedDate.fullDate;
     }
+
     function thunkFunc(dispatch) {
         asyncStorageFunc().then(response => {
             let dataReducer = JSON.parse(response.auth);
@@ -234,21 +197,18 @@ export const createUpdateListRedux = (selectedDate, currentDate, editData) => {
                     console.log("Error", error.response)
                 })
         })
-        let listData;
-        if(id){
-            listData = updateList(dispatch, selectedDate, currentDate)
+        if(editData){
+            updateList(dispatch, selectedDate, data)
         } else {
-            listData = createList(dispatch, selectedDate, editData)
+            createList(dispatch, selectedDate, data)
         }
-        return listData.then((response) => {
-            return response
-        })
+        return createdAt
     }
     // offline()
     thunkFunc.interceptInOffline = true;
     thunkFunc.meta = {
         retry: true,
-        name: 'thunkFunc', // This should be the name of your function
+        name: "thunkFunc", // This should be the name of your function
         args: data, // These are the arguments for the function. Add more as needed.
     };
     return thunkFunc;
@@ -271,7 +231,7 @@ export function deleteList(date, id){
                     console.log("Error", error.response)
                 })
         })
-        let listData = deleteListLocal(dispatch, date, id)
+        let listData = deleteListLocal(dispatch, date, createdAt)
         return listData.then((response) => {
             return response
         })
@@ -280,16 +240,16 @@ export function deleteList(date, id){
     thunkFunc.interceptInOffline = true;
     thunkFunc.meta = {
         retry: true,
-        name: 'thunkFunc', // This should be the name of your function
+        name: "thunkFunc", 
     };
     return thunkFunc;
 }
 
-function deleteListLocal(dispatch, date, id){
+function deleteListLocal(dispatch, date, createdAt){
     dispatch({
         type: DELETE_LIST,
         date: date,
-        id: id
+        createdAt: createdAt
     })
 }
 

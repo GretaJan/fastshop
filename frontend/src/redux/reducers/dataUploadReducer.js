@@ -1,4 +1,12 @@
-import { LOADING_DATA, GET_ALL_DATA, DATA_LOADED, DATA_LOAD_CANCELED, DATA_LOADED_ERROR, ADD_LIST, DELETE_LIST } from '../actions/types';
+import { 
+    LOADING_DATA, 
+    GET_ALL_DATA, 
+    DATA_LOADED, 
+    DATA_LOAD_CANCELED, 
+    DATA_LOADED_ERROR, 
+    ADD_LIST, 
+    DELETE_LIST 
+} from '../actions/types';
 
 const initialState = {
     categories: [],
@@ -45,17 +53,22 @@ export default function(state = initialState, action){
                 dataLoadError: action.error
             }
         case ADD_LIST:
+            const actionDate = action.date;
+            const actionData = action.data
+            let lists = {...state.allBuyLists};
+            if(lists[actionDate] == undefined){
+                lists[actionDate] = [actionData]
+            } else {
+                lists[actionDate].push(actionData)
+            }
             return {
                 ...state,
-                allBuyLists: action.payload
+                allBuyLists: lists
             }
         case DELETE_LIST:
             const selectedDate = action.date;
-            console.log('seleeeeCTEE: ', selectedDate);
-            const dateArray = state.allBuyLists[selectedDate].filter(item => item.id !== action.id)  //get array of selected month and filter through it
-            console.log('dateArray222: ', dateArray);
+            const dateArray = state.allBuyLists[selectedDate].filter(item => item.created_at !== createdAt)  //get array of selected month and filter through it
             const filteredArray = state.allBuyLists[selectedDate] = dateArray;
-            console.log(filteredArray);
             return {
                 ...state,
                 allBuyLists: filteredArray

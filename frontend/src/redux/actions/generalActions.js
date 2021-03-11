@@ -1,5 +1,6 @@
-import { URL, LOADING_DATA, CREATE_CALENDAR, DATA_LOADED, GET_ALL_DATA, DATA_LOAD_CANCELED, DATA_LOADED_ERROR } from './types';
+import { URL, LOADING_DATA, CREATE_CALENDAR, GET_ALL_DATA, DATA_LOAD_CANCELED, DATA_LOADED_ERROR } from './types';
 import axios from 'axios';
+import AsyncStorage from "@react-native-community/async-storage";
 
 export const closeErrorWarning = (actionType) => (dispatch) => {
     dispatch({
@@ -60,7 +61,6 @@ function paginateData(groupedArr, count){
                     iStart = j + 1;
                     break;
                 } else if(i === pageNum && (arrayLength - 1) == j){ //include last page elements
-                    console.log("currrent arrr: ", currentArr)
                     tempArr.push(currentArr);
                 }
             }
@@ -80,36 +80,36 @@ Date.prototype.addHours = function(h) {
     return this;
 }
 
-export const generateCalendar = () => (dispatch) => {
-    const currentYear = new Date().getFullYear();
-    let array = [];
-    const startYear = 2020,
-            endYear = currentYear + 3;
-    for(let i = startYear; i <= endYear; i++){
-        let yearObj = {
-            year: i
-        }
-        const monthsArr = [];
-        for(let j = 1; j <= 12; j++){
-            const daysArr = createDaysArr(i, j)
-            const monthObj= {
-                name: sliceFunc(j),
-                days: daysArr
-            }
-            monthsArr.push(monthObj)
-        }
-        yearObj.months = monthsArr;
-        array.push(yearObj)
-    }
-    dispatch({
-        type: CREATE_CALENDAR,
-        payload: array
-    })
-}
+// export const generateCalendar = () => (dispatch) => {
+//     const currentYear = new Date().getFullYear();
+//     let array = [];
+//     const startYear = 2020,
+//             endYear = currentYear + 3;
+//     for(let i = startYear; i <= endYear; i++){
+//         let yearObj = {
+//             year: i
+//         }
+//         const monthsArr = [];
+//         for(let j = 1; j <= 12; j++){
+//             const daysArr = createDaysArr(i, j)
+//             const monthObj= {
+//                 name: sliceFunc(j),
+//                 days: daysArr
+//             }
+//             monthsArr.push(monthObj)
+//         }
+//         yearObj.months = monthsArr;
+//         array.push(yearObj)
+//     }
+//     dispatch({
+//         type: CREATE_CALENDAR,
+//         payload: array
+//     })
+// }
 
-function sliceFunc(digit){
-    return (`0${digit}`).slice(-2);
-}
+// function sliceFunc(digit){
+//     return (`0${digit}`).slice(-2);
+// }
 
 export function createDaysArr(year, month){
     let daysCount = 0;
@@ -150,5 +150,14 @@ export const removeCalendar = () => dispatch => {
     dispatch({
         type: CREATE_CALENDAR,
         payload: []
+    })
+}
+
+export function asyncStorageFunc(){
+    return AsyncStorage.getItem("persist:root").then((value) => {
+        let root = JSON.parse(value);
+        return root
+    }).catch(() => {
+        return null
     })
 }

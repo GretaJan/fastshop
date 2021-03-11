@@ -1,8 +1,5 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, ScrollView, FlatList, TouchableOpacity, Animated, Dimensions } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
-import Swiper from 'react-native-swiper'
-import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { getBuyListsByDate, createDaysArr } from '../../../redux/actions/calendar';
 import { containerStyles, textStyle } from '../../../components_additional/styles/GeneralStyles';
@@ -11,10 +8,6 @@ import { calendarStyles } from '../../../components_additional/styles/CalendarSt
 import { stylesGuest } from '../../../components_additional/styles/SubcategoryStyles';
 import { CriteriaStyles } from '../../../components_additional/styles/CompareStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
-import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import GestureRecognizer from 'react-native-swipe-gestures';
-
 
 //Component 
 import Month from './SingleMonth';
@@ -75,9 +68,9 @@ function Calendar({ navigation: { navigate } }){
     
     function arrayMain() {
         return calendarArray.map((item) => (
-            item.months.map(month => (
+            item.months.map((month, index) => (
                 <Month 
-                    key={ month.name }
+                    key={ index }
                     month={ month } 
                     currentDay={ initialDay }
                     currentYear={ currentYear }
@@ -102,7 +95,7 @@ function Calendar({ navigation: { navigate } }){
                     currentMonth={ initialMonth }
                     currentDay={ initialDay }
                     close={ () => setOpenListModel(false) }
-                    goToNewList={ (id, years) => navigate("BuyList", { id: id, years: years }) }
+                    goToNewList={ (createdAt, years) => goToNewList(createdAt, years) }
                 />
             ) }
             <View style={ containerStyles().screenHeightContainer }>
@@ -281,7 +274,6 @@ function Calendar({ navigation: { navigate } }){
                 const monthIndex = changedArray[yearIndex].months.map(item => item.name).indexOf(prevMonth);
                 changedArray[yearIndex].months.splice(monthIndex, 0, monthObject)
                 setTranslateInnerList(oldValue => oldValue - screenWidth + 20)
-                // const finalWidth = getFlatListWidth(changedArray) 
                 setCalendarWidth(oldValue => oldValue + screenWidth - 20);
             }
             setCurrentMonth(prevMonth)
@@ -336,7 +328,6 @@ function Calendar({ navigation: { navigate } }){
             }
             setCurrentMonth(nextMonth)
         }   
-        // const finalWidth = getFlatListWidth(changedArray) 
         setCalendarArray(changedArray)
     }
 
@@ -345,9 +336,6 @@ function Calendar({ navigation: { navigate } }){
         let arrayWidth = 0;
         currentArray.forEach((item) => {
             arrayWidth += item.months.length
-            // item.months.forEach(() => {
-            //     arrayWidth++;
-            // })
         })
         return arrayWidth * screenWidth
     }
@@ -356,8 +344,12 @@ function Calendar({ navigation: { navigate } }){
         navigate("DayPage", { years: years, day: day })
     }
 
-}
+    function goToNewList(createdAt, years){
+        navigate("BuyList", { createdAt: createdAt, years: years })
+        setOpenListModel(false)
+    }
 
+}
 
 export default withNavigation(Calendar)
 
@@ -370,11 +362,11 @@ function Weeks({ currentYear, currentMonth, translateLeft, translateRight }){
         <>
         <View style={ calendarStyles().rowContainerMonth }>
                 <TouchableOpacity onPress={ translateLeft } style={ calendarStyles().iconWrap }>
-                    <IonIcon name="ios-copy" style={ calendarStyles().arrowShort } />
+                    <IonIcon name="md-arrow-back" style={ calendarStyles().arrowShort } />
                 </TouchableOpacity>
                 <Text style={ textStyle().h2 }>{currentYear } { monthNames[parseInt(currentMonth)] }</Text>
                 <TouchableOpacity onPress={ translateRight } style={ calendarStyles().iconWrap }>
-                    <IonIcon name="ios-copy" style={ calendarStyles().arrowShort } />
+                    <IonIcon name="md-arrow-forward" style={ calendarStyles().arrowShort } />
                 </TouchableOpacity>
             </View>
         <View style={ calendarStyles().rowContainerWeek }>

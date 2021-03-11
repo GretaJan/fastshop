@@ -54,7 +54,7 @@ class UserProductController extends Controller
         $product_ids = Product::pluck('id')->toArray();
         return $request->validate([
             'date' => 'required|date_format:Y-m-d',
-            'name' => 'nullable|max:30',
+            'name' => 'required|max:30',
             'list' => 'array|nullable',
             'list.name' => 'nullable|max:100',
             'list.quantity' => 'nullable|digits_between:0,1000',
@@ -62,6 +62,8 @@ class UserProductController extends Controller
             'list.related_products' => ['array', 'nullable', Rule::in($product_ids)],
             'notes' => 'nullable|string|max:100',
             'is_completed' => 'nullable|boolean',
+            'created_at' => 'required|date_format:Y-m-d H:i:s',
+            'updated_at' => 'required|date_format:Y-m-d H:i:s',
         ]);
     }
 
@@ -125,20 +127,24 @@ class UserProductController extends Controller
     public function updateCreateBuyList(Request $request)
     {
         $this->validateBuyList($request);
-        $id = $request->id;
-        $now = Carbon::now();
-        $list = $request->user()->buyLists()->updateOrcreate([
-            'id' => isset($id) ? $id : null
-        ], [
+        $created_at = $request->created_at;
+        $data = [
             'date' => $request->date,
-            'name' => isset($request->name) ? $request->name : Carbon::now()->format('H:i:s'),
+            'name' => $request->name,
             'list' => $request->list,
             'notes' => $request->notes,
             'is_completed' => $this->checkIfCompetedList($request->is_completed, $request->date),
-            'created_at' => isset($id) ? $request->created_at : $now,
-            'updated_at' => $now,
-        ]);
-
+            'created_at' => $created_at,
+            'updated_at' => $created_at
+        ];
+        $now = Carbon::now();
+        $list = $request->user()->buyLists();
+        if(isset($request->editable))
+        {
+            $list->update($data);
+        } else {
+            $list->create($data);
+        }
         return response()->json(null, 201);
     }
 

@@ -76,34 +76,25 @@ export const styles = (background) => StyleSheet.create({
     }
 });
 
-export const stylesGuest = (backgroundCategory, backgroundSubcategory) => StyleSheet.create({
-    // container: {
-        // backgroundColor: backgroundCategory ? backgroundCategory : colors.mainGrey,
-        // flex: 1,
-        // textAlign: 'center',
-        // paddingHorizontal: 12,
-        // flex: 1,
-        // textAlign: 'center',
-        // backgroundColor: backgroundCategory ? backgroundCategory : colors.mainGrey,
-    // },
+export const stylesGuest = (backgroundCategory, backgroundSubcategory, index) => StyleSheet.create({
     horizontalWrap: {
-        // flexDirection: 'column',
-        // justifyContent: 'space-between',
-        // alignSelf: 'center',
         alignItems: 'flex-start',
-        maxWidth: Dimensions.get('window').width
+        // maxWidth: Dimensions.get('window').width
     },
     itemWrap: {
         backgroundColor: backgroundSubcategory ? backgroundSubcategory : colors.mainWhiteGrey,
         paddingVertical: 5,
-        marginBottom: Dimensions.get('window').width / 101,
-        borderRadius: 10,
+        paddingHorizontal: 5,
+        borderRadius: 5,
         alignItems: 'center',
         alignContent: 'center',
-        width: Dimensions.get('window').width / 4.25,
-        marginHorizontal: 2,
+        justifyContent: 'space-between',
+        height: Dimensions.get('window').width / 3 - 14,
+        width: Dimensions.get('window').width / 3 - 14,
+        marginRight: (index % 3 != 0) ? 10 : 0,
+        marginBottom: 10,
         // Shadow
-        elevation   : 5,
+        elevation   : .3,
         overflow: 'hidden',
         //iOS:
         shadowColor: 'red',
@@ -112,23 +103,26 @@ export const stylesGuest = (backgroundCategory, backgroundSubcategory) => StyleS
         shadowRadius: 2, 
     },
     imageWrap: {
-        width: '95%',
-        height: 60,
-        paddingTop: 7,
+        height: (Dimensions.get('window').width / 3 - 14) / 1.7,
+        width: '100%',
+        paddingBottom: 5,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
     },
     image: {
         height: '100%',
-        resizeMode: 'contain'        
+        resizeMode: 'contain',
     },
     textWrap: {
-        flex: 1,
         alignItems: 'center',
+        alignContent: 'center',
         justifyContent: 'center',
+        height: (Dimensions.get('window').width / 3 - 14) / 2.8,
     },
     itemText: {
         fontFamily: 'sans-serif-condensed',
-        fontSize: 15,
-        paddingTop: 5,
+        fontSize: 16,
         textAlign: 'center',
         textTransform: 'capitalize'
     },
@@ -136,6 +130,7 @@ export const stylesGuest = (backgroundCategory, backgroundSubcategory) => StyleS
         textAlign: 'center',
         fontFamily: 'sans-serif-condensed',
         fontSize: 50,
-        color: '#000'
+        color: '#000',
+        backgroundColor: 'grey'
     }
 })

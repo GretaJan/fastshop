@@ -14,8 +14,9 @@ import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons'
 
 //Components
 import Product from './selectedProductSingle';
+import Header from '../../components_additional/models/Header';
 import ConfirmModal from '../../components_additional/models/ModalCrud';
-import EmptyList from '../../components_additional/models/EmptyListSelected';
+import EmptyList from '../../components_additional/models/EmptyList';
 import LoadingResults from '../../components_additional/models/LoadingResults';
 import Modal from '../../components_additional/models/Modal';
 import SearchBar from '../../components_additional/models/SearchBar';
@@ -77,8 +78,10 @@ class Products extends Component {
 
     callModal = (activeBtn, msg) => {
         activeBtn.measure( (fx, fy, width, height, px, py) => {
+            console.log(Math.round(px + width + 5))
+            console.log(Math.round(py + (height + 30)))
             this.setState({ locationX: Math.round(px + width + 5) })
-            this.setState({ locationY: Math.round(py + (height + 30)) })
+            this.setState({ locationY: Math.round(py + (height - 125)) })
         })        
         this.setState({ modelMsg: msg }) 
     }
@@ -151,111 +154,95 @@ class Products extends Component {
         const { selectedProducts } = this.props;
 
         return (
-            // <View data-test='selectedComponents' style={stylesGuest().container} >
-            <View data-test='selectedComponents' style={containerStyles().screenHeightContainer} >
-                <View style={containerStyles().simpleContainer}>
-                    { loadingResults && <LoadingResults /> }
-                    { (modelMsg !== '') && (
-                        <Modal 
-                            title="Warning" 
-                            message={ modelMsg } 
-                            close={() => this.setState({ modelMsg: '' })} 
-                            ok="Ok" color={colors.orange} borderColor={colors.inputOrange}
-                            locationX={ locationX }
-                            locationY={ locationY }
-                        />
-                        )}
-                        { this.state.delConfirm && 
-                        <View style={stylesGuest().delVerifyContainer}>
-                            <ConfirmModal message="Are you sure you want to clear the list? " 
-                                confirm={() => this.confirmClearList()}
-                                title="Clear list"
-                                close={() => this.setState({delConfirm: false})}
-                                background={colors.mainWhiteYellow}
-                                iconColor={colors.lightBurgundy}
-                                borderColor={colors.bordoTransparent}
-                                colorOne={colors.lightBurgundy}
-                                colorTwo={colors.mediumGreen}
-                                horizontal={20} vertical={15}
-                            /> 
-                        </View> }
-                        {(selectedProducts.length == 0) ? (
-                            <EmptyList message={'Products have not been selected yet'} />
-                        ) : (    
-                        <View style={(optionsDisplay) ? (containerStyles().flatListScrollSmall) : (containerStyles().flatListScrollFull)}>
-                            <View style={{ flexDirection: 'row', marginRight: 10 }} >
-                                <View style={ searchBar().searchBarWrap }>
-                                    <SearchBar 
-                                        func={ (value) => this.findFunction(value) }
-                                        parentValue={ this.state.searchName }
-                                    />
-                                </View>
-                                <TouchableOpacity style={ searchBar().animatedWrap } onPress={ () => this.setState({ delConfirm: true }) }>
-                                    <MaterialIcon name="playlist-remove" style={ searchBar().removeList } />
-                                </TouchableOpacity>
-                            </View>
-                            { triggeredSearchBar ? (
-                                <FlatList nestedScrollEnabled={true} contentContainerStyle={ null } data={ tempArray } renderItem={({item}) => (
+            <>
+                <Header
+                    title="Calculator"
+                    navigate={ null }
+                />
+                <SearchBar 
+                    func={ (value) => this.findFunction(value) }
+                    parentValue={ this.state.searchName }
+                    additionalFunc={ () => this.setState({ delConfirm: true }) }
+                />      
+                 { (modelMsg !== '') && (
+                    <Modal 
+                        title="Warning" 
+                        message={ modelMsg } 
+                        close={() => this.setState({ modelMsg: '' })} 
+                        ok="Ok" color={colors.orange} borderColor={colors.inputOrange}
+                        locationX={ locationX }
+                        locationY={ locationY }
+                    />
+                )}
+                <View data-test='selectedComponents' style={containerStyles().screenHeightContainer} >
+                        { loadingResults && <LoadingResults /> }
+                            { this.state.delConfirm && (
+                                <ConfirmModal 
+                                    message="Are you sure you want to clear the list? " 
+                                    confirm={() => this.confirmClearList()}
+                                    title="CLEAR LIST"
+                                    close={() => this.setState({delConfirm: false})}
+                                    background={colors.mainWhiteYellow}
+                                    iconColor={colors.mainBtnOrange}
+                                    iconName="md-close"
+                                /> 
+                            )}
+                            {(selectedProducts.length == 0) ? (
+                                <EmptyList message={'Products have not been selected yet'} />
+                            ) : (    
+                            <View style={(optionsDisplay) ? (containerStyles().flatListScrollSmall) : (containerStyles().flatListScrollFull)}>
+                                <FlatList nestedScrollEnabled={true} contentContainerStyle={ null } data={ triggeredSearchBar ? (tempArray) : (selectedProducts) } renderItem={({item}) => (
                                     <Product key={item} item={item} 
                                         removeProduct={() => this.deleteProduct(item)}
                                         goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
-                                    />
-                                )} />
-                            ) : (
-                                <FlatList nestedScrollEnabled={true} contentContainerStyle={ null } data={ selectedProducts } renderItem={({item}) => (
-                                    <Product key={item} item={item} 
-                                            removeProduct={() => this.deleteProduct(item)}
-                                            goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
-                                    />
-                                )} />
-                            )}
-                        </View>
-                        )}
-                        <Animated.View style={productWrap(scaleBtnsWrap, transitionBtnsWrap).btnsContainer} >
-                            <Text style={productWrap().transparentStripe} ></Text>
-                            <View style={productWrap().btnOne}>
-                                <TouchableOpacity style={productWrap().iconWrapOne} ref={view => { this.compareFirstBtn = view; }} onPress={ this.goToDescAscPage } >
-                                    <IonIcon name="md-list" style={productWrap().iconItem}  />
-                                </TouchableOpacity>
-                                <View style={productWrap().textWrap} >
-                                    <Text style={textStyle().h2} >Compare each component</Text>
-                                    <Text>Click Me!</Text>
-                                </View>
+                                    /> )} 
+                                />
                             </View>
-                            {(objectLength == 0) ? (
-                            <View style={productWrap().btnTwo}>
-                                <TouchableOpacity testID="test-btn" ref={view => { this.compareSecBtn = view; }} style={productWrap().iconWrapTwo} onPress={ this.goToCriteriaPage } >
-                                    <IonIcon name="ios-calculator" style={productWrap().iconItem} />
-                                </TouchableOpacity>
-                                <View style={productWrap().textWrap} >
-                                    <Text style={textStyle().h2}>Find best and worst match</Text>
-                                    <Text>Click Me!</Text>
-                                </View>
-                            </View> 
-                            ) : (
-                                <View style={productWrap().btnTwo}>                            
-                                    { this.animateActiveBtn() }
-                                    <Animated.View style={productWrap(scaleBtn).buttonWrapAnimated}>
-                                        <TouchableOpacity style={productWrap().buttonAnimated} onPress={ this.goToResults } >
-                                            <IonIcon name="ios-stats" style={productWrap().iconItem} />
-                                        </TouchableOpacity>
-                                    </Animated.View>
+                            )}
+                            <Animated.View style={ productWrap(scaleBtnsWrap, transitionBtnsWrap).btnsContainer } >
+                                <Text style={ productWrap().transparentStripe } ></Text>
+                                <View style={ productWrap().btnOne }>
+                                    <TouchableOpacity style={productWrap().iconWrapOne} ref={view => { this.compareFirstBtn = view; }} onPress={ this.goToDescAscPage } >
+                                        <IonIcon name="md-list" style={productWrap().iconItem}  />
+                                    </TouchableOpacity>
                                     <View style={productWrap().textWrap} >
-                                        <Text style={textStyle().h2}>View your results</Text>
+                                        <Text style={textStyle().h2} >Compare each component</Text>
+                                        <Text>Click Me!</Text>
+                                    </View>
+                                </View>
+                                {(objectLength == 0) ? (
+                                <View style={productWrap().btnTwo}>
+                                    <TouchableOpacity testID="test-btn" ref={view => { this.compareSecBtn = view; }} style={productWrap().iconWrapTwo} onPress={ this.goToCriteriaPage } >
+                                        <IonIcon name="ios-calculator" style={productWrap().iconItem} />
+                                    </TouchableOpacity>
+                                    <View style={productWrap().textWrap} >
+                                        <Text style={textStyle().h2}>Find best and worst match</Text>
                                         <Text>Click Me!</Text>
                                     </View>
                                 </View> 
-                            )}
-                        </Animated.View>
-                    {/* )} */}
-                    <TouchableOpacity style={productWrap().optionsBtnWrap} onPress={ this.showHideOptionsContainer }>
-                        <Text style={productWrap().optionsBtnText}>
-                            { optionsDisplay ? ("Hide Options") : ("Show Options")}
-                        </Text>
-                    </TouchableOpacity>
+                                ) : (
+                                    <View style={productWrap().btnTwo}>                            
+                                        { this.animateActiveBtn() }
+                                        <Animated.View style={productWrap(scaleBtn).buttonWrapAnimated}>
+                                            <TouchableOpacity style={productWrap().buttonAnimated} onPress={ this.goToResults } >
+                                                <IonIcon name="ios-stats" style={productWrap().iconItem} />
+                                            </TouchableOpacity>
+                                        </Animated.View>
+                                        <View style={productWrap().textWrap} >
+                                            <Text style={textStyle().h2}>View your results</Text>
+                                            <Text>Click Me!</Text>
+                                        </View>
+                                    </View> 
+                                )}
+                            </Animated.View>
+                            <TouchableOpacity style={productWrap().optionsBtnWrap} onPress={ this.showHideOptionsContainer }>
+                                <Text style={productWrap().optionsBtnText}>
+                                    { optionsDisplay ? ("Hide Options") : ("Show Options")}
+                                </Text>
+                            </TouchableOpacity>
                 </View>
-            </View>
-            )
+            </>
+        )
     }
 
 }

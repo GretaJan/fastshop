@@ -34,8 +34,8 @@ function DayLists({ deleteList, route, navigation: { navigate } }){
         })
     }, [])
 
-    function goToList(id, name){
-        navigate("BuyList", { id: id, name: name, years: years })
+    function goToList(createdAt, name){
+        navigate("BuyList", { createdAt: createdAt, name: name, years: years })
     }
 
     // function callRemoveAnimation() {
@@ -64,7 +64,7 @@ function DayLists({ deleteList, route, navigation: { navigate } }){
 
     function openDeleteModalFunc(id){
         setDeleteModal(true)
-        setDeleteItem(id)
+        setDeleteItem(createdAt)
     }
 
     return (
@@ -101,8 +101,8 @@ function DayLists({ deleteList, route, navigation: { navigate } }){
                         ) : (
                             <ListArray
                                 list={ list }
-                                goToList={ (id, name) => goToList(id, name) }
-                                confirmRemoveFunc={ (id) => openDeleteModalFunc(id) }
+                                goToList={ (createdAt, name) => goToList(createdAt, name) }
+                                confirmRemoveFunc={ (createdAt) => openDeleteModalFunc(createdAt) }
                                 deleteItem={ deleteItem }
                                 confirmedDelete={ confirmedDelete }
                                 removeFromList={ removeFromList }
@@ -177,7 +177,7 @@ function SingleListItem({ item, goToList, deleteItem, confirmRemoveFunc, removeF
         (!removeHeight) && (
             <AnimatedTouchableOpacity 
                 style={ singleDayStyle(removeTranslation).listItemWrapTranslation } 
-                onPress={ () => goToList(item.id, item.name)  } 
+                onPress={ () => goToList(item.created_at, item.name)  } 
             >
                 <View style={ singleDayStyle().listRowWrap } >
                     <View style={singleDayStyle().titleWrap}>
@@ -191,7 +191,7 @@ function SingleListItem({ item, goToList, deleteItem, confirmRemoveFunc, removeF
                     <Text style={textStyle().h2} >{ item.totalItems }/{ item.checkedItems }</Text>
                         </Text>
                     </View>
-                    <TouchableOpacity style={singleDayStyle().animatedWrap} onPress={ () => confirmRemoveFunc(item.id) }>
+                    <TouchableOpacity style={singleDayStyle().animatedWrap} onPress={ () => confirmRemoveFunc(item.created_at) }>
                         <MaterialIcon name="delete-outline" style={ stylesGuestSingle().calcRemove } />
                     </TouchableOpacity>
                 </View>

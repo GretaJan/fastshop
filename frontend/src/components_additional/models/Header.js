@@ -9,9 +9,11 @@ function Header({ title, navigate }){
     return (
         <View style={ titleStyles.containerWrap }>
             <View style={ titleStyles.innerContainer }>
-                <TouchableOpacity style={ titleStyles.iconWrap } onPress={ navigate }>
-                    <IonIcon name="md-arrow-back" style={ titleStyles.icon } />
-                </TouchableOpacity>
+                { navigate && (
+                    <TouchableOpacity style={ titleStyles.iconWrap } onPress={ navigate }>
+                        <IonIcon name="md-arrow-back" style={ titleStyles.icon } />
+                    </TouchableOpacity>
+                ) }
                 <Text style={ titleStyles.title }>{ title }</Text>
             </View>
         </View>

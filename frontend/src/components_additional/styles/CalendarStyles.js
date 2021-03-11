@@ -108,21 +108,16 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         width: Dimensions.get('window').width - 40,
     },
     datesAnimWrapper: {
-        height: 100, 
+        height: Dimensions.get('window').height / 2.3, 
         justifyContent: 'flex-start',
-        width: Dimensions.get('window').width - 40
+        width: Dimensions.get('window').width - 40,
     },
 })
 
 export const singleDayStyle = (translate, color) => StyleSheet.create({
     listItemWrapTranslation: {
-        // display: 'flex',
-        // flexDirection: 'row',
-        // justifyContent: 'space-between',
-        // alignItems:'center',
         justifyContent: 'center',
         marginBottom: 7,
-        // backgroundColor: colors.transparentMedium,
         backgroundColor: '#fff',
         // Shadow
         elevation   : 1,
@@ -206,6 +201,10 @@ export const buyListSingle = (color) => StyleSheet.create({
     },
     editQuantity: {
         marginHorizontal: 10,
+        width: 60,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        // marginVertical: 7,
     },
     editIconStyle: {
         padding: 5,

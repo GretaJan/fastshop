@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, fonts } from './Colors';
+import { colors } from './Colors';
 import { Dimensions } from 'react-native';
 import { Platform } from 'react-native';
 
@@ -59,7 +59,7 @@ export const textStyle = () => StyleSheet.create({
     }
 });
 
-export const containerStyles = (color) => StyleSheet.create({
+export const containerStyles = () => StyleSheet.create({
     screenHeightContainer: {
         flex: 1,
         alignSelf: 'center',
@@ -67,6 +67,7 @@ export const containerStyles = (color) => StyleSheet.create({
         height: Dimensions.get('window').height - (Dimensions.get('window').height / 5.5 / 2 + 95),
         top: (Dimensions.get('window').height /5.5 ) /2,
         zIndex: 1,
+        paddingVertical: 10,
     },
     screenHeightContainerTop: {
         flex: 1,
@@ -80,20 +81,16 @@ export const containerStyles = (color) => StyleSheet.create({
     simpleContainer: {
         flex: 1,
         textAlign: 'center',
-        paddingHorizontal: 5,
+        paddingHorizontal: 10,
         paddingVertical: 10,
         zIndex: 2,
         top: (Dimensions.get('window').height /5.5 ) /2,
     },
     flatListScrollSmall: {
-        height: Dimensions.get('window').height /2.25,
-        width: Dimensions.get('window').width,
-        paddingHorizontal: 5,
+        height: Dimensions.get('window').height /2.8,
     },
     flatListScrollFull: {
         height: Dimensions.get('window').height /1.4 - Dimensions.get('window').height /5.5 /2,
-        width: Dimensions.get('window').width,
-        paddingHorizontal: 5,
         zIndex: 2,
     },
     screenHeightContainerMargin: {
@@ -105,7 +102,6 @@ export const containerStyles = (color) => StyleSheet.create({
         alignItems:'center',
         maxHeight: Dimensions.get('window').height /1 - 130,
         position: 'relative',
-        backgroundColor: color ? color : colors.mainGrey,
     },
     topContainer: {
         height: Dimensions.get('window').height /5.5,
@@ -130,6 +126,30 @@ export const containerStyles = (color) => StyleSheet.create({
         zIndex: 2,
         justifyContent: 'space-between',
     },
+    rowContainer: {
+        flexDirection: 'row',
+        height: Dimensions.get('window').height /5.5 / 2,
+        top: Dimensions.get('window').height /5.5 / 2,
+        width: Dimensions.get('window').width - 20,
+        left: 10,
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    rowOuterContainer: {
+        flexDirection: 'row',
+        width: Dimensions.get('window').width - 60,
+        backgroundColor: 'grey'
+    },
+    rowContainerTop: {
+        flexDirection: 'row',
+        height: Dimensions.get('window').height /3.8,
+        width: '100%',
+        top: 0,
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })
 
 export const inputStyles = (errorOrCol) => StyleSheet.create({
@@ -168,11 +188,16 @@ export const inputStyles = (errorOrCol) => StyleSheet.create({
         fontSize: 18,
         paddingLeft: 10
     },
+    formTextGap: {
+        marginBottom: 15,
+        justifyContent: 'center',
+    }
 })
 
 export const btnStyles = (color) => StyleSheet.create({
     inputBtnText: {
         fontSize: 16,
+        textAlign: 'center',
     },
     buttonsRowWrap: {
         flexDirection: 'row',
@@ -185,6 +210,21 @@ export const btnStyles = (color) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors.mainBtnGreen,
+        // Shadow
+        elevation: .02,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2, 
+    },
+    inputBtnOrange: {
+        height: 42,
+        width: 112,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.mainBtnOrange,
         // Shadow
         elevation: .02,
         overflow: 'hidden',
@@ -219,7 +259,7 @@ export const btnStyles = (color) => StyleSheet.create({
     }
 })
 
-export const modalStyles = (color, borderColor, scale, wideComp, locationX, locationY) => StyleSheet.create({
+export const modalStyles = (scale, wideComp, locationX, locationY) => StyleSheet.create({
     whiteContainer: {
         paddingVertical: 18,
         paddingHorizontal: '5%',
@@ -309,11 +349,7 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
         position: 'absolute',
         paddingBottom: 7,
         display: 'flex',
-        // alignItems: 'stretch',
         justifyContent: 'space-between',
-        // alignContent: 'space-between',
-        // justifyContent: 'center',
-        // alignContent: 'center',
         zIndex: 50,
         // Shadow
         elevation   : 1,
@@ -352,9 +388,6 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
              { scale: scale }
          ]
     },
-    textWrap: {
-        backgroundColor: 'red',
-    },
     // iconWrap: {
     //     flexDirection: 'row',
     //     alignItems: 'center',
@@ -372,7 +405,21 @@ export const modalStyles = (color, borderColor, scale, wideComp, locationX, loca
     // },
 });
 
-export const modalStyle = (color, borderColor, scale) => StyleSheet.create({
+export const modalTextStyle = (color) => StyleSheet.create({
+    icon: {
+        fontSize: 25,
+        color: color,
+        transform: [
+            { rotate: '-4deg' },
+        ],
+        marginRight: 5,
+    },
+    headerWrap: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 15,
+    },
     // container: {
     //     position: 'absolute',
     //     zIndex: 40,
@@ -426,21 +473,21 @@ export const modalStyle = (color, borderColor, scale) => StyleSheet.create({
     //     fontSize: 35,
     //     color: color,
     // },
-    title: {
-        marginLeft: '3%',
-        fontSize: 20,
-    },
-    text: {
-        width: 220,
-        fontSize: 18,
-        lineHeight: Platform.OS === 'ios' ? 26 : 28,
-    },
-    okTxt: {
-        // marginLeft: Dimensions.get('window').width /6,
-        marginLeft: '55%',
-        fontSize: 18,
-        marginTop: 10,
-    }
+    // title: {
+    //     marginLeft: '3%',
+    //     fontSize: 20,
+    // },
+    // text: {
+    //     width: 220,
+    //     fontSize: 18,
+    //     lineHeight: Platform.OS === 'ios' ? 26 : 28,
+    // },
+    // okTxt: {
+    //     // marginLeft: Dimensions.get('window').width /6,
+    //     marginLeft: '55%',
+    //     fontSize: 18,
+    //     marginTop: 10,
+    // },
 });
 
 export const inputErrors = () => StyleSheet.create({

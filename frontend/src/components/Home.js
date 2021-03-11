@@ -7,18 +7,8 @@ import { importAppData } from '../redux/actions/generalActions';
 import Categories from './Categories/Categories';
 
 class Home extends Component {
-  // constructor(props){
-  //   (props)
-  //   this.state = {
-  //     confirmGetData: false
-  //   }
-  // }
 
   componentDidMount(){
-    // if(this.props.categories.length > 0){
-
-    // }
-    console.log("HOME")
     this.props.importAppData();
   }
 

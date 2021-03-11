@@ -10,8 +10,7 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import OctIcon from 'react-native-vector-icons/dist/Octicons';
 import { styles, signinStyle } from '../styles/TabStyles';
 import { connect } from 'react-redux';
-import { importAppData, generateCalendar, removeCalendar } from '../../redux/actions/generalActions';
-import { logOut } from '../../redux/actions/authActions';
+import { importAppData } from '../../redux/actions/generalActions';
 import { colors }  from '../styles/Colors';
 import ListIndicator from './ListIndicator';
 import  NetInfo  from '@react-native-community/netinfo';
@@ -34,9 +33,6 @@ function Tabs({
     importAppData,
     dataUploadDate,
     loadingData,
-    generateCalendar,
-    removeCalendar,
-    logOut,
 }) {
     const Tabs = createBottomTabNavigator();
     const [ loading, setLoading ] = useState(true);
@@ -48,26 +44,18 @@ function Tabs({
     const routeNameRef = useRef();
 
     useEffect( () => {
-         NetInfo.fetch().then(state => {
+        NetInfo.fetch().then(state => {
             if(state.isConnected){
                 const currentDate = new Date();
                 if(!dataUploaded){
                     importAppData(token);
                 } else if(currentDate.getTime() >= dataUploadDate.getTime()){
-                    // this.setState({openDataModel: true})
                     setOpenDataModel(true)
                 }
             }
         })  
-        if(token){
-            generateCalendar()
-        } else {
-            setRegisterModel(true)
-        }
+        if(!token && user !== 'logged_out') setRegisterModel(true)
         setLoading(false)
-        return (() => {
-            removeCalendar()
-        })
     }, [token])
 
 
@@ -93,15 +81,9 @@ function Tabs({
         </LoginScreenNav.Navigator>
     );
 
-    const NullComp = () => {
-        return null;
-    }
-
     const MyTheme = {
-        // ...DefaultTheme,
         colors: {
-        //   ...DefaultTheme.colors,
-          background: colors.mainGrey
+            background: colors.mainGrey
         },
       };
 
@@ -119,16 +101,14 @@ function Tabs({
                     colorTwo={colors.mediumGreen}
                     horizontal={20} vertical={15}
                 /> )} */}
+               
                 <NavigationContainer theme={ MyTheme }>
                     {(!token) ? (
                         <Tabs.Navigator tabBarOptions={{
                             style: { 
-                                backgroundColor: '#A5A9AF',
+                                backgroundColor: colors.mainBlack,
                                 height: 60,
                             },
-                            // activeTintColor: colors.mainBtnGreen,
-                            // inactiveTintColor: colors.mainGrey,
-                            // activeBackgroundColor: colors.mainBtnGreen,
                         }}>
                             <Tabs.Screen name="Home" component={GuestNavigationScreens}
                             options = {{ 
@@ -145,7 +125,6 @@ function Tabs({
                                 options = {{ 
                                     tabBarLabel: () => (null),
                                     tabBarIcon: () => (
-                                    // <Icon name="list-alt" size={40} />
                                     <View>
                                         <IonIcon name="ios-calculator" style={styles().iconItem} />
                                         <View style={styles().counter}>
@@ -166,11 +145,10 @@ function Tabs({
                             <Tabs.Navigator 
                                 tabBarOptions={{
                                     style: { 
-                                        // backgroundColor:  colors.titleBlack,
-                                        backgroundColor: '#A5A9AF',
+                                        backgroundColor: colors.mainBlack,
                                         height: 60,
                                 } }}>
-                                {/* <Tabs.Screen name="Home" component={GuestNavigationScreens}
+                                <Tabs.Screen name="Home" component={GuestNavigationScreens}
                                     options = {{ 
                                         tabBarLabel: () => (null),
                                         tabBarIcon: () => (
@@ -180,7 +158,7 @@ function Tabs({
                                             />
                                         ),
                                     }
-                                } /> */}
+                                } />
                                 <Tabs.Screen 
                                     name="Settings"
                                     component={ SettingsScreen }
@@ -195,7 +173,7 @@ function Tabs({
                         ) : (
                             <Tabs.Navigator tabBarOptions={{
                                 style: { 
-                                    backgroundColor:  colors.titleBlack,
+                                    backgroundColor: colors.titleBlack,
                                     height: 60,
                                 } }}>
                                 <Tabs.Screen name="Dashboard" component={AdminNavigationScreens} 
@@ -205,32 +183,18 @@ function Tabs({
                                             <Icon name="list-alt" style={styles().iconItem} />
                                         )}
                                 } />
-                                <Tabs.Screen name="Logout" component={null} component={ Categories }
-                                    options = {{ 
-                                        tabBarLabel: () => (null),
-                                        tabBarIcon: () => (
-                                            <Icon name="sign-out" style={styles().iconItem} />
-                                        )}
-                                    }
-                                    listeners={
-                                        { tabPress: () => (
-                                            logOut(token)
-                                        )}
-                                    }                 
-                                />
                             </Tabs.Navigator> 
                         )
                     )}
                 </NavigationContainer> 
-                { registerModel && (
-                    <Register refreshPage={ () => forceUpdate()} close={ () =>  setRegisterModel(false) }/>
-                )} 
-                {
-                    <TouchableOpacity style={signinStyle().container} onPress={ () => setRegisterModel(state => !state) }>
-                        {/* <Icon name="sign-in" style={signinStyle().iconItem} /> */}
-                        <OctIcon  name="sign-in" style={signinStyle(registerModel).iconItem} />
-                    </TouchableOpacity>
-                }
+                    { !token && (
+                        <TouchableOpacity style={signinStyle().container} onPress={ () => setRegisterModel(state => !state) }>
+                            <OctIcon name="sign-in" style={signinStyle().iconItem} />
+                        </TouchableOpacity>
+                    ) }
+                    { registerModel && (
+                        <Register refreshPage={ () => forceUpdate()} close={ () =>  setRegisterModel(false) }/>
+                    )}
             </>
         )
 }
@@ -243,4 +207,4 @@ const mapStateToProps = state => ({
     dataUploadDate: state.dataUpload.dataUploadDate,
 })
 
-export default connect(mapStateToProps, { logOut, importAppData, generateCalendar, removeCalendar })(Tabs)
+export default connect(mapStateToProps, { importAppData })(Tabs)

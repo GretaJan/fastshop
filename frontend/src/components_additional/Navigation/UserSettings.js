@@ -16,46 +16,13 @@ export const SettingsScreen = () => (
             name="SettingsScreen" 
             component={ Settings }
             options={{
-                title: "Settings",
-                // headerTitleStyle: {
-                //     fontWeight: 'bold',
-                //     color: colors.titleBlack,
-                // },
-                // headerStyle: {
-                //     backgroundColor: colors.mainGrey,
-                // },
-                // headerTitleAlign: 'center',
-                headerStyle: {
-                    backgroundColor: colors.mainBtnGreen,
-                    height: 100,
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                    fontWeight: 'bold',
-                }
+                headerShown: false
             }}
         />
       <SettingsNav.Screen 
             name="Calendar" 
             component={ Calendar }
             options={{
-                // title: "Calendar",
-                // headerTitleStyle: {
-                //     fontWeight: 'bold',
-                //     color: colors.titleBlack,
-                // },
-                // headerStyle: {
-                //     backgroundColor: colors.mainGrey,
-                // },
-                // headerTitleAlign: 'center',
-                // headerTintColor: '#fff',
-                // headerTitleStyle: {
-                //     fontWeight: 'bold',
-                // }
-                // navigationOptions: {
-                //     tabBarLabel: 'Reclaim',
-                //     header: <Header/>,
-                //   },
                 headerShown: false
             }}
         />

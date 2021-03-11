@@ -105,10 +105,6 @@ export const modalStyle = (color, borderColor, scale) => StyleSheet.create({
         paddingBottom: 5,
         marginBottom: 10,
     },
-    icon: {
-        fontSize: 35,
-        color: color,
-    },
     title: {
         marginLeft: '3%',
         fontSize: 20,

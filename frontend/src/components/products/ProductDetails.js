@@ -14,24 +14,26 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import EvilIcon from 'react-native-vector-icons/dist/EvilIcons';
+
+//Components
+import Header from '../../components_additional/models/Header';
 import Loading from '../../components_additional/models/Loading';
 import Modal from '../../components_additional/models/Modal';
 import DetailRow from './DetailRow';
-import RegisterModal from '../../components_additional/models/Register';
 import ActionIcon from '../../components_additional/models/ActionIcon';
 import { Dimensions } from 'react-native';
 
-// const { productAnimations } = require('../../components_additional/styles/Animations');
-// const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-// const AnimatedIcon = Animated.createAnimatedComponent(Icon);
-// const AnimatedMaterialIcon = Animated.createAnimatedComponent(MaterialIcon);
-// const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
 class ProductDetails extends Component {
     state = {
         loading: true,
+        error: '',
+        name: '',
+        image: '',
+        background: '',
         productDetails: [],
         productId: this.props.route.params.productId,
+        subcategoryId: this.props.route.params.subcategoryId,
         isSelected: false,
         isLiked: false,
         modelMsg: '',
@@ -52,23 +54,29 @@ class ProductDetails extends Component {
 
     async componentDidMount() {
         const { selectedProducts } = this.props;
-        const { productId } = this.state;
-        await this.props.getProduct(productId);
-        await this.setState({ isLiked: this.props.product.isLiked })
-        await this.setState({productDetails: [
-            { title: 'Energy', component: this.props.product.energy, measure: 'kcal'},
-            { title: 'Fat', component: this.props.product.fat, measure: 'g' },
-            { title: 'Saturated fat', component: this.props.product.saturated, measure: 'g' },
-            { title: 'Carbohidrates', component: this.props.product.carbs, measure: 'g' },
-            { title: 'Sugar', component:this.props.product.sugar, measure: 'g' },
-            { title: 'Fiber', component: this.props.product.fiber, measure: 'g' },
-            { title: 'Protein', component: this.props.product.protein, measure: 'g' },
-            { title: 'Salt', component: this.props.product.salt, measure: 'g' },
-        ]});
-        if(selectedProducts.length > 0 && selectedProducts.find(item => item.id == productId))
-            await this.setState({ isSelected: true });
-
-        this.setState({ loading: false })
+        const { productId, subcategoryId } = this.state;
+        getProduct(productId, subcategoryId).then(response => {
+            if(response){
+                this.setState({ productDetails: [
+                        { title: 'Energy', component: response.energy, measure: 'kcal'},
+                        { title: 'Fat', component: response.fat, measure: 'g' },
+                        { title: 'Saturated fat', component: response.saturated, measure: 'g' },
+                        { title: 'Carbohidrates', component: response.carbs, measure: 'g' },
+                        { title: 'Sugar', component: response.sugar, measure: 'g' },
+                        { title: 'Fiber', component: response.fiber, measure: 'g' },
+                        { title: 'Protein', component: response.protein, measure: 'g' },
+                        { title: 'Salt', component: response.salt, measure: 'g' },
+                    ]});
+                this.setState({ name: response.name })
+                this.setState({ background: response.background })
+                if(selectedProducts.length > 0 && selectedProducts.find(item => item.id == productId))
+                    this.setState({ isSelected: true });
+            } else {
+                this.setState({ error: 'Įvyko klaida.' })
+            }
+        }).then(() => {
+            this.setState({ loading: false })
+        });
     }
 
     likeProduct = async (ref) => {
@@ -105,9 +113,9 @@ class ProductDetails extends Component {
 
 
     render() {
-        const { image, background } = this.props.product;
-        const { token } = this.props;
-        const { loading, callRegisterModel, modelMsg, isSelected, isLiked, listCheckScale, checkSelectTransition, listSelectScale } = this.state;
+        const { name, image, background, loading, callRegisterModel, modelMsg } = this.state;
+        const { subcategoryId, subcategoryName, categoryId, categoryName } = this.props.route.params;
+        
         return (
             (loading) ? (
                 <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
@@ -115,65 +123,73 @@ class ProductDetails extends Component {
                 </View>
                 ) : (
                <>
-                <View style={containerStyles(this.props.route.params.background).screenHeightContainer} >
-                    { (modelMsg !== '') && (
-                        <Modal title="Error" 
-                            message={ modelMsg } 
-                            close={() => this.setState({ modelMsg: '' })} 
-                            ok="OK" color={colors.bordo} 
-                            borderColor={colors.bordoTransparent}
-                            locationX={ this.state.locationX }
-                            locationY={ this.state.locationY }
-                        /> )}
-                    <View style={ stylesGuestSingle().topContainer }>
-                        {image ? (
-                            <Image style={stylesGuestSingle().imageStyle} source={{ uri: image }} />
-                        ) : (
-                            <Image style={stylesGuestSingle().imageStyle} source={require('../../components_additional/images/noimage.jpeg')}  />
-                        )}
-                        <View style={stylesGuestSingle().btnsWrap } >
-                            <View style={stylesGuestSingle().likeBtns}>
-                                <ActionIcon
-                                    deactivateFunc={ this.unlikeProduct }
-                                    activateFunc={ (ref) => this.likeProduct(ref) }
-                                    errorCondition={ !this.props.token }
-                                    errorFunc={ (ref) => this.callModal(ref, 'Please register in order to complete this action.') }
-                                    mainIcon='ios-heart'
-                                    activeIcon='cart-outline'                         
-                                    activeColor={ colors.mainBtnOrange }
-                                    activeColorSec={ colors.mainBtnGreen }
-                                    isActive={ this.state.isLiked }
-                                />
-                            </View>
-                            <View style={stylesGuestSingle().calcBtns}>
-                                <ActionIcon
-                                    deactivateFunc={ this.removeSelectProduct }
-                                    activateFunc={(ref) => this.allowSelectProduct(ref) }
-                                    errorCondition={  this.props.selectedProducts.length > 30  }
-                                    errorFunc={ (ref) => this.callModal(ref, 'Please select no more than 30 items.') }
-                                    mainIcon='md-checkmark'
-                                    activeIcon='format-list-bulleted'
-                                    activeColor={ colors.mainBtnGreen }
-                                    activeColorSec={ colors.mainBtnOrange }
-                                    isActive={ this.state.isSelected }
-                                />
+                    <Header 
+                        title={ name }
+                        navigate={ () => this.props.navigation.push("Products", {
+                            subcategoryId: subcategoryId,
+                            name: subcategoryName,
+                            background: background,
+                            categoryId: categoryId,
+                            categoryName: categoryName
+                        }) }
+                    />
+                    <View style={containerStyles(background).screenHeightContainer} >
+                        { (modelMsg !== '') && (
+                            <Modal title="Error" 
+                                message={ modelMsg } 
+                                close={() => this.setState({ modelMsg: '' })} 
+                                ok="OK" color={colors.bordo} 
+                                borderColor={colors.bordoTransparent}
+                                locationX={ this.state.locationX }
+                                locationY={ this.state.locationY }
+                            /> )}
+                        <View style={ containerStyles().rowContainerTop }>
+                            {image ? (
+                                <Image style={stylesGuestSingle().imageStyle} source={{ uri: image }} />
+                            ) : (
+                                <Image style={stylesGuestSingle().imageStyle} source={require('../../components_additional/images/noimage.jpeg')}  />
+                            )}
+                            <View style={stylesGuestSingle().btnsWrap } >
+                                <View style={stylesGuestSingle().likeBtns}>
+                                    <ActionIcon
+                                        deactivateFunc={ this.unlikeProduct }
+                                        activateFunc={ (ref) => this.likeProduct(ref) }
+                                        errorCondition={ !this.props.token }
+                                        errorFunc={ (ref) => this.callModal(ref, 'Please register in order to complete this action.') }
+                                        mainIcon='ios-heart'
+                                        activeIcon='cart-outline'                         
+                                        activeColor={ colors.mainBtnOrange }
+                                        activeColorSec={ colors.mainBtnGreen }
+                                        isActive={ this.state.isLiked }
+                                    />
+                                </View>
+                                <View style={stylesGuestSingle().calcBtns}>
+                                    <ActionIcon
+                                        deactivateFunc={ this.removeSelectProduct }
+                                        activateFunc={(ref) => this.allowSelectProduct(ref) }
+                                        errorCondition={  this.props.selectedProducts.length > 30  }
+                                        errorFunc={ (ref) => this.callModal(ref, 'Please select no more than 30 items.') }
+                                        mainIcon='md-checkmark'
+                                        activeIcon='format-list-bulleted'
+                                        activeColor={ colors.mainBtnGreen }
+                                        activeColorSec={ colors.mainBtnOrange }
+                                        isActive={ this.state.isSelected }
+                                    />
+                                </View>
                             </View>
                         </View>
-                    </View>
-                    {/* <View style={stylesGuestSingle(background).triangle} ></View>
-                    <View style={stylesGuestSingle(background).underTriangle} ></View>*/}
-                    <View style={stylesGuestSingle(background).listContainer} > 
-                        <FlatList data={ this.state.productDetails } contentContainerStyle={stylesGuestSingle(background).flatlistContainer} renderItem={({ item }) => (
-                            <DetailRow props={ item } />
-                        )} />
-                    </View>
-                    </View>
-                    { callRegisterModel && (
-                        <Register 
-                            refreshPage={() => this.forceUpdate()} 
-                            close={() => this.setState({ callRegisterModel: false })}
-                        />
-                    ) }
+                        <View style={stylesGuestSingle(background).listContainer} > 
+                            <FlatList data={ this.state.productDetails } contentContainerStyle={stylesGuestSingle(background).flatlistContainer} renderItem={({ item }) => (
+                                <DetailRow props={ item } />
+                            )} />
+                        </View>
+                        </View>
+                        { callRegisterModel && (
+                            <Register 
+                                refreshPage={() => this.forceUpdate()} 
+                                close={() => this.setState({ callRegisterModel: false })}
+                            />
+                        ) }
                 </>
             )
         )
@@ -194,11 +210,7 @@ ProductDetails.propTypes = {
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    product: state.products.product,
     selectedProducts: state.selectedProducts.comparisonArray,
-    error: state.products.error,
-    likeError: state.products.likeError,
-    loading: state.products.loading,
 })
 
-export default withNavigation(connect(mapStateToProps, {getProduct, selectProductToCalc, removeProductFromSelected, likeProduct, unlikeProduct})(ProductDetails))
+export default withNavigation(connect(mapStateToProps, { selectProductToCalc, removeProductFromSelected, likeProduct, unlikeProduct})(ProductDetails))

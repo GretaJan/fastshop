@@ -28,7 +28,7 @@ class Product extends Component {
     render() {
         return (
             !this.state.removeHeight && (
-                <Animated.View style={stylesGuest(null, null, null, this.state.removeTranslation).itemWrapTranslation}>
+                <Animated.View style={ stylesGuest(null, null, null, this.state.removeTranslation).itemWrapTranslation }>
                     <TouchableOpacity style={stylesGuest().TextPicWrap} key={this.props.item.id.toString()} onPress={this.goToProduct} >
                     {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>
@@ -42,7 +42,6 @@ class Product extends Component {
                         <Text style={stylesGuest().itemText} key={this.props.item.id.toString()}>{this.props.item.name}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={stylesGuest(null, '0deg', 0).animatedWrap} onPress={this.removeFromList}>
-                        {/* <Icon style={stylesGuest().iconItem} name="times-circle" onPress={this.selectProduct} /> */}
                         <AnimatedIonIcon name="md-close" style={ stylesGuestSingle().calcRemove } />
                     </TouchableOpacity>
                 </Animated.View>

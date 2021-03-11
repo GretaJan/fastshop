@@ -18,30 +18,8 @@ class Category extends Component {
 
     render() {
         return (
-            // <TouchableOpacity style={stylesGuest().itemWrap} onPress={() => this.goToSubcategories()}>
-            //     {this.props.item.image ? (
-            //         <View style={stylesGuest().imageWrap}>
-            //             <Image style={stylesGuest().image} source={{uri: this.props.item.image}} />     
-            //         </View>
-            //         ) : (
-            //         <View style={stylesGuest().imageWrap}>
-            //             <IonIcon style={stylesGuest().imageIcon} name="md-images" />
-            //         </View>
-            //     )}
-            //     <Text style={stylesGuest().itemText} >{this.props.item.name}</Text>
-            // </TouchableOpacity >
-            // <TouchableOpacity style={stylesGuest().itemWrap} onPress={() => this.goToSubcategories()}>
             <TouchableHighlight {...this.wrapHoverProps} style={this.state.isPressed ? stylesGuest().itemWrapHover : stylesGuest().itemWrap }>
                 <View>
-                    {/* {this.props.item.image ? (
-                        <View style={stylesGuest().imageWrap}>
-                           <Image style={stylesGuest().image} source={{uri: this.props.item.image}} />     
-                        </View>
-                        ) : (
-                        <View style={stylesGuest().imageWrap}>
-                            <IonIcon style={stylesGuest().imageIcon} name="md-images" />
-                        </View>
-                    )} */}
                     { this.props.item.id == 1 ? (
                         <>
                            <MaterialIcon style={this.state.isPressed ? stylesGuest().imgIconHover : stylesGuest().imgIcon } name="bottle-wine" />
@@ -59,24 +37,15 @@ class Category extends Component {
     wrapHoverProps = {
         activeOpacity: 1,
         underlayColor: colors.mainBtnGreen,
-        //style: this.state.isPressed ?  stylesGuest().itemWrapHover : stylesGuest().itemWrap,
         onHideUnderlay: () => this.setState({isPressed: false}),
         onShowUnderlay: () => this.setState({isPressed: true}),
         onPress: () => this.goToSubcategories()
     }
-    // textHoverProps = {
-    //     activeOpacity: 1,
-    //     underlayColor: colors.mainBtnGreen,
-    //     style: this.state.isPressed ?  stylesGuest().itemWrapHover : stylesGuest().itemWrap,
-    //     onHideUnderlay: () => this.setState({isPressed: false}),
-    //     onShowUnderlay: () => this.setState({isPressed: true}),
-    //     onPress: () => this.goToSubcategories()
-    // }
 }
 
 Category.propTypes = {
     goToSubcategories: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     image: PropTypes.any 
 }
 
