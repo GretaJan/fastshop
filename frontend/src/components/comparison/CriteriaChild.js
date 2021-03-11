@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Animated, TouchableOpacity, Image } from 'react-native';
 import { CriteriaStyles } from '../../components_additional/styles/CompareStyles';
-import { containerStyles } from '../../components_additional/styles/GeneralStyles';
+import { textStyle } from '../../components_additional/styles/GeneralStyles';
 import { stylesGuestSingle } from '../../components_additional/styles/ProductStyles';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 
@@ -77,7 +77,8 @@ function CriteriaChild({ title, originalName, setMostCriteria, setLeastCriteria,
                 <View style={ stylesGuestSingle().componentIconWrap }>
                 <Image style={ stylesGuestSingle().componentIcon } source={ icon }  />
                 </View>
-                <Text style={stylesGuestSingle().componentTitle} >{ title }</Text>
+                {/* <Text style={stylesGuestSingle().componentTitle} >{ title }</Text> */}
+                <Text style={ textStyle().h5 }>{ title }</Text>
             </View>
             <View style={CriteriaStyles().bulletContainer}>
                 <View style={CriteriaStyles().wrapThird}>

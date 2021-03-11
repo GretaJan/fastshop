@@ -12,7 +12,7 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         alignContent: 'center',
         width: Dimensions.get('window').width - 20,
         minHeight: Dimensions.get('window').height /5,
-        marginBottom: 95,
+        marginBottom: 40,
         zIndex: 2,
         transform: [
             { translateY: translate },
@@ -133,7 +133,7 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         position: 'absolute',
         zIndex: 3,
         height: 40,
-        bottom: 60,
+        bottom: 0,
         width: Dimensions.get('window').width /1
     },
     optionsBtnText: {
@@ -199,12 +199,12 @@ export const diagram = (diagramLength, translate) => StyleSheet.create({
         flex: 0.5,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        backgroundColor: colors.transparentMedium,
-        paddingVertical: 7,
+        backgroundColor: colors.mainGrey,
+        paddingVertical: 5,
     },
     activeItemWrap: {
         maxHeight: '100%',
-        width: '95%',
+        flex: .95,
     },
     image: {
         width: '100%',
@@ -275,9 +275,13 @@ export const diagram = (diagramLength, translate) => StyleSheet.create({
         position: 'relative',
         flex: .25,
     },
-    animatedSecDot: {
-        position: 'absolute',
-        left: 20,
+    itemNumberWrapAnimationEnergy: {
+        overflow: 'hidden',
+        position: 'relative',
+        flex: .49,
+    },
+    animatedDot: {
+        paddingTop: 4,
     },
     animatedNumberContainer: {
         zIndex: -1,
@@ -355,7 +359,6 @@ export const diagram = (diagramLength, translate) => StyleSheet.create({
         alignSelf: 'center',
         position: 'absolute',
         bottom: 80,
-        // paddingHorizontal: 15,
         right: '1%',
     },
     ViewMoreIcon: {
@@ -385,18 +388,7 @@ export const diagram = (diagramLength, translate) => StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         borderRadius: 5,
-        // // Shadow
-        // elevation   : 5,
-        // overflow: 'hidden',
-        // //iOS:
-        // shadowColor: 'red',
-        // shadowOffset: { width: 1, height: 1 },
-        // shadowOpacity: 0.8,
-        // shadowRadius: 2, 
         position: 'absolute',
-        // transform: [
-        //     { rotateY: rotateBtn }
-        // ]
         bottom: 30,
     },
     neutralBtnLikedTwo: {
@@ -407,41 +399,23 @@ export const diagram = (diagramLength, translate) => StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         borderRadius: 5,
-        // // Shadow
-        // elevation   : 5,
-        // overflow: 'hidden',
-        // //iOS:
-        // shadowColor: 'red',
-        // shadowOffset: { width: 1, height: 1 },
-        // shadowOpacity: 0.8,
-        // shadowRadius: 2, 
         position: 'absolute',
-        // transform: [
-        //     { rotateY: rotateBtn }
-        // ]
         bottom: 4,
         left: 2
     },
 })
 
 export const CriteriaStyles = (scale, checkScale) => StyleSheet.create({
-    // container: {
-    //     height: Dimensions.get('window').height /1 - 140,
-    //     backgroundColor: colors.mainGrey,
-    //     zIndex: -1,
-    // },
     itemContainer: {
         flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     titleWrap: {
         flexDirection: 'row',
         alignItems: 'center',
-        flex: .4,
+        flex: .5,
         height: 49,
     },
-    // itemTitle: {
-    //     fontSize: 20,
-    // },
     bulletContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -472,49 +446,23 @@ export const CriteriaStyles = (scale, checkScale) => StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
     },
-    // bulletInactive: {
-        // height: 14,
-        // width: 14,
-        // borderRadius: 7,
-        // borderWidth: 1,
-        // position: 'absolute',
-        // backgroundColor: '#dcdcdc',
-        // backgroundColor: colors.mainWhiteYellow,
-        // left: 5,
-        // top: 5,
-    // },
     bulletActive: {
-        // position: 'absolute',
-        // height: 14,
-        // width: 14,
         fontSize: 75,
         color: colors.mainBtnGreen,
-        // zIndex: 50,
         paddingBottom: 15,
         left: 2,
-        // bottom: 2,
-        // borderRadius: 7,
-        // backgroundColor: colors.mainBtnOrange,
-        // backgroundColor: colors.mainBtnGreen,
-        // borderColor: colors.mainBlack, 
-        // borderWidth: 1,
-        // left: 5,
-        // top: 5,
         transform: [
             { scaleX: checkScale }
         ]
     },
     buttonResults: {
-        // fontSize: 45,
         fontSize: 35,
     },
     buttonWrapOne: {
-        // width: 120,
-        // height: 70,
         width: 90,
         height: 60,
-        backgroundColor: scale ? scale : colors.mainBtnOrange,
-        borderRadius: 10,
+        backgroundColor: colors.mainBtnOrange,
+        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
@@ -531,7 +479,7 @@ export const CriteriaStyles = (scale, checkScale) => StyleSheet.create({
         width: 120,
         height: 70,
         backgroundColor: colors.mainBtnGreen,
-        borderRadius: 10,
+        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
@@ -548,11 +496,16 @@ export const CriteriaStyles = (scale, checkScale) => StyleSheet.create({
          shadowOpacity: 0.8,
          shadowRadius: 2, 
     },
+    resultBtnsWrap: { 
+        bottom: 10, 
+        position: 'absolute', 
+        alignSelf: 'center' 
+    },
     buttonWrapAnimated: {
         width: 120,
         height: 70,
         backgroundColor: colors.mainBtnGreen,
-        borderRadius: 10,
+        borderRadius: 5,
         transform: [
             { scale: scale },
         ],

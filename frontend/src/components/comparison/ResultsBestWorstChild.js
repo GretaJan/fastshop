@@ -28,20 +28,6 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
         Protein: require('../../components_additional/images/nutrients/protein.png'),
         Salt: require('../../components_additional/images/nutrients/salt.png'),
     }
-    // const [matchSpeed, setMatchSpeed] = useState(0);
-    // const [mismatchSpeed, setMismatchSpeed] = useState(0);
-    // const [originalMatchFirst, setOriginalMatchFirst] = useState('0');
-    // const [originalMatchSec, setOriginalMatchSec] = useState('0');
-    // const [originalMismatchFirst, setOriginalMismatchFirst] = useState('0');
-    // const [originalMismatchSec, setOriginalMismatchSec] = useState('0');
-    // const [matchNumsFirst, setMatchNumsFirst] = useState('0');
-    // const [matchNumsSec, setMatchNumsSec] = useState('0');
-    // const [mismatchNumsFirst, setMismatchNumsFirst] = useState('0');
-    // const [mismatchNumsSec, setMismatchNumsSec] = useState('0');
-    // const [matchNumsFirstArr, setMatchNumsFirstArr] = useState(['0']);
-    // const [matchNumsSecArr, setMatchNumsSecArr] = useState(['0']);
-    // const [opacity, setOpacity] = useState(0);
-
     useEffect(() => {
         getAnimationsParams();
     }, [scaleAnimate, numAnimateFirst, numAnimateSec, numAnimateThird, numAnimateFourth])
@@ -50,10 +36,6 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
         callDiagramAnimation();
         
         if(matchComponentArr) {
-            // if(matchComponentArr[0]) callNumAnimationFirst(matchComponentArr[0].length, numAnimateFirst)
-            // if(matchComponentArr[1]) callNumAnimationSec(matchComponentArr[1].length, numAnimateSec)
-            // if(matchComponentArr[2]) callNumAnimationThird(matchComponentArr[2].length, numAnimateThird)
-            // if(matchComponentArr[3]) callNumAnimationFourth(matchComponentArr[3].length, numAnimateFourth)
             if(matchComponentArr[0]) callNumAnimation(matchComponentArr[0].length, numAnimateFirst)
             if(matchComponentArr[1]) callNumAnimation(matchComponentArr[1].length, numAnimateSec)
             if(matchComponentArr[2]) callNumAnimation(matchComponentArr[2].length, numAnimateThird)
@@ -65,79 +47,11 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
             if(mismatchComponentArr[2]) callNumAnimation(mismatchComponentArr[2].length, mismNumAnimateThird)
             if(mismatchComponentArr[3]) callNumAnimation(mismatchComponentArr[3].length, mismNumAnimateFourth)
         }
-       
-       
-        // let matchSpeed = title === 'Energy' ? (100 / matchComponent) : (!matchComponent ? null : (matchComponent / 1000))
-        // let mismatchSpeed = title === 'Energy' ? (100 / mismatchComponent) : (!mismatchComponent ? null : (mismatchComponent / 1000))
-        // if(title !== 'Energy'){
-            // splitComponents(matchComponent, setMatchNumsFirstArr, setMatchNumsFirst, setMatchNumsSec, setOriginalMatchFirst, setOriginalMatchSec);
-            // splitComponents(mismatchComponent, setMatchNumsFirstArr, setMismatchNumsFirst, setMismatchNumsSec, setOriginalMismatchFirst, setOriginalMismatchSec);
-        //     splitDecimalComponents(matchComponent, setMatchNumsFirstArr, setMatchNumsSecArr)
-        // } else {
-            // splitComponents(null,  setMatchNumsFirstArr, setMatchNumsFirst, setMismatchNumsFirst, null, null);
-        // }
-        // setMatchSpeed(matchSpeed)
-        // setMismatchSpeed(mismatchSpeed)
-      
     }
     const callNumAnimation = (length, ref) => {
-        comparisonAnimations.numbersAnimation(ref, -(length * 23 - 20))
+        console.log("length", length)
+        comparisonAnimations.numbersAnimation(ref, -((length - 1) * 24.75))
     }
-
-    // const callNumAnimationFirst = (length) => {
-    //     Animations.numbersAnimation(numAnimateFirst, -(length * 23 - 20))
-    // }
-    // const callNumAnimationSec = (length) => {
-    //     Animations.numbersAnimation(numAnimateSec, -(length * 23 - 20))
-    // }
-    // const callNumAnimationThird = (length) => {
-    //     Animations.numbersAnimation(numAnimateThird, -(length * 23 - 20))
-    // }
-    // const callNumAnimationFourth = (length) => {
-    //     Animations.numbersAnimation(numAnimateFourth, -(length * 23 - 20))
-    // }
-
-    // function numOpacities(){
-    //     numAnimate.addListener((progress) => {
-    //         console.log("prooo", progress.value)
-    //         let progressVal = Math.round(progress.value) * -1;
-    //         setOpacity(progressVal);
-    //       });
-    // }
-
-    // useInterval(() => {
-    //     if(matchComponent) {
-    //         let increasedNum = title == 'Energy' ? parseInt(matchNumsFirst) : getFloat(matchNumsFirst, matchNumsSec);
-    //         let originalMatch = title == 'Energy' ? parseInt(matchComponent) : getFloat(originalMatchFirst, originalMatchSec)
-    //         if(increasedNum < originalMatch){
-    //             if(title !== 'Energy'){
-    //                 let intNum = splitSplitedNum(originalMatchFirst, matchNumsFirst);
-    //                 let decimalNum = splitSplitedNum(originalMatchSec, matchNumsSec)
-    //                 setMatchNumsFirst(intNum)
-    //                 setMatchNumsSec(decimalNum)
-    //             } else {
-    //                 setMatchNumsFirst(splitSplitedNum(matchComponent, matchNumsFirst))
-    //             }
-    //         }
-    //     }
-    // }, matchSpeed)
-
-    // useInterval(() => {
-    //     if(mismatchComponent) {
-    //         let increasedNum = title == 'Energy' ? parseInt(mismatchNumsFirst) : getFloat(mismatchNumsFirst, mismatchNumsSec);
-    //         let originalMismatch = title == 'Energy' ? parseInt(mismatchComponent) : getFloat(originalMismatchFirst, originalMismatchSec)
-    //         if(increasedNum < originalMismatch){
-    //             if(title !== 'Energy'){
-    //                 let intNum = splitSplitedNum(originalMismatchFirst, mismatchNumsFirst);
-    //                 let decimalNum = splitSplitedNum(originalMismatchSec, mismatchNumsSec)
-    //                 setMismatchNumsFirst(intNum)
-    //                 setMismatchNumsSec(decimalNum)
-    //             } else {
-    //                 setMismatchNumsFirst(splitSplitedNum(mismatchComponent, mismatchNumsFirst));
-    //             }
-    //         }
-    //     }
-    // }, mismatchSpeed)
 
     const callDiagramAnimation = () => {
         comparisonAnimations.diagramAnimation(scaleAnimate);
@@ -154,21 +68,6 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
             />     
         )
     }
-
-    // const renderItemComponent = () => (
-    //     matchNumsFirstArr.map(item => (
-    //         <Animated.Text style={ animations(null, numAnimate).numbersTransition} >
-    //             { item }
-    //         </Animated.Text>
-    //     ))
-    // )
-
-    // function getNumPosition(event){
-    //     const {x, y, width, height} = event.nativeEvent.layout;
-    //     console.log("position",numAnimate)
-    //     // if(y == 0) setItemOpacity(1);
-    //     // setItemOpacity(0);
-    // }
 
     return (
         loading ? (
@@ -192,11 +91,10 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                             </Animated.View>
                         </View>
                         <View style={diagram().itemNumberWrap} >
-                            {/* <Text style={diagram().number} >{ matchComponent }</Text> */}
                             <View style={diagram().itemNumberWrapAnimation} > 
                                  { matchComponentArr ? (
                                     <>
-                                        <View style={diagram().itemNumberWrapAnimationSingle} >
+                                        <View style={diagram().itemNumberWrapAnimationEnergy} >
                                             { renderArrays(matchComponentArr[0], animations(null, numAnimateFirst).numbersTransitionFirst) }
                                         </View>
                                         { matchComponentArr[1] != 0 ? (
@@ -204,7 +102,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                                 { renderArrays(matchComponentArr[1], animations(null, numAnimateSec).numbersTransitionSec)} 
                                             </View>
                                         ) : (
-                                            <Text style={animations().animatedSecDot}>0</Text>   
+                                            <Text style={ textStyle().h4 }>0</Text>   
                                         )}
                                         { matchComponentArr[2] && (
                                             matchComponentArr[2] != 0 ? (
@@ -212,7 +110,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                                     { renderArrays(matchComponentArr[2], animations(null, numAnimateThird).numbersTransitionThird)} 
                                                 </View>
                                             ) : (
-                                                <Text style={diagram().animatedThirdDot}>0</Text>   
+                                                <Text style={textStyle().h4}>0</Text>   
                                             )
                                         )} 
                                         { matchComponentArr[3] && ( 
@@ -233,7 +131,6 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                             </Animated.View>
                         </View>
                         <View style={diagram().itemNumberWrap} >
-                            {/* <Text style={diagram().number} >{ mismatchComponent == null ? '0' : mismatchComponent }</Text> */}
                             <View style={diagram().itemNumberWrapAnimation} > 
                                  { mismatchComponentArr ? (
                                     <>
@@ -282,7 +179,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                                 { renderArrays(matchComponentArr[1], animations(null, numAnimateSec).numbersTransitionSec)} 
                                             </View>
                                         ) : (
-                                            <Text style={animations().animatedSecDot}>.</Text>   
+                                            <Text style={animations().animatedDot}>.</Text>   
                                         )}
                                         { matchComponentArr[2] && (
                                             matchComponentArr[2] != '.' ? (
@@ -290,7 +187,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                                     { renderArrays(matchComponentArr[2], animations(null, numAnimateThird).numbersTransitionThird)} 
                                                 </View>
                                             ) : (
-                                                <Text style={diagram().animatedThirdDot}>.</Text>   
+                                                <Text style={diagram().animatedDot}>.</Text>   
                                             )
                                         )} 
                                         { matchComponentArr[3] && ( 
@@ -311,9 +208,6 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                             </Animated.View>
                         </View>
                         <View style={diagram().itemNumberWrap} >
-                            {/* <Text style={diagram().number} >
-                                {mismatchComponent == null ? '0' : mismatchNumsFirst +'.'+ mismatchNumsSec}
-                            </Text> */}
                             <View style={diagram().itemNumberWrapAnimation} > 
                                  { mismatchComponentArr ? (
                                     <>
@@ -353,97 +247,5 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
         )
     )
 }
-
-// function useInterval(callback, delay) {
-//     const intervalId = useRef(() => {})
-//     const getCallback = useRef(() => {});
-
-//     useEffect(() => {
-//         getCallback.current = callback;
-//     }, [callback]);
-//     useEffect(() => {
-//         if(delay){
-//             intervalId.current = setInterval(() => {
-//                 getCallback.current();
-//             }, delay)
-//         }
-//         return () => clearInterval(intervalId.current)
-//     }, [delay])
-// }
-// const matchNumsFirstArrFunc = (number) => {
-//     let arr = []
-//     for(let i = 0; i <= number; i++){
-//         arr.push(i);
-//     }
-//     return arr;
-// }
-
-// function splitComponents(comp, setMatchNumsFirstArr, setFirst, setSec, setOriginalFirst, setOriginalSec){
-//     if(comp){
-//         let splitMatch = comp.toString().split('.');
-//         setOriginalFirst(splitMatch[0])
-//         setMatchNumsFirstArr(matchNumsFirstArrFunc(splitMatch[0]))
-//         setOriginalSec(splitMatch[1])
-//         callNumAnimation(splitMatch[0])
-//         callNumAnimation(splitMatch[2])
-//         callNumAnimation(splitMatch[3])
-//         if(splitMatch[0].length === 2){
-//             setFirst('00')
-//         }
-//         if(splitMatch[1].length === 2){
-//             setSec('00')
-//         }
-//     } else {
-//         setFirst('000');
-//         setSec('000');
-//     }
-// }
-// function splitDecimalComponents(component, setFirst, setSec){
-//     if(component){
-//         let splitMatch = component.toString().split('.');
-//         let tempFirstArr = [];
-//         let tempSecArr = [];
-//         splitMatch[0].split('').forEach((item) => {
-//             let numArr = createNumbersArray(parseInt(item));
-//             tempFirstArr.push(numArr)
-//         })
-//         splitMatch[1].split('').forEach((item) => {
-//             let numArr = createNumbersArray(parseInt(item));
-//             tempSecArr.push(numArr)
-//         })
-//         console.log("twwmp", tempFirstArr)
-//         setFirst(tempFirstArr)
-//         setSec(tempSecArr)
-//     }
-// }
-
-// function createNumbersArray(array){
-//     let numbersArr = [];
-//     for(let i = 0; i < array.length; i++ ){
-//         numbersArr.push(i);
-//     }
-//     return numbersArr;
-// }
-// function splitSplitedNum(origin, copy){
-//     const tempArr = [];
-//     origin.toString().split("").forEach((letter, originIndex) => {
-//         copy.split("").forEach((tempLetter, copyIndex) => {
-//             let parseNum = parseInt(letter);
-//             let parseNumTemp = parseInt(tempLetter);
-//             if(originIndex == copyIndex){
-//                 if(parseNumTemp < parseNum){
-//                     parseNumTemp++;
-//                 }
-//                 tempArr.push(parseNumTemp);
-//             }
-//         })
-//     })
-//     return tempArr.join("");
-// }
-
-// function getFloat(firstPart, secPart){
-//     let stringNum = `${firstPart}.${secPart}`;
-//     return Math.trunc(((parseFloat(stringNum)).toFixed(2) * 100))
-// }
 
 export default ResultsBestWorstChild

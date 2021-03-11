@@ -86,7 +86,7 @@ function Calendar({ navigation: { navigate } }){
     return (
         <>
             <Header 
-                title='Kalendorius'
+                title='Calendar'
                 navigate={ () => navigate("SettingsScreen") }
             />
             { openListModel && (
@@ -98,7 +98,7 @@ function Calendar({ navigation: { navigate } }){
                     goToNewList={ (createdAt, years) => goToNewList(createdAt, years) }
                 />
             ) }
-            <View style={ containerStyles().screenHeightContainer }>
+            <View style={ containerStyles().screenHeightContainerNoHeader }>
                 { isLoading ? (
                     <Text>Loading</Text>
                 ) : (
@@ -111,7 +111,7 @@ function Calendar({ navigation: { navigate } }){
                                 translateRight={ animateForward }
                             />
                             <View style={ calendarStyles().calendarWrap }>
-                                <Animated.View style={ animations(calendarWidth, calendarTransl).calendarAnimation } >
+                                <Animated.View style={ animations(null, calendarTransl, calendarWidth).calendarAnimation } >
                                     <View style={ calendarStyles(translateInnerList).calendarWrapInner }>
                                         { arrayMain() }
                                     </View>

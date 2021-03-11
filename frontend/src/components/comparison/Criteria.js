@@ -2,18 +2,21 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { CriteriaStyles, productWrap } from '../../components_additional/styles/CompareStyles';
-import { containerStyles, textStyle } from '../../components_additional/styles/GeneralStyles';
+import { containerStyles, textStyle, btnStyles } from '../../components_additional/styles/GeneralStyles';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { compare } from '../../redux/actions/comparisonActions';
 import { colors } from '../../components_additional/styles/Colors';
 import Modal from '../../components_additional/models/Modal';
 
+//Components
+import Header from '../../components_additional/models/Header';
+
 import CriteriaChild from './CriteriaChild';
 
 const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
 
-const Criteria = ({compare, selectedProducts, navigation}) => {
+const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
     const [mostCriteria, setMostCriteria] = useState([]);
     const [leastCriteria, setLeastCriteria] = useState([]);
     const [noneCriteria, setNoneCriteria] = useState([]);
@@ -35,7 +38,11 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
     }, []);
 
     return (
-        <View style={containerStyles().screenHeightContainerMargin}>
+        <>
+            <Header
+                title="Choose Criteria"
+                navigate={ () => navigate("SelectedProducts") }
+            />
             {modal && 
             <Modal title="Warning" 
                 message={'Please select at least one criteria.'} 
@@ -45,109 +52,111 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                 locationY={ locationY } 
             />
             }
-            <View style={CriteriaStyles().itemContainer}>
-                <View style={CriteriaStyles().titleWrap}>
-                    <Text style={textStyle().h2}>Choose criteria</Text>
-                </View>
-                <View style={CriteriaStyles().bulletContainer}>
-                    <Text style={CriteriaStyles().wrapThird}>
-                        <Text style={textStyle().h2 }>Most</Text>
-                    </Text>
-                    <Text style={CriteriaStyles().wrapThird}>
-                        <Text style={textStyle().h2 }>Least</Text>
-                    </Text>
-                    <Text style={CriteriaStyles().wrapThird}>
-                        <Text style={textStyle().h2 }>None</Text>
-                    </Text>
+            <View style={containerStyles().rowContainer}>
+                <View style={CriteriaStyles().itemContainer}>
+                    <View style={CriteriaStyles().titleWrap}>
+                        <Text style={textStyle().h2}>Choose criteria</Text>
+                    </View>
+                    <View style={CriteriaStyles().bulletContainer}>
+                        <Text style={CriteriaStyles().wrapThird}>
+                            <Text style={textStyle().h2 }>Most</Text>
+                        </Text>
+                        <Text style={CriteriaStyles().wrapThird}>
+                            <Text style={textStyle().h2 }>Least</Text>
+                        </Text>
+                        <Text style={CriteriaStyles().wrapThird}>
+                            <Text style={textStyle().h2 }>None</Text>
+                        </Text>
+                    </View>
                 </View>
             </View>
-            <CriteriaChild 
-                title='Energy'
-                originalName='energy'
-                setMostCriteria={ setMostCriteria }
-                setLeastCriteria={ setLeastCriteria }
-                setNoneCriteria={ setNoneCriteria }
-                // getComponentCriteria={ (value) => setLeastCriteria(currentArr => [...currentArr], currentArr )  }
-                icon={ require('../../components_additional/images/nutrients/energy.png') }
-            />
-            <CriteriaChild 
-                title='Fat'
-                originalName='fat'
-                setMostCriteria={ setMostCriteria }
-                setLeastCriteria={ setLeastCriteria }
-                setNoneCriteria={ setNoneCriteria }
-                // getComponentCriteria={ (value) => setFatCriteria(value)  }
-                icon={ require('../../components_additional/images/nutrients/fat.png') }
-            />
-            <CriteriaChild 
-                title='Saturated fat'
-                originalName='saturated'
-                setMostCriteria={ setMostCriteria }
-                setLeastCriteria={ setLeastCriteria }
-                setNoneCriteria={ setNoneCriteria }
-                // getComponentCriteria={ (value) => setSaturatedCriteria(value)  }
-                icon={ require('../../components_additional/images/nutrients/saturated.png') }
-            />
-            <CriteriaChild 
-                title='Carbohidrates'
-                originalName='carbs'
-                setMostCriteria={ setMostCriteria }
-                setLeastCriteria={ setLeastCriteria }
-                setNoneCriteria={ setNoneCriteria }
-                // getComponentCriteria={ (value) => setCarbsCriteria(value)  }
-                icon={ require('../../components_additional/images/nutrients/carbs.png') }
-            />
-            <CriteriaChild 
-                title='Sugar'
-                originalName='sugar'
-                setMostCriteria={ setMostCriteria }
-                setLeastCriteria={ setLeastCriteria }
-                setNoneCriteria={ setNoneCriteria }
-                // getComponentCriteria={ (value) => setSugarCriteria(value)  }
-                icon={ require('../../components_additional/images/nutrients/sugar.png') }
-            />
-            <CriteriaChild 
-                title='Fiber'
-                originalName='fiber'
-                // getComponentCriteria={ (value) => setFiberCriteria(value)  }
-                setMostCriteria={ setMostCriteria }
-                setLeastCriteria={ setLeastCriteria }
-                setNoneCriteria={ setNoneCriteria }
-                icon={ require('../../components_additional/images/nutrients/fiber.png') }
-            />
-            <CriteriaChild 
-                title='Protein'
-                originalName='protein'
-                setMostCriteria={ setMostCriteria }
-                setLeastCriteria={ setLeastCriteria }
-                setNoneCriteria={ setNoneCriteria }
-                // getComponentCriteria={ (value) => setProteinCriteria(value)  }
-                icon={ require('../../components_additional/images/nutrients/protein.png') }
-            />
-            <CriteriaChild 
-                title='Salt'
-                originalName='salt'
-                setMostCriteria={ setMostCriteria }
-                setLeastCriteria={ setLeastCriteria }
-                setNoneCriteria={ setNoneCriteria }
-                // getComponentCriteria={ (value) => setSaltCriteria(value)  }
-                icon={ require('../../components_additional/images/nutrients/salt.png') }
-            />
-            <View style={ productWrap().btnTwo } onLayout={ buttonPosition } >
-                { !calculated ? (
-                    <TouchableOpacity style={CriteriaStyles().buttonWrapOne} onPress={countResults} >
-                        <IonIcon name="ios-calculator" style={CriteriaStyles().buttonResults} />
-                    </TouchableOpacity>
-                ) : (
-                    <Animated.View style={CriteriaStyles(scale).buttonWrapAnimated}>
-                        {animateActiveBtn()}
-                        <TouchableOpacity style={CriteriaStyles().buttonAnimated} onPress={viewResults} >
-                            <IonIcon name="ios-stats" style={CriteriaStyles().buttonResults}  />
+            <View style={ containerStyles().screenHeightContainerNoHeader }>
+                <CriteriaChild 
+                    title='Energy'
+                    originalName='energy'
+                    setMostCriteria={ setMostCriteria }
+                    setLeastCriteria={ setLeastCriteria }
+                    setNoneCriteria={ setNoneCriteria }
+                    icon={ require('../../components_additional/images/nutrients/energy.png') }
+                />
+                <CriteriaChild 
+                    title='Fat'
+                    originalName='fat'
+                    setMostCriteria={ setMostCriteria }
+                    setLeastCriteria={ setLeastCriteria }
+                    setNoneCriteria={ setNoneCriteria }
+                    icon={ require('../../components_additional/images/nutrients/fat.png') }
+                />
+                <CriteriaChild 
+                    title='Saturated fat'
+                    originalName='saturated'
+                    setMostCriteria={ setMostCriteria }
+                    setLeastCriteria={ setLeastCriteria }
+                    setNoneCriteria={ setNoneCriteria }
+                    icon={ require('../../components_additional/images/nutrients/saturated.png') }
+                />
+                <CriteriaChild 
+                    title='Carbohidrates'
+                    originalName='carbs'
+                    setMostCriteria={ setMostCriteria }
+                    setLeastCriteria={ setLeastCriteria }
+                    setNoneCriteria={ setNoneCriteria }
+                    icon={ require('../../components_additional/images/nutrients/carbs.png') }
+                />
+                <CriteriaChild 
+                    title='Sugar'
+                    originalName='sugar'
+                    setMostCriteria={ setMostCriteria }
+                    setLeastCriteria={ setLeastCriteria }
+                    setNoneCriteria={ setNoneCriteria }
+                    icon={ require('../../components_additional/images/nutrients/sugar.png') }
+                />
+                <CriteriaChild 
+                    title='Fiber'
+                    originalName='fiber'
+                    setMostCriteria={ setMostCriteria }
+                    setLeastCriteria={ setLeastCriteria }
+                    setNoneCriteria={ setNoneCriteria }
+                    icon={ require('../../components_additional/images/nutrients/fiber.png') }
+                />
+                <CriteriaChild 
+                    title='Protein'
+                    originalName='protein'
+                    setMostCriteria={ setMostCriteria }
+                    setLeastCriteria={ setLeastCriteria }
+                    setNoneCriteria={ setNoneCriteria }
+                    icon={ require('../../components_additional/images/nutrients/protein.png') }
+                />
+                <CriteriaChild 
+                    title='Salt'
+                    originalName='salt'
+                    setMostCriteria={ setMostCriteria }
+                    setLeastCriteria={ setLeastCriteria }
+                    setNoneCriteria={ setNoneCriteria }
+                    icon={ require('../../components_additional/images/nutrients/salt.png') }
+                />
+                <View style={ CriteriaStyles().resultBtnsWrap } onLayout={ buttonPosition } >
+                    { !calculated ? (
+                        <TouchableOpacity style={CriteriaStyles().buttonWrapOne} onPress={countResults} >
+                            <IonIcon name="ios-calculator" style={CriteriaStyles().buttonResults} />
                         </TouchableOpacity>
-                    </Animated.View>
-                )}
+                        // <TouchableOpacity 
+                        //     onPress={ countResults } 
+                        //     style={ btnStyles().inputBtnOrange }
+                        // >
+                        //     <Text style={ btnStyles().inputBtnText } >Calculate</Text>
+                        // </TouchableOpacity>
+                    ) : (
+                        <Animated.View style={CriteriaStyles(scale).buttonWrapAnimated}>
+                            {animateActiveBtn()}
+                            <TouchableOpacity style={CriteriaStyles().buttonAnimated} onPress={viewResults} >
+                                <IonIcon name="ios-stats" style={CriteriaStyles().buttonResults}  />
+                            </TouchableOpacity>
+                        </Animated.View>
+                    )}
+                </View>
             </View>
-        </View>
+        </>
     )
 
     function countResults(){
@@ -179,7 +188,6 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                 const title = leastCriteria[j];
                 mostObj[title] = selectedProducts[0][title] ? parseInt(selectedProducts[0][title]) * 100 : 0;
                 matchObj[title] = selectedProducts[0];
-                console.log(" mostObj[title]:: ",  mostObj[title])
                 for(let i = 0; i < arrayLength; i++) {
                     let item = selectedProducts[i][title];
                     let parsedItem = item ? parseInt(item) * 100 : 0;
@@ -206,7 +214,6 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
                     maxMatch = countMatched[key];
                 }
             }
-
         
         for(let j = 0; j < mostCriteria.length; j++){
             const title = mostCriteria[j];
@@ -214,7 +221,7 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
             leastObj[title] = mostObj[title] ? parseInt(mostObj[title]) * 100 : 0;
             mismatchObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1] : selectedProducts[0];
             for(let i = 0; i < arrayLength; i++) {
-                if(selectedProducts[i].id == bestMatchId) { console.log("break 2"); break };
+                if(selectedProducts[i].id == bestMatchId) break;
                 let item = selectedProducts[i][title];
                 let parsedItem = item ? parseInt(item) * 100 : 0;
                 if(leastObj[title] < parsedItem) { 
@@ -228,7 +235,7 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
             leastObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1][title] : selectedProducts[0][title]
             leastObj[title] = leastObj[title] ? parseInt(leastObj[title]) * 100 : 0;
             for(let i = 0; i < arrayLength; i++) {
-                if(selectedProducts[i].id == bestMatchId) { console.log("break 2"); break };
+                if(selectedProducts[i].id == bestMatchId) break ;
                 let item = selectedProducts[i][title];
                 let parsedItem = item ? parseInt(item) * 100 : 0;
                 if(leastObj[title] > parsedItem) { 
@@ -259,15 +266,12 @@ const Criteria = ({compare, selectedProducts, navigation}) => {
             match: matchProduct,
             mismatch: mismatchProduct
         }    
-        console.log("maatch", matchProduct)
-        console.log(selectedProducts)
-        console.log(data)
         compare(data);
         setCalculated(true);
     }
 
     async function viewResults(){
-        await navigation.push('Results');
+        await navigate("Results");
         setCalculated(false);
     }
 

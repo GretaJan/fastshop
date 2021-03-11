@@ -38,7 +38,7 @@ class Product extends Component {
                         <View style={stylesGuest().imageWrap}>
                             <IonIcon style={stylesGuest().imageIcon} name="md-images" />
                         </View> 
-                    )}
+                    )} 
                         <Text style={stylesGuest().itemText} key={this.props.item.id.toString()}>{this.props.item.name}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={stylesGuest(null, '0deg', 0).animatedWrap} onPress={this.removeFromList}>

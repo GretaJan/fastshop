@@ -18,7 +18,7 @@ function settingsIndex({ logOut, token, navigation: { navigate } }){
                 title='Kalendorius'
                 navigate={ null }
             />
-            <View style={ containerStyles().screenHeightContainer }>
+            <View style={ containerStyles().screenHeightContainerNoHeader }>
                 <View style={ containerStyles().topContainer }>
                     <View style={stylesGuest().horizontalWrap}>
                         <TouchableOpacity onPress={ () => navigate("Calendar") } style={stylesGuest().itemWrap}>

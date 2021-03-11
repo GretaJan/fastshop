@@ -159,6 +159,19 @@ function Tabs({
                                         ),
                                     }
                                 } />
+                                <Tabs.Screen name="SelectedProducts" component={CalculatorScreen} 
+                                    options = {{ 
+                                        tabBarLabel: () => (null),
+                                        tabBarIcon: () => (
+                                        <View>
+                                            <IonIcon name="ios-calculator" style={styles().iconItem} />
+                                            <View style={styles().counter}>
+                                                <ListIndicator style={styles().counterNo}/> 
+                                            </View>
+                                        </View>
+                                    )
+                                    }}
+                                />
                                 <Tabs.Screen 
                                     name="Settings"
                                     component={ SettingsScreen }
@@ -183,6 +196,19 @@ function Tabs({
                                             <Icon name="list-alt" style={styles().iconItem} />
                                         )}
                                 } />
+                                <Tabs.Screen name="SelectedProducts" component={CalculatorScreen} 
+                                    options = {{ 
+                                        tabBarLabel: () => (null),
+                                        tabBarIcon: () => (
+                                        <View>
+                                            <IonIcon name="ios-calculator" style={styles().iconItem} />
+                                            <View style={styles().counter}>
+                                                <ListIndicator style={styles().counterNo}/> 
+                                            </View>
+                                        </View>
+                                    )
+                                    }}
+                                />
                             </Tabs.Navigator> 
                         )
                     )}
@@ -193,7 +219,7 @@ function Tabs({
                         </TouchableOpacity>
                     ) }
                     { registerModel && (
-                        <Register refreshPage={ () => forceUpdate()} close={ () =>  setRegisterModel(false) }/>
+                        <Register refreshPage={ () => this.forceUpdate()} close={ () =>  setRegisterModel(false) }/>
                     )}
             </>
         )

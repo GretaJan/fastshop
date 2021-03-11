@@ -60,21 +60,21 @@ export const textStyle = () => StyleSheet.create({
 });
 
 export const containerStyles = () => StyleSheet.create({
-    screenHeightContainer: {
-        flex: 1,
+    screenHeightContainerNoHeader: {
         alignSelf: 'center',
         width: Dimensions.get('window').width /1 - 20,
-        height: Dimensions.get('window').height - (Dimensions.get('window').height / 5.5 / 2 + 95),
+        height: Dimensions.get('window').height - (Dimensions.get('window').height / 5.5 / 2 + 146),
         top: (Dimensions.get('window').height /5.5 ) /2,
         zIndex: 1,
         paddingVertical: 10,
     },
-    screenHeightContainerTop: {
+    screenHeightContainer: {
         flex: 1,
         textAlign: 'center',
         alignItems:'center',
         width: Dimensions.get('window').width /1 - 20,
-        maxHeight: Dimensions.get('window').height - (Dimensions.get('window').height / 5.5 / 2 + 95),
+        height: Dimensions.get('window').height - (Dimensions.get('window').height / 5.5 / 2),
+        top: Dimensions.get('window').height /5.5 / 2,
         marginLeft: 10,
         zIndex: 1,
     },
@@ -93,7 +93,7 @@ export const containerStyles = () => StyleSheet.create({
         height: Dimensions.get('window').height /1.4 - Dimensions.get('window').height /5.5 /2,
         zIndex: 2,
     },
-    screenHeightContainerMargin: {
+    screenHeightContainerNoHeaderMargin: {
         paddingHorizontal: 10,
         paddingTop: 7,
         paddingBottom: 10,
@@ -139,11 +139,19 @@ export const containerStyles = () => StyleSheet.create({
     rowOuterContainer: {
         flexDirection: 'row',
         width: Dimensions.get('window').width - 60,
-        backgroundColor: 'grey'
     },
     rowContainerTop: {
         flexDirection: 'row',
         height: Dimensions.get('window').height /3.8,
+        width: '100%',
+        top: 0,
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    rowContainerTopSmaller: {
+        flexDirection: 'row',
+        height: Dimensions.get('window').height /4.8,
         width: '100%',
         top: 0,
         alignContent: 'center',

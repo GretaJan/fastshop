@@ -68,7 +68,7 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
 
     return (
         loading ? (
-            <View style={ containerStyles().screenHeightContainer }>
+            <View style={ containerStyles().screenHeightContainerNoHeader }>
                 <Loading />
             </View>
         ) : (
@@ -77,7 +77,7 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
                     title={ name }
                     navigate={ () => navigate("Calendar") }
                 />
-                <View style={ containerStyles().screenHeightContainer }>
+                <View style={ containerStyles().screenHeightContainerNoHeader }>
                 { error ? (
                         <Error message={ error } />
                     ) : (

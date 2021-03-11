@@ -103,7 +103,12 @@ class Products extends Component {
 
     goToCriteriaPage = () => {
         if(this.props.token) {
-            this.checkIfEnoughSelected("Criteria", this.compareSecBtn)
+            if(this.props.selectedProducts.length < 2){
+                const msg = 'Please select at least two products.';
+                this.callModal(this.compareSecBtn, msg)
+            } else {
+                this.checkIfEnoughSelected("Criteria", this.compareSecBtn)
+            }
         } else {
             const msg = 'Please register in order to complete this action.';
             this.callModal(this.compareSecBtn, msg)
@@ -174,7 +179,7 @@ class Products extends Component {
                         locationY={ locationY }
                     />
                 )}
-                <View data-test='selectedComponents' style={containerStyles().screenHeightContainer} >
+                <View data-test='selectedComponents' style={containerStyles().screenHeightContainerNoHeader} >
                         { loadingResults && <LoadingResults /> }
                             { this.state.delConfirm && (
                                 <ConfirmModal 

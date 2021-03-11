@@ -56,7 +56,7 @@ export class Categories extends Component {
                             title="Nutritase"
                             navigate={ null }
                         />
-                        <View style={ containerStyles().screenHeightContainer }>
+                        <View style={ containerStyles().screenHeightContainerNoHeader }>
                             { this.props.error !== '' && (
                                 <Modal 
                                     title="Warning" 

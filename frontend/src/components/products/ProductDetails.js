@@ -115,7 +115,7 @@ class ProductDetails extends Component {
     render() {
         const { name, image, background, loading, callRegisterModel, modelMsg } = this.state;
         const { subcategoryId, subcategoryName, categoryId, categoryName } = this.props.route.params;
-        
+
         return (
             (loading) ? (
                 <View style={backgroundForPages(colors.mainWhiteYellow).backgroundContainer} >
@@ -183,13 +183,7 @@ class ProductDetails extends Component {
                                 <DetailRow props={ item } />
                             )} />
                         </View>
-                        </View>
-                        { callRegisterModel && (
-                            <Register 
-                                refreshPage={() => this.forceUpdate()} 
-                                close={() => this.setState({ callRegisterModel: false })}
-                            />
-                        ) }
+                    </View>
                 </>
             )
         )

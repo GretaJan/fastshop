@@ -30,24 +30,6 @@ export const CalculatorScreen = () => (
             }}
         />
         <CalculatorNav.Screen 
-            name="Results" 
-            component={ SelectedProductsResults } 
-            // options = {{
-            //     title: "Results",
-            //     headerTitleStyle: {
-            //         fontWeight: 'bold',
-            //         color: colors.titleBlack,
-            //     },
-            //     headerStyle: {
-            //         backgroundColor: colors.mainGrey,
-            //     },
-            //     headerTitleAlign: 'center',
-            // }} 
-            options={{
-                headerShown: false
-            }}
-        />
-        <CalculatorNav.Screen 
             name="DescAscend" 
             component={ DescAscend } 
             // options = {{
@@ -70,6 +52,24 @@ export const CalculatorScreen = () => (
             component={ Criteria } 
             // options = {{
             //     title: "Calculate by Criteria",
+            //     headerTitleStyle: {
+            //         fontWeight: 'bold',
+            //         color: colors.titleBlack,
+            //     },
+            //     headerStyle: {
+            //         backgroundColor: colors.mainGrey,
+            //     },
+            //     headerTitleAlign: 'center',
+            // }} 
+            options={{
+                headerShown: false
+            }}
+        />
+        <CalculatorNav.Screen 
+            name="Results" 
+            component={ SelectedProductsResults } 
+            // options = {{
+            //     title: "Results",
             //     headerTitleStyle: {
             //         fontWeight: 'bold',
             //         color: colors.titleBlack,

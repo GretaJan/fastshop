@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
-export const animations = (scale, translate) => StyleSheet.create({
+export const animations = (scale, translate, width) => StyleSheet.create({
     diagramScale: {
         transform: [
             { scaleX: scale }
@@ -39,7 +39,7 @@ export const animations = (scale, translate) => StyleSheet.create({
         ],
     },
     calendarAnimation: {
-        width: scale, //scale represents calendar width
+        width: width, 
         transform: [
             { translateX: translate }
         ],
