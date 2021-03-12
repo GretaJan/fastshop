@@ -1,33 +1,32 @@
-import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_APPEND, GET_SUBCATEGORIES_ERROR,  LOADING_POST_SUBCATEGORY, POST_SUBCATEGORY, POST_SUBCATEGORY_ERROR, LOADING_EDIT_SUBCATEGORY, EDIT_SUBCATEGORY, EDIT_SUBCATEGORY_ERROR, REMOVE_GET_SUBCATEGORIES_ERR, DELETE_SUBCATEGORY, DELETE_SUBCATEGORY_ERROR, URL } from './types';
+import { 
+    LOADING_POST_SUBCATEGORY, 
+    POST_SUBCATEGORY, 
+    POST_SUBCATEGORY_ERROR, 
+    LOADING_EDIT_SUBCATEGORY, 
+    EDIT_SUBCATEGORY, 
+    EDIT_SUBCATEGORY_ERROR, 
+    DELETE_SUBCATEGORY, 
+    DELETE_SUBCATEGORY_ERROR, 
+    URL 
+} from './types';
 import axios from 'axios';
-import store from '../store';
+import { asyncStorageFunc } from './generalActions';
 
-export const getSubcategories = (subcategories, categoryId, page) => async (dispatch) => {
-    dispatch({ 
-        type: LOADING_GET_SUBCATEGORIES,
-        loading: page === 0 ? true : false,
-        loadingNext:  page > 0 ? true : false,
-        error: ''
-    });
-
-    let filteredSubcategories = [];
-    let lastPage = 1;
-    subcategories.forEach(item => {
-        if(item.parentId == categoryId){
-            lastPage = item.lastPage;
-            filteredSubcategories = item.data[page];
+export async function getSubcategories(categoryId, page){
+    return asyncStorageFunc().then(response => {
+        const dataReducer = JSON.parse(response.dataUpload)
+        const allSubcategories = dataReducer.allSubcategories.find(item => item.parentId == categoryId);
+        const currentSubcategories = allSubcategories.data[page];
+        if(page === 0){
+            return {
+                subcategories: currentSubcategories,
+                lastPage: allSubcategories.lastPage
+            };
         }
+        return currentSubcategories;
+    }).catch(() => {
+        return null
     })
-    dispatch({ 
-        type: page == 0 ? GET_SUBCATEGORIES : GET_SUBCATEGORIES_APPEND,
-        payload: filteredSubcategories,
-        nextPage: page + 1,
-        lastPage: lastPage,
-    });
-}
-
-export const getSubcategoriesPrepend = (subcategories, categoryId, page) => dispatch => {
-    fetchSubcategoriesWithPagination(dispatch, subcategories, categoryId, GET_SUBCATEGORIES_APPEND, page)
 }
 
 export const addSubcategory = (category, data) => async (dispatch) => {

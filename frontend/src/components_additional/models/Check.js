@@ -13,7 +13,7 @@ function CheckInput({ isVisible, func }){
 
     useEffect(() => {
         comparisonAnimations.checkScaleGrow(checkScale); 
-    })
+    }, [])
 
     function changeAnimation(){
         comparisonAnimations.checkScaleGrow(checkScale); 
@@ -29,7 +29,6 @@ function CheckInput({ isVisible, func }){
             </View>
         </TouchableOpacity>
     )
-
 }
 
 export default CheckInput

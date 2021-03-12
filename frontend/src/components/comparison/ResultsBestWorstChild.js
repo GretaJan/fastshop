@@ -8,7 +8,6 @@ import { animations } from '../../components_additional/styles/AnimationStyles';
 const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
 
 function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismatchComponent, mismatchComponentArr}){
-    const [loading, setLoading] = useState(false);
     const scaleAnimate = useRef(new Animated.Value(0)).current;
     const numAnimateFirst = useRef(new Animated.Value(0)).current;
     const numAnimateSec = useRef(new Animated.Value(0)).current;
@@ -30,7 +29,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
     }
     useEffect(() => {
         getAnimationsParams();
-    }, [scaleAnimate, numAnimateFirst, numAnimateSec, numAnimateThird, numAnimateFourth])
+    }, [scaleAnimate, numAnimateFirst, numAnimateSec, numAnimateThird, numAnimateFourth, matchComponent, mismatchComponent])
 
     function getAnimationsParams(){
         callDiagramAnimation();
@@ -49,7 +48,6 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
         }
     }
     const callNumAnimation = (length, ref) => {
-        console.log("length", length)
         comparisonAnimations.numbersAnimation(ref, -((length - 1) * 24.75))
     }
 
@@ -70,9 +68,6 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
     }
 
     return (
-        loading ? (
-            <Text>Loading...</Text>
-        ) : (
         <View style={diagram().diagramWrap}>
             <View style={diagram().linesWrap} >
             <View style={stylesGuestSingle().titleWrap}>
@@ -179,7 +174,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                                 { renderArrays(matchComponentArr[1], animations(null, numAnimateSec).numbersTransitionSec)} 
                                             </View>
                                         ) : (
-                                            <Text style={animations().animatedDot}>.</Text>   
+                                            <Text style={ diagram().amountDot }>.</Text>   
                                         )}
                                         { matchComponentArr[2] && (
                                             matchComponentArr[2] != '.' ? (
@@ -187,7 +182,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                                     { renderArrays(matchComponentArr[2], animations(null, numAnimateThird).numbersTransitionThird)} 
                                                 </View>
                                             ) : (
-                                                <Text style={diagram().animatedDot}>.</Text>   
+                                                <Text style={ diagram().amountDot }>.</Text>   
                                             )
                                         )} 
                                         { matchComponentArr[3] && ( 
@@ -219,7 +214,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                                 { renderArrays(mismatchComponentArr[1], animations(null, mismNumAnimateSec).numbersTransitionSec)} 
                                             </View>
                                         ) : (
-                                            <Text style={animations().animatedSecDot}>.</Text>   
+                                            <Text style={ diagram().amountDot }>.</Text>   
                                         )}
                                         { mismatchComponentArr[2] && (
                                             mismatchComponentArr[2] != '.' ? (
@@ -227,7 +222,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                                     { renderArrays(mismatchComponentArr[2], animations(null, mismNumAnimateThird).numbersTransitionThird)} 
                                                 </View>
                                             ) : (
-                                                <Text style={diagram().animatedThirdDot}>.</Text>   
+                                                <Text style={ diagram().amountDot }>.</Text>   
                                             )
                                         )} 
                                         { mismatchComponentArr[3] && ( 
@@ -244,7 +239,6 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                 </View>
             )}
         </View>
-        )
     )
 }
 

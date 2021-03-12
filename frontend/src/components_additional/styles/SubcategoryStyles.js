@@ -79,7 +79,6 @@ export const styles = (background) => StyleSheet.create({
 export const stylesGuest = (backgroundCategory, backgroundSubcategory, index) => StyleSheet.create({
     horizontalWrap: {
         alignItems: 'flex-start',
-        // maxWidth: Dimensions.get('window').width
     },
     itemWrap: {
         backgroundColor: backgroundSubcategory ? backgroundSubcategory : colors.mainWhiteGrey,

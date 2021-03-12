@@ -3,11 +3,8 @@ import { View, FlatList, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProducts } from '../../redux/actions/productActions';
-import { closeErrorWarning } from '../../redux/actions/generalActions';
 import { selectProductToCalc, removeProductFromSelected } from '../../redux/actions/comparisonActions';
 import { withNavigation } from 'react-navigation';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import { stylesGuest } from '../../components_additional/styles/ProductStyles';
 import { containerStyles } from '../../components_additional/styles/GeneralStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
@@ -22,21 +19,50 @@ import SearchBar from '../../components_additional/models/SearchBar';
 
 class Products extends Component {
     state = {
-        id: this.props.route.params.subcategoryId,
-        tempArray: this.props.products,
+        loading: true,
+        loadingNext: false,
+        subcategoryId: this.props.route.params.subcategoryId,
+        products: [], 
+        searchProducts: [], 
+        error: '', 
+        currentPage: 0, 
+        lastPage: 0,
         searchName: '',
         inputTriggered: false,
-        showSearchInput: false,
-        // overload: null,
-        modelMsg: '',
+        modelMsg: ''
     }
 
-    componentDidMount() {
-        this.props.getProducts(this.props.allProducts, this.state.id, 0);
+    componentDidMount(){
+        getProducts(this.state.subcategoryId, 0).then(response => {
+            if(response){
+                const productsResp = response.products;
+                this.setState({ 
+                    products: productsResp, 
+                    searchProducts: productsResp, 
+                    lastPage: response.lastPage 
+                })
+            } else {
+                this.setState({ error: 'Įvyko klaida.' })
+            }
+            this.setState({ loading: false })
+        })
     }
 
     handleLoadMore = () => {
-        this.props.getProducts(this.props.allProducts, this.state.id, this.props.nextPage); 
+        this.setState({ loadingNext: true })
+        const { subcategoryId, currentPage } = this.state;
+        const nextPage = currentPage + 1;
+        getProducts(subcategoryId, nextPage).then(response => {
+            if(response){
+                this.setState({ 
+                    products: response, 
+                    searchProducts: response, 
+                })
+            } else {
+                this.setState({ error: 'Įvyko klaida.' })
+            }
+            this.setState({ loadingNext: false })
+        })
     }
 
     renderFooter = () => {
@@ -47,20 +73,19 @@ class Products extends Component {
 
     findFunction = (searchName) => {
         this.setState({ inputTriggered: true })
-        const tempData =  this.props.products.filter(item => {
+        const tempData =  this.state.products.filter(item => {
             const itemData = item.name ? item.name.toLowerCase() : '';
             const searchData = searchName.toLowerCase();
             return itemData.indexOf(searchData) > -1;
         })
         if(searchName == '') {
             this.setState({
-                // tempArray: this.props.products,
                 inputTriggered: false,
                 searchName: searchName
             })
         } else {
             this.setState({
-                tempArray: tempData,
+                searchProducts: tempData,
                 searchName: searchName
             })
         }
@@ -104,69 +129,81 @@ class Products extends Component {
 
     render() {
         const { background, name, categoryId, categoryName } = this.props.route.params;
-        const { modelMsg } = this.state;
+        const { 
+            modelMsg, 
+            loading, 
+            loadingNext, 
+            products, 
+            searchProducts, 
+            error, 
+            currentPage, 
+            lastPage, 
+            searchName, 
+            inputTriggered,
+        } = this.state;
         const { selectedProducts } = this.props;
+
         return (
-            (this.props.loading) ? (
+            loading ? (
                 <View style={backgroundForPages(background).backgroundContainer} >
                     <Loading />
                 </View>             
-                    ) : (
-                        <>
-                        {/* { this.props.error !== '' && (
-                            <Modal title="Warning" 
-                                message={this.props.error} 
-                                close={() => this.props.closeErrorWarning('REMOVE_GET_PRODUCTS_ERROR') }
-                                ok="OK" color={colors.bordo} 
-                                borderColor={colors.bordoTransparent}
+                ) : (
+                    <>
+                    { error !== '' && (
+                        <Modal title="Warning" 
+                            message={ error } 
+                            close={() => this.setState({ error: '' }) }
+                            ok="OK" color={colors.bordo} 
+                            borderColor={colors.bordoTransparent}
+                            horizontal={20} vertical={10}
+                        />
+                    )}
+                    <Header 
+                        title={ name }
+                        navigate={ () => this.props.navigation.push("Subcategories", {
+                            categoryId: categoryId, 
+                            name: categoryName, 
+                            background: background
+                        }) }
+                    />
+                    <SearchBar 
+                        func={ (value) => this.findFunction(value) }
+                        parentValue={ searchName }
+                    />
+                    <View style={containerStyles(background).simpleContainer}>
+                        { modelMsg !== '' && (
+                            <Modal title="Limit exceeded" 
+                                message={ modelMsg } 
+                                close={() => this.setState({ modelMsg: '' })} 
+                                ok="OK" color={colors.orange} 
+                                borderColor={colors.inputOrange}
                                 horizontal={20} vertical={10}
                             />
-                        )} */}
-                        <Header 
-                            title={ name }
-                            navigate={ () => this.props.navigation.push("Subcategories", {
-                                categoryId: categoryId, 
-                                name: categoryName, 
-                                background: background
-                            }) }
-                        />
-                        <SearchBar 
-                            func={ (value) => this.findFunction(value) }
-                            parentValue={ this.state.searchName }
-                        />
-                        <View style={containerStyles(background).simpleContainer}>
-                            { modelMsg !== '' && (
-                                <Modal title="Limit exceeded" 
-                                    message={ modelMsg } 
-                                    close={() => this.setState({ modelMsg: '' })} 
-                                    ok="OK" color={colors.orange} 
-                                    borderColor={colors.inputOrange}
-                                    horizontal={20} vertical={10}
-                                />
-                            )}
-                            {(this.props.products.length == 0) ? (
-                                    <EmptyList message="The List is empty" background={background} />
-                                ) : (
-                                    <FlatList 
-                                            data={  !this.state.inputTriggered ? this.props.products : this.state.tempArray} 
-                                            keyExtractor={(item, index) => index.toString()}
-                                            onEndReached={(this.props.nextPage < this.props.lastPage) ? this.handleLoadMore : null}
-                                            onEndReachedThreshold={0.02}
-                                            ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
-                                            renderItem={({item}) => (
-                                        <Product 
-                                                ref={ view => { this.productRef = view } }
-                                                item={item} 
-                                                selectProduct={(productId) =>this.props.selectProductToCalc(selectedProducts, productId) } 
-                                                removeProductFromSelected={(productId) =>  this.props.removeProductFromSelected(productId) }
-                                                goToProduct={() => this.goToProduct(item)}
-                                                selectedProducts={ selectedProducts } 
-                                                callModal={ this.callOverloadError }
-                                            />
-                                        )} />
-                            )}
-                        </View>
-                    </>
+                        )}
+                        {(products.length == 0) ? (
+                                <EmptyList message="The List is empty" background={background} />
+                            ) : (
+                                <FlatList 
+                                    data={  !inputTriggered ? products : searchProducts} 
+                                    keyExtractor={(item, index) => index.toString()}
+                                    onEndReached={(currentPage < lastPage) ? this.handleLoadMore : null}
+                                    onEndReachedThreshold={0.02}
+                                    ListFooterComponent={ loadingNext ? this.renderFooter : null } 
+                                    renderItem={({item}) => (
+                                <Product 
+                                        ref={ view => { this.productRef = view } }
+                                        item={item} 
+                                        selectProduct={(productId) => this.props.selectProductToCalc(selectedProducts, productId) } 
+                                        removeProductFromSelected={(productId) =>  this.props.removeProductFromSelected(productId) }
+                                        goToProduct={() => this.goToProduct(item)}
+                                        selectedProducts={ selectedProducts } 
+                                        callModal={ this.callOverloadError }
+                                    />
+                                )} />
+                        )}
+                    </View>
+                </>
             )
         )
     }
@@ -174,19 +211,17 @@ class Products extends Component {
 
 Products.propTypes = {
     getProducts: PropTypes.func.isRequired,
-    tempArray: PropTypes.arrayOf(PropTypes.shape({
+    searchProducts: PropTypes.arrayOf(PropTypes.shape({
         name:  PropTypes.string.isRequired,
         image: PropTypes.any,
     })),
     searchName: PropTypes.string,
     inputTriggered: PropTypes.bool,
-    showSearchInput: PropTypes.bool,
-    // overload: PropTypes.any,
     products: PropTypes.arrayOf(PropTypes.shape({
         name:  PropTypes.string.isRequired,
         image: PropTypes.any,
     })),
-    nextPage: PropTypes.number,
+    currentPage: PropTypes.number,
     lastPage: PropTypes.bool,
     loading: PropTypes.bool,
     loadingNext: PropTypes.bool,
@@ -196,13 +231,6 @@ Products.propTypes = {
 
 const mapStateToProps = state => ({
     selectedProducts: state.selectedProducts.comparisonArray,
-    allProducts: state.dataUpload.allProducts,
-    products: state.products.products,
-    nextPage: state.products.nextPage,
-    lastPage: state.products.lastPage,
-    loading: state.products.loading,
-    loadingNext: state.products.loadingNext,
-    error: state.products.error,
 })
 
-export default withNavigation(connect(mapStateToProps, {getProducts, closeErrorWarning, selectProductToCalc, removeProductFromSelected })(Products))
+export default withNavigation(connect(mapStateToProps, { selectProductToCalc, removeProductFromSelected })(Products))

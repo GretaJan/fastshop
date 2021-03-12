@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { View, FlatList, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { getSubcategories } from '../../redux/actions/subcategoryActions';
-import { closeErrorWarning } from '../../redux/actions/generalActions';
 import { withNavigation } from 'react-navigation';
 import { stylesGuest } from '../../components_additional/styles/SubcategoryStyles';
 import { containerStyles } from '../../components_additional/styles/GeneralStyles';
-// import { searchBar } from '../../components_additional/styles/AdditionalStyles';
 import { backgroundForPages } from '../../components_additional/styles/AdditionalStyles';
 import { colors } from '../../components_additional/styles/Colors';
 
@@ -21,29 +18,61 @@ import SearchBar from '../../components_additional/models/SearchBar';
 
 class Subcategories extends Component {
     state = {
-        id: this.props.route.params.categoryId,
-        tempArray: this.props.subcategories,
+        loading: true,
+        loadingNext: false,
+        categoryId: this.props.route.params.categoryId,
+        subcategories: [], 
+        searchSubcategories: [], 
+        error: '', 
+        currentPage: 0, 
+        lastPage: 0,
         searchName: '',
         inputTriggered: false,
         showSearchInput: false,
     }
 
    componentDidMount() {
-        this.props.getSubcategories(this.props.allSubcategories, this.state.id, 0);
+        getSubcategories(this.state.categoryId, 0).then(response => {
+            if(response){
+                const subcategoriesResp = response.subcategories;
+                this.setState({ 
+                    subcategories: subcategoriesResp, 
+                    searchSubcategories: subcategoriesResp,
+                    lastPage: response.lastPage 
+                })
+            } else {
+                this.setState({ error: 'Įvyko klaida' })
+            }
+            this.setState({ loading: false })
+        })
+
     }
 
     loadMore = () => {
-        this.props.getSubcategories(this.props.allSubcategories, this.state.id, this.props.nextPage);
+        this.setState({ loadingNext: true })
+        const { categoryId, currentPage } = this.state;
+        const nextPage = currentPage + 1;
+        getSubcategories(categoryId, nextPage).then(response => {
+            if(response){
+                this.setState({ 
+                    subcategories: [...this.state.subcategories, ...response],
+                    searchSubcategories:  [...this.state.searchSubcategories, ...response]
+                })
+            } else {
+                this.setState({ error: 'Įvyko klaida' })
+            }
+            this.setState({ loadingNext: false })
+        })
     }
 
     renderFooter = () => {
         return (
-             <Loading />
+            <Loading />
         )
     } 
     searchFunction = searchName => {
         this.setState({inputTriggered: true});
-        const matchedData = this.props.subcategories.filter(item => {
+        const matchedData = this.state.subcategories.filter(item => {
             const itemData = item.name ? item.name.toLowerCase() : '';
             const textInput = searchName.toLowerCase();
             return itemData.indexOf(textInput) > -1;
@@ -55,7 +84,7 @@ class Subcategories extends Component {
             })
         } else {
             this.setState({
-                tempArray: matchedData,
+                searchSubcategories: matchedData,
                 searchName: searchName
             })
         }
@@ -66,7 +95,7 @@ class Subcategories extends Component {
             subcategoryId: item.id, 
             name: item.name, 
             background: item.background,
-            categoryId: this.state.id,
+            categoryId: this.state.categoryId,
             categoryName: this.props.route.params.name
         });
   
@@ -74,8 +103,9 @@ class Subcategories extends Component {
 
     render() {
         const { background, name } = this.props.route.params;
+        const { loading, loadingNext, subcategories, searchSubcategories, error, inputTriggered, currentPage, lastPage } = this.state;
         return (
-            this.props.loading ? (
+            loading ? (
                 <View style={backgroundForPages(background).backgroundContainer} >
                     <Loading />
                 </View>
@@ -89,39 +119,40 @@ class Subcategories extends Component {
                             func={ (value) => this.searchFunction(value) }
                             parentValue={ this.state.searchName }
                         />
-                        <View style={ containerStyles().simpleContainer }>
-                        { this.props.error !== '' && (
-                            <View>
-                                <Modal 
-                                    title="Warning" 
-                                    message={this.props.error} 
-                                    close={() => this.props.closeErrorWarning('REMOVE_GET_SUBCATEGORIES_ERR') }
-                                    ok="OK" color={colors.bordo} 
-                                    borderColor={colors.bordoTransparent}
-                                    horizontal={20} vertical={10}
-                                />
-                            </View>
-                        )}
-                            {(this.props.subcategories.length === 0) ? (
+                        <View style={ containerStyles().screenHeightContainerNoHeader }>
+                            { error !== '' && (
+                                <View>
+                                    <Modal 
+                                        title="Warning" 
+                                        message={ error } 
+                                        close={() => this.setState({ error: '' }) }
+                                        ok="OK" color={colors.bordo} 
+                                        borderColor={colors.bordoTransparent}
+                                        horizontal={20} vertical={10}
+                                    />
+                                </View>
+                            )}
+                            {(subcategories.length === 0) ? (
                                 <EmptyList message="The List is empty" background={background} />
                             ) : (
-                                <FlatList 
-                                        contentContainerStyle={stylesGuest().horizontalWrap} numColumns={3} 
-                                        onEndReached={!this.props.lastPage ? this.handleLoadMore : null}
-                                        onEndReachedThreshold={0.01}
-                                        ListFooterComponent={this.props.loadingNext ? this.renderFooter : null} 
-                                        data={!this.state.inputTriggered ? this.props.subcategories : this.state.tempArray } 
-                                        renderItem={({item, index}) => (
-                                    <Subcategory 
-                                        item={item} 
-                                        index={ index }
-                                        goToProducts={() => this.goToProducts(item) } 
-                                    />
-                                )} />  
+                                <>
+                                    <FlatList 
+                                        contentContainerStyle={ stylesGuest().horizontalWrap } numColumns={3} 
+                                        keyExtractor={(item, index) => index.toString()}
+                                        onEndReached={ currentPage < lastPage ? this.loadMore : null }
+                                        onEndReachedThreshold={ 0.02 }
+                                        ListFooterComponent={ loadingNext ? this.renderFooter : null } 
+                                        data={ !inputTriggered ? subcategories : searchSubcategories } 
+                                        renderItem={({ item, index }) => (
+                                            <Subcategory 
+                                                item={ item } 
+                                                index={ index }
+                                                goToProducts={ () => this.goToProducts(item) } 
+                                            />
+                                            
+                                    )} />   
+                                </>
                             )}  
-                            { this.props.nextPage < this.props.lastPage && (
-                                <TouchableOpacity onPress={this.loadMore} ><Text>More</Text></TouchableOpacity>
-                            ) }
                         </View>
                     </>
                 )
@@ -131,7 +162,7 @@ class Subcategories extends Component {
 
 Subcategories.propTypes = {
     getSubcategories: PropTypes.func.isRequired,
-    tempArray: PropTypes.arrayOf(PropTypes.shape({
+    searchSubcategories: PropTypes.arrayOf(PropTypes.shape({
         name:  PropTypes.string,
         image: PropTypes.any,
     })),
@@ -142,23 +173,11 @@ Subcategories.propTypes = {
         image: PropTypes.any,
         background: PropTypes.string
     })),
-    nextPage: PropTypes.number,
+    currentPage: PropTypes.number,
     lastPage: PropTypes.bool,
     loading: PropTypes.bool,
     loadingNext: PropTypes.bool,
     error: PropTypes.string,
 }
 
-const mapStateToProps = (state) => {
-   return {
-    allSubcategories: state.dataUpload.allSubcategories,
-    subcategories: state.subcategories.subcategories,
-    nextPage: state.subcategories.nextPage,
-    lastPage: state.subcategories.lastPage,
-    loading: state.subcategories.loading,
-    loadingNext: state.subcategories.loadingNext,
-    error: state.subcategories.error
-   }
-}
-
-export default withNavigation(connect(mapStateToProps, { getSubcategories, closeErrorWarning })(Subcategories))
+export default withNavigation(Subcategories)

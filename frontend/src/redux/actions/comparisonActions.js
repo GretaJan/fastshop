@@ -1,19 +1,7 @@
 import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEAR_RESULTS, CLEAR_SELECTED_ARRAY,
             SORT_ARRAY, GO_TO_LIST, URL, SAVE_COMBINATION        } from './types';
-import axios from 'axios';
-import store from '../store';
 import AsyncStorage from '@react-native-community/async-storage';
 
-// export const selectProductToCalc = (subcategory, product) => dispatch => {
-//     return axios.get(`${URL}/product/${subcategory}/${product}`)
-//         .then(result => (
-//             dispatch({
-//                 type: PRODUCT_SELECTED,
-//                 payload: result.data,
-//                 result: {},
-//             })
-//         ))
-// }
 export const selectProductToCalc = (selectedProducts, productId) => dispatch => {
     const existInSelected = selectedProducts.length == 0 ? [] : selectedProducts.find(item => item.id == productId);
     if(!existInSelected || existInSelected.length == 0){
@@ -28,7 +16,6 @@ export const selectProductToCalc = (selectedProducts, productId) => dispatch => 
                     error: ''
                 })
         }).catch((error) => {
-            console.log("error", error)
             const message = 'Error occurred. Please try again.';
             return message;
         });
@@ -43,7 +30,7 @@ export const removeProductFromSelected = (productId) => dispatch => {
 }
 
 export const compare = (result) => dispatch => {
-    console.log("ressss:: ", result)
+    console.log("result", result)
     const match = splitComponents(result.match);
     const mismatch = splitComponents(result.mismatch)
     dispatch({
@@ -53,24 +40,6 @@ export const compare = (result) => dispatch => {
             mismatch: mismatch
         }
     })
-    // let firstLink = `${URL}/product/${result.healthier.subId}/${result.healthier.id}`;
-    // let secondLink = `${URL}/product/${result.unhealthier.subId}/${result.unhealthier.id}`;
-
-    // const requestOne = axios.get(firstLink);
-    // const requestTwo = axios.get(secondLink);
-    // return axios.all([requestOne, requestTwo])
-    //     .then(axios.spread((...responses) => {
-    //         const responseOne = responses[0];
-    //         const responseTwo = responses[1];
-    //         const result = {
-    //             healthy: responseOne.data.product,
-    //             unhealthy: responseTwo.data.product
-    //         }
-    //         return dispatch({
-    //             type: COMPARE_RESULT,
-    //             payload: result,
-    //         })
-    //     })).catch(err => {console.log("Error", err.response)})
 }
 
 export const sortArray = (sortedArray) => dispatch => {
@@ -113,10 +82,9 @@ export const saveCombination = (productOne, productTwo) => (dispatch) => {
     })
 } 
 
-// Loal functions
+// Local functions
 //Split all numbers of products components
 function splitComponents(component){
-    console.log("COMMMMM: ", component)
     let energy = component.energy;
     let fat = component.fat;
     let saturated = component.saturated;

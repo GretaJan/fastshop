@@ -1,12 +1,4 @@
 import { 
-    LOADING_GET_PRODUCTS, 
-    GET_PRODUCTS, 
-    GET_PRODUCTS_APPEND,
-    GET_PRODUCTS_ERROR, 
-    REMOVE_GET_PRODUCTS_ERROR,
-    LOADING_GET_PRODUCT, 
-    GET_PRODUCT, 
-    GET_PRODUCT_ERROR, 
     LOADING_POST_PRODUCT, 
     POST_PRODUCT, 
     POST_PRODUCT_ERROR, 
@@ -22,75 +14,24 @@ import axios from 'axios';
 
 
 
-export const getProducts = (allProducts, subcategoryId, page) => async (dispatch) => {
-    await dispatch({
-        type: LOADING_GET_PRODUCTS,
-        loading: page == 1 ? true : false,
-        loadingNext: page > 1 ? true : false,
-        error: ''
-    });
-    let filteredProducts = [];
-    let lastPage = 1;
-    allProducts.forEach(item => {
-        if(item.parentId == subcategoryId){
-            lastPage = item.lastPage;
-            filteredProducts = item.data[page];
+export async function getProducts(subcategoryId, page){
+    return asyncStorageFunc().then(response => {
+        const dataReducer = JSON.parse(response.dataUpload)
+        const allProducts = dataReducer.allProducts.find(item => item.parentId == subcategoryId);
+        console.log("dataReducer", allProducts)
+        const currentProducts = allProducts.data[page];
+        if(page === 0){
+            return {
+                products: currentProducts,
+                lastPage: allProducts.lastPage
+            };
         }
-    });
-    dispatch({ 
-        type: page == 0 ? GET_PRODUCTS : GET_PRODUCTS_APPEND,
-        payload: filteredProducts,
-        nextPage: page + 1,
-        lastPage: lastPage,
-    });
-    // axios.get(`${URL}/products/${subcategory}?page=${page}`)
-    //     .then(response => {
-    //             return dispatch({
-    //                     type: GET_PRODUCTS,
-    //                     payload: response.data.data,
-    //                     currentPage: response.data.meta.current_page,
-    //                     lastPage: response.data.meta.last_page === response.data.meta.current_page ? true : false,
-    //                 })
-    //         }).catch(() => { 
-    //             return dispatch({
-    //                 type: GET_PRODUCTS_ERROR,
-    //                 error: 'Failed to load product list',
-    //             })
-    //     })
-    
-    dispatch({
-        type: REMOVE_GET_PRODUCTS_ERROR,
+        return currentProducts;
+    }).catch(() => {
+        return null
     })
 } 
 
-// export const getProduct = (productId) => dispatch => {
-//     dispatch({
-//         type: GET_PRODUCT,
-//         productId: productId,
-//     })
-    // axios.get(`${URL}/product/${subcategoryId}/${productId}`)
-    //     .then(response => (
-    //             dispatch({
-    //                 type: GET_PRODUCT,
-    //                 payload: response.data,
-    //                 loading: false,
-    //                 error: ''
-    //             })
-    //         )
-    //     ).catch(err => { 
-    //         return dispatch({
-    //             type: GET_PRODUCT_ERROR,
-    //             error: 'Failed to load product ' + err,
-    //             loading: false
-    //         })
-    //     })
-    // dispatch({
-    //     type: GET_PRODUCT,
-    //     payload: product,
-    //     loading: false,
-    //     error: ''
-    // })   
-// } 
 export async function getProduct(productId, subcategoryId){
     return asyncStorageFunc().then(response => {
         let dataReducer = JSON.parse(response.dataUpload);
@@ -102,6 +43,8 @@ export async function getProduct(productId, subcategoryId){
             if(typeof(product) === 'object') break;
         }
         return product
+    }).catch(() => {
+        return null;
     })
 }
 

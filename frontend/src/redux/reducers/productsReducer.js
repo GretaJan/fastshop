@@ -1,14 +1,4 @@
-import { ActionSheetIOS } from 'react-native';
 import { 
-    LOADING_GET_PRODUCTS, 
-    GET_PRODUCTS, 
-    GET_PRODUCTS_APPEND,
-    GET_PRODUCTS_ERROR, 
-    REMOVE_GET_PRODUCTS_ERROR,
-    UNMOUNT_PRODUCTS, 
-    LOADING_GET_PRODUCT, 
-    GET_PRODUCT, 
-    GET_PRODUCT_ERROR, 
     LOADING_POST_PRODUCT, 
     POST_PRODUCT, 
     POST_PRODUCT_ERROR, 
@@ -38,70 +28,6 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch(action.type) {
-        case LOADING_GET_PRODUCTS:
-            return {
-                ...state,
-                loading: action.loading,
-                loadingNext: action.loadingNext,
-                error: action.error
-            }
-        case GET_PRODUCTS:
-            return {
-                ...state,
-                products: action.payload,
-                loading: false,
-                loadingNext: false,
-                error: '',
-                nextPage: action.nextPage,
-                lastPage: action.lastPage,
-            }
-        case GET_PRODUCTS_APPEND:
-            return {
-                ...state,
-                products: state.products.concat(action.payload),
-                loadingNext: false,
-                nextPage: action.nextPage,
-                lastPage: action.lastPage,
-            }
-        case GET_PRODUCTS_ERROR:
-            return {
-                ...state,
-                error: action.error,
-                loading: false,
-                loadingNext: false,
-            }
-        case REMOVE_GET_PRODUCTS_ERROR:
-            return {
-                ...state,
-                error: '',
-                loading: '',
-            }
-        case UNMOUNT_PRODUCTS: 
-            return {
-                ...state,
-                products: action.payload,
-                currentPage: action.currentPage,
-                lastPage: action.lastPage
-            }
-        case LOADING_GET_PRODUCT:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            }
-        case GET_PRODUCT:
-            return {
-                ...state,
-                product: state.products.find(item => item.id == action.productId),
-                loading: false,
-                error: ''
-            }
-        case GET_PRODUCT_ERROR:
-            return {
-                ...state,
-                error: action.error,
-                loading: false
-            }
         case LIKE_PRODUCT:
             return {
                 ...state,

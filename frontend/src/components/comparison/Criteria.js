@@ -11,7 +11,6 @@ import Modal from '../../components_additional/models/Modal';
 
 //Components
 import Header from '../../components_additional/models/Header';
-
 import CriteriaChild from './CriteriaChild';
 
 const { comparisonAnimations } = require('../../components_additional/styles/Animations.js');
@@ -19,22 +18,20 @@ const { comparisonAnimations } = require('../../components_additional/styles/Ani
 const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
     const [mostCriteria, setMostCriteria] = useState([]);
     const [leastCriteria, setLeastCriteria] = useState([]);
-    const [noneCriteria, setNoneCriteria] = useState([]);
     const [calculated, setCalculated] = useState(null);
     const [modal, setModal] = useState(false);
     const scale = useState(new Animated.Value(1))[0];
     const [locationX, setLocationX] = useState(0);
     const [locationY, setLocationY] = useState(0);
  
-
     useEffect(() => {
         return setCalculated(false)
-    }, [selectedProducts])
+    }, [mostCriteria, leastCriteria])
 
     const buttonPosition = useCallback(event => {
         const { width, height, x, y } = event.nativeEvent.layout;
             setLocationX(Math.round(x - (width / 2)))
-            setLocationY(Math.round(y + height + 30))
+            setLocationY(Math.round(y + height - 65))
     }, []);
 
     return (
@@ -76,7 +73,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                     originalName='energy'
                     setMostCriteria={ setMostCriteria }
                     setLeastCriteria={ setLeastCriteria }
-                    setNoneCriteria={ setNoneCriteria }
                     icon={ require('../../components_additional/images/nutrients/energy.png') }
                 />
                 <CriteriaChild 
@@ -84,7 +80,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                     originalName='fat'
                     setMostCriteria={ setMostCriteria }
                     setLeastCriteria={ setLeastCriteria }
-                    setNoneCriteria={ setNoneCriteria }
                     icon={ require('../../components_additional/images/nutrients/fat.png') }
                 />
                 <CriteriaChild 
@@ -92,7 +87,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                     originalName='saturated'
                     setMostCriteria={ setMostCriteria }
                     setLeastCriteria={ setLeastCriteria }
-                    setNoneCriteria={ setNoneCriteria }
                     icon={ require('../../components_additional/images/nutrients/saturated.png') }
                 />
                 <CriteriaChild 
@@ -100,7 +94,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                     originalName='carbs'
                     setMostCriteria={ setMostCriteria }
                     setLeastCriteria={ setLeastCriteria }
-                    setNoneCriteria={ setNoneCriteria }
                     icon={ require('../../components_additional/images/nutrients/carbs.png') }
                 />
                 <CriteriaChild 
@@ -108,7 +101,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                     originalName='sugar'
                     setMostCriteria={ setMostCriteria }
                     setLeastCriteria={ setLeastCriteria }
-                    setNoneCriteria={ setNoneCriteria }
                     icon={ require('../../components_additional/images/nutrients/sugar.png') }
                 />
                 <CriteriaChild 
@@ -116,7 +108,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                     originalName='fiber'
                     setMostCriteria={ setMostCriteria }
                     setLeastCriteria={ setLeastCriteria }
-                    setNoneCriteria={ setNoneCriteria }
                     icon={ require('../../components_additional/images/nutrients/fiber.png') }
                 />
                 <CriteriaChild 
@@ -124,7 +115,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                     originalName='protein'
                     setMostCriteria={ setMostCriteria }
                     setLeastCriteria={ setLeastCriteria }
-                    setNoneCriteria={ setNoneCriteria }
                     icon={ require('../../components_additional/images/nutrients/protein.png') }
                 />
                 <CriteriaChild 
@@ -132,7 +122,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                     originalName='salt'
                     setMostCriteria={ setMostCriteria }
                     setLeastCriteria={ setLeastCriteria }
-                    setNoneCriteria={ setNoneCriteria }
                     icon={ require('../../components_additional/images/nutrients/salt.png') }
                 />
                 <View style={ CriteriaStyles().resultBtnsWrap } onLayout={ buttonPosition } >
@@ -140,12 +129,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                         <TouchableOpacity style={CriteriaStyles().buttonWrapOne} onPress={countResults} >
                             <IonIcon name="ios-calculator" style={CriteriaStyles().buttonResults} />
                         </TouchableOpacity>
-                        // <TouchableOpacity 
-                        //     onPress={ countResults } 
-                        //     style={ btnStyles().inputBtnOrange }
-                        // >
-                        //     <Text style={ btnStyles().inputBtnText } >Calculate</Text>
-                        // </TouchableOpacity>
                     ) : (
                         <Animated.View style={CriteriaStyles(scale).buttonWrapAnimated}>
                             {animateActiveBtn()}
@@ -169,8 +152,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
             let matchObj = {};
             let leastObj = {};
             let mismatchObj = {};
-            let matchArray = [];
-            let mismatchArray = [];
             for(let j = 0; j < mostCriteria.length; j++){
                 const title = mostCriteria[j];
                 mostObj[title] = -1;
@@ -178,7 +159,7 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                 for(let i = 0; i < arrayLength; i++) {
                     let item = selectedProducts[i][title];
                     let parsedItem = item ? parseInt(item) * 100 : 0;
-                    if(mostObj[title] > parsedItem) { 
+                    if(mostObj[title] < parsedItem) { 
                         mostObj[title]  = parsedItem;
                         matchObj[title]  = selectedProducts[i];
                     }
@@ -191,7 +172,7 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                 for(let i = 0; i < arrayLength; i++) {
                     let item = selectedProducts[i][title];
                     let parsedItem = item ? parseInt(item) * 100 : 0;
-                    if(mostObj[title] < parsedItem) { 
+                    if(mostObj[title] > parsedItem) { 
                         mostObj[title]  = parsedItem;
                         matchObj[title]  = selectedProducts[i];
                     }
@@ -214,49 +195,49 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
                     maxMatch = countMatched[key];
                 }
             }
-        
-        for(let j = 0; j < mostCriteria.length; j++){
-            const title = mostCriteria[j];
-            leastObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1][title] : selectedProducts[0][title]
-            leastObj[title] = mostObj[title] ? parseInt(mostObj[title]) * 100 : 0;
-            mismatchObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1] : selectedProducts[0];
-            for(let i = 0; i < arrayLength; i++) {
-                if(selectedProducts[i].id == bestMatchId) break;
-                let item = selectedProducts[i][title];
-                let parsedItem = item ? parseInt(item) * 100 : 0;
-                if(leastObj[title] < parsedItem) { 
-                    leastObj[title]  = parsedItem;
-                    mismatchObj[title]  = selectedProducts[i];
+
+            for(let j = 0; j < mostCriteria.length; j++){
+                const title = mostCriteria[j];
+                leastObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1][title] : selectedProducts[0][title]
+                leastObj[title] = mostObj[title] ? parseInt(mostObj[title]) * 100 : 0;
+                mismatchObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1] : selectedProducts[0];
+                for(let i = 0; i < arrayLength; i++) {
+                    if(selectedProducts[i].id == bestMatchId) break;
+                    let item = selectedProducts[i][title];
+                    let parsedItem = item ? parseInt(item) * 100 : 0;
+                    if(leastObj[title] > parsedItem) { 
+                        leastObj[title]  = parsedItem;
+                        mismatchObj[title]  = selectedProducts[i];
+                    }
+                } 
+            }
+            for(let j = 0; j < leastCriteria.length; j++){
+                const title = leastCriteria[j];
+                leastObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1][title] : selectedProducts[0][title]
+                leastObj[title] = leastObj[title] ? parseInt(leastObj[title]) * 100 : 0;
+                mismatchObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1] : selectedProducts[0];
+                for(let i = 0; i < arrayLength; i++) {
+                    if(selectedProducts[i].id == bestMatchId) break ;
+                    let item = selectedProducts[i][title];
+                    let parsedItem = item ? parseInt(item) * 100 : 0;
+                    if(leastObj[title] < parsedItem) { 
+                        leastObj[title]  = parsedItem;
+                        mismatchObj[title]  = selectedProducts[i];
+                    }
                 }
             } 
-        }
-        for(let j = 0; j < leastCriteria.length; j++){
-            const title = leastCriteria[j];
-            leastObj[title] = selectedProducts[0].id == bestMatchId ? selectedProducts[1][title] : selectedProducts[0][title]
-            leastObj[title] = leastObj[title] ? parseInt(leastObj[title]) * 100 : 0;
-            for(let i = 0; i < arrayLength; i++) {
-                if(selectedProducts[i].id == bestMatchId) break ;
-                let item = selectedProducts[i][title];
-                let parsedItem = item ? parseInt(item) * 100 : 0;
-                if(leastObj[title] > parsedItem) { 
-                    leastObj[title]  = parsedItem;
-                    mismatchObj[title]  = selectedProducts[i];
+            // MISMATCH
+            for(const [key, item] of Object.entries(mismatchObj)){
+                countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
+            }
+            for (const key in countMismatched) {
+                if(maxMismatch < countMismatched[key]) {
+                    bestMismatchId = key;
+                    maxMismatch = countMismatched[key];
                 }
             }
+            findResult(bestMatchId, bestMismatchId);
         } 
-        // MISMATCH
-        for(const [key, item] of Object.entries(mismatchObj)){
-            countMismatched[item.id] = (countMismatched[item.id] || 0) + 1;
-        }
-        for (const key in countMismatched) {
-            if(maxMismatch < countMismatched[key]) {
-                bestMismatchId = key;
-                maxMismatch = countMismatched[key];
-            }
-        }
-
-        findResult(bestMatchId, bestMismatchId);
-    } 
 }
 
     function findResult(bestMatchId, bestMismatchId) {
@@ -282,7 +263,6 @@ const Criteria = ({compare, selectedProducts, navigation: { navigate }}) => {
 
 const mapStateToProps = (state) => ({
     selectedProducts: state.selectedProducts.comparisonArray,
-    result: state.selectedProducts.result,
 })
 
 export default withNavigation(connect(mapStateToProps, { compare })(Criteria))

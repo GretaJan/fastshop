@@ -1,4 +1,13 @@
-import { LOADING_GET_SUBCATEGORIES, GET_SUBCATEGORIES, GET_SUBCATEGORIES_APPEND, GET_SUBCATEGORIES_ERROR, FRW_TO_SUBCATEGORIES, LOADING_POST_SUBCATEGORY, POST_SUBCATEGORY, POST_SUBCATEGORY_ERROR,  LOADING_EDIT_SUBCATEGORY, EDIT_SUBCATEGORY, EDIT_SUBCATEGORY_ERROR, REMOVE_GET_SUBCATEGORIES_ERR, DELETE_SUBCATEGORY, DELETE_SUBCATEGORY_ERROR } from '../actions/types';
+import { 
+     LOADING_POST_SUBCATEGORY, 
+     POST_SUBCATEGORY, 
+     POST_SUBCATEGORY_ERROR, 
+     LOADING_EDIT_SUBCATEGORY, 
+     EDIT_SUBCATEGORY, 
+     EDIT_SUBCATEGORY_ERROR, 
+     DELETE_SUBCATEGORY, 
+     DELETE_SUBCATEGORY_ERROR 
+} from '../actions/types';
 
 const initialState = {
     subcategories: [],
@@ -13,44 +22,6 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch(action.type) {
-        case LOADING_GET_SUBCATEGORIES:
-            return {
-                ...state,
-                loading: action.loading,
-                loadingNext: action.loadingNext,
-                error: ''
-            }
-        case GET_SUBCATEGORIES:
-            return {
-                ...state,
-                subcategories: action.payload,
-                loading: false,
-                loadingNext: false,
-                error: '',
-                nextPage: action.nextPage,
-                lastPage: action.lastPage,
-            }
-        case GET_SUBCATEGORIES_APPEND:
-            return {
-                ...state,
-                subcategories: state.subcategories.concat(action.payload),
-                nextPage: action.nextPage,
-                loadingNext: false,
-                error: ''
-            }
-        case GET_SUBCATEGORIES_ERROR:
-            return {
-                ...state,
-                error: action.error,
-                loading: false,
-                loadingNext: false,
-            }
-        case REMOVE_GET_SUBCATEGORIES_ERR:
-            return {
-                ...state,
-                error: '',
-                loading: ''
-            }
         case LOADING_POST_SUBCATEGORY:
             return {
                 ...state,

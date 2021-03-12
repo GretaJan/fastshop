@@ -2,12 +2,6 @@ import { URL, LOADING_DATA, CREATE_CALENDAR, GET_ALL_DATA, DATA_LOAD_CANCELED, D
 import axios from 'axios';
 import AsyncStorage from "@react-native-community/async-storage";
 
-export const closeErrorWarning = (actionType) => (dispatch) => {
-    dispatch({
-        type: actionType,
-    })
-}
-
 export const importAppData = (token) => (dispatch) => {
     dispatch({
         type: LOADING_DATA

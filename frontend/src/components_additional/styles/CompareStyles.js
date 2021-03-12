@@ -105,7 +105,7 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         transform: [
             { scale: scale }
         ],
-        borderRadius: 10,
+        borderRadius: 5,
           // Shadow
           elevation   : 5,
           overflow: 'hidden',
@@ -280,7 +280,7 @@ export const diagram = (diagramLength, translate) => StyleSheet.create({
         position: 'relative',
         flex: .49,
     },
-    animatedDot: {
+    amountDot: {
         paddingTop: 4,
     },
     animatedNumberContainer: {
@@ -502,8 +502,8 @@ export const CriteriaStyles = (scale, checkScale) => StyleSheet.create({
         alignSelf: 'center' 
     },
     buttonWrapAnimated: {
-        width: 120,
-        height: 70,
+        width: 90,
+        height: 60,
         backgroundColor: colors.mainBtnGreen,
         borderRadius: 5,
         transform: [

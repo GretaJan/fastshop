@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { colors } from './Colors';
 import {Dimensions} from 'react-native';
 
 export const animations = (scale, translate, width) => StyleSheet.create({

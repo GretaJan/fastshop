@@ -20,40 +20,20 @@ import Header from '../../components_additional/models/Header';
 
 export class Categories extends Component {
 
-    dataTransferModelMsg(){
-        if(this.props.loadingData) return "Loading data...";
-        else return "Load new data?";
-    }
-
     goToSubcategories = (item) => {
         this.props.navigation.push("Subcategories", {categoryId: item.id, name: item.name, background: item.background});
     }
 
     render() {
-       
         return (
             (this.props.loading) ? (
                 <View style={backgroundForPages().backgroundContainer} >
-                    { openDataModel ? (
-                        <ConfirmModal message={ dataTransferModelMsg() }
-                            confirm={() =>  this.props.importAppData()}
-                            title="Clear list"
-                            close={() => this.setState({openDataModel: false})}
-                            background={colors.mainWhiteYellow}
-                            iconColor={colors.lightBurgundy}
-                            borderColor={colors.bordoTransparent}
-                            colorOne={colors.lightBurgundy}
-                            colorTwo={colors.mediumGreen}
-                            horizontal={20} vertical={15}
-                        /> 
-                    ) : (
-                        <Loading />
-                    )}
+                    <Loading />
                 </View>
                 ) : (
                     <>
                         <Header 
-                            title="Nutritase"
+                            title="Nutritaste"
                             navigate={ null }
                         />
                         <View style={ containerStyles().screenHeightContainerNoHeader }>
@@ -92,7 +72,6 @@ export class Categories extends Component {
         }
 
 Categories.propTypes = {
-    getCategories: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
         image: PropTypes.any,
@@ -101,12 +80,9 @@ Categories.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    // token: state.auth.token,
-    // loadingData: state.dataUpload.loadingData,
-    // dataUploaded: state.dataUpload.dataUploaded,
     categories: state.dataUpload.categories,
-    loading: state.categories.loading,
-    error: state.categories.error,
+    loading: state.dataUpload.loadingData,
+    error: state.dataUpload.dataLoadError,
 });
 
-export default withNavigation(connect(mapStateToProps, { importAppData, getCategories, closeErrorWarning })(Categories))
+export default withNavigation(connect(mapStateToProps)(Categories))
