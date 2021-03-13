@@ -178,7 +178,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEAR_RESULTS, CLEAR_SELECTED_ARRAY, SORT_ARRAY, GO_TO_LIST, DIAGRAM_RESULTS } from <span class="fstat-no" title="function not covered" >'../acti</span>ons/types';<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
 &nbsp;
 const initialState = {
-    comparisonArray: [],
+    selectedProducts: [],
     result: {},
     sorted: null,
 }
@@ -186,20 +186,20 @@ const initialState = {
 export default function(state = initialState, action) {<span class="branch-1 cbranch-no" title="branch not covered" ></span>
     switch(action.type) {
 <span class="branch-0 cbranch-no" title="branch not covered" >        case PRODUCT_SELECTED:</span>
-                let push<span class="cstat-no" title="statement not covered" >ToArray = state.comparisonArray.concat(action.payload</span>.product);
+                let push<span class="cstat-no" title="statement not covered" >ToArray = state.selectedProducts.concat(action.payload</span>.product);
                 let filter<span class="cstat-no" title="statement not covered" >edArray = Array.from(new Set(pushTo<span class="fstat-no" title="function not covered" >Ar</span>ray.map(item =&gt;<span class="cstat-no" title="statement not covered" > item.id)))</span></span>
 <span class="fstat-no" title="function not covered" ></span>                .map(id =&gt; {
 <span class="cstat-no" title="statement not covered" >                    return pushT<span class="fstat-no" title="function not covered" >oA</span>rray.find(firstItem <span class="cstat-no" title="statement not covered" >=&gt; firstItem.id === id)</span></span>
                 })
 <span class="cstat-no" title="statement not covered" >            return {</span>
                 ...state,
-                comparisonArray: filteredArray,
+                selectedProducts: filteredArray,
                 result: action.result,
             }
 <span class="branch-1 cbranch-no" title="branch not covered" >        case REMOVE_SELECTED_PRODUCT: </span>
 <span class="cstat-no" title="statement not covered" >            return {</span>
                 ...state,
-                comparisonArray: state.comparisonArray<span class="fstat-no" title="function not covered" >.f</span>ilter((item) =&gt;<span class="cstat-no" title="statement not covered" > (</span>
+                selectedProducts: state.selectedProducts<span class="fstat-no" title="function not covered" >.f</span>ilter((item) =&gt;<span class="cstat-no" title="statement not covered" > (</span>
                     action.payload !== item.id
                )),
                result: {},
@@ -212,7 +212,7 @@ export default function(state = initialState, action) {<span class="branch-1 cbr
 <span class="branch-3 cbranch-no" title="branch not covered" >        case SORT_ARRAY: </span>
 <span class="cstat-no" title="statement not covered" >        return {</span>
             ...state,
-            comparisonArray: action.payload,
+            selectedProducts: action.payload,
             sorted: action.sorted,
         }
 <span class="branch-4 cbranch-no" title="branch not covered" >        case GO_TO_LIST: </span>
@@ -229,7 +229,7 @@ export default function(state = initialState, action) {<span class="branch-1 cbr
 <span class="cstat-no" title="statement not covered" >                return {</span>
                     ...state,
                     result: action.results,
-                    comparisonArray: action.array,
+                    selectedProducts: action.array,
                 }
         default:
             return state

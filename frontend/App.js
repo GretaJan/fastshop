@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 import { ReduxNetworkProvider } from 'react-native-offline';
 import { PersistGate } from 'redux-persist/es/integration/react';
 const { store, persistor } = configureStore();
-import configureStore from './src/redux/store';
+import configureStore from './utils/redux/store';
 
-import Tabs from './src/components_additional/Navigation/Tabs';
+import Tabs from './utils/Navigation/Tabs';
 
 const App = () => {
         return (

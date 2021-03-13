@@ -481,7 +481,7 @@ class Products extends Component {
     }
 &nbsp;
      selectProduct =<span class="fstat-no" title="function not covered" > (</span>item1, item2) =&gt; {
-<span class="cstat-no" title="statement not covered" >        if(this.props.comparisonArray.length &lt;= 30) {</span>
+<span class="cstat-no" title="statement not covered" >        if(this.props.selectedProducts.length &lt;= 30) {</span>
 <span class="cstat-no" title="statement not covered" >            this.props.selectProductToCalc(item2, item1</span>);
         } else {
 <span class="cstat-no" title="statement not covered" >            this.setState({overload: 'Please select no more than 30 items.'})</span>
@@ -560,7 +560,7 @@ Products.propTypes = {
     loading: PropTypes.bool,
     loadingNext: PropTypes.bool,
     error: PropTypes.string,
-    comparisonArray: PropTypes.array
+    selectedProducts: PropTypes.array
 }
 &nbsp;
 const mapStateToProps = state =&gt; ({
@@ -570,7 +570,7 @@ const mapStateToProps = state =&gt; ({
     loading: state.products.loading,
     loadingNext: state.products.loadingNext,
     error: state.products.error,
-    comparisonArray: state.selectedProducts.comparisonArray,
+    selectedProducts: state.selectedProducts.selectedProducts,
 })
 &nbsp;
 export default withNavigation(connect(mapStateToProps, {getProducts, selectProductToCalc })(Products))</pre></td></tr></table></pre>
