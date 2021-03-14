@@ -74,7 +74,6 @@ export const goToList = (show) => dispatch => {
 export const clearResults = () => dispatch => {
     dispatch({
         type: CLEAR_RESULTS,
-        result: {},
     })
 }
 

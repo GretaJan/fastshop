@@ -20,7 +20,7 @@ function ProductModel({
     likeProduct, 
     unlikeProduct,  
     close,
-    navigate
+    navigateFunc
 }){
     const scale = useState(new Animated.Value(0))[0];
     const [modelMsg, setModelMsg] = useState('');
@@ -56,7 +56,7 @@ function ProductModel({
         underlayColor: colors.mainBtnGreen,
         onHideUnderlay: () => setPressNavigate(false),
         onShowUnderlay: () => setPressNavigate(true),
-        onPress: () => navigate("Product", {subcategoryId: prop.subcategoryId, productId: prop.id, name: prop.name, resultPage: true })
+        onPress: () => navigateFunc()
     }
 
     return (
@@ -82,7 +82,7 @@ function ProductModel({
                     <View style={ fullModal().titleWrap }>
                         <Text style={ textStyle().h2 }>{ prop.name }</Text>
                     </View>
-                <TouchableOpacity onPress={() => navigate("Product", { subcategoryId: prop.subcategoryId, productId: prop.id })}>
+                <TouchableOpacity onPress={ navigateFunc }>
                 </TouchableOpacity>
                 <View style={ fullModal().btnWrapRow }>
                     <ActionIcon 

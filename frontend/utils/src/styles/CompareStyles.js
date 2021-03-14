@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import { Dimensions } from 'react-native';
 
-export const productWrap = (scale, translate) => StyleSheet.create({
+export const productWrap = (scale, translate, isResult) => StyleSheet.create({
     container: {
         flex: 1,
     },
@@ -12,7 +12,7 @@ export const productWrap = (scale, translate) => StyleSheet.create({
         alignContent: 'center',
         width: Dimensions.get('window').width - 20,
         minHeight: Dimensions.get('window').height /5,
-        marginBottom: 40,
+        marginBottom: isResult ? 10 : 40,
         zIndex: 2,
         transform: [
             { translateY: translate },
@@ -356,7 +356,7 @@ export const diagram = (diagramLength, translate) => StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         position: 'absolute',
-        bottom: 80,
+        bottom: 0,
         right: '1%',
     },
     ViewMoreIcon: {

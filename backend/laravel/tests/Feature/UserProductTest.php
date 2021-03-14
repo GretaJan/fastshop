@@ -172,4 +172,31 @@ class UserProductTest extends TestCase
         $response = $this->deleteJson('/api/delete-buy-list/'.$id, $this->user_headers);
         $response->assertStatus(201);
     }
+    /** @test */
+    public function save_results()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::where('email', 'gretajan09@gmail.com')->first();
+        $this->setUpUser($user->id);
+        $response = $this->postJson('/api/save-results', [
+            'result' =>[
+                    'matchId' => 1,
+                    'mismatchId' => 1,
+                    'created_at' => '10-11-1989'
+            ],
+           
+        ], $this->user_headers);
+        $response->assertStatus(201);
+    }
+    // /** @test */
+    // public function delete_results()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $user = User::where('email', 'gretajan09@gmail.com')->first();
+    //     $this->setUpUser($user->id);
+    //     $response = $this->postJson('/api/save-results', [
+    //         'created_at' => '10-11-1989'
+    //     ], $this->user_headers);
+    //     $response->assertStatus(201);
+    // }
 }

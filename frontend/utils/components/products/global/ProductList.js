@@ -21,8 +21,8 @@ class ProductList extends Component {
         listSelectScale: new Animated.Value(0),
         listCheckScale: new Animated.Value(0),
         listLikeScale: new Animated.Value(0),
-        checkSelectTransition: new Animated.Value(-40),
-        checkLikeTransition: new Animated.Value(-40),
+        checkSelectTransition: new Animated.Value(-43),
+        checkLikeTransition: new Animated.Value(-43),
     }
 
     componentDidMount() {

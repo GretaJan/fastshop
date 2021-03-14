@@ -34,6 +34,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Product')->withPivot('category_id');
     }
 
+    public function results(){
+        return $this->hasOne('App\Result');
+    }
+
     // public function accounts(){
     //     return $this->hasMany('App\Account');
     // }

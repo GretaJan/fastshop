@@ -58,6 +58,7 @@ Route::group([
     Route::get('/unlike-product/{product_id}', 'UserProductController@unlikeProduct');
     Route::get('/get-personal-favorites/{category_id}', 'UserProductController@getPersonalFavorites');
     Route::get('/get-top-favorites/{category_id}', 'UserProductController@getTopFavorites');
+    Route::post('/save-results', 'UserProductController@saveResults');
     //USER Products LIST
     Route::post('/update-create-checklist', 'UserProductController@updateCreateBuyList');
     Route::get('/get-buy-lists', 'UserProductController@getBuyAllLists');

@@ -8,7 +8,9 @@ import {
     ADD_LIST, 
     DELETE_LIST,
     LIKE_PRODUCT,
-    UNLIKE_PRODUCT
+    UNLIKE_PRODUCT,
+    SAVE_RESULT,
+    REMOVE_RESULT
 } from '../actions/types';
 
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
     allProducts: [],
     allBuyLists: [],
     likedProducts: [],
+    savedResults: [],
     loadingData: false,
     dataUploadDate: null,
     dataUploaded: null,
@@ -96,6 +99,16 @@ export default function(state = initialState, action){
                 ...state,
                 likedProducts: state.likedProducts.filter(item => item.id != action.productId),
                 allProducts: action.array,
+            }
+        case SAVE_RESULT:
+            return {
+                ...state,
+                savedResults: state.savedResults.concat(action.payload),
+            }
+        case REMOVE_RESULT:
+            return {
+                ...state,
+                savedResults: state.savedResults.filter(item => item.created_at !== action.payload),
             }
         default:
             return state

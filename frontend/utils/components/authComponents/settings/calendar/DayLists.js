@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import { getListByDay, deleteList } from '../../../../redux/actions/calendar';
-import { singleDayStyle } from '../../../../src/styles/CalendarStyles';
+import { singleDayStyle, buyListSingle } from '../../../../src/styles/CalendarStyles';
 import { containerStyles, textStyle } from '../../../../src/styles/GeneralStyles';
 import { stylesGuestSingle } from '../../../../src/styles/ProductStyles';
 import { colors } from '../../../../src/styles/Colors';
@@ -12,7 +12,9 @@ import { colors } from '../../../../src/styles/Colors';
 import Loading from '../../../../utils/models/Loading';
 import CircleButton from '../../../../utils/models/CircleButton';
 import Header from '../../../../utils/models/Header';
-import ConfirmModal from '../../../../utils/models/ModalCrud'
+import ConfirmModal from '../../../../utils/models/ModalCrud';
+import EmptyList from '../../../../utils/models/EmptyList';
+import CreateListModal from './CreateListModal';
 
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
@@ -21,10 +23,12 @@ const { productAnimations } = require('../../../../src/styles/Animations');
 function DayLists({ deleteList, route, navigation: { navigate } }){
     const [loading, setLoading] = useState(true);
     const { years, day } = route.params;
+    const yearsSplit = years.split('-');
     const [list, setList] = useState([]);
     const [deleteItem, setDeleteItem] = useState(null);
     const [confirmedDelete, setConfirmedDelete] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
+    const [openCreateListModel, setOpenCreateListModel] = useState(false);
 
     useEffect(() => {
         getListByDay(years, day).then(response => {
@@ -34,24 +38,8 @@ function DayLists({ deleteList, route, navigation: { navigate } }){
     }, [])
 
     function goToList(createdAt, name){
-        navigate("BuyList", { createdAt: createdAt, name: name, years: years })
+        navigate("BuyList", { createdAt: createdAt, name: name, years: years, day: day })
     }
-
-    // function callRemoveAnimation() {
-    //     const heightFunc = () => {
-    //         setRemoveHeight(true)
-    //     }
-    //     setOpenModal(false)
-    //     productAnimations.removeItem(removeTranslation, heightFunc, removeFromList)
-    // }
-
-    // function removeFromList(){
-    //     const newArray = list.filter(item => item.id !== deleteItem);
-    //     setList(newArray);
-    //     setDeleteItem(null)
-    //     console.log("delelelelel", deleteItem)
-    //     setConfirmedDelete(false)
-    // }
 
     function removeFromList(){
         const newArray = list.filter(item => item.id !== deleteItem);
@@ -64,6 +52,11 @@ function DayLists({ deleteList, route, navigation: { navigate } }){
     function openDeleteModalFunc(id){
         setDeleteModal(true)
         setDeleteItem(createdAt)
+    }
+
+    function goToNewList(createdAt, years){
+        navigate("BuyList", { createdAt: createdAt, years: years })
+        setOpenCreateListModel(false)
     }
 
     return (
@@ -85,17 +78,36 @@ function DayLists({ deleteList, route, navigation: { navigate } }){
                 title='Day List'
                 navigate={ () => navigate("Calendar") }
             />
+            { openCreateListModel && (
+                <CreateListModal 
+                    thisYear={ new Date().getFullYear() }
+                    currentYear={ yearsSplit[0] }
+                    currentMonth={ yearsSplit[1] }
+                    currentDay={ day }
+                    close={ () => setOpenCreateListModel(false) }
+                    goToNewList={ (createdAt, years) => goToNewList(createdAt, years) }
+                />
+            )}
             <View style={ containerStyles().simpleContainer } >
                 { loading ? (
                     <Loading />
                 ) : (
                     <View style={ containerStyles().mainContainer }>
-                        {/* <TouchableOpacity style={CriteriaStyles().buttonWrapOne} onPress={ () => console.log("helo") } >
-                            <IonIcon name="ios-calculator" style={CriteriaStyles().buttonResults} />
-                        </TouchableOpacity> */}
-                        <CircleButton onPress={ () => console.log("helo") } />
+                         <View style={ buyListSingle().innerContainer }>
+                                <View style={ buyListSingle().iconsWrap } >
+                                    <TouchableOpacity style={ buyListSingle().iconWrap } onPress={ () => setOpenCreateListModel(true) } >
+                                        <IonIcon name="ios-add" style={ buyListSingle(colors.mainBtnOrange).icon }  />
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={ buyListSingle().titleTextWrap }>
+                                    <View>
+                                        <Text style={ textStyle().h4 }>{ years }-{ day }</Text>
+                                    </View>
+                                </View>
+                            </View>
                         { list.length == 0 ? (
-                            <View>
+                            <View style={ containerStyles().screenHeightContainer }>
+                                <EmptyList message={'Sąrašas tuščias'} />
                             </View>
                         ) : (
                             <ListArray

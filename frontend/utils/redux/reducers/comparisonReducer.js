@@ -1,4 +1,14 @@
-import { PRODUCT_SELECTED, REMOVE_SELECTED_PRODUCT, COMPARE_RESULT, CLEAR_RESULTS, CLEAR_SELECTED_ARRAY, SORT_ARRAY, GO_TO_LIST, DIAGRAM_RESULTS } from '../actions/types';
+import { 
+    PRODUCT_SELECTED, 
+    REMOVE_SELECTED_PRODUCT, 
+    COMPARE_RESULT, 
+    CLEAR_RESULTS, 
+    CLEAR_SELECTED_ARRAY, 
+    SORT_ARRAY, 
+    GO_TO_LIST, 
+    SAVE_RESULT,
+    REMOVE_RESULT
+ } from '../actions/types';
 
 const initialState = {
     selectedProducts: [],
@@ -39,14 +49,30 @@ export default function(state = initialState, action) {
         case CLEAR_RESULTS: 
             return {
                 ...state,
-                result: action.result,
+                result: {},
             }
-            case CLEAR_SELECTED_ARRAY:
-                return {
-                    ...state,
-                    result: action.results,
-                    selectedProducts: action.array,
-                }
+        case CLEAR_SELECTED_ARRAY:
+            return {
+                ...state,
+                result: action.results,
+                selectedProducts: action.array,
+            }
+        case SAVE_RESULT:
+            let saveResults = {...state.result}
+            saveResults.created_at = action.payload.created_at
+            return {
+                ...state,
+                // savedResults: state.savedResults.concat(action.payload),
+                result: saveResults
+            }
+            //remove from saved results list
+        case REMOVE_RESULT: 
+            let removeResults = {...state.result}
+            removeResults.created_at = null
+            return {
+                ...state,
+                result: removeResults
+            }
         default:
             return state
     }

@@ -60,15 +60,16 @@ function Calendar({ navigation: { navigate } }){
     }
 
     useEffect(() => {
-        let unmounted = false;
-        if(!unmounted)
+        // let unmounted = false;
+        // if(!unmounted)
             initialArray().then((resp) => {
                 setIsLoading(resp);
             })
         return (() => {
-            unmounted = true
+            setOpenListModel(false)
+            // unmounted = true;
         })
-    }, [listsDates])
+    }, [])
 
     
     function arrayMain() {
@@ -96,6 +97,7 @@ function Calendar({ navigation: { navigate } }){
             />
             { openListModel && (
                 <CreateListModal 
+                    thisYear={ initialYear }
                     currentYear={ initialYear }
                     currentMonth={ initialMonth }
                     currentDay={ initialDay }
@@ -138,7 +140,8 @@ function Calendar({ navigation: { navigate } }){
         const translateMonth = translateTo + screenWidth - 20 //translate to left
         calendarAnimations.translateContainer(calendarTransl, translateMonth, 400)
         setTranslateTo(translateMonth);
-       
+        console.log("calendarArray", calendarArray)
+
     }
 
     function animateForward(){
@@ -252,7 +255,7 @@ function Calendar({ navigation: { navigate } }){
                     }
                     yearIndex = changedArray.map(item => item.year).indexOf(prevYear);
                     changedArray.splice(yearIndex, 0, newObj)
-                    setTranslateInnerList(oldValue => oldValue - screenWidth + 20)
+                    setTranslateInnerList(oldValue => oldValue - (screenWidth - 20))
                     setCalendarWidth(oldValue => oldValue + screenWidth - 20);
                 }
             }
@@ -276,7 +279,7 @@ function Calendar({ navigation: { navigate } }){
                 const yearIndex = changedArray.map(item => item.year).indexOf(prevYear);
                 const monthIndex = changedArray[yearIndex].months.map(item => item.name).indexOf(prevMonth);
                 changedArray[yearIndex].months.splice(monthIndex, 0, monthObject)
-                setTranslateInnerList(oldValue => oldValue - screenWidth + 20)
+                setTranslateInnerList(oldValue => oldValue - (screenWidth - 20))
                 setCalendarWidth(oldValue => oldValue + screenWidth - 20);
             }
             setCurrentMonth(prevMonth)
@@ -349,7 +352,7 @@ function Calendar({ navigation: { navigate } }){
 
     function goToNewList(createdAt, years){
         navigate("BuyList", { createdAt: createdAt, years: years })
-        setOpenListModel(false)
+        // setOpenListModel(false)
     }
 
 }

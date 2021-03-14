@@ -97,9 +97,11 @@ export const containerStyles = () => StyleSheet.create({
         flex: 1,
         textAlign: 'center',
         paddingHorizontal: 10,
-        paddingVertical: 10,
+        paddingTop: 10,
         zIndex: 2,
         top: (Dimensions.get('window').height /5.5 ) /2,
+        // marginBottom: 30,
+        marginBottom: 60,
     },
     flatListScrollSmall: {
         height: Dimensions.get('window').height /2.8,

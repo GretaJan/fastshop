@@ -40,9 +40,8 @@ class Subcategories extends Component {
                     searchSubcategories: subcategoriesResp,
                     lastPage: response.lastPage 
                 })
-            } else {
-                this.setState({ error: 'Įvyko klaida' })
-            }
+            } else  this.setState({ error: 'Įvyko klaida' })
+
             this.setState({ loading: false })
         })
 
@@ -50,18 +49,18 @@ class Subcategories extends Component {
 
     loadMore = () => {
         this.setState({ loadingNext: true })
-        const { categoryId, currentPage } = this.state;
+        const { categoryId, currentPage, subcategories, searchSubcategories } = this.state;
         const nextPage = currentPage + 1;
         getSubcategories(categoryId, nextPage).then(response => {
-            if(response){
-                this.setState({ 
-                    subcategories: [...this.state.subcategories, ...response],
-                    searchSubcategories:  [...this.state.searchSubcategories, ...response],
-                    currentPage: nextPage
-                })
-            } else {
-                this.setState({ error: 'Įvyko klaida' })
-            }
+            if(response)
+                if(subcategories.some(item => item.id !== response[0].id))
+                    this.setState({ 
+                        subcategories: [...subcategories, ...response],
+                        searchSubcategories:  [...searchSubcategories, ...response],
+                        currentPage: nextPage
+                    })
+                else  this.setState({ error: 'Įvyko klaida' })
+
             this.setState({ loadingNext: false })
         })
     }
@@ -78,17 +77,16 @@ class Subcategories extends Component {
             const textInput = searchName.toLowerCase();
             return itemData.indexOf(textInput) > -1;
         });
-        if(searchName == '') {
+        if(searchName == '') 
             this.setState({
                 inputTriggered: false,
                 searchName: searchName
             })
-        } else {
-            this.setState({
-                searchSubcategories: matchedData,
-                searchName: searchName
-            })
-        }
+            else 
+                this.setState({
+                    searchSubcategories: matchedData,
+                    searchName: searchName
+                })
     }
     
     goToProducts = (item) => {

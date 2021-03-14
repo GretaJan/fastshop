@@ -13,9 +13,9 @@ import CheckWithText from '../../../../utils/models/CheckWithText';
 const AnimatedPressable  = Animated.createAnimatedComponent(Pressable);
 const { modalAnimations, calendarAnimations } = require('../../../../src/styles/Animations.js');
 
-function createYearsArray(currentYear){
+function createYearsArray(thisYear){
     let array = [];
-    let lastYear = currentYear + 3;
+    let lastYear = parseInt(thisYear) + 3;
     let firstYear = 2020;
     for(let i = firstYear; i <= lastYear; i++){
         array.push(i);
@@ -23,7 +23,7 @@ function createYearsArray(currentYear){
     return  array
 }
 
-function createMonthArray(currentYear){
+function createMonthArray(){
     let monthsArray = [];
     for(let i = 1; i <= 12; i++){
         monthsArray.push(i);
@@ -31,13 +31,13 @@ function createMonthArray(currentYear){
     return monthsArray;
 }
 
-function CreateListModal({ close, currentYear, currentMonth, currentDay, createUpdateListRedux, goToNewList }){
+function CreateListModal({ close, thisYear, currentYear, currentMonth, currentDay, createUpdateListRedux, goToNewList }){
     const scale = useRef(new Animated.Value(0)).current;
     const itemWidth = 0;
     const calendarTransl = useRef(new Animated.Value(0)).current;
     const [error, setError] = useState('');
-    const yearsArray = createYearsArray(currentYear);
-    const [monthsArray, setMonthsArray] = useState(createMonthArray(currentYear));
+    const yearsArray = createYearsArray(thisYear);
+    const [monthsArray, setMonthsArray] = useState(createMonthArray());
     const [daysArray, setDaysArray] = useState(createDaysArr(currentYear, currentMonth));
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const [selectedMonth, setSelectedMonth] = useState(currentMonth);

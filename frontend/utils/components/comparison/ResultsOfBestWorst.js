@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, Animated } from 'react-native';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { likeProduct, unlikeProduct } from '../../redux/actions/userProductActions';
-import { diagram } from '../../src/styles/CompareStyles';
-import { containerStyles } from '../../src/styles/GeneralStyles';
+import { likeProduct, unlikeProduct, saveResults } from '../../redux/actions/userProductActions';
+import { diagram, productWrap} from '../../src/styles/CompareStyles';
+import { containerStyles, textStyle } from '../../src/styles/GeneralStyles';
 import { clearResults, saveCombination } from '../../redux/actions/comparisonActions';
 
 //Components
@@ -17,16 +17,19 @@ import ProductModel from '../../utils/models/ProductModel';
 const { comparisonAnimations } = require('../../src/styles/Animations.js');
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
-const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, token, navigation: { navigate } }) => {
-    let scrollTopRef = null;
+const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, saveResults, token, navigation: { navigate } }) => {
+    let scrollTopRef = useRef(null);
     const { match, mismatch } = result;
     const translateMatch = useState(new Animated.Value(-100))[0];
     const translateMismatch = useState(new Animated.Value(-100))[0];
     const [productModel, setProductModel] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
+    const [locationX, setLocationX] = useState(0);
+    const [locationY, setLocationY] = useState(0);
 
     useEffect(() => {
         comparisonAnimations.imageIconTranslation(translateMatch, translateMismatch);
+        return setProductModel(null)
     }, [])
 
     async function likeProductLocal(){
@@ -36,6 +39,17 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
             return true;
         }
         return errorMsg;
+    }
+
+    const buttonPosition = useCallback(event => {
+        const { width, height, x, y } = event.nativeEvent.layout;
+            setLocationX(Math.round(x - (width / 2)))
+            setLocationY(Math.round(y + height - 65))
+    }, [])
+
+    function goToProductPage(){
+        navigate("Product", { subcategoryId: productModel.subcategoryId, productId: productModel.id, resultPage: true })
+        // navigate("Criteria")
     }
 
     return (
@@ -132,14 +146,50 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
                                     mismatchComponent={ mismatch.salt }
                                     mismatchComponentArr={ mismatch.saltArr }
                                 />  
+                            </View>
+                            <View style={ productWrap(1, 0, true).btnsContainer } >
+                                <Text style={ productWrap().transparentStripe } ></Text>
+                                {(!result.created_at) ? (
+                                    <View style={ productWrap().btnOne }>
+                                        <TouchableOpacity  
+                                            style={productWrap().iconWrapOne} 
+                                            onLayout={ buttonPosition }
+                                            onPress={ saveResultsLocal } 
+                                        >
+                                            <IonIcon name="md-list" style={productWrap().iconItem}  />
+                                        </TouchableOpacity>
+                                        <View style={productWrap().textWrap} >
+                                            <Text style={textStyle().h2} >Save results</Text>
+                                            <Text>Click Me!</Text>
+                                        </View>
+                                    </View>
+                                ) : (
+                                    <View style={productWrap().btnOne}>                            
+                                        <TouchableOpacity style={productWrap().iconWrapOne} onPress={ removeResultsLocal } >
+                                            <IonIcon name="ios-stats" style={productWrap().iconItem} />
+                                        </TouchableOpacity>
+                                        <View style={productWrap().textWrap} >
+                                            <Text style={textStyle().h2}>Remove results</Text>
+                                            <Text>Click Me!</Text>
+                                        </View>
+                                    </View> 
+                                )}
+                                <View style={productWrap().btnTwo}>
+                                    <TouchableOpacity 
+                                        testID="test-btn" 
+                                        onLayout={ buttonPosition }
+                                        style={productWrap().iconWrapTwo} 
+                                        onPress={ invokeClearResults } 
+                                    >
+                                        <IonIcon name="ios-calculator" style={productWrap().iconItem} />
+                                    </TouchableOpacity>
+                                    <View style={productWrap().textWrap} >
+                                        <Text style={textStyle().h2}>Clear results</Text>
+                                        <Text>Do Not Click Me!</Text>
+                                    </View>
+                                </View> 
                                 <TouchableOpacity style={(diagram().scrollUp)} onPress={ scrollUp }>
                                     <IonIcon style={diagram().scrollUpIcon} name="ios-arrow-up" />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={diagram().optionsBtnWrap} onPress={ invokeSaveCombination }>
-                                    <Text style={diagram().optionsBtnText}>Save Results</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={diagram().optionsBtnWrap} onPress={ invokeClearResults }>
-                                    <Text style={diagram().optionsBtnText}>Clear Results</Text>
                                 </TouchableOpacity>
                             </View>
                         </>
@@ -154,7 +204,7 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
                         unlikeProduct={ unlikeProductLocal }
                         putToCart={() => putToCart() }
                         close={ () => setProductModel(null) }
-                        navigate={ navigate }
+                        navigateFunc={ goToProductPage }
                     />
                 )}
             </View>
@@ -168,9 +218,7 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
     
     function invokeClearResults() {
         clearResults();
-        setTimeout(() => {
-            navigate("SelectedProducts");
-        }, 0)
+        navigate("SelectedProducts");
     }
     
     function invokeSaveCombination() {
@@ -193,6 +241,30 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
         unlikeProduct(productModel.id, true)
     }
 
+    function sliceFunc(digit){
+        return (`0${digit}`).slice(-2);
+    }
+
+    function saveResultsLocal(){
+        const currentDateInit = new Date();
+        const dateYears = `${currentDateInit.getFullYear()}-${sliceFunc(currentDateInit.getMonth() + 1)}-${sliceFunc(currentDateInit.getDate())}`;
+        const dateHours = `${sliceFunc(currentDateInit.getHours())}:${sliceFunc(currentDateInit.getMinutes())}:${sliceFunc(currentDateInit.getSeconds())}`
+        const createdAt = `${ dateYears } ${ dateHours }`;
+        const resultIds = {
+            matchId: match.id,
+            mismatchId: mismatch.id,
+            created_at: createdAt
+        }
+        saveResults(resultIds, token)
+    }
+
+    function removeResultsLocal(){
+        console.log("result", result)
+        const data = result.created_at;
+        console.log("daaa", data)
+        saveResults(data, token)
+    }
+
 }
 
 const mapStateToProps = state => ({
@@ -201,4 +273,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default withNavigation(connect(mapStateToProps, {clearResults, likeProduct, unlikeProduct})(ResultsOfBestWorst))
+export default withNavigation(connect(mapStateToProps, { clearResults, likeProduct, unlikeProduct, saveResults })(ResultsOfBestWorst))

@@ -7,6 +7,7 @@ use App\Category;
 use App\Product;
 use App\Subcategory;
 use App\BuyList;
+use App\Result;
 use Illuminate\Validation\Rule;
 use DB;
 use Carbon\Carbon;
@@ -168,6 +169,43 @@ class UserProductController extends Controller
     public function deleteBuyList(Request $request, $id)
     {
         $request->user()->buyLists()->delete($id);
+        return response()->json(null, 201);
+    }
+
+    public function saveResults(Request $request)
+    {
+        $results = $request->user()->results;
+        $old_ids_array = isset($results) ? $results->ids : null;
+        $request_result = $request->result;
+        $ids_array = [];
+        if(isset($old_ids_array)) 
+        {
+            var_dump("Nuuuuuuu", $results);
+            $old_ids_array = $results->ids;
+            $request_created_at = $request->created_at;
+            if(isset($request_created_at))
+            {
+                $created_at_array = collect($old_ids_array)->pluck('created_at')->toArray();
+                $index = array_search($request_created_at, $created_at_array);
+                if($index)
+                {
+                    unset($old_ids_array[$index]);
+                    $ids_array = $old_ids_array;
+                }
+            } else {
+                if(count($old_ids_array) <= 200)
+                {
+                    array_push($old_ids_array, $request_result);
+                    $ids_array = $old_ids_array;
+                }
+            }
+        } else {
+            $ids_array = array($request_result);
+            $results = new Result();
+            $results->user_id = $request->user()->id;
+        }
+        $results->ids = $ids_array;
+        $results->save();
         return response()->json(null, 201);
     }
 

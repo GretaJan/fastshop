@@ -121,9 +121,14 @@ class ProductDetails extends Component {
                 categoryId: categoryId,
                 categoryName: categoryName
             });
-            else this.props.navigation.navigate("Results")
+            else {
+                if(Object.keys(this.props.result).length > 0){
+                    this.props.navigation.navigate("Results")
+                } else {
+                    this.props.navigation.navigate("SelectedProducts")
+                }
+            }          
     }
-
 
     render() {
         const { name, image, background, loading, callRegisterModel, modelMsg } = this.state;
@@ -215,6 +220,7 @@ ProductDetails.propTypes = {
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     selectedProducts: state.selectedProducts.selectedProducts,
+    result: state.selectedProducts.result,
 })
 
 export default withNavigation(connect(mapStateToProps, { selectProductToCalc, removeProductFromSelected, likeProduct, unlikeProduct})(ProductDetails))

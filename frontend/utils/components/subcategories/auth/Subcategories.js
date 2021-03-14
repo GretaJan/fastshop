@@ -53,10 +53,6 @@ class Subcategories extends Component {
     componentDidMount(){
         this.props.getSubcategories(this.state.id, this.props.currentPages);
     }
-    // componentWillUnmount(){
-    //     this.props.unmountSubcategories();
-    //     console.log("subsss unmount", this.props.subcategories )
-    // }
 
     loadMore = () => {
         setTimeout(() => {

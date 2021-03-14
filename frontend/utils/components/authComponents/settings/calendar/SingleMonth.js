@@ -9,7 +9,7 @@ const { calendarAnimations } = require('../../../../src/styles/Animations');
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
 function Month({ month, currentDay, currentYear, isCurrentCondition, listsArray, goToInnerPage }){
- 
+ console.log(currentDay, currentYear, isCurrentCondition)
     return (
         <View> 
              <FlatList 
@@ -61,6 +61,7 @@ function Day({ item, month, isCurrentCondition, currentYear, currentDay, listsAr
     )
 
     function checkIfDayHasList(day){
+        console.log("DAY: ", month.name)
         const existsDate = listsArray.find(item => item.years == screenDate && item.day == day)
         if(existsDate) setHasList(true)
     }

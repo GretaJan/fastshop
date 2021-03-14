@@ -2,8 +2,8 @@ import {
     URL,
     LIKE_PRODUCT,
     UNLIKE_PRODUCT,
-    GET_LIKED_PRODUCTS,
-    GET_LIKED_PRODUCTS_ERROR
+    SAVE_RESULT,
+    REMOVE_RESULT
 } from './types';
 import axios from 'axios';
 import { asyncStorageFunc } from './generalActions';
@@ -121,6 +121,49 @@ export function unlikeProduct(productId, subcategoryId, token) {
         name: "thunkFunc"
     }
     return thunkFunc
+}
+
+function saveResultsOffline(dispatch, result){
+    dispatch({
+        type: SAVE_RESULT,
+        payload: result
+    })
+}
+
+function removeResultsOffline(dispatch, result){
+    dispatch({
+        type: REMOVE_RESULT,
+        payload: result
+    })
+}
+
+function saveResultsOnline(result, token){
+    const data = {
+        result: result
+    }
+    axios.post(`${URL}/save-results`, data, { 
+        headers: {
+        Authorization: `Bearer ${ token }`
+    }}, { withCredentials: true }).then(response => {
+        console.log("HHHH: ", response)
+    }).catch(error => {
+        console.log("ERRR: ", error)
+    })
+}
+
+export function saveResults(result, token){
+    console.log("result::: ", result)
+    function thunkOffline(dispatch){
+        if(result.matchId) saveResultsOffline(dispatch, result)
+            else removeResultsOffline(dispatch, result)
+        saveResultsOnline(result, token)
+    }
+    thunkOffline.interceptInOffline = true;
+    thunkOffline.meta = {
+        retry: true,
+        name: "thunkOffline"
+    }
+    return thunkOffline;
 }
 
 

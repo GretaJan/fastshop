@@ -13,7 +13,6 @@ import { asyncStorageFunc } from './generalActions';
 import axios from 'axios';
 
 
-
 export async function getProducts(subcategoryId, page){
     return asyncStorageFunc().then(response => {
         const dataReducer = JSON.parse(response.dataUpload)

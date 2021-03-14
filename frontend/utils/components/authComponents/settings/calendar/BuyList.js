@@ -22,7 +22,7 @@ const AnimatedPressable  = Animated.createAnimatedComponent(Pressable);
 const { modalAnimations } = require('../../../../src/styles/Animations.js');
 
 function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
-    const { createdAt, years } = route.params;
+    const { createdAt, years, day } = route.params;
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [name, setName] = useState('');
@@ -75,7 +75,7 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
             <>
                 <Header 
                     title={ name }
-                    navigate={ () => navigate("Calendar") }
+                    navigate={ () => navigate("DayPage", { years: years, day: day }) }
                 />
                 <View style={ containerStyles().screenHeightContainerNoHeader }>
                 { error ? (
