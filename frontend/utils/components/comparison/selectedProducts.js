@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput, Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Animated, Platform, UIManager } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { selectProductToCalc, removeProductFromSelected, compare, clearSelectedArray, goToList, sortArray } from '../../redux/actions/comparisonActions';
@@ -116,11 +116,7 @@ class Products extends Component {
         }
         if(this.state.optionsDisplay){
             comparisonAnimations.optionBtnsHide(this.state.transitionBtnsWrap, statefunc);   
-            // this.setState({ optionsDisplay: false })
         } else {
-            // const statefunc = () => {
-            //     this.setState({optionsDisplay: !this.state.optionsDisplay })
-            // }
             comparisonAnimations.optionBtnsShow(this.state.transitionBtnsWrap, statefunc);
         }
         
@@ -190,12 +186,16 @@ class Products extends Component {
                                 <EmptyList message={'Products have not been selected yet'} />
                             ) : (    
                             <View style={(optionsDisplay) ? (containerStyles().flatListScrollSmall) : (containerStyles().flatListScrollFull)}>
-                                <FlatList nestedScrollEnabled={true} contentContainerStyle={ null } data={ triggeredSearchBar ? (tempArray) : (selectedProducts) } renderItem={({item}) => (
-                                    <Product key={item} item={item} 
-                                        removeProduct={() => this.deleteProduct(item)}
-                                        goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
-                                    /> )} 
-                                />
+                                <FlatList 
+                                    nestedScrollEnabled={true} 
+                                    contentContainerStyle={ null } 
+                                    data={ triggeredSearchBar ? (tempArray) : (selectedProducts) } 
+                                    renderItem={({item}) => (
+                                        <Product key={item} item={item} 
+                                            removeProduct={() => this.deleteProduct(item)}
+                                            goToProduct={(id1, id2) => this.goToProduct(id1, id2)}
+                                        /> )} 
+                                    />
                             </View>
                             )}
                             <Animated.View style={ productWrap(scaleBtnsWrap, transitionBtnsWrap).btnsContainer } >

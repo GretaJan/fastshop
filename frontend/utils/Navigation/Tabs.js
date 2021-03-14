@@ -10,7 +10,7 @@ import  NetInfo  from '@react-native-community/netinfo';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import OctIcon from 'react-native-vector-icons/dist/Octicons';
-import { styles, signinStyle } from '../src/styles/TabStyles';
+import { selectCountStyle, signinStyle } from '../src/styles/TabStyles';
 import { importAppData } from '../redux/actions/generalActions';
 import { colors }  from '../src/styles/Colors';
 import ListIndicator from './ListIndicator';
@@ -130,7 +130,7 @@ function Tabs({
                                 tabBarIcon: () => (
                                     <IonIcon 
                                         name="ios-home" 
-                                        style={styles().iconItem} 
+                                        style={selectCountStyle.iconItem} 
                                     />
                                 ),
                                 }
@@ -140,9 +140,9 @@ function Tabs({
                                     tabBarLabel: () => (null),
                                     tabBarIcon: () => (
                                     <View>
-                                        <IonIcon name="ios-calculator" style={styles().iconItem} />
-                                        <View style={styles().counter}>
-                                            <ListIndicator style={styles().counterNo}/> 
+                                        <IonIcon name="ios-calculator" style={selectCountStyle.iconItem} />
+                                        <View style={selectCountStyle.counter}>
+                                            <ListIndicator style={selectCountStyle.counterNo}/> 
                                         </View>
                                     </View>
                                 )
@@ -168,7 +168,7 @@ function Tabs({
                                         tabBarIcon: () => (
                                             <IonIcon 
                                                 name="ios-home" 
-                                                style={styles().iconItem} 
+                                                style={selectCountStyle.iconItem} 
                                             />
                                         ),
                                     }
@@ -178,9 +178,9 @@ function Tabs({
                                         tabBarLabel: () => (null),
                                         tabBarIcon: () => (
                                         <View>
-                                            <IonIcon name="ios-calculator" style={styles().iconItem} />
-                                            <View style={styles().counter}>
-                                                <ListIndicator style={styles().counterNo}/> 
+                                            <IonIcon name="ios-calculator" style={selectCountStyle.iconItem} />
+                                            <View style={selectCountStyle.counter}>
+                                                <ListIndicator style={selectCountStyle.counterNo}/> 
                                             </View>
                                         </View>
                                     )
@@ -192,7 +192,7 @@ function Tabs({
                                     options = {{
                                         tabBarLabel: () => (null),
                                         tabBarIcon: () => (
-                                            <Icon name="list-alt" style={styles().iconItem} />
+                                            <Icon name="list-alt" style={selectCountStyle.iconItem} />
                                         )
                                     }} 
                                 /> 
@@ -207,7 +207,7 @@ function Tabs({
                                     options = {{
                                         tabBarLabel: () => (null),
                                         tabBarIcon: () => (
-                                            <Icon name="list-alt" style={styles().iconItem} />
+                                            <Icon name="list-alt" style={selectCountStyle.iconItem} />
                                         )}
                                 } />
                                 <Tabs.Screen name="SelectedProducts" component={CalculatorScreen} 
@@ -215,9 +215,9 @@ function Tabs({
                                         tabBarLabel: () => (null),
                                         tabBarIcon: () => (
                                         <View>
-                                            <IonIcon name="ios-calculator" style={styles().iconItem} />
-                                            <View style={styles().counter}>
-                                                <ListIndicator style={styles().counterNo}/> 
+                                            <IonIcon name="ios-calculator" style={selectCountStyle.iconItem} />
+                                            <View style={selectCountStyle.counter}>
+                                                <ListIndicator style={selectCountStyle.counterNo}/> 
                                             </View>
                                         </View>
                                     )
@@ -228,8 +228,8 @@ function Tabs({
                     )}
                 </NavigationContainer> 
                     { !token && (
-                        <TouchableOpacity style={signinStyle().container} onPress={ () => setRegisterModel(state => !state) }>
-                            <OctIcon name="sign-in" style={signinStyle().iconItem} />
+                        <TouchableOpacity style={signinStyle.container} onPress={ () => setRegisterModel(state => !state) }>
+                            <OctIcon name="sign-in" style={signinStyle.iconItem} />
                         </TouchableOpacity>
                     ) }
                     { registerModel && (

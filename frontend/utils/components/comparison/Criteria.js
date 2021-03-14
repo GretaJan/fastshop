@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
-import { CriteriaStyles, productWrap } from '../../src/styles/CompareStyles';
-import { containerStyles, textStyle, btnStyles } from '../../src/styles/GeneralStyles';
+import { CriteriaStyles } from '../../src/styles/CompareStyles';
+import { containerStyles, textStyle } from '../../src/styles/GeneralStyles';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { compare, clearResults } from '../../redux/actions/comparisonActions';

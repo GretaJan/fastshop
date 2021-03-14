@@ -5,31 +5,39 @@ import { Platform } from 'react-native';
 
 export const textStyle = () => StyleSheet.create({
     h1: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 24,
     },
     h2Bold: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 20,
         fontWeight: 'bold',
     },
     h2: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 20,
     },
     h3: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 19,
         marginBottom: 20,
     },
     h4: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 18,
     },
     h5: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 16,
     },
     p: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 16,
         paddingBottom: 3,
         paddingHorizontal: 10,
     },
     emailTxt: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 17,
         color: colors.mainBlack,
         marginBottom: 3,
@@ -37,24 +45,29 @@ export const textStyle = () => StyleSheet.create({
         fontWeight: 'bold',
     },
     mainMsg: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 17,
         paddingVertical: 15,
     },
     iconTitle: {
+        fontFamily: 'sans-serif-condensed',
         marginLeft: '3%',
         fontSize: 20,
     },
     greyText: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 15,
         color: colors.lighterBlack
     },
     whiteTitle: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 22,
         fontWeight: '100',
         color: '#fff',
         alignSelf: 'center'
     },
     largeFont: {
+        fontFamily: 'sans-serif-condensed',
         fontSize: 30,
     }
 });
@@ -160,6 +173,9 @@ export const containerStyles = () => StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    background: {
+        backgroundColor: colors.mainGrey
     }
 })
 
@@ -400,21 +416,6 @@ export const modalStyles = (scale, wideComp, locationX, locationY) => StyleSheet
              { scale: scale }
          ]
     },
-    // iconWrap: {
-    //     flexDirection: 'row',
-    //     alignItems: 'center',
-    //     alignSelf: 'flex-start',
-    //     width: '100%',
-    //     // borderBottomColor: borderColor,
-    //     borderBottomColor: colors.mainWhiteGrey,
-    //     borderBottomWidth: 2,
-    //     paddingBottom: 5,
-    // },
-    // icon: {
-    //     fontSize: 35,
-    //     // color: color,
-    //     color: colors.darkerGray,
-    // },
 });
 
 export const modalTextStyle = (color) => StyleSheet.create({
@@ -432,74 +433,6 @@ export const modalTextStyle = (color) => StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 15,
     },
-    // container: {
-    //     position: 'absolute',
-    //     zIndex: 40,
-    //     flex: 1,
-    //     width: Dimensions.get('window').width /1,
-    //     height: Dimensions.get('window').height /1,
-    //     minHeight: Dimensions.get('window').height /1,
-    //     alignItems: 'center',
-    //     backgroundColor: colors.transparentLight,
-    //     paddingTop: Dimensions.get('window').height /6,
-    //     top: -5,
-    //     // Shadow
-    //     elevation   : 5,
-    //     overflow: 'hidden',
-    //     //iOS:
-    //     shadowColor: 'red',
-    //     shadowOffset: { width: 1, height: 1 },
-    //     shadowOpacity: 0.8,
-    //     shadowRadius: 2, 
-    // },
-    // itemContainer: {
-    //     width: Dimensions.get('window').width /1.4,
-    //     backgroundColor: colors.mainWhiteYellow,
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     paddingVertical: 10,
-    //     paddingBottom: 15,
-    //     borderRadius: 10,
-    //      // Shadow
-    //      elevation: 2,
-    //      overflow: 'hidden',
-    //      //iOS:
-    //      shadowColor: 'red',
-    //      shadowOffset: { width: 1, height: 1 },
-    //      shadowOpacity: 0.8,
-    //      shadowRadius: 2, 
-    //      transform: [
-    //          { scale: scale }
-    //      ]
-    // },
-    // iconWrap: {
-    //     width: 220,
-    //     flexDirection: 'row',
-    //     alignItems: 'center',
-    //     borderBottomColor: borderColor,
-    //     borderBottomWidth: 2,
-    //     paddingBottom: 5,
-    //     marginBottom: 10,
-    // },
-    // icon: {
-    //     fontSize: 35,
-    //     color: color,
-    // },
-    // title: {
-    //     marginLeft: '3%',
-    //     fontSize: 20,
-    // },
-    // text: {
-    //     width: 220,
-    //     fontSize: 18,
-    //     lineHeight: Platform.OS === 'ios' ? 26 : 28,
-    // },
-    // okTxt: {
-    //     // marginLeft: Dimensions.get('window').width /6,
-    //     marginLeft: '55%',
-    //     fontSize: 18,
-    //     marginTop: 10,
-    // },
 });
 
 export const inputErrors = () => StyleSheet.create({

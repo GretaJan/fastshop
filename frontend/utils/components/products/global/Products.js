@@ -49,16 +49,28 @@ class Products extends Component {
         })
     }
 
+    shouldComponentUpdate(nextProps, nextState){
+        if(this.state.products.length !== nextState.products.length){
+            console.log("leee", nextState.products.length)
+           this.setState({ currentPage: this.state.currentPage + 1 })
+            return false
+        }
+        return true
+    }
+
     handleLoadMore = () => {
         this.setState({ loadingNext: true })
-        const { subcategoryId, currentPage } = this.state;
+        const { subcategoryId, currentPage, products } = this.state;
         const nextPage = currentPage + 1;
         getProducts(subcategoryId, nextPage).then(response => {
             if(response){
-                this.setState({ 
-                    products: response, 
-                    searchProducts: response, 
-                })
+                if(!products.some(item => item.id == products[0].id)){
+                    this.setState({ 
+                        products: [...products, ...response], 
+                        searchProducts: [...products, ...response], 
+                    })
+                    this.setState({ currentPage: nextPage })
+                }
             } else {
                 this.setState({ error: 'Įvyko klaida.' })
             }
@@ -101,12 +113,12 @@ class Products extends Component {
     }
 
      selectProduct = (productId) => {
-        // if(this.props.selectedProducts.length <= 30) {
+        if(this.props.selectedProducts.length <= 30) {
             this.props.selectProductToCalc(this.props.selectedProducts, productId);
-        // } else {
-        //     const msg = 'Please select no more than 30 items.';
-        //     this.callModal(this.productRef, msg)
-        // }
+        } else {
+            const msg = 'Please select no more than 30 items.';
+            this.callModal(this.productRef, msg)
+        }
     }
 
     callOverloadError = () => {
@@ -173,7 +185,7 @@ class Products extends Component {
                         func={ (value) => this.findFunction(value) }
                         parentValue={ searchName }
                     />
-                    <View style={containerStyles(background).simpleContainer}>
+                    <View style={containerStyles(background).screenHeightContainerNoHeader}>
                         { modelMsg !== '' && (
                             <Modal title="Limit exceeded" 
                                 message={ modelMsg } 

@@ -37,7 +37,6 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
     },
     arrowShort: {
         fontSize: 20,
-        // color: '#fff',
     },
     arrowLong: {
         fontSize: 30,
@@ -53,21 +52,18 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: Dimensions.get('window').width / 7 - 20/7,
-        // backgroundColor: colors.textGrey,
     },
     calendarWrap: {
         width: Dimensions.get('window').width - 20,
         flexDirection: 'row',
         overflow: 'hidden',
         height: 6 * (Dimensions.get('window').width /7) - 20,
-        // alignItems: 'center',
     },
     calendarWrapInner: {
         flexDirection: 'row',
         transform: [
             { translateX: widthOrtranslate }
         ],
-        // backgroundColor: 'green',
     },
     //single month style
     dayWrap: {
@@ -101,11 +97,8 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
     },
     btnEdit: {
         alignSelf: 'center',
-        // height: Dimensions.get('window').height - (Dimensions.get('window').height / 5.5 * 4 + 60 + Dimensions.get('window').height / 5.5 /3),
         justifyContent: 'flex-end',
         paddingTop: 10,
-        // backgroundColor: 'red',
-        // zIndex: 10 
     },
     datesModal: {
         width: Dimensions.get('window').width - 40,

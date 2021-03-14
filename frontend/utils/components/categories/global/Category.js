@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { View, Text, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import { stylesGuest } from '../../../src/styles/CategoryStyles';

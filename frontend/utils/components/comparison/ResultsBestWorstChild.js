@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, FlatList, Animated, Image } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, Animated, Image } from 'react-native';
 import { diagram } from '../../src/styles/CompareStyles';
 import { textStyle } from '../../src/styles/GeneralStyles';
 import { stylesGuestSingle } from '../../src/styles/ProductStyles';
@@ -62,7 +62,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                 showsVerticalScrollIndicator={ false }
                 data={ currentArray }
                 vertical={ true }
-                renderItem={ ({item, index}) => <Text style={textStyle().h4} >{item}</Text> }
+                renderItem={ ({ item }) => <Text style={textStyle().h4} >{item}</Text> }
             />     
         )
     }
@@ -89,32 +89,30 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                             <View style={diagram().itemNumberWrapAnimation} > 
                                  { matchComponentArr ? (
                                     <>
-                                        <View style={diagram().itemNumberWrapAnimationEnergy} >
+                                        <View style={diagram().itemNumberWrapAnimationSingle} >
                                             { renderArrays(matchComponentArr[0], animations(null, numAnimateFirst).numbersTransitionFirst) }
                                         </View>
-                                        { matchComponentArr[1] != 0 ? (
+                                        { matchComponentArr[1] && (
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
                                                 { renderArrays(matchComponentArr[1], animations(null, numAnimateSec).numbersTransitionSec)} 
                                             </View>
-                                        ) : (
-                                            <Text style={ textStyle().h4 }>0</Text>   
                                         )}
                                         { matchComponentArr[2] && (
-                                            matchComponentArr[2] != 0 ? (
-                                                <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                    { renderArrays(matchComponentArr[2], animations(null, numAnimateThird).numbersTransitionThird)} 
-                                                </View>
-                                            ) : (
-                                                <Text style={textStyle().h4}>0</Text>   
-                                            )
-                                        )} 
+                                            <View style={diagram().itemNumberWrapAnimationSingle} > 
+                                                { renderArrays(matchComponentArr[2], animations(null, numAnimateThird).numbersTransitionThird)} 
+                                            </View>
+                                        )}
                                         { matchComponentArr[3] && ( 
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
                                                 { renderArrays(matchComponentArr[3], animations(null, numAnimateFourth).numbersTransitionFourth) }
                                             </View>
                                         )} 
                                     </>
-                                ) : ( <Text style={textStyle().h4}>0</Text> ) }
+                                ) : ( 
+                                    <View style={diagram().itemNumberWrapAnimationSingle} >
+                                        <Text style={textStyle().h4}>0</Text> 
+                                    </View>
+                                ) }
                             </View>
                             <Text style={diagram().measure} >kcal</Text>
                         </View>
@@ -148,7 +146,11 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                             </View>
                                         )} 
                                     </>
-                                ) : ( <Text style={textStyle().h4}>0</Text> ) }
+                                ) : ( 
+                                    <View style={diagram().itemNumberWrapAnimationSingle} >
+                                        <Text style={textStyle().h4}>0</Text> 
+                                    </View>
+                                ) }
                             </View>
                             <Text style={diagram().measure} >kcal</Text>
                         </View>

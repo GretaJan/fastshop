@@ -1,4 +1,4 @@
-import { URL, GET_BYU_LISTS, ADD_LIST, DELETE_LIST } from "./types";
+import { URL, ADD_LIST, DELETE_LIST } from "./types";
 import { asyncStorageFunc } from './generalActions';
 import axios from "axios";
 
@@ -6,20 +6,6 @@ import axios from "axios";
 function sliceFunc(digit){
     return (`0${digit}`).slice(-2);
 }
-
-// export const getAllBuyLists = dispatch => {
-//     axios.post(`${URL}/api/get-buy-lists`, data, {
-//         headers: {
-//             authorization: `Bearer ${ token }`
-//         }
-//     }, { withAutorization: true }).then((response) => {
-//         dispatch({
-//             type: GET_BYU_LISTS,
-//         })
-//     }).catch((error) => {
-//         console.log("error", error)
-//     })
-// }
 
 export function getBuyListsByDate(date) {
     return asyncStorageFunc().then(response => {
@@ -136,7 +122,6 @@ function insertEmptyToDaysArr(arr, year, month){
 }
 
 async function createList(dispatch, selectedDate, data){
-    console.log("oooo: ",selectedDate, data )
     dispatch({
         type: ADD_LIST,
         date: selectedDate.keyDate,
@@ -247,10 +232,25 @@ function offLine(onlineEditCreate, data){
 }
 
 function onlineDeleteList(){
+    // asyncStorageFunc().then(response => {
+    //     let dataReducer = JSON.parse(response.auth);
+    //     let token = dataReducer.token;
+    //     return token;
+    // })
     asyncStorageFunc().then(response => {
         let dataReducer = JSON.parse(response.auth);
         let token = dataReducer.token;
         return token;
+        }).then((token) => {
+            axios.delete(`${ URL }/delete-buy-list/${ id }`, { 
+                headers: {
+                    authorization: `Bearer ${ token }`
+                }
+            }, { withAutorization: true }).then(response => {
+                console.log("response", response)
+            }).catch(error => {
+                console.log("Error", error.response)
+            })
     })
 }
 
@@ -266,21 +266,7 @@ export function deleteList(date, id){
     function onlineFunc() {
         onlineDeleteList()
     }
-        // asyncStorageFunc().then(response => {
-        //     let dataReducer = JSON.parse(response.auth);
-        //     let token = dataReducer.token;
-        //     return token;
-        // }).then((token) => {
-        //     axios.delete(`${ URL }/delete-buy-list/${ id }`, { 
-        //         headers: {
-        //             authorization: `Bearer ${ token }`
-        //         }
-        //     }, { withAutorization: true }).then(response => {
-        //             console.log("response", response)
-        //         }).catch(error => {
-        //             console.log("Error", error.response)
-        //         })
-        // })
+      
     function offlineFunc(){
         let listData = deleteListLocal(dispatch, date, createdAt)
         return listData.then((response) => {

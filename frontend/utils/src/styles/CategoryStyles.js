@@ -239,51 +239,12 @@ export const stylesGuest = () => StyleSheet.create({
        width: Dimensions.get('window').width /2,
        textAlign: 'center',
     },
-    // imageWrap: {
-    //     height: 120,
-    //     width: 120,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    // },
-    // image: {
-    //     width: '100%',
-    //     height: '100%',
-    //     resizeMode: 'contain' 
-    // },
     flatList: {
         width: Dimensions.get('window').width /1,
         justifyContent: 'center',
         alignItems: 'center',
         height: (Dimensions.get('window').height /1) - 142,
     },
-    // itemWrap: {
-    //     backgroundColor: colors.mainWhiteYellow,
-    //     marginBottom: 20,
-    //     borderRadius: 10,
-    //     height: 155,
-    //     width: 160,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     // Shadow
-    //     elevation   : 5,
-    //     overflow: 'hidden',
-    //     //iOS:
-    //     shadowColor: 'red',
-    //     shadowOffset: { width: 1, height: 1 },
-    //     shadowOpacity: 0.8,
-    //     shadowRadius: 2, 
-    // },
-    // itemText: {
-    //     textAlign: 'center',
-    //     fontFamily: 'sans-serif-condensed',
-    //     fontSize: 16,
-    // },
-    // imageIcon: {
-    //     textAlign: 'center',
-    //     fontFamily: 'sans-serif-condensed',
-    //     fontSize: 100,
-    //     color: '#000'
-    // }
     itemWrap: {
         height: 60,
         width: 185,

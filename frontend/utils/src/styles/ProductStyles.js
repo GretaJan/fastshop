@@ -4,11 +4,6 @@ import { colors } from './Colors';
 
 
 export const stylesGuest = (background, rotateBtn, isSelected, translate) => StyleSheet.create( {
-    // container: {
-        // flex: 1,
-        // textAlign: 'center',
-        // backgroundColor: background ? background : colors.mainGrey,
-    // },
     itemWrap: {
         display: 'flex',
         flexDirection: 'row',
@@ -53,9 +48,7 @@ export const stylesGuest = (background, rotateBtn, isSelected, translate) => Sty
 
     },
     itemText: {
-        fontFamily: 'sans-serif-condensed',
         width: '75%',
-        fontSize: 18,
         textAlign: 'left',
         paddingLeft: 10
     },
@@ -75,13 +68,6 @@ export const stylesGuest = (background, rotateBtn, isSelected, translate) => Sty
         fontSize: 50,
         color: '#000',
     },
-    // iconItem: {
-    //     fontSize: 45,
-    //     paddingRight: 10,
-    // },
-    // delVerifyContainer: {
-    //     top: '10%'
-    // },
     animatedWrap: {
         zIndex: 50,
         width: 60,
@@ -98,25 +84,6 @@ export const stylesGuest = (background, rotateBtn, isSelected, translate) => Sty
 });
 
 export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, checkTransition, listCheckScale) => StyleSheet.create({
-    // container: {
-    //     flex: 1,
-    //     textAlign: 'center',
-    //     alignItems:'center',
-    //     width: Dimensions.get('window').width /1,
-    //     maxHeight: Dimensions.get('window').height /1 - 140,
-    //     position: 'relative',
-    // },
-    topContainer: {
-        // height: Dimensions.get('window').height /4,
-        // width: Dimensions.get('window').width /1,
-        // textAlign: 'center',
-        // alignItems:'center',
-        // alignSelf: 'center',
-        // paddingVertical: 7,
-        // position: 'relative',
-        // backgroundColor: colors.transparentMedium,
-        // zIndex: -1
-    },
     imageStyle: {
         width: Dimensions.get('window').width - 140,
         height: '100%',
@@ -124,21 +91,6 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
         borderRadius: 3,
         resizeMode: 'cover',
     },
-    // emptyItem: {
-    //     position: 'absolute',
-    //     backgroundColor: colors.mainGrey,
-    //     width: 45,
-    //     height: 45,
-    //     borderRadius: 45/2,
-    //     marginTop: 160,
-    //     zIndex: 2,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    // },
-    // emptyIcon: {
-    //     fontSize: 45,
-    //     color: background ? background : colors.yellowGreenish
-    // },
     listContainer: {
         backgroundColor: background ? background : colors.mainGrey,
         width:  Dimensions.get('window').width - 20,
@@ -189,63 +141,9 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
         paddingBottom: 6,
         color: colors.darkerGray
     },
-    //Items
-    // listItemWrap: {
-    //     flex: 1,
-    //     marginLeft: '5%',
-    //     marginRight: '5%',
-    //     flexDirection: 'row',
-    //     height: 44,
-    //     alignItems: 'center',
-    //     borderBottomColor: colors.transparentLight,
-    //     borderBottomWidth: 1,
-    //     justifyContent: 'space-between',
-    // },
-    // listItemInfoWrap: {
-    //     flex: 1,
-    //     flexDirection: 'row',
-    //     alignItems: 'flex-start',
-    // },
-    // componentTitle: {
-    //    width: '65%',
-    //    fontSize: 18,
-    //    paddingLeft: 20,
-    // },
-    // componentAmount: {
-    //     fontSize: 18,
-    //     flex: 0.5,
-    // },
-    // componentMeasure: {
-    //     fontSize: 18,
-    //     color: colors.mainBlack,
-    //     flex: 0.4,
-    // },
-    // triangle: {
-    //     width: 0,
-    //     height: 0,
-    //     backgroundColor: 'transparent',
-    //     borderStyle: 'solid',
-    //     borderTopWidth: 0,
-    //     borderRightWidth: 250,
-    //     borderBottomWidth: 90,
-    //     borderLeftWidth: 250,
-    //     borderTopColor: 'transparent',
-    //     borderRightColor: 'transparent',
-    //     borderBottomColor: background ? background : colors.mainGrey,
-    //     borderLeftColor: 'transparent',
-    //     position: 'absolute',
-    //     top: 73,
-    //     zIndex: 1
-    //   },
-    //   underTriangle: {
-    //     height: 20,
-    //     width: Dimensions.get('window').width /1,
-    //     backgroundColor: background ? background : colors.mainGrey,
-    // },
     btnsWrap: {
         position: 'absolute',
         zIndex: 1, 
-        // left: Dimensions.get('window').width - 52.5,
         right: 0,
         height: '100%',
         justifyContent: 'center'
@@ -276,27 +174,6 @@ export const stylesGuestSingle = (background, isActive, rotateBtn, listScale, ch
             { rotateY: rotateBtn }
         ]
     },
-    // neutralBtnSelected: {
-    //     backgroundColor: isActive ? colors.mainBtnOrange : colors.mainGrey,
-    //     width: 45,
-    //     height: 45,
-    //     alignItems: 'center',
-    //     alignContent: 'center',
-    //     justifyContent: 'center',
-    //     borderRadius: 5,
-    //     // Shadow
-    //     elevation   : 5,
-    //     overflow: 'hidden',
-    //     //iOS:
-    //     shadowColor: 'red',
-    //     shadowOffset: { width: 1, height: 1 },
-    //     shadowOpacity: 0.8,
-    //     shadowRadius: 2, 
-    //     position: 'relative',
-    //     transform: [
-    //         { rotateY: rotateBtn }
-    //     ]
-    // },
     iconHeartLike: {
         fontSize: 26,
         color: colors.mainBtnOrange,
@@ -692,13 +569,9 @@ export const authProduct = (color, error) => StyleSheet.create({
 export const postProductStyle = (error = null, background) => StyleSheet.create({
     container: {
         backgroundColor: background ? background : colors.mainGrey,
-        // height: Dimensions.get('window').height /1,
         paddingHorizontal: 30,
     },
     inputsWrap: {
-        // display: 'flex',
-        // flexDirection: 'row',
-        // flexWrap: 'wrap',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         top: 10,

@@ -174,8 +174,12 @@ export class Categories extends Component {
                         { this.props.categories.length === 0 ? (
                             <EmptyList message="The List is empty" />
                             ) : (
-                            <FlatList contentContainerStyle={authCategory().flatList} data={this.props.categories} keyExtractor={(item, index) => index.toString()} renderItem={({item}) => (
-                                <CategoryList item={item} 
+                            <FlatList 
+                                contentContainerStyle={authCategory().flatList}
+                                keyExtractor={(item, index) => index.toString() }
+                                data={this.props.categories} keyExtractor={(item, index) => index.toString()} 
+                                renderItem={({item}) => (
+                                    <CategoryList item={item} 
                                         imageData={this.state.imageData}
                                         editId={this.state.editId}
                                         name={this.state.editName}
@@ -193,8 +197,7 @@ export class Categories extends Component {
                                         cancelEdit={this.cancelEdit}
                                         changeStateText={(name, value) => this.changeState(name, value) }
                                     />
-                                )} >
-                            </FlatList>
+                                )} />
                             )}
                     </View>
                 )

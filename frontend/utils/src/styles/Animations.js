@@ -1,5 +1,4 @@
 import { Animated, Easing, LayoutAnimation, Platform, UIManager, AnimationType} from 'react-native';
-import { animations } from './AnimationStyles';
 import { Dimensions } from 'react-native';
 
 
@@ -18,7 +17,6 @@ const heightAnimation = () => {
 }
 
 const heightLargeAnimation = () => {
-    console.log("heightt")
     LayoutAnimation.configureNext({
         duration: 400,
         update: {

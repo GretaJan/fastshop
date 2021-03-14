@@ -7,9 +7,6 @@ export const styles = (background) => StyleSheet.create({
     container: {
         backgroundColor: background ? background : colors.mainGrey,
         flex: 1,
-        // flex: 1,
-        // textAlign: 'center',
-        // backgroundColor: color ? color : colors.mainGrey,
     },
     itemWrap: {
         display: 'flex',

@@ -40,7 +40,7 @@ class Login extends Component {
 
         render() {
             return (
-                <View style={styles().container}>
+                <View>
                     { this.props.authenticate &&
                         <AuthAnimation />
                     }

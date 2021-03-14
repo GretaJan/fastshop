@@ -158,14 +158,10 @@ export const descAscDropDown = () => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: 60,
-        paddingHorizontal: 30,
+        height: 65,
+        paddingHorizontal: 5,
         borderBottomColor: colors.transparentLight,
         borderBottomWidth: 1,
-    },
-    text: {
-        fontSize: 18,
-        textTransform: 'uppercase'
     },
     btnWrap: {
         flexDirection: 'row',
@@ -273,7 +269,9 @@ export const diagram = (diagramLength, translate) => StyleSheet.create({
     itemNumberWrapAnimationSingle: {
         overflow: 'hidden',
         position: 'relative',
-        flex: .25,
+        // flex: .30,
+        // backgroundColor: 'green'
+        width: 10
     },
     itemNumberWrapAnimationEnergy: {
         overflow: 'hidden',

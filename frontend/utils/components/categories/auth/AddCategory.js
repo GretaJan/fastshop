@@ -96,7 +96,7 @@ class AddCategory extends Component {
 
         render() {
             return (
-                <View style={styles().container} > 
+                <View> 
                     <View style={categoryAdd().inputsWrap} >
                         <View style={categoryAdd().singleWrap}>
                             {this.state.missingName && <Error message={this.state.missingName}  left={'10%'} /> }

@@ -123,6 +123,7 @@ function ListArray({ list, goToList, confirmRemoveFunc, deleteItem, removeFromLi
         <View>
             <FlatList 
                 data={ list }
+                keyExtractor={(item, index) => index.toString() }
                 renderItem={({ item }) => (
                     <SingleListItem 
                         item={ item }

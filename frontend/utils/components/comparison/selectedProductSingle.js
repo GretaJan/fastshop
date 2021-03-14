@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { View, Text, TouchableOpacity, Image, Animated } from 'react-native';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { stylesGuest, stylesGuestSingle } from '../../src/styles/ProductStyles';
+import { textStyle } from '../../src/styles/GeneralStyles';
 
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 const { productAnimations } = require('../../src/styles/Animations');
@@ -28,7 +29,7 @@ class Product extends Component {
         return (
             !this.state.removeHeight && (
                 <Animated.View style={ stylesGuest(null, null, null, this.state.removeTranslation).itemWrapTranslation }>
-                    <TouchableOpacity style={stylesGuest().TextPicWrap} key={this.props.item.id.toString()} onPress={this.goToProduct} >
+                    <TouchableOpacity style={stylesGuest().TextPicWrap} onPress={this.goToProduct} >
                     {this.props.item.image ? (
                         <View style={stylesGuest().imageWrap}>
                             <Image style={stylesGuest().image} source={{ uri: this.props.item.image }} />
@@ -38,7 +39,9 @@ class Product extends Component {
                             <IonIcon style={stylesGuest().imageIcon} name="md-images" />
                         </View> 
                     )} 
-                        <Text style={stylesGuest().itemText} key={this.props.item.id.toString()}>{this.props.item.name}</Text>
+                        <View style={stylesGuest().itemText} >
+                            <Text style={textStyle().h4}>{this.props.item.name}</Text>
+                        </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={stylesGuest(null, '0deg', 0).animatedWrap} onPress={this.removeFromList}>
                         <AnimatedIonIcon name="md-close" style={ stylesGuestSingle().calcRemove } />

@@ -18,11 +18,12 @@ const Rearch = (array, title) => {
     return (
         <View>
             <TextInput placeholder={"Search in" + {title}} onChangeText={(value) => {setName(value), findFunction(name, array)}} value={name} />
-            <FlatList data={nameArray} renderItem={({item}) => (
-                <Text>{item}</Text>
-            )}>
-
-            </FlatList> 
+            <FlatList 
+                data={nameArray} 
+                keyExtractor={(item, index) => index.toString() }
+                renderItem={({item}) => (
+                    <Text>{item}</Text>
+                )} />
         </View>
     )
 }

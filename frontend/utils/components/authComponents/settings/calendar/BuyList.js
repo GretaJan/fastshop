@@ -181,6 +181,7 @@ function List({ list }){
         <View>
             <FlatList
                 data={ list.list }
+                keyExtractor={(item, index) => index.toString() }
                 renderItem={({ item, index }) => (
                     <SingleItem 
                         item={ item }
@@ -210,6 +211,7 @@ function SingleItem({ item, index }){
             <Text>{ item.quantity }</Text>
             <FlatList
                 data={ relatedProducts }
+                keyExtractor={(item, index) => index.toString() }
                 renderItem={ ({ item, index }) => (
                     <View>
                         <Text>{ index }.</Text>

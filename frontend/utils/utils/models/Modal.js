@@ -16,11 +16,11 @@ const Modal = ({ message, close, color, locationX, locationY }) => {
     return (
         <TouchableOpacity style={modalStyles().modalWrapNoColor} onPress={close} >
             <AnimatedPressable style={modalStyles(scale, false, locationX, locationY).animatedContainerSmall} >
-                <View style={modalStyle().textWrap}>
+                <View>
                     <Text style={textStyle().mainMsg} >{message}</Text>
                 </View>
                 <TouchableOpacity style={ btnStyles(color).smallModalBtn } onPress={ close } >
-                    <Text style={ textStyle().p } >Ok</Text>
+                    <Text style={ textStyle().p }>Ok</Text>
                 </TouchableOpacity>
             </AnimatedPressable>
         </TouchableOpacity>

@@ -56,7 +56,8 @@ class Subcategories extends Component {
             if(response){
                 this.setState({ 
                     subcategories: [...this.state.subcategories, ...response],
-                    searchSubcategories:  [...this.state.searchSubcategories, ...response]
+                    searchSubcategories:  [...this.state.searchSubcategories, ...response],
+                    currentPage: nextPage
                 })
             } else {
                 this.setState({ error: 'Įvyko klaida' })

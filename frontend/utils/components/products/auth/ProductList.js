@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { stylesGuest } from '../../../src/styles/ProductStyles';
+import { textStyle } from '../../../src/styles/GeneralStyles';
 
 class Product extends Component {
 
@@ -24,7 +25,9 @@ class Product extends Component {
                             <IonIcon style={stylesGuest().imageIcon} name="md-images" />
                         </View> 
                     )}
-                    <Text style={stylesGuest().itemText} >{this.props.item.name}</Text>
+                    <Text style={stylesGuest().itemText} >
+                        <Text style={textStyle().h4}>{this.props.item.name}</Text>
+                    </Text>
                 </View>
                 <Icon style={stylesGuest().iconItem} name="arrow-circle-right" />
             </TouchableOpacity>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, FlatList, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { addProduct } from '../../../redux/actions/productActions';
 import { withNavigation } from 'react-navigation';
@@ -157,11 +157,16 @@ class AddProduct extends Component {
     render() {
         return (
             <ScrollView style={postProductStyle(null, this.props.route.params.background).container}>
-                    <FlatList contentContainerStyle={postProductStyle().inputsWrap} data={this.state.componentsArray}  keyExtractor={(item, index) => index.toString()} numColumns={2} renderItem={({item, index}) => ( 
-                        <AddProductRow props={ item } 
-                                    index={ index }
-                                    inputChange={(index, value) => this.setInputValue(index, value) }
-                        /> 
+                    <FlatList 
+                        contentContainerStyle={postProductStyle().inputsWrap} 
+                        data={this.state.componentsArray}  
+                        keyExtractor={(item, index) => index.toString()} 
+                        numColumns={2} 
+                        renderItem={({item, index}) => ( 
+                            <AddProductRow props={ item } 
+                                        index={ index }
+                                        inputChange={(index, value) => this.setInputValue(index, value) }
+                            /> 
                     )} />
                 <View style={postProductStyle().imageBtnsFlex}>
                     <View style={postProductStyle().imageBtnWrap} >

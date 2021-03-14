@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import { stylesGuest, stylesGuestSingle } from '../../../src/styles/ProductStyles';
+import { textStyle } from '../../../src/styles/GeneralStyles';
  
 const { productAnimations } = require('../../../src/styles/Animations');
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
@@ -88,7 +89,9 @@ class ProductList extends Component {
                             <IonIcon style={stylesGuest().imageIcon} name="md-images" />
                         </View> 
                     )}
-                    <Text style={stylesGuest().itemText} >{this.props.item.name}</Text>
+                    <View style={stylesGuest().itemText} >
+                        <Text style={textStyle().h4}>{this.props.item.name}</Text>
+                    </View>
                 </TouchableOpacity>
                 <AnimatedTouchable 
                     style={stylesGuest(null, spinSelectBtn, isSelected).animatedWrap} 
