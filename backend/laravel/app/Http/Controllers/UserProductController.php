@@ -180,7 +180,6 @@ class UserProductController extends Controller
         $ids_array = [];
         if(isset($old_ids_array)) 
         {
-            var_dump("Nuuuuuuu", $results);
             $old_ids_array = $results->ids;
             $request_created_at = $request->created_at;
             if(isset($request_created_at))

@@ -16,8 +16,6 @@ import CreateListModal from './CreateListModal';
 
 const { calendarAnimations } = require('../../../../src/styles/Animations.js')
 
-var AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
-
 //add 0 to the beggining of month in less than 10
 function sliceFunc(digit){
     return (`0${digit}`).slice(-2);
@@ -60,14 +58,11 @@ function Calendar({ navigation: { navigate } }){
     }
 
     useEffect(() => {
-        // let unmounted = false;
-        // if(!unmounted)
-            initialArray().then((resp) => {
-                setIsLoading(resp);
-            })
+        initialArray().then((resp) => {
+            setIsLoading(resp);
+        })
         return (() => {
             setOpenListModel(false)
-            // unmounted = true;
         })
     }, [])
 
@@ -105,7 +100,7 @@ function Calendar({ navigation: { navigate } }){
                     goToNewList={ (createdAt, years) => goToNewList(createdAt, years) }
                 />
             )}
-            <View style={ containerStyles().screenHeightContainerNoHeader }>
+            <View style={ containerStyles().screenHeightContainerNoHeaderFullHeight }>
                 { isLoading ? (
                     <Text>Loading</Text>
                 ) : (
@@ -125,9 +120,11 @@ function Calendar({ navigation: { navigate } }){
                                 </Animated.View>
                             </View>
                         </View>
-                        <TouchableOpacity style={CriteriaStyles('#fff').buttonWrapOne} onPress={() => { setOpenListModel(true), console.log("hell")} } >
-                            <IonIcon name="md-create" style={CriteriaStyles().buttonResults} />
-                        </TouchableOpacity>
+                        <View  style={ calendarStyles().btnsWrap }>
+                            <TouchableOpacity style={CriteriaStyles('#fff').buttonWrapOne} onPress={() => { setOpenListModel(true), console.log("hell")} } >
+                                <IonIcon name="md-create" style={CriteriaStyles().buttonResults} />
+                            </TouchableOpacity>
+                        </View>
                 </>
                 ) }
             </View>

@@ -24,7 +24,7 @@ const { modalAnimations } = require('../../../../src/styles/Animations.js');
 function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
     const { createdAt, years, day } = route.params;
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+    const [errorObj, setErrorObj] = useState('');
     const [name, setName] = useState('');
     const [date, setDate] = useState('');
     const [list, setList] = useState([]);
@@ -59,7 +59,9 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
     useEffect(() => {
         setTimeout(() => {
             getListFunc().then(response => {
-                if(response == null) setError('Įvyko klaida')
+                const tempObj = {...errorObj}
+                tempObj.general = 'Įvyko klaida';
+                if(response == null) setErrorObj(tempObj)
                 setLoading(false)
             })
         }, 500)
@@ -78,13 +80,14 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
                     navigate={ () => navigate("DayPage", { years: years, day: day }) }
                 />
                 <View style={ containerStyles().screenHeightContainerNoHeader }>
-                { error ? (
-                        <Error message={ error } />
+                { errorObj && errorObj.general ? (
+                        <Error message={ errorObj.general  } />
                     ) : (
                         <View>
                             { listIndex !== null && (
                                 <EditSingleItem 
                                     item={ editableList } 
+                                    errorObj={ errorObj }
                                     close={ closeFunc }
                                     editCreateListFunc={ (key, value) => editCreateListFunc(key, value) } 
                                     editCreateListFuncQuantity={ (type) => editCreateListFuncQuantity(type) }
@@ -144,7 +147,23 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
 
     function editCreateListFunc(key, value){
         let tempObj = {...editableList}
-        tempObj[key] = value
+        tempObj[key] = value;
+        if(key == 'quantity'){
+            if(typeof(value) !== 'number'){
+                const tempObj = {...errorObj}
+                tempObj.quantity = 'Digits allowed only.';
+                setErrorObj(tempObj)
+            } else if(value < 0 || value > 150){
+                const tempObj = {...errorObj}
+                tempObj.quantity = 'Digits from 0 to 150 allowed only.';
+                setErrorObj(tempObj)
+            } else {
+                const tempObj = {...errorObj}
+                delete tempObj.quantity
+                setErrorObj(tempObj)
+            }
+        }
+      
         setEditableList(tempObj)
     }
 
@@ -154,13 +173,19 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
         if(type == 'desc' && tempObj.quantity > 1){
             tempObj.quantity = tempObj.quantity - 1
             setEditableList(tempObj)
-        } else if(type == 'asc' && tempObj.quantity < 150){  //do not let number to be larger than 1
+        } else if(type == 'asc' && tempObj.quantity <= 150){  //do not let number to be larger than 1
             tempObj.quantity = tempObj.quantity + 1
             setEditableList(tempObj)
         }
     }
 
     function editBuyListFunc(){
+        if(errorObj && errorObj.quantity){
+            const tempObj = {...errorObj}
+            tempObj.general = 'Please fill in all fields correctly.';
+            setErrorObj(tempObj)
+            return;
+        } 
         const data = {
             name: name,
             date: date,
@@ -234,7 +259,7 @@ function SingleItem({ item, index }){
     )
 }
 
-function EditSingleItem({ item, close, editCreateListFunc, editCreateListFuncQuantity, saveList }){
+function EditSingleItem({ item, errorObj, close, editCreateListFunc, editCreateListFuncQuantity, saveList }){
     const scale = useRef(new Animated.Value(0)).current;
 
     useState(() => {
@@ -243,7 +268,7 @@ function EditSingleItem({ item, close, editCreateListFunc, editCreateListFuncQua
 
     return (
         <TouchableOpacity style={ modalStyles().modalWrapContainer } onPress={ close } >
-            <AnimatedPressable style={ modalStyles(null, null, scale, true).animatedContainer }>
+            <AnimatedPressable style={ modalStyles(scale, true).animatedContainer }>
                 <View style={ inputStyles().formTextGap } >
                     <CheckWithText
                         isSelected={ item.checked } 
@@ -256,10 +281,13 @@ function EditSingleItem({ item, close, editCreateListFunc, editCreateListFuncQua
                         value={ item.name } 
                         onChangeText={ (value) => editCreateListFunc('name', value) }
                         style={ inputStyles().inputGreen }
-                        maxLength={ 100 }
+                        maxLength={ 100 } 
                     />
                 </View>
                 <View style={ inputStyles().formTextGap } >
+                    { errorObj && errorObj.quantity && (
+                        <Text>{ errorObj.quantity }</Text>
+                    )}
                     <View style={ inputStyles().inputRow }>
                         <TouchableOpacity 
                             onPress={ () => editCreateListFuncQuantity('desc') } 
@@ -268,7 +296,13 @@ function EditSingleItem({ item, close, editCreateListFunc, editCreateListFuncQua
                             <IonIcon size={ 30 } name="md-arrow-back" />
                         </TouchableOpacity>
                         <View style={ buyListSingle().editQuantity } >
-                            <Text style={ textStyle().largeFont }>{ item.quantity }</Text>
+                            {/* <Text style={ textStyle().largeFont }>{ item.quantity }</Text> */}
+                            <TextInput  
+                                value={ item.quantity }
+                                maxLength={ 3 } 
+                                onChangeText={ value => editCreateListFunc('quantity', value) }
+                                style={ inputStyles(errorObj && errorObj.quantity).inputGreen }
+                            />
                         </View>
                         <TouchableOpacity 
                             onPress={ () => editCreateListFuncQuantity('asc') } 

@@ -81,6 +81,14 @@ export const containerStyles = () => StyleSheet.create({
         zIndex: 1,
         paddingVertical: 10,
     },
+    screenHeightContainerNoHeaderFullHeight: {
+        alignSelf: 'center',
+        width: Dimensions.get('window').width /1 - 20,
+        height: Dimensions.get('window').height - (Dimensions.get('window').height / 5.5 / 2) - 85,
+        top: (Dimensions.get('window').height /5.5 ) /2,
+        zIndex: 1,
+        paddingVertical: 10,
+    },
     screenHeightContainerCenter: {
         alignSelf: 'center',
         width: Dimensions.get('window').width /1 - 20,
@@ -100,7 +108,6 @@ export const containerStyles = () => StyleSheet.create({
         paddingTop: 10,
         zIndex: 2,
         top: (Dimensions.get('window').height /5.5 ) /2,
-        // marginBottom: 30,
         marginBottom: 60,
     },
     flatListScrollSmall: {
@@ -114,11 +121,13 @@ export const containerStyles = () => StyleSheet.create({
         paddingHorizontal: 10,
         paddingTop: 7,
         paddingBottom: 10,
-        flex: 1,
+        // flex: 1,
         textAlign: 'center',
         alignItems:'center',
         maxHeight: Dimensions.get('window').height /1 - 130,
-        position: 'relative',
+        backgroundColor: 'green'
+
+        // position: 'relative'
     },
     topContainer: {
         height: Dimensions.get('window').height /5.5,

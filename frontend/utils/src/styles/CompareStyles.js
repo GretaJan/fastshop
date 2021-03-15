@@ -464,14 +464,14 @@ export const CriteriaStyles = (scale, checkScale) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-         // Shadow
-         elevation   : 5,
-         overflow: 'hidden',
-         //iOS:
-         shadowColor: 'red',
-         shadowOffset: { width: 1, height: 1 },
-         shadowOpacity: 0.8,
-         shadowRadius: 2, 
+        // Shadow
+        elevation   : 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2, 
     },
     buttonWrapTwo: {
         width: 120,

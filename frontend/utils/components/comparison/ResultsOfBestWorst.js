@@ -13,6 +13,7 @@ Header
 import Header from '../../utils/models/Header';
 import ResultsBestWorstChild from './ResultsBestWorstChild';
 import ProductModel from '../../utils/models/ProductModel';
+import ConfirmModal from '../../utils/models/ModalCrud';
 
 const { comparisonAnimations } = require('../../src/styles/Animations.js');
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
@@ -24,6 +25,7 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
     const translateMismatch = useState(new Animated.Value(-100))[0];
     const [productModel, setProductModel] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
+    const [clearConfirm, setClearConfirm] = useState(false);
     const [locationX, setLocationX] = useState(0);
     const [locationY, setLocationY] = useState(0);
 
@@ -48,8 +50,12 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
     }, [])
 
     function goToProductPage(){
-        navigate("Product", { subcategoryId: productModel.subcategoryId, productId: productModel.id, resultPage: true })
-        // navigate("Criteria")
+        navigate("Product", 
+        { 
+            subcategoryId: productModel.subcategoryId, 
+            productId: productModel.id, 
+            resultPage: true 
+        })
     }
 
     return (
@@ -179,7 +185,7 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
                                         testID="test-btn" 
                                         onLayout={ buttonPosition }
                                         style={productWrap().iconWrapTwo} 
-                                        onPress={ invokeClearResults } 
+                                        onPress={ () => setClearConfirm(true) } 
                                     >
                                         <IonIcon name="ios-calculator" style={productWrap().iconItem} />
                                     </TouchableOpacity>
@@ -206,6 +212,15 @@ const ResultsOfBestWorst = ({ result, clearResults, likeProduct, unlikeProduct, 
                         close={ () => setProductModel(null) }
                         navigateFunc={ goToProductPage }
                     />
+                )}
+                { clearConfirm && (
+                    <ConfirmModal 
+                        message="Are you sure you want to clear results? " 
+                        confirm={ invokeClearResults }
+                        title="CLEAR RESULTS"
+                        close={() => setClearConfirm(false)}
+                        iconName="md-close"
+                    /> 
                 )}
             </View>
             )}

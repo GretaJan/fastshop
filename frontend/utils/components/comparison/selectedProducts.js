@@ -177,8 +177,6 @@ class Products extends Component {
                                     confirm={() => this.confirmClearList()}
                                     title="CLEAR LIST"
                                     close={() => this.setState({delConfirm: false})}
-                                    background={colors.mainWhiteYellow}
-                                    iconColor={colors.mainBtnOrange}
                                     iconName="md-close"
                                 /> 
                             )}

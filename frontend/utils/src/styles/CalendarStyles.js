@@ -8,6 +8,7 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         backgroundColor: '#fff',
         overflow: 'hidden',
         borderRadius: 5,
+        marginBottom: 10
     },
     rowContainerMonth: {
         flexDirection: 'row',
@@ -65,6 +66,11 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
             { translateX: widthOrtranslate }
         ],
     },
+    btnsWrap: {
+        position: 'absolute',
+        bottom: 10,
+        alignSelf: 'center' 
+    },
     //single month style
     dayWrap: {
         width: Dimensions.get('window').width / 7 - 20/7,
@@ -74,6 +80,7 @@ export const calendarStyles = (widthOrtranslate) => StyleSheet.create({
         alignItems: 'center',
         borderColor: colors.transparentLight,
         borderWidth: 1,
+        position: 'relative'
     },
     currentDayMarker: {
         width: Dimensions.get('window').width / 7 - 20/7,

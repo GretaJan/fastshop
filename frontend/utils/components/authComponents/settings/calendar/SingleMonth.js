@@ -41,8 +41,12 @@ function Day({ item, month, isCurrentCondition, currentYear, currentDay, listsAr
     const screenDate = `${currentYear}-${month.name}`;
 
     useEffect(() => {
-        calendarAnimations.translateDayIcon(translateIcon);
-        checkIfDayHasList(item)
+        checkIfDayHasList(item).then((response) => {
+            if(response !== null){
+                setHasList(response)
+                calendarAnimations.translateDayIcon(translateIcon);
+            }
+        })
     }, [])
 
     return (
@@ -51,19 +55,18 @@ function Day({ item, month, isCurrentCondition, currentYear, currentDay, listsAr
             onPress={ () => goToInnerPage(screenDate, item) }
         >
             <Text style={ textStyle().h4 }>{ item }</Text>
-            { hasList && (
+            { (hasList && hasList.years == screenDate) && (
                 <AnimatedIonIcon 
                     name="ios-restaurant" 
                     style={ calendarStyles(translateIcon).listMarkerIcon } 
                 />
             ) }
-        </TouchableOpacity>
+        </TouchableOpacity> 
     )
 
-    function checkIfDayHasList(day){
-        console.log("DAY: ", month.name)
+    async function checkIfDayHasList(day){
         const existsDate = listsArray.find(item => item.years == screenDate && item.day == day)
-        if(existsDate) setHasList(true)
+        return existsDate
     }
 }
 
