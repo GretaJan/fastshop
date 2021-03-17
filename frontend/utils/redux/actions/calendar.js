@@ -168,27 +168,7 @@ function updateCreateListOffline(dispatch, editData, selectedDate, data){
     return createdAt
 }
 
-export const createUpdateListRedux = (selectedDate, editData) => {
-    const currentDateInit = new Date();
-    const dateYears = `${currentDateInit.getFullYear()}-${sliceFunc(currentDateInit.getMonth() + 1)}-${sliceFunc(currentDateInit.getDate())}`;
-    const dateHours = `${sliceFunc(currentDateInit.getHours())}:${sliceFunc(currentDateInit.getMinutes())}:${sliceFunc(currentDateInit.getSeconds())}`
-    const createdAt = `${ dateYears } ${ dateHours }`;
-    let data = {
-        created_at: createdAt,
-        updated_at: createdAt
-    }
-    if(editData){
-        data.name = editData.name ? editData.name : dateHours;
-        data.date = editData.date;
-        data.notes = editData.notes;
-        data.list = editData.list,
-        data.created_at = editData.created_at,
-        data.editable = true
-    } else {
-        data.name = dateHours
-        data.date = selectedDate.fullDate;
-    }
-
+export const createUpdateListRedux = (selectedDate, data) => {
     function onlineEditCreate(dispatch) {
         asyncStorageFunc().then(response => {
             let dataReducer = JSON.parse(response.auth);
@@ -201,14 +181,12 @@ export const createUpdateListRedux = (selectedDate, editData) => {
                 }
             }, { withAutorization: true })
         }).catch((error) => console.log("Error", error))
-        if(editData){
+        if(data.list){
             updateList(dispatch, selectedDate, data)
         } else {
             createList(dispatch, selectedDate, data)
         }
-        return createdAt
     }
-
     // offline()
     onlineEditCreate.interceptInOffline = true;
     onlineEditCreate.meta = {

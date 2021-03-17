@@ -203,6 +203,19 @@ export const inputStyles = (errorOrCol) => StyleSheet.create({
         fontSize: 17,
         height: 50,
     },
+    inputGreenCentered: {
+        borderColor: !errorOrCol ? colors.mainBtnGreen : colors.mainBtnOrange,
+        borderWidth: 2,
+        marginHorizontal: 15,
+        paddingLeft: 15,
+        paddingRight: 10,
+        marginBottom: 7,
+        minWidth: 25,
+        fontSize: 17,
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
     disabledEmailField: {
         height: 50,
         backgroundColor: colors.mainWhiteGrey,
@@ -377,7 +390,7 @@ export const modalStyles = (scale, wideComp, locationX, locationY) => StyleSheet
          transform: [
              { scale: scale }
          ],
-         backgroundColor: '#fff',
+        backgroundColor: '#fff',
     },
     animatedContainerFull: {
         borderColor: colors.mainBtnOrange,

@@ -146,13 +146,26 @@ function CreateListModal({ close, thisYear, currentYear, currentMonth, currentDa
      
     }
 
-    async function createList() {
-        const selectedDate = {
-            fullDate: `${selectedYear}-${selectedMonth}-${selectedDay}`,
-            keyDate: `${selectedYear}-${selectedMonth}`
+    function getListData(){
+        const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+        const currentDateInit = new Date();
+        const currentDate = `${currentDateInit.getFullYear()}-${sliceFunc(currentDateInit.getMonth() + 1)}-${sliceFunc(currentDateInit.getDate())}`;
+        const dateHours = `${sliceFunc(currentDateInit.getHours())}:${sliceFunc(currentDateInit.getMinutes())}:${sliceFunc(currentDateInit.getSeconds())}`
+        const createdAt = `${ currentDate } ${ dateHours }`;
+        let data = {
+            name: dateHours,
+            date: selectedDate,
+            created_at: createdAt,
+            updated_at: createdAt
         }
-        const createdAt = await createUpdateListRedux(selectedDate)
-        goToNewList(createdAt, selectedDate.keyDate)
+        return data;
+    }
+
+    async function createList() {
+        const keyDate = `${selectedYear}-${selectedMonth}`;
+        const data = getListData();
+        await createUpdateListRedux(keyDate, data)
+        goToNewList(data.created_at, selectedDate.keyDate)
     }
 }
 

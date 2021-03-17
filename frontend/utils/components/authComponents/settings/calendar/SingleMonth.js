@@ -27,9 +27,8 @@ function Month({ month, currentDay, currentYear, isCurrentCondition, listsArray,
                         isCurrentCondition={ isCurrentCondition }
                         listsArray={ listsArray }
                         goToInnerPage={ goToInnerPage }
-                    />
-                )
-            }
+                    /> 
+                )}
             /> 
         </View>
     )
@@ -52,7 +51,7 @@ function Day({ item, month, isCurrentCondition, currentYear, currentDay, listsAr
     return (
         <TouchableOpacity style={ (isCurrentCondition && currentDay == item) ?
             calendarStyles().currentDayMarker : calendarStyles().dayWrap }
-            onPress={ () => goToInnerPage(screenDate, item) }
+            onPress={ () => item !== '' ? goToInnerPage(screenDate, item) : null }
         >
             <Text style={ textStyle().h4 }>{ item }</Text>
             { (hasList && hasList.years == screenDate) && (

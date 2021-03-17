@@ -89,7 +89,7 @@ class Subcategories extends Component {
             <View style={searchBar().searchBarContainer}>
                 <Icon style={searchBar().searchBarIcon} name="search" size={20} onPress={() => this.setState({showSearchInput: !this.state.showSearchInput }) }/>
                 { this.state.showSearchInput && 
-                    <TextInput style={searchBar().searchBarInput} placeholder={"Search by name"} onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
+                    <TextInput style={searchBar().searchBarInput} placeholder="Search by name" onChangeText={value => this.findFunction(value)} value={this.state.searchName} />}
             </View>
         )
     }

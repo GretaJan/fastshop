@@ -152,7 +152,6 @@ function saveResultsOnline(result, token){
 }
 
 export function saveResults(result, token){
-    console.log("result::: ", result)
     function thunkOffline(dispatch){
         if(result.matchId) saveResultsOffline(dispatch, result)
             else removeResultsOffline(dispatch, result)

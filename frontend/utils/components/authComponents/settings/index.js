@@ -4,29 +4,27 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { logOut } from '../../../redux/actions/authActions';
 import { containerStyles } from '../../../src/styles/GeneralStyles';
-import { stylesGuest } from '../../../src/styles/SubcategoryStyles';
 
 //Components
 import Header from '../../../utils/models/Header';
+import CalendarItem from './CalendarItem';
 
-function settingsIndex({ logOut, token, navigation: { navigate } }){
+function settingsIndex({ logOut, token, 
+    navigation: { navigate } }){
 
     return (
         <>
             <Header 
-                title='Kalendorius'
+                title='Settings'
                 navigate={ null }
             />
             <View style={ containerStyles().screenHeightContainerNoHeader }>
                 <View style={ containerStyles().topContainer }>
-                    <View style={stylesGuest().horizontalWrap}>
-                        <TouchableOpacity onPress={ () => navigate("Calendar") } style={stylesGuest().itemWrap}>
-                            <Text>Kalendorius</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={ () => logOut(token) } style={stylesGuest().itemWrap}>
-                            <Text>Atsijungti</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <CalendarItem 
+                        navigation={ (link) => navigate(link) } 
+                        logOut={ logOut }
+                        token={ token }
+                    />
                 </View>
             </View>
         </>
