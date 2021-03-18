@@ -149,15 +149,6 @@ export const singleDayStyle = (translate, color) => StyleSheet.create({
         alignItems: 'center',
         flexBasis: Dimensions.get('window').width - 180,
     },
-    animatedWrap: {
-        zIndex: 50,
-        width: 60,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: colors.mainGreyTransparent,
-        borderLeftWidth: 1,
-    },
     componentTotalNo: {
         fontSize: 16,
         paddingRight: 5,

@@ -42,6 +42,7 @@ function Tabs({
     const routeNameRef = useRef();
 
     useEffect( () => {
+        // importAppData(token);
         NetInfo.fetch().then(state => {
             if(state.isConnected){
                 const currentDate = new Date();

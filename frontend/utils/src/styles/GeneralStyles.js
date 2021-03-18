@@ -109,6 +109,7 @@ export const containerStyles = () => StyleSheet.create({
         zIndex: 2,
         top: (Dimensions.get('window').height /5.5 ) /2,
         marginBottom: 60,
+        backgroundColor: 'red'
     },
     flatListScrollSmall: {
         height: Dimensions.get('window').height /2.8,
@@ -151,7 +152,6 @@ export const containerStyles = () => StyleSheet.create({
         minHeight: Dimensions.get('window').height - (Dimensions.get('window').height /5.5) - 100,
         zIndex: 2,
         justifyContent: 'space-between',
-        backgroundColor: 'green'
     },
     rowContainer: {
         flexDirection: 'row',
@@ -474,3 +474,90 @@ export const inputErrors = () => StyleSheet.create({
     }
 });
 
+export const iconsStyles = StyleSheet.create({
+    iconWrap: {
+        zIndex: 50,
+        width: 60,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: colors.mainGreyTransparent,
+        borderLeftWidth: 1,
+    },
+    iconWrapSmall: {
+        zIndex: 50,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: colors.mainGreyTransparent,
+        borderLeftWidth: 1,
+    },
+    editIcon: {
+        fontSize: 30,
+        color: colors.mainBtnGreen
+    },
+    orangeIcon: {
+        fontSize: 30,
+        color: colors.mainBtnOrange
+    }
+})
+
+export const animationStyles = (scale, translate, width) => StyleSheet.create({
+    diagramScale: {
+        transform: [
+            { scaleX: scale }
+        ]
+    },
+    numbersTransition: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
+    numbersTransitionFirst: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
+    numbersTransitionSec: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
+    numbersTransitionThird: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
+    numbersTransitionFourth: {
+        position: 'absolute',
+        transform: [
+            { translateY: translate }
+        ],
+    },
+    calendarAnimation: {
+        width: width, 
+        transform: [
+            { translateX: translate }
+        ],
+    },
+    calendarDatesAnimation: {
+        position: 'absolute',
+        transform: [
+            { translateX: translate }
+        ],
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: (Dimensions.get('window').width - 40) * 3,
+    },
+    deleteAnimationWithHeight: {
+        transform: [
+            { translateX: translate }
+        ],
+    } 
+})

@@ -5,7 +5,7 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import { getListByDay, deleteList } from '../../../../redux/actions/calendar';
 import { singleDayStyle, buyListSingle } from '../../../../src/styles/CalendarStyles';
-import { containerStyles, textStyle } from '../../../../src/styles/GeneralStyles';
+import { containerStyles, textStyle, iconsStyles } from '../../../../src/styles/GeneralStyles';
 import { stylesGuestSingle } from '../../../../src/styles/ProductStyles';
 import { colors } from '../../../../src/styles/Colors';
 //Components
@@ -155,30 +155,15 @@ function ListArray({ list, goToList, confirmRemoveFunc, deleteItem, removeFromLi
 function SingleListItem({ item, goToList, deleteItem, confirmRemoveFunc, removeFromList, confirmedDelete, closeDelModal }){
     const removeTranslation = useRef(new Animated.Value(0)).current
     const [removeHeight, setRemoveHeight] = useState(false)
-    // const removeTranslation = useRef(new Animated.Value(0)).current
-    // const [removeHeight, setRemoveHeight] = useState(false)
-    // return (
-    //     <View style={stylesGuest().itemWrap} >
-    //         <TouchableOpacity style={stylesGuest().TextPicWrap } onPress={ () => goToList(item.id, item.name) } >
-    //             <Text style={stylesGuest().itemText} >{ item.name }</Text>
-    //         </TouchableOpacity>
-    //     </View>
-    // )
 
-    // function callRemoveAnimation() {
-    //     const heightFunc = () => {
-    //         setRemoveHeight(true)
-    //     }
-    //     productAnimations.removeItem(removeTranslation, heightFunc, removeFromList)
-    // }
     useEffect(() => {
-        if(confirmedDelete && deleteItem == item.id){
+        if(confirmedDelete && deleteItem == item.created_at)
             callRemoveAnimation()
-        }
+        
     }, [confirmedDelete])
 
     function callRemoveAnimation() {
-        closeDelModal(false)
+        closeDelModal()
         const heightFunc = () => {
             setRemoveHeight(true)
         }
@@ -203,7 +188,7 @@ function SingleListItem({ item, goToList, deleteItem, confirmRemoveFunc, removeF
                     <Text style={textStyle().h2} >{ item.totalItems }/{ item.checkedItems }</Text>
                         </Text>
                     </View>
-                    <TouchableOpacity style={singleDayStyle().animatedWrap} onPress={ () => confirmRemoveFunc(item.created_at) }>
+                    <TouchableOpacity style={iconsStyles.iconWrap} onPress={ () => confirmRemoveFunc(item.created_at) }>
                         <MaterialIcon name="delete-outline" style={ stylesGuestSingle().calcRemove } />
                     </TouchableOpacity>
                 </View>

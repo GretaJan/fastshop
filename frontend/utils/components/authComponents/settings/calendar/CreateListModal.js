@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Animated, Dimensions, FlatList, Pressable } from 'react-native';
 import { connect } from 'react-redux';
-import { modalStyles, textStyle, inputStyles, btnStyles, containerStyles } from '../../../../src/styles/GeneralStyles';
+import { modalStyles, textStyle, inputStyles, btnStyles, containerStyles, animationStyles } from '../../../../src/styles/GeneralStyles';
 import { createDaysArr } from '../../../../redux/actions/generalActions';
 import { createUpdateListRedux } from '../../../../redux/actions/calendar';
 import { calendarStyles } from '../../../../src/styles/CalendarStyles';
-import { animations } from '../../../../src/styles/AnimationStyles';
 
 //Components
 import CheckWithText from '../../../../utils/models/CheckWithText';
@@ -31,6 +30,11 @@ function createMonthArray(){
     return monthsArray;
 }
 
+function sliceFunc(digit){
+    return (`0${digit}`).slice(-2);
+}
+
+
 function CreateListModal({ close, thisYear, currentYear, currentMonth, currentDay, createUpdateListRedux, goToNewList }){
     const scale = useRef(new Animated.Value(0)).current;
     const itemWidth = 0;
@@ -54,7 +58,7 @@ function CreateListModal({ close, thisYear, currentYear, currentMonth, currentDa
             <AnimatedPressable style={modalStyles(scale, true).animatedContainer} >
                 <Text style={ textStyle().h3 }>Sukurti naują sąrašą</Text>
                     <View style={ calendarStyles().datesAnimWrapper }>
-                        <Animated.View style={ animations(null, calendarTransl).calendarDatesAnimation } >
+                        <Animated.View style={ animationStyles(null, calendarTransl).calendarDatesAnimation } >
                             <FlatList 
                                 contentContainerStyle={ containerStyles().horizontalWrap }
                                 keyExtractor={ (item, index) => index.toString() }
@@ -165,7 +169,7 @@ function CreateListModal({ close, thisYear, currentYear, currentMonth, currentDa
         const keyDate = `${selectedYear}-${selectedMonth}`;
         const data = getListData();
         await createUpdateListRedux(keyDate, data)
-        goToNewList(data.created_at, selectedDate.keyDate)
+        goToNewList(data.created_at, keyDate)
     }
 }
 

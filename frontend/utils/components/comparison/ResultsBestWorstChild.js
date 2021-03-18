@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Animated, Image } from 'react-native';
 import { diagram } from '../../src/styles/CompareStyles';
-import { textStyle } from '../../src/styles/GeneralStyles';
+import { textStyle, animationStyles } from '../../src/styles/GeneralStyles';
 import { stylesGuestSingle } from '../../src/styles/ProductStyles';
-import { animations } from '../../src/styles/AnimationStyles';
 
 const { comparisonAnimations } = require('../../src/styles/Animations.js');
 
@@ -81,7 +80,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                  <View style={diagram().diagramLineWrap}>
                     <View style={diagram().numberDiagramWrap}>
                         <View style={diagram().singleLineWrap}>
-                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                            <Animated.View style={ animationStyles(scaleAnimate).diagramScale }>
                                 <Text style={diagram(matchComponent == null ? 0 : matchComponent).lineOneEnergy} ></Text>
                             </Animated.View>
                         </View>
@@ -90,21 +89,21 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                  { matchComponentArr ? (
                                     <>
                                         <View style={diagram().itemNumberWrapAnimationSingle} >
-                                            { renderArrays(matchComponentArr[0], animations(null, numAnimateFirst).numbersTransitionFirst) }
+                                            { renderArrays(matchComponentArr[0], animationStyles(null, numAnimateFirst).numbersTransitionFirst) }
                                         </View>
                                         { matchComponentArr[1] && (
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(matchComponentArr[1], animations(null, numAnimateSec).numbersTransitionSec)} 
+                                                { renderArrays(matchComponentArr[1], animationStyles(null, numAnimateSec).numbersTransitionSec)} 
                                             </View>
                                         )}
                                         { matchComponentArr[2] && (
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(matchComponentArr[2], animations(null, numAnimateThird).numbersTransitionThird)} 
+                                                { renderArrays(matchComponentArr[2], animationStyles(null, numAnimateThird).numbersTransitionThird)} 
                                             </View>
                                         )}
                                         { matchComponentArr[3] && ( 
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(matchComponentArr[3], animations(null, numAnimateFourth).numbersTransitionFourth) }
+                                                { renderArrays(matchComponentArr[3], animationStyles(null, numAnimateFourth).numbersTransitionFourth) }
                                             </View>
                                         )} 
                                     </>
@@ -119,7 +118,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                     </View>
                     <View style={diagram().numberDiagramWrap}>
                         <View style={diagram().singleLineWrap}>
-                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                            <Animated.View style={ animationStyles(scaleAnimate).diagramScale }>
                                 <Text style={diagram(mismatchComponent == null ? '0' : mismatchComponent).lineTwoEnergy}></Text>
                             </Animated.View>
                         </View>
@@ -128,21 +127,21 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                  { mismatchComponentArr ? (
                                     <>
                                         <View style={diagram().itemNumberWrapAnimationSingle} >
-                                            { renderArrays(mismatchComponentArr[0], animations(null, mismNumAnimateFirst).numbersTransitionFirst) }
+                                            { renderArrays(mismatchComponentArr[0], animationStyles(null, mismNumAnimateFirst).numbersTransitionFirst) }
                                         </View>
                                         { mismatchComponentArr[1] && (
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(mismatchComponentArr[1], animations(null, mismNumAnimateSec).numbersTransitionSec)} 
+                                                { renderArrays(mismatchComponentArr[1], animationStyles(null, mismNumAnimateSec).numbersTransitionSec)} 
                                             </View>
                                         )}
                                         { mismatchComponentArr[2] && (
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(mismatchComponentArr[2], animations(null, mismNumAnimateThird).numbersTransitionThird)} 
+                                                { renderArrays(mismatchComponentArr[2], animationStyles(null, mismNumAnimateThird).numbersTransitionThird)} 
                                             </View> 
                                         )} 
                                         { mismatchComponentArr[3] && ( 
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(mismatchComponentArr[3], animations(null, mismNumAnimateFourth).numbersTransitionFourth)}
+                                                { renderArrays(mismatchComponentArr[3], animationStyles(null, mismNumAnimateFourth).numbersTransitionFourth)}
                                             </View>
                                         )} 
                                     </>
@@ -160,7 +159,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                 <View style={diagram().diagramLineWrap}>
                     <View style={diagram().numberDiagramWrap}>
                         <View style={diagram().singleLineWrap}>
-                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                            <Animated.View style={ animationStyles(scaleAnimate).diagramScale }>
                                 <Text style={diagram(matchComponent == null ? '0' : matchComponent).lineOne}></Text>
                             </Animated.View>
                         </View>
@@ -169,11 +168,11 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                  { matchComponentArr ? (
                                     <>
                                         <View style={diagram().itemNumberWrapAnimationSingle} >
-                                            { renderArrays(matchComponentArr[0], animations(null, numAnimateFirst).numbersTransitionFirst) }
+                                            { renderArrays(matchComponentArr[0], animationStyles(null, numAnimateFirst).numbersTransitionFirst) }
                                         </View>
                                         { matchComponentArr[1] != '.' ? (
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(matchComponentArr[1], animations(null, numAnimateSec).numbersTransitionSec)} 
+                                                { renderArrays(matchComponentArr[1], animationStyles(null, numAnimateSec).numbersTransitionSec)} 
                                             </View>
                                         ) : (
                                             <Text style={ diagram().amountDot }>.</Text>   
@@ -181,7 +180,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                         { matchComponentArr[2] && (
                                             matchComponentArr[2] != '.' ? (
                                                 <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                    { renderArrays(matchComponentArr[2], animations(null, numAnimateThird).numbersTransitionThird)} 
+                                                    { renderArrays(matchComponentArr[2], animationStyles(null, numAnimateThird).numbersTransitionThird)} 
                                                 </View>
                                             ) : (
                                                 <Text style={ diagram().amountDot }>.</Text>   
@@ -189,7 +188,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                         )} 
                                         { matchComponentArr[3] && ( 
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(matchComponentArr[3], animations(null, numAnimateFourth).numbersTransitionFourth) }
+                                                { renderArrays(matchComponentArr[3], animationStyles(null, numAnimateFourth).numbersTransitionFourth) }
                                             </View>
                                         )} 
                                     </>
@@ -200,7 +199,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                     </View>
                     <View style={diagram().numberDiagramWrap}>
                         <View style={diagram().singleLineWrap}>
-                            <Animated.View style={ animations(scaleAnimate).diagramScale }>
+                            <Animated.View style={ animationStyles(scaleAnimate).diagramScale }>
                                 <Text style={diagram(mismatchComponent == null ? '0' : mismatchComponent).lineTwo}></Text>
                             </Animated.View>
                         </View>
@@ -209,11 +208,11 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                  { mismatchComponentArr ? (
                                     <>
                                         <View style={diagram().itemNumberWrapAnimationSingle} >
-                                            { renderArrays(mismatchComponentArr[0], animations(null, mismNumAnimateFirst).numbersTransitionFirst) }
+                                            { renderArrays(mismatchComponentArr[0], animationStyles(null, mismNumAnimateFirst).numbersTransitionFirst) }
                                         </View>
                                         { mismatchComponentArr[1] != '.' ? (
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(mismatchComponentArr[1], animations(null, mismNumAnimateSec).numbersTransitionSec)} 
+                                                { renderArrays(mismatchComponentArr[1], animationStyles(null, mismNumAnimateSec).numbersTransitionSec)} 
                                             </View>
                                         ) : (
                                             <Text style={ diagram().amountDot }>.</Text>   
@@ -221,7 +220,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                         { mismatchComponentArr[2] && (
                                             mismatchComponentArr[2] != '.' ? (
                                                 <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                    { renderArrays(mismatchComponentArr[2], animations(null, mismNumAnimateThird).numbersTransitionThird)} 
+                                                    { renderArrays(mismatchComponentArr[2], animationStyles(null, mismNumAnimateThird).numbersTransitionThird)} 
                                                 </View>
                                             ) : (
                                                 <Text style={ diagram().amountDot }>.</Text>   
@@ -229,7 +228,7 @@ function ResultsBestWorstChild({title, matchComponent, matchComponentArr, mismat
                                         )} 
                                         { mismatchComponentArr[3] && ( 
                                             <View style={diagram().itemNumberWrapAnimationSingle} > 
-                                                { renderArrays(mismatchComponentArr[3], animations(null, mismNumAnimateFourth).numbersTransitionFourth) }
+                                                { renderArrays(mismatchComponentArr[3], animationStyles(null, mismNumAnimateFourth).numbersTransitionFourth) }
                                             </View>
                                         )} 
                                     </>

@@ -22,13 +22,13 @@ function CriteriaChild({ title, originalName, setMostCriteria, setLeastCriteria,
             </View>
             <View style={CriteriaStyles().bulletContainer}>
                 <View style={CriteriaStyles().wrapThird}>
-                    <CheckInput isVisible={ activeMost } func={ itemMost } />
+                    <CheckInput isChecked={ activeMost } func={ itemMost } />
                 </View>
                 <View style={CriteriaStyles().wrapThird}>
-                    <CheckInput isVisible={ activeLeast } func={ itemLeast } />
+                    <CheckInput isChecked={ activeLeast } func={ itemLeast } />
                 </View>
                 <View style={CriteriaStyles().wrapThird}>
-                    <CheckInput isVisible={ activeNone } func={ itemNone } />
+                    <CheckInput isChecked={ activeNone } func={ itemNone } />
                 </View>
             </View>
         </View>

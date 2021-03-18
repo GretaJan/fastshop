@@ -6,6 +6,7 @@ import {
     DATA_LOADED_ERROR, 
     DATA_UPLOAD_ERROR_REMOVE,
     ADD_LIST, 
+    UPDATE_LIST,
     DELETE_LIST,
     LIKE_PRODUCT,
     UNLIKE_PRODUCT,
@@ -79,6 +80,21 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 allBuyLists: lists
+            }
+        case UPDATE_LIST:
+            const updateDate = action.date;
+            const updateData = action.data;
+            let tempList = state.allBuyLists[updateDate];
+            let itemIndex = tempList.map(item => item.created_at).indexOf(updateData.created_at)
+            if(itemIndex > -1){
+                tempList.splice(itemIndex, 1, updateData);
+            }
+            let newList = {...state.allBuyList}
+            newList[updateDate] = tempList;
+            console.log("newList: ", newList)
+            return {
+                ...state,
+                allBuyLists: newList
             }
         case DELETE_LIST:
             const selectedDate = action.date;

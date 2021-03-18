@@ -48,9 +48,9 @@ export const stylesGuest = (background, rotateBtn, isSelected, translate) => Sty
 
     },
     itemText: {
-        width: '75%',
+        width: '78%',
         textAlign: 'left',
-        paddingLeft: 10
+        paddingLeft: 10,
     },
     imageWrap: {
         width: 60,

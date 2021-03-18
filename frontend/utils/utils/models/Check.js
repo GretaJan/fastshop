@@ -6,7 +6,7 @@ import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 const { comparisonAnimations } = require('../../src/styles/Animations.js');
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
-function CheckInput({ isVisible, func }){
+function CheckInput({ isChecked, func }){
     const checkScale = useState(new Animated.Value(0))[0];
 
     useEffect(() => {
@@ -21,7 +21,7 @@ function CheckInput({ isVisible, func }){
     return (
         <TouchableOpacity style={CriteriaStyles().bulletWrap} onPress={ changeAnimation }>
             <View style={CriteriaStyles().bulletWrapInner}>
-            { isVisible && (
+            { isChecked && (
                 <AnimatedIonIcon name="ios-checkmark" style={CriteriaStyles(null, checkScale).bulletActive} />
             )}
             </View>

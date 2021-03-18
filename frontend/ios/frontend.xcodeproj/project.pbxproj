@@ -896,7 +896,7 @@
 				00E356F61AD99517003FC87E /* Debug */,
 				00E356F71AD99517003FC87E /* Release */,
 			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationisChecked = 0;
 			defaultConfigurationName = Release;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "frontend" */ = {
@@ -905,7 +905,7 @@
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationisChecked = 0;
 			defaultConfigurationName = Release;
 		};
 		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "frontend-tvOS" */ = {
@@ -914,7 +914,7 @@
 				2D02E4971E0B4A5E006451C7 /* Debug */,
 				2D02E4981E0B4A5E006451C7 /* Release */,
 			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationisChecked = 0;
 			defaultConfigurationName = Release;
 		};
 		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "frontend-tvOSTests" */ = {
@@ -923,7 +923,7 @@
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
 			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationisChecked = 0;
 			defaultConfigurationName = Release;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "frontend" */ = {
@@ -932,7 +932,7 @@
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationisChecked = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */

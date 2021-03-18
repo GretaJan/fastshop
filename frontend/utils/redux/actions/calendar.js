@@ -1,5 +1,5 @@
-import { URL, ADD_LIST, DELETE_LIST } from "./types";
-import { asyncStorageFunc } from './generalActions';
+import { URL, ADD_LIST, UPDATE_LIST, DELETE_LIST } from "./types";
+import { asyncStorageFunc } from "./generalActions";
 import axios from "axios";
 
 
@@ -124,24 +124,16 @@ function insertEmptyToDaysArr(arr, year, month){
 async function createList(dispatch, selectedDate, data){
     dispatch({
         type: ADD_LIST,
-        date: selectedDate.keyDate,
+        date: selectedDate,
         data: data
     })
 }
 
 function updateList(dispatch, selectedDate, data){
-    return asyncStorageFunc().then(response => {
-        let dataReducer = JSON.parse(response.dataUpload);
-        let lists = dataReducer.allBuyLists[selectedDate];
-        let itemIndex = lists.map(item => item.created_at).indexOf(data.createdAt)
-        lists[itemIndex] = data;
-        dispatch({
-            type: ADD_LIST,
-            payload: lists,
-        })
-        return true
-    }).catch(() => {
-        return null
+    dispatch({
+        type: UPDATE_LIST,
+        date: selectedDate,
+        data: data
     })
 }
 
@@ -170,17 +162,7 @@ function updateCreateListOffline(dispatch, editData, selectedDate, data){
 
 export const createUpdateListRedux = (selectedDate, data) => {
     function onlineEditCreate(dispatch) {
-        asyncStorageFunc().then(response => {
-            let dataReducer = JSON.parse(response.auth);
-            let token = dataReducer.token;
-            return token;
-        }).then((token) => {
-            axios.post(`${ URL }/update-create-checklist`, data, { 
-                headers: {
-                    authorization: `Bearer ${ token }`
-                }
-            }, { withAutorization: true })
-        }).catch((error) => console.log("Error", error))
+        updateCreateListOnline(data)
         if(data.list){
             updateList(dispatch, selectedDate, data)
         } else {
@@ -194,7 +176,6 @@ export const createUpdateListRedux = (selectedDate, data) => {
         name: "onlineEditCreate", 
         args: data, 
     };
-    console.log("onlineEditCreate.meta", onlineEditCreate.meta)
     return onlineEditCreate
 }
 

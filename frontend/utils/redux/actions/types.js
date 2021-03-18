@@ -56,6 +56,7 @@ export const REMOVE_RESULT = 'REMOVE_RESULT';
 //BUY LIST
 export const GET_BYU_LISTS = 'GET_BYU_LISTS';
 export const ADD_LIST = 'ADD_LIST';
+export const UPDATE_LIST = 'UPDATE_LIST';
 export const DELETE_LIST = 'DELETE_LIST';
 
 // FOR AUTHENTICATION

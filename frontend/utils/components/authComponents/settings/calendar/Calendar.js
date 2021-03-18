@@ -3,8 +3,7 @@ import { View, Text, ScrollView, FlatList, TouchableOpacity, Animated, Dimension
 import { withNavigation } from 'react-navigation';
 import IonIcon from 'react-native-vector-icons/dist/Ionicons';
 import { getBuyListsByDate, createDaysArr } from '../../../../redux/actions/calendar';
-import { containerStyles, textStyle } from '../../../../src/styles/GeneralStyles';
-import { animations } from '../../../../src/styles/AnimationStyles';
+import { containerStyles, textStyle, animationStyles } from '../../../../src/styles/GeneralStyles';
 import { calendarStyles } from '../../../../src/styles/CalendarStyles';
 import { stylesGuest } from '../../../../src/styles/SubcategoryStyles';
 import { CriteriaStyles } from '../../../../src/styles/CompareStyles';
@@ -113,7 +112,7 @@ function Calendar({ navigation: { navigate } }){
                                 translateRight={ animateForward }
                             />
                             <View style={ calendarStyles().calendarWrap }>
-                                <Animated.View style={ animations(null, calendarTransl, calendarWidth).calendarAnimation } >
+                                <Animated.View style={ animationStyles(null, calendarTransl, calendarWidth).calendarAnimation } >
                                     <View style={ calendarStyles(translateInnerList).calendarWrapInner }>
                                         { arrayMain() }
                                     </View>
@@ -137,8 +136,6 @@ function Calendar({ navigation: { navigate } }){
         const translateMonth = translateTo + screenWidth - 20 //translate to left
         calendarAnimations.translateContainer(calendarTransl, translateMonth, 400)
         setTranslateTo(translateMonth);
-        console.log("calendarArray", calendarArray)
-
     }
 
     function animateForward(){
@@ -363,28 +360,28 @@ function Weeks({ currentYear, currentMonth, translateLeft, translateRight }){
 
     return (
         <>
-        <View style={ calendarStyles().rowContainerMonth }>
-                <TouchableOpacity onPress={ translateLeft } style={ calendarStyles().iconWrap }>
-                    <IonIcon name="md-arrow-back" style={ calendarStyles().arrowShort } />
-                </TouchableOpacity>
-                <Text style={ textStyle().h2 }>{currentYear } { monthNames[parseInt(currentMonth)] }</Text>
-                <TouchableOpacity onPress={ translateRight } style={ calendarStyles().iconWrap }>
-                    <IonIcon name="md-arrow-forward" style={ calendarStyles().arrowShort } />
-                </TouchableOpacity>
+            <View style={ calendarStyles().rowContainerMonth }>
+                    <TouchableOpacity onPress={ translateLeft } style={ calendarStyles().iconWrap }>
+                        <IonIcon name="md-arrow-back" style={ calendarStyles().arrowShort } />
+                    </TouchableOpacity>
+                    <Text style={ textStyle().h2 }>{currentYear } { monthNames[parseInt(currentMonth)] }</Text>
+                    <TouchableOpacity onPress={ translateRight } style={ calendarStyles().iconWrap }>
+                        <IonIcon name="md-arrow-forward" style={ calendarStyles().arrowShort } />
+                    </TouchableOpacity>
+                </View>
+            <View style={ calendarStyles().rowContainerWeek }>
+                <FlatList 
+                    contentContainerStyle={ stylesGuest().horizontalWrap } 
+                    numColumns={7} 
+                    keyExtractor={(item, index) => index.toString()}
+                    data={ dayNames }
+                    renderItem={( dayName, index ) => (
+                        <View style={ calendarStyles().dayTitleWrap }>
+                            <Text style={ textStyle().h2 }>{ dayName.item}</Text>
+                        </View>
+                    )}
+                />
             </View>
-        <View style={ calendarStyles().rowContainerWeek }>
-            <FlatList 
-                contentContainerStyle={ stylesGuest().horizontalWrap } 
-                numColumns={7} 
-                keyExtractor={(item, index) => index.toString()}
-                data={ dayNames }
-                renderItem={( dayName, index ) => (
-                    <View style={ calendarStyles().dayTitleWrap }>
-                        <Text style={ textStyle().h2 }>{ dayName.item}</Text>
-                    </View>
-                )}
-            />
-        </View>
         </>
     )
 }
