@@ -49,7 +49,7 @@ function DayLists({ deleteList, route, navigation: { navigate } }){
         setConfirmedDelete(false)
     }
 
-    function openDeleteModalFunc(id){
+    function openDeleteModalFunc(createdAt){
         setDeleteModal(true)
         setDeleteItem(createdAt)
     }
@@ -159,7 +159,6 @@ function SingleListItem({ item, goToList, deleteItem, confirmRemoveFunc, removeF
     useEffect(() => {
         if(confirmedDelete && deleteItem == item.created_at)
             callRemoveAnimation()
-        
     }, [confirmedDelete])
 
     function callRemoveAnimation() {

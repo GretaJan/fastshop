@@ -45,7 +45,6 @@ export const stylesGuest = (background, rotateBtn, isSelected, translate) => Sty
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-
     },
     itemText: {
         width: '78%',

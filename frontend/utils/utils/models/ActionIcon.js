@@ -9,7 +9,7 @@ const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 const AnimatedMaterialIcon = Animated.createAnimatedComponent(MaterialIcon);
 const AnimatedIonIcon = Animated.createAnimatedComponent(IonIcon);
 
-function ActionIcon({ mainIcon, activeIcon, activeColor, activeColorSec, isActive, activateFunc, deactivateFunc, errorCondition, errorFunc }){
+function ActionIcon({ mainIcon, activeIcon, activeColor, iconColor, activeColorSec, isActive, activateFunc, deactivateFunc, errorCondition, errorFunc }){
     const buttonRef = useRef(null);
     const [rotationDegrees, setRotationDegrees] = useState('0deg');
     const [backgroundColor, setBackgroundColor] = useState('#e5e9ee');
@@ -57,11 +57,11 @@ function ActionIcon({ mainIcon, activeIcon, activeColor, activeColorSec, isActiv
                 ref={ buttonRef }
             >
             { !isActive ? (
-                <AnimatedIonIcon name={ mainIcon } style={iconButtons(null, activeColor, scaleInactive).inactiveIcon} />
+                <AnimatedIonIcon name={ mainIcon } style={iconButtons(null, activeColor, null, scaleInactive).inactiveIcon} />
             ) : (
                 <>
-                    <AnimatedMaterialIcon name={ activeIcon } style={iconButtons(null, null, null, scaleActive).activeIconMain} />
-                    <AnimatedIonIcon name={ mainIcon } style={iconButtons(null, activeColor, null, null, toActiveTransition).activeIconSec} />
+                    <AnimatedMaterialIcon name={ activeIcon } style={iconButtons(null, null, iconColor, null, scaleActive).activeIconMain} />
+                    <AnimatedIonIcon name={ mainIcon } style={iconButtons(null, activeColor, null, null, null, toActiveTransition).activeIconSec} />
                 </>
             )}
         </AnimatedTouchable>

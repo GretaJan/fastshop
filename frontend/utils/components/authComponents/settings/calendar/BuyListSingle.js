@@ -18,26 +18,24 @@ const { modalAnimations, productAnimations } = require("../../../../src/styles/A
 export function List({ list, editCreateIsChecked, getCreateListIndex, closeDelModal, initiateDeleteModal, deleteIndex, editableList, removeFromList, confirmedDelete }){
 
     return (
-        <View>
-            <FlatList
-                data={ list }
-                keyExtractor={(item, index) => index.toString() }
-                renderItem={({ item, index }) => (
-                    <SingleItem 
-                        item={ item }
-                        index={ index }
-                        getCreateListIndex={ () => getCreateListIndex(index) }
-                        editCreateIsChecked={ (value) => editCreateIsChecked(value, index) }
-                        initiateDeleteModal={ () => initiateDeleteModal(index) }
-                        closeDelModal={ closeDelModal }
-                        deleteIndex={ deleteIndex }
-                        editableList={ editableList }
-                        removeFromList={ removeFromList }
-                        confirmedDelete={ confirmedDelete }
-                    />
-                )}
-            />
-        </View>
+        <FlatList
+            data={ list }
+            keyExtractor={(item, index) => index.toString() }
+            renderItem={({ item, index }) => (
+                <SingleItem 
+                    item={ item }
+                    index={ index }
+                    getCreateListIndex={ getCreateListIndex }
+                    editCreateIsChecked={ (value) => editCreateIsChecked(value, index) }
+                    initiateDeleteModal={ initiateDeleteModal }
+                    closeDelModal={ closeDelModal }
+                    deleteIndex={ deleteIndex }
+                    editableList={ editableList }
+                    removeFromList={ removeFromList }
+                    confirmedDelete={ confirmedDelete }
+                />
+            )}
+        />
     )
 }
 
@@ -52,9 +50,10 @@ function SingleItem({ item, index, editCreateIsChecked, getCreateListIndex, init
             setRelatedProducts(response)
             setIsChecked(item.checked)
         })
-        if(confirmedDelete && deleteIndex == index)
-            callRemoveAnimation()
-    }, [confirmedDelete])
+        console.log("index", index)
+        if(confirmedDelete && deleteIndex == item.id)
+            callRemoveAnimation()  
+    }, [confirmedDelete, index])
 
     function checkedFunc(){
         setIsChecked(oldValue => !oldValue)
@@ -70,10 +69,10 @@ function SingleItem({ item, index, editCreateIsChecked, getCreateListIndex, init
     }
 
     return (
-        (!removeHeight) && (
+        !removeHeight && (
             <TouchableOpacity 
                 style={ animationStyles(null, removeTranslation).deleteAnimationWithHeight } 
-                onPress={ getCreateListIndex }
+                onPress={ () => getCreateListIndex(item.id) }
             >
                 <View style={ stylesGuest().itemWrap } >
                     <View style={stylesGuest().TextPicWrap }>
@@ -94,7 +93,7 @@ function SingleItem({ item, index, editCreateIsChecked, getCreateListIndex, init
                     <TouchableOpacity style={ iconsStyles.iconWrapSmall } onPress={ getCreateListIndex }>
                         <MaterialIcon style={ iconsStyles.editIcon } name="pencil"/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={ iconsStyles.iconWrapSmall } onPress={ initiateDeleteModal }>
+                    <TouchableOpacity style={ iconsStyles.iconWrapSmall } onPress={ () => initiateDeleteModal(item.id) }>
                         <MaterialIcon style={ iconsStyles.orangeIcon} name="delete-outline"/>
                     </TouchableOpacity>
                     <View>
@@ -119,8 +118,6 @@ export function EditSingleItem({ item, errorObj, close, editCreateListFunc, edit
     const scale = useRef(new Animated.Value(0)).current;
 
     useState(() => {
-        console.log("item", item)
-        console.log("errorObj", errorObj)
         modalAnimations.modalScale(scale);
     }, [])
 

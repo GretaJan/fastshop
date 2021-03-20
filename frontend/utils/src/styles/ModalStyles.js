@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
 import { Dimensions } from 'react-native';
 
-export const iconButtons = (rotateBtn, activeColor, inactiveScale, activeScale, activeTransition) => StyleSheet.create({
+export const iconButtons = (rotateBtn, activeColor, iconColor, inactiveScale, activeScale, activeTransition) => StyleSheet.create({
     btnContainer: {
         backgroundColor: activeColor,
         width: 45,
@@ -12,7 +12,7 @@ export const iconButtons = (rotateBtn, activeColor, inactiveScale, activeScale, 
         justifyContent: 'center',
         borderRadius: 5,
         // Shadow
-        elevation   : 5,
+        elevation: 5,
         overflow: 'hidden',
         //iOS:
         shadowColor: 'red',
@@ -22,7 +22,8 @@ export const iconButtons = (rotateBtn, activeColor, inactiveScale, activeScale, 
         position: 'relative',
         transform: [
             { rotateY: rotateBtn }
-        ]
+        ],
+        zIndex: 90,
     },
     inactiveIcon: {
         fontSize: 33,
@@ -39,6 +40,7 @@ export const iconButtons = (rotateBtn, activeColor, inactiveScale, activeScale, 
             { rotateY: '-180deg' },
             { scale: activeScale }
         ],
+        color: iconColor ? iconColor : '#000'
     },
     activeIconSec: {
         position: 'absolute',

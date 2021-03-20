@@ -112,7 +112,7 @@ class UserProductController extends Controller
     public function getTopFavorites($category_id)
     {
         $products = DB::table('product_user')
-            ->select('product_id', DB::raw('count(*)'))
+            ->select('product_id', DB::raw('count(*) as count'))
             ->orderBy(\DB::raw('count(product_id)'), 'DESC')
             ->where('category_id', '=', $category_id)
             ->groupBy('product_id')

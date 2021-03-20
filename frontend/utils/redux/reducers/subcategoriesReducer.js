@@ -12,6 +12,8 @@ import {
 const initialState = {
     subcategories: [],
     subcategory: {},
+    favGlobalDrinks: [],
+    favGlobalFoods: [],
     loading: null,
     actionLoading: null,
     loadingNext: null,
@@ -72,6 +74,18 @@ export default function(state = initialState, action) {
             return {
                 ...state, 
                 error: action.error
+            }
+        case "GET_TOP_GLOBAL_1":
+            const globalDrinks = action.payload.map(item => {
+                const data = {
+                    id: item.id,
+                    count: item.count
+                }
+                return data
+            })
+            return {
+                ...state,
+                favGlobalDrinks: globalDrinks
             }
         default:
             return state

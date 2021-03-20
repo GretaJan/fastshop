@@ -234,30 +234,32 @@ export const stylesGuest = () => StyleSheet.create({
         marginLeft: 5
     },
     descriptionText: {
-        position: 'absolute',
-        top: 20,
-       width: Dimensions.get('window').width /2,
+       maxWidth: Dimensions.get('window').width /1.5,
+       height: Dimensions.get('window').height /5.5 / 2,
        textAlign: 'center',
+       alignSelf: 'center',
+       textAlignVertical: 'center',
+       top: -10,
     },
-    flatList: {
-        width: Dimensions.get('window').width /1,
+    categoriesComponentWrap: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: (Dimensions.get('window').height /1) - 142,
+       alignContent: 'center',
+       marginTop: 20,
     },
     itemWrap: {
         height: 60,
         width: 185,
         borderColor: colors.mainBtnGreen,
         borderWidth: 2,
-        marginBottom: 40
+        marginTop: 40,
     },
     itemWrapHover: {
         height: 60,
         width: 185,
         borderColor: colors.mainBtnGreen,
         borderWidth: 2,
-        marginBottom: 40
+        marginTop: 40,
     },
     itemText: {
         fontSize: 20,
@@ -313,7 +315,8 @@ export const stylesGuest = () => StyleSheet.create({
         fontSize: 20,
         top: 15,
         paddingTop: 4,
-    }
+    },
+
 })
 
 export const categoryAdd = (error) => StyleSheet.create({

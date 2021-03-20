@@ -145,3 +145,147 @@ export const authVerify = (translOne, translTwo, translThree) => StyleSheet.crea
         borderRadius: 3,
     }
 });
+
+export const homeStyles = StyleSheet.create({
+    mainBlock: {
+        height: Dimensions.get('window').height - Dimensions.get('window').height / 5.5 - 100,
+        justifyContent: 'space-between',
+    },
+    fourBtns: {
+        minHeight: Dimensions.get('window').height /5 + 70,
+        borderTopColor: colors.transparentLight,
+        borderTopWidth: 1,
+        justifyContent: 'center',
+        paddingTop: 10,
+    },
+    halfWidth: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    btnWrap: {
+        alignContent: 'center',
+        alignItems: 'center',
+    },
+    btn: {
+        backgroundColor: colors.mainBtnGreen,
+        width: 60,
+        height: 60,
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+          // Shadow
+          elevation   : 5,
+          overflow: 'hidden',
+          //iOS:
+          shadowColor: 'red',
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2, 
+    },
+    btnWrapOne: {
+        marginBottom: 5,
+        width: 45,
+        height: 45,
+        backgroundColor: colors.mainGrey,
+        borderRadius: 5,
+        // Shadow
+        elevation: 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2, 
+    },
+    btnWrapTwo: {
+        width: 45,
+        height: 45,
+        backgroundColor: colors.mainGrey,
+        borderRadius: 5,
+        marginLeft: 22.5,
+        marginBottom: 10,
+        // Shadow
+        elevation: 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2, 
+    },
+    btnWrapThree: {
+        marginBottom: 5,
+        width: 45,
+        height: 45,
+        backgroundColor: colors.mainGrey,
+        borderRadius: 5,
+        // Shadow
+        elevation: 5,
+        overflow: 'hidden',
+        //iOS:
+        shadowColor: 'red',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2, 
+    },
+    btnWrapFour: {
+        marginLeft: 22.5,
+        width: 45,
+        height: 45,
+        backgroundColor: colors.mainGrey,
+        borderRadius: 5,
+         // Shadow
+         elevation: 5,
+         overflow: 'hidden',
+         //iOS:
+         shadowColor: 'red',
+         shadowOffset: { width: 1, height: 1 },
+         shadowOpacity: 0.2,
+         shadowRadius: 2, 
+    },
+    textWrap: {
+        width: '65%',
+        alignItems: 'center',
+        left: '10%',
+    },
+    colorWrap: {
+        paddingHorizontal: '4%',
+        paddingVertical: '2%',
+         alignItems: 'center',
+         backgroundColor: colors.transparentLight,
+    },
+    innerTextWrap: {
+        marginBottom: 5,
+    }
+})
+
+export const topProductsStyle = (iconColor, numberColor) => StyleSheet.create({
+    wrapIcon: {
+        width: '23%',
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: colors.transparentLight,
+        borderLeftWidth: 1,
+        backgroundColor: colors.mainGreyTransparent,
+    },
+    icon: {
+        fontSize: 25,
+        color: iconColor,
+        position: 'absolute',
+        right: 2,
+        top: 2,
+        transform: [
+            { rotateY: '180deg' }
+        ]
+    },
+    text: {
+        fontSize: 27,
+        color: numberColor,
+        fontWeight: 'bold',
+    },
+    // countStyle: {
+    //     paddingLeft: 15,
+    // },
+})

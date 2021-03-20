@@ -88,6 +88,7 @@ export const containerStyles = () => StyleSheet.create({
         top: (Dimensions.get('window').height /5.5 ) /2,
         zIndex: 1,
         paddingVertical: 10,
+        backgroundColor: colors.mainGrey,
     },
     screenHeightContainerCenter: {
         alignSelf: 'center',
@@ -109,7 +110,6 @@ export const containerStyles = () => StyleSheet.create({
         zIndex: 2,
         top: (Dimensions.get('window').height /5.5 ) /2,
         marginBottom: 60,
-        backgroundColor: 'red'
     },
     flatListScrollSmall: {
         height: Dimensions.get('window').height /2.8,
@@ -126,9 +126,6 @@ export const containerStyles = () => StyleSheet.create({
         textAlign: 'center',
         alignItems:'center',
         maxHeight: Dimensions.get('window').height /1 - 130,
-        backgroundColor: 'green'
-
-        // position: 'relative'
     },
     topContainer: {
         height: Dimensions.get('window').height /5.5,
@@ -187,7 +184,12 @@ export const containerStyles = () => StyleSheet.create({
     },
     background: {
         backgroundColor: colors.mainGrey
-    }
+    },
+    centeredItemVertically: {
+        height: '100%',
+        top: Dimensions.get('window').height /5.5 /2,
+        justifyContent: 'center',
+    },
 })
 
 export const inputStyles = (errorOrCol) => StyleSheet.create({
@@ -245,7 +247,7 @@ export const inputStyles = (errorOrCol) => StyleSheet.create({
     }
 })
 
-export const btnStyles = (color) => StyleSheet.create({
+export const btnStyles = () => StyleSheet.create({
     inputBtnText: {
         fontSize: 16,
         textAlign: 'center',
@@ -307,7 +309,7 @@ export const btnStyles = (color) => StyleSheet.create({
         // backgroundColor: color,
         backgroundColor: colors.darkerGray,
         alignSelf: 'flex-end',
-    }
+    },
 })
 
 export const modalStyles = (scale, wideComp, locationX, locationY) => StyleSheet.create({

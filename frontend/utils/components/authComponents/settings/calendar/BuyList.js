@@ -26,11 +26,11 @@ function sliceFunc(digit){
 function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
     const { createdAt, years, day } = route.params;
     const initialList = {
-                    checked: false,
-                    name: "",
-                    quantity: 1,
-                    related_products: []
-                }
+        checked: false,
+        name: "",
+        quantity: 1,
+        related_products: []
+    }
     const [loading, setLoading] = useState(true);
     const [errorObj, setErrorObj] = useState("");
     const [name, setName] = useState("");
@@ -129,12 +129,12 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
                                 </View>
                             </View>
                             { list ? (
-                                <View style={ containerStyles().screenHeightContainer }>
+                                <View>
                                     <List
                                         list={ list }
-                                        getCreateListIndex={ (index) => getCreateListIndex(index) }
+                                        getCreateListIndex={ (id) => getCreateListIndex(id) }
                                         editCreateIsChecked={ (value, index) => editCreateIsChecked(value, index) }
-                                        initiateDeleteModal={ (index) => initiateDeleteModal(index) }
+                                        initiateDeleteModal={ (id) => initiateDeleteModal(id) }
                                         deleteIndex={ deleteIndex }
                                         editableList={ editableList }
                                         closeDelModal={ closeDelModal }
@@ -162,17 +162,19 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
         )
     )
 
-    function getCreateListIndex(index){
-    
-        if(index || index === 0){
-            let listItem = list[index];
-            setEditableList(listItem);
+    function getCreateListIndex(id){
+        if(id){
+            let listObj= {...editableList}
+            listObj.id = id;
+            setEditableList(listObj);
             setIsEditList(true)
-            setListIndex(index)
+            setListIndex(id)
         } else {
-            const listLength = list ? list.length : 0;
-            if(listLength === 0) setListIndex(0)
-                else setListIndex(listLength)
+            const id = (list && list.length > 0) ? list[list.length - 1].id + 1 : 1;
+            let listObj= {...initialList}
+            listObj.id = id;
+            setEditableList(listObj);
+            setListIndex(id)
         }
     }
 
@@ -230,7 +232,7 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
             setIsEditList(false)
         }
         setListIndex(null)
-        setEditableList(initialList)
+        setEditableList(tempArray)
         const data = getListData("list", tempArray)
         editBuyListFunc(data)
     }
@@ -272,10 +274,10 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
         createUpdateListRedux(years, data)
     }
 
-    function initiateDeleteModal(index){
-        const listToBeDeleted = list[index];
+    function initiateDeleteModal(id){
+        const listToBeDeleted = list.find(item => item.id == id);
         setEditableList(listToBeDeleted)
-        setDeleteIndex(index)
+        setDeleteIndex(id)
     }
 
     function closeDelModal(){
@@ -285,11 +287,13 @@ function BuyList({ route, navigation: { navigate }, createUpdateListRedux }){
     }
 
     function removeFromList(){
-        let tempArray = [...list];
-        let removedItemArr = tempArray.splice(deleteIndex, 1);
-        const data = getListData("list", removedItemArr)
+        // let currentIndex = list.map(item => item.id).indexOf(deleteIndex);
+        // tempArray.splice(currentIndex, 1);
+        console.log("IUIUIUI::: ", list)
+        const newArray = list.filter(item => item.id !== deleteIndex)
+        const data = getListData("list", newArray)
+        setList(newArray);
         createUpdateListRedux(years, data)
-        setList(removedItemArr)
         closeDelModal()
     }
 }

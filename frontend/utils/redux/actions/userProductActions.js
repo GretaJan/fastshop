@@ -165,6 +165,54 @@ export function saveResults(result, token){
     return thunkOffline;
 }
 
+function onlineGetTopFavoriteProducts(dispatch, token, categoryId){
+    return axios.get(`${URL}/get-top-favorites/${categoryId}'`, {
+            headers: {
+            Authorization: `Bearer ${ token }`
+        }}, {  withCredentials: true }).then(response => {
+            const productData = response.data;
+            dispatch({
+                type: `GET_TOP_GLOBAL_${categoryId}`,
+                payload: productData
+            })
+            return productData;
+        }).catch(() => {
+            return null
+    })
+}
+
+export function getTopFavoriteProducts(categoryId){
+    function thunkOffline(dispatch){
+        return asyncStorageFunc().then(response => {
+            let data = JSON.parse(response.auth);
+            let token = data.token;
+            return token;
+        }).then(token => {
+            if(token !== ''){
+                return onlineGetTopFavoriteProducts(dispatch, token, categoryId).then(response => {
+                    if(!response) return null
+                    return response;
+                })
+                // const newResp = resp.then(response => {return response})
+                // console.log("newResp::: ", newResp)
+                // if(!resp) return null
+                // dispatch({
+                //     type: `GET_TOP_GLOBAL_${categoryId}`,
+                //     payload: newResp
+                // })
+                // return resp;
+            }
+        })
+    }
+    thunkOffline.interceptInOffline = true;
+    thunkOffline.meta = {
+        retry: true,
+        name: "thunkOffline"
+    }
+    thunkOffline()
+    return thunkOffline;
+}
+
 
 // function getLikedProductsOnline(dispatch, categoryId){
 //     axios.get(`/api/get-personal-favorites/${categoryId}`, {
