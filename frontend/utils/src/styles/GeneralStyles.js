@@ -187,7 +187,7 @@ export const containerStyles = () => StyleSheet.create({
     },
     centeredItemVertically: {
         height: '100%',
-        top: Dimensions.get('window').height /5.5 /2,
+        //top: Dimensions.get('window').height /5.5 /2,
         justifyContent: 'center',
     },
 })

@@ -261,14 +261,25 @@ export const homeStyles = StyleSheet.create({
 })
 
 export const topProductsStyle = (iconColor, numberColor) => StyleSheet.create({
+    productsWrap: {
+        top: -10
+    },
+    productWrap: {
+        flexDirection: 'row',
+        paddingVertical: 20,
+        marginBottom: 10,
+        backgroundColor: 'rgb(255, 255, 255)',
+        // borderColor: '#fff',
+        // borderTopWidth: 2,
+    },
     wrapIcon: {
         width: '23%',
         height: 60,
+        paddingVertical: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: colors.transparentLight,
+        borderColor: colors.mainGrey,
         borderLeftWidth: 1,
-        backgroundColor: colors.mainGreyTransparent,
     },
     icon: {
         fontSize: 25,
@@ -285,7 +296,49 @@ export const topProductsStyle = (iconColor, numberColor) => StyleSheet.create({
         color: numberColor,
         fontWeight: 'bold',
     },
-    // countStyle: {
-    //     paddingLeft: 15,
-    // },
+    fullWidth: {
+        width: '100%',
+        alignItems: 'center',
+        position: 'absolute',
+    },
+    countNumWrap: {
+        position: 'absolute',
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: 60,
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    topIcon: {
+        fontSize: 30,
+        color: colors.mainGrey,
+        color: colors.mainBtnGreen,
+        position: 'absolute',
+        // backgroundColor: colors.mainBtnOrange,
+        borderRadius: 3,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+    },
+    countNum: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        zIndex: 50,
+        color: colors.mainBlack,
+        paddingHorizontal: 40,
+        position: 'absolute',
+    },
+    borderLineLeft: {
+        backgroundColor: '#fff',
+        height: '30%',
+        width: 2,
+        position: 'absolute',
+    },
+    borderLineRight: {
+        position: 'absolute',
+        backgroundColor: '#fff',
+        height: '30%',
+        width: 2,
+        right: 0,
+    }
 })

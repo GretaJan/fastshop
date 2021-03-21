@@ -7,10 +7,8 @@ import Subcategories from '../components/subcategories/global/Subcategories';
 import Products from '../components/products/global/Products';
 import Product from '../components/products/global/ProductDetails';
 //Top components
-import FavoriteDrinks from '../components/topProducts/FavoriteDrinks';
-import FavoriteFoods from '../components/topProducts/FavoriteFoods';
-import NutriDrinks from '../components/topProducts/NutriDrinks';
-import NutriFoods from '../components/topProducts/NutriFoods';
+import TopComponents from '../components/topProducts/TopComponents';
+import TopNutritionsArray from '../components/topProducts/nutrientComponents/NutritionsArray';
 
 const GuestNavigation = createStackNavigator();
 
@@ -40,12 +38,12 @@ export const GuestNavigationScreens = () => (
                         }}
     /> 
     <GuestNavigation.Screen 
-                        name="FavoriteDrinks" component={ FavoriteDrinks } 
+                        name="TopComponents" component={ TopComponents } 
                         options={{
                             headerShown: false
                         }}
     /> 
-    <GuestNavigation.Screen 
+    {/* <GuestNavigation.Screen 
                         name="FavoriteFoods" component={ FavoriteFoods } 
                         options={{
                             headerShown: false
@@ -62,7 +60,20 @@ export const GuestNavigationScreens = () => (
                         options={{
                             headerShown: false
                         }}
-    /> 
+    />  */}
+    {/* Top nutrients */}
+    {/* <GuestNavigation.Screen 
+                        name="Top Food Nutrients" component={ TopFoodNutrient } 
+                        options={{
+                            headerShown: false
+                        }}
+    />  */}
+    <GuestNavigation.Screen 
+                        name="Top Nutritions" component={ TopNutritionsArray } 
+                        options={{
+                            headerShown: false
+                        }}
+    />
     </GuestNavigation.Navigator>
 )
 

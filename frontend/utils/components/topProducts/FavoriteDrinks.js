@@ -7,10 +7,6 @@ import ParentReusableComponent from './ParentReusableComponent';
 
 function FavoriteDrinks({ navigation }){
 
-    // useEffect(() => {
-    //     getTopFavoriteProducts()
-    // })
-
     return (
         <>
             <ParentReusableComponent 

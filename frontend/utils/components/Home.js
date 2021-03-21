@@ -20,6 +20,10 @@ class Home extends Component {
     this.props.navigation.push("Subcategories", {categoryId: item.id, name: item.name, background: item.background});
   }
 
+  goToTopNutritionsPage = (link, componentType, componentTitle, requestType) => {
+    this.props.navigation.push(link, { componentType: componentType, headerTitle: componentTitle, requestType: requestType });
+  }
+
   render() {
 
     return (
@@ -42,7 +46,7 @@ class Home extends Component {
                     <View>
                       <View style={ homeStyles.btnWrapOne }>
                           <ActionIcon
-                              deactivateFunc={ () => this.props.navigation.push("FavoriteDrinks") }
+                              deactivateFunc={ () => this.goToTopNutritionsPage("TopComponents", 1, "Top Favorite Drinks", "getFavorites") }
                               activateFunc={ null }
                               errorCondition={  null  }
                               errorFunc={ null }
@@ -55,7 +59,7 @@ class Home extends Component {
                       </View>
                       <View style={ homeStyles.btnWrapTwo }>
                           <ActionIcon
-                              deactivateFunc={ () => this.props.navigation.push("FavoriteFoods") }
+                              deactivateFunc={ () => this.goToTopNutritionsPage("TopComponents", 2, "Top Favorite Foods", "getFavorites") }
                               activateFunc={ null }
                               errorCondition={ null }
                               errorFunc={ null }
@@ -81,7 +85,7 @@ class Home extends Component {
                     <View>
                         <View style={ homeStyles.btnWrapThree }>
                           <ActionIcon
-                              deactivateFunc={ () => this.props.navigation.push("NutriDrinks") }
+                              deactivateFunc={ () => this.goToTopNutritionsPage("Top Nutritions", "drinks", "Top Food Nutritions", "getNutritions") }
                               activateFunc={ null }
                               errorCondition={ null }
                               errorFunc={ null }
@@ -94,7 +98,7 @@ class Home extends Component {
                         </View>
                       <View style={ homeStyles.btnWrapFour }>
                           <ActionIcon
-                              deactivateFunc={ () => this.props.navigation.push("NutriFoods") }
+                              deactivateFunc={ () => this.goToTopNutritionsPage("Top Nutritions", "food", "Top Drink Nutritions", "getNutritions") }
                               activateFunc={ null }
                               errorCondition={ null }
                               errorFunc={ null }
